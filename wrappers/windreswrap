@@ -1,0 +1,32 @@
+#!/bin/sh
+
+echo "Wrapping windres $@"
+
+#windres --include-dir ../../share --include-dir ../../extras/package/win32 -i libvlc_win32_rc.rc -o libvlc_win32_rc.obj
+
+while [ $# -gt 0 ]; do
+    case $1 in 
+        --include-dir)
+            ARGS="$ARGS -I$2"
+            shift
+            ;;
+        -i)
+            INPUT=$2
+            shift
+            ;;
+        -o)
+            ARGS="$ARGS -fo $2"
+            shift
+            ;;
+        *)
+            echo "Unknown option $1"
+            ;;
+    esac
+    shift
+done
+
+echo "Args: $ARGS"
+echo "Input: $INPUT"
+
+rc.exe $ARGS $INPUT
+exit $?
