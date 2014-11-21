@@ -1,0 +1,29 @@
+From 1e134d0ec0b8631dc26bfeea9c550a332b4837f9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 10:58:34 +0200
+Subject: [PATCH 13/55] asx: Work around MSVC issue with empty struct/forward
+ declaration
+
+---
+ modules/demux/playlist/asx.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/modules/demux/playlist/asx.c b/modules/demux/playlist/asx.c
+index 099cc5e..15dfc3d 100644
+--- a/modules/demux/playlist/asx.c
++++ b/modules/demux/playlist/asx.c
+@@ -43,6 +43,11 @@
+ 
+ struct demux_sys_t
+ {
++// MSVC refuses to free a pointer to a forward declared type
++// and refuses to have empty struct
++#ifdef _MSC_VER
++    bool dummy_member;
++#endif
+ };
+ 
+ /*****************************************************************************
+-- 
+2.1.1
+

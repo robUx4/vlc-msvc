@@ -1,0 +1,40 @@
+From 5524c64ff7ae31aa6839ce50dcaad477293b0f69 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 21 Oct 2014 16:13:22 +0200
+Subject: [PATCH 09/55] modules: Remove empty braces initializer to keep MSVC
+ happy
+
+---
+ modules/codec/flac.c           | 2 +-
+ modules/demux/avformat/demux.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/modules/codec/flac.c b/modules/codec/flac.c
+index eaf8175..82b592a 100644
+--- a/modules/codec/flac.c
++++ b/modules/codec/flac.c
+@@ -156,7 +156,7 @@ DecoderWriteCallback( const FLAC__StreamDecoder *decoder,
+ {
+     /* XXX it supposes our internal format is WG4 */
+     static const unsigned char ppi_reorder[1+8][8] = {
+-        { },
++        { 0 }, //Keep MSVC happy
+         { 0, },
+         { 0, 1 },
+         { 0, 1, 2 },
+diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
+index 7ce3407..412da4c 100644
+--- a/modules/demux/avformat/demux.c
++++ b/modules/demux/avformat/demux.c
+@@ -157,7 +157,7 @@ int OpenDemux( vlc_object_t *p_this )
+ {
+     demux_t       *p_demux = (demux_t*)p_this;
+     demux_sys_t   *p_sys;
+-    AVProbeData   pd = { };
++    AVProbeData   pd = { 0 };
+     AVInputFormat *fmt = NULL;
+     unsigned int  i;
+     int64_t       i_start_time = -1;
+-- 
+2.1.1
+

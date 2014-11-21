@@ -1,0 +1,33 @@
+From 7d1c79abb0d1de28e11668a29440b453bfd5ec8a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 14:43:46 +0100
+Subject: [PATCH 42/55] threads: Do not declare empty structs when building
+ with MSVC
+
+---
+ src/win32/thread.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/win32/thread.c b/src/win32/thread.c
+index 32fef2b..ab3b753 100644
+--- a/src/win32/thread.c
++++ b/src/win32/thread.c
+@@ -711,13 +711,13 @@ static union
+ {
+     struct
+     {
+-#if (_WIN32_WINNT < 0x0601)
++#if (_WIN32_WINNT < 0x0601) || defined(_MSC_VER)
+         BOOL (*query) (PULONGLONG);
+ #endif
+     } interrupt;
+     struct
+     {
+-#if (_WIN32_WINNT < 0x0600)
++#if (_WIN32_WINNT < 0x0600) || defined(_MSC_VER)
+         ULONGLONG (*get) (void);
+ #endif
+     } tick;
+-- 
+2.1.1
+

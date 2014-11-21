@@ -1,0 +1,102 @@
+From aef5371f70d37a8588a682429df64eb411d940ba Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 21 Oct 2014 13:06:49 +0200
+Subject: [PATCH 03/55] core: Disable warning cpp directives when building with
+ MSVC
+
+---
+ src/playlist/thread.c    | 4 +++-
+ src/text/url.c           | 2 ++
+ src/video_output/event.h | 8 ++++++--
+ src/win32/dirs.c         | 4 +++-
+ src/win32/netconf.c      | 4 +++-
+ 5 files changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/src/playlist/thread.c b/src/playlist/thread.c
+index 8e7b082..6feb47a 100644
+--- a/src/playlist/thread.c
++++ b/src/playlist/thread.c
+@@ -438,7 +438,9 @@ static void LoopInput( playlist_t *p_playlist )
+         input_Stop( p_input, true );
+     }
+ 
+-#warning Unsynchronized access to *p_input flags...
++#ifndef _MSC_VER
++# warning Unsynchronized access to *p_input flags...
++#endif
+     /* This input is dead. Remove it ! */
+     if( p_input->b_dead )
+     {
+diff --git a/src/text/url.c b/src/text/url.c
+index cd7e488..0eff5b4 100644
+--- a/src/text/url.c
++++ b/src/text/url.c
+@@ -182,7 +182,9 @@ char *vlc_path2uri (const char *path, const char *scheme)
+                       path[0]) == -1)
+             buf = NULL;
+         path += 2;
++# ifndef _MSC_VER
+ # warning Drive letter-relative path not implemented!
++#endif
+         if (path[0] != DIR_SEP_CHAR)
+         {
+             errno = ENOTSUP;
+diff --git a/src/video_output/event.h b/src/video_output/event.h
+index c3c2ddf..be291c4 100644
+--- a/src/video_output/event.h
++++ b/src/video_output/event.h
+@@ -39,7 +39,9 @@
+ 
+ static inline void vout_SendEventClose(vout_thread_t *vout)
+ {
+-#warning FIXME: implement video close event
++#ifndef _MSC_VER
++# warning FIXME: implement video close event
++#endif
+     /* FIXME: this code is disabled as it breaks the non-playlist cases */
+     //playlist_Stop(pl_Get(vout));
+     (void) vout;
+@@ -108,7 +110,9 @@ static inline void vout_SendEventSnapshot(vout_thread_t *vout, const char *filen
+     var_SetString(vout->p_libvlc, "snapshot-file", filename);
+ }
+ 
+-#warning "FIXME clean up postproc event"
++#ifndef _MSC_VER
++# warning "FIXME clean up postproc event"
++#endif
+ 
+ extern void vout_InstallDeprecatedPostProcessing(vout_thread_t *);
+ extern void vout_UninstallDeprecatedPostProcessing(vout_thread_t *);
+diff --git a/src/win32/dirs.c b/src/win32/dirs.c
+index 0ec1087..978d285 100644
+--- a/src/win32/dirs.c
++++ b/src/win32/dirs.c
+@@ -97,7 +97,9 @@ static char *config_GetAppDir (void)
+     return psz_dir;
+ }
+ 
+-#warning FIXME Use known folders on Vista and above
++#ifndef _MSC_VER
++# warning FIXME Use known folders on Vista and above
++#endif
+ char *config_GetUserDir (vlc_userdir_t type)
+ {
+     switch (type)
+diff --git a/src/win32/netconf.c b/src/win32/netconf.c
+index accdddf..00fbb8a 100644
+--- a/src/win32/netconf.c
++++ b/src/win32/netconf.c
+@@ -62,7 +62,9 @@ char *vlc_getProxyUrl(const char *url)
+                          key, &len ) == ERROR_SUCCESS )
+     {
+         /* FIXME: This is lame. The string should be tokenized. */
+-#warning FIXME.
++#ifndef _MSC_VER
++# warning FIXME.
++#endif
+         char *psz_proxy = strstr( (char *)key, "http=" );
+         if( psz_proxy != NULL )
+         {
+-- 
+2.1.1
+

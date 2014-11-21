@@ -1,0 +1,27 @@
+From a21d90d2c7ee9b49199f6e4c56bf98d36397fada Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 14:26:22 +0200
+Subject: [PATCH 21/55] HACK: Disable some parts of libbluray
+
+---
+ contrib/src/bluray/rules.mak | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/contrib/src/bluray/rules.mak b/contrib/src/bluray/rules.mak
+index db3980e..a778342 100644
+--- a/contrib/src/bluray/rules.mak
++++ b/contrib/src/bluray/rules.mak
+@@ -13,8 +13,8 @@ endif
+ DEPS_bluray = libxml2 $(DEPS_libxml2) freetype2 $(DEPS_freetype2)
+ 
+ BLURAY_CONF = --disable-examples  \
+-              --with-libxml2      \
+-              --enable-bdjava
++              --without-libxml2   \
++              --disable-bdjava
+ 
+ $(TARBALLS)/libbluray-$(BLURAY_VERSION).tar.bz2:
+ 	$(call download,$(BLURAY_URL))
+-- 
+2.1.1
+

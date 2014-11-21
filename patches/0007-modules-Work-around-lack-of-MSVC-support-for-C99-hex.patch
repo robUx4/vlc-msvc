@@ -1,0 +1,96 @@
+From 7c1401e1b568ac1465acb947236a7e2e61239886 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 21 Oct 2014 15:31:38 +0200
+Subject: [PATCH 07/55] modules: Work around lack of MSVC support for C99
+ hexadecimal floating point numbers
+
+---
+ modules/audio_mixer/integer.c  | 12 ++++++++++++
+ modules/audio_output/waveout.c | 14 ++++++++++++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/modules/audio_mixer/integer.c b/modules/audio_mixer/integer.c
+index 73f3f03..2c137a6 100644
+--- a/modules/audio_mixer/integer.c
++++ b/modules/audio_mixer/integer.c
+@@ -44,7 +44,11 @@ static void FilterS32N (audio_volume_t *vol, block_t *block, float volume)
+ {
+     int32_t *p = (int32_t *)block->p_buffer;
+ 
++#ifndef _MSC_VER
+     int_fast32_t mult = lroundf (volume * 0x1.p24f);
++#else
++    int_fast32_t mult = lroundf (volume * 16777216.f);
++#endif
+     if (mult == (1 << 24))
+         return;
+ 
+@@ -65,7 +69,11 @@ static void FilterS16N (audio_volume_t *vol, block_t *block, float volume)
+ {
+     int16_t *p = (int16_t *)block->p_buffer;
+ 
++#ifndef _MSC_VER
+     int_fast16_t mult = lroundf (volume * 0x1.p8f);
++#else
++    int_fast16_t mult = lroundf (volume * 256.f);
++#endif
+     if (mult == (1 << 8))
+         return;
+ 
+@@ -86,7 +94,11 @@ static void FilterU8 (audio_volume_t *vol, block_t *block, float volume)
+ {
+     uint8_t *p = (uint8_t *)block->p_buffer;
+ 
++#ifndef _MSC_VER
+     int_fast16_t mult = lroundf (volume * 0x1.p8f);
++#else
++    int_fast16_t mult = lroundf (volume * 256.0f);
++#endif
+     if (mult == (1 << 8))
+         return;
+ 
+diff --git a/modules/audio_output/waveout.c b/modules/audio_output/waveout.c
+index 3ce8158..4ad4348 100644
+--- a/modules/audio_output/waveout.c
++++ b/modules/audio_output/waveout.c
+@@ -914,8 +914,11 @@ static int WaveoutVolumeSet( audio_output_t *p_aout, float volume )
+     {
+         const HWAVEOUT hwo = sys->h_waveout;
+ 
++#ifndef _MSC_VER
+         uint32_t vol = lroundf( volume * 0x7fff.fp0 );
+-
++#else
++        uint32_t vol = lroundf( volume * 32767.937500 );
++#endif
+         if( !sys->b_mute )
+         {
+             if( vol > 0xffff )
+@@ -959,8 +962,11 @@ static int WaveoutMuteSet( audio_output_t * p_aout, bool mute )
+     {
+ 
+         const HWAVEOUT hwo = sys->h_waveout;
++#ifndef _MSC_VER
+         uint32_t vol = mute ? 0 : lroundf( sys->f_volume * 0x7fff.fp0 );
+-
++#else
++        uint32_t vol = mute ? 0 : lroundf( sys->f_volume * 32767.937500 );
++#endif
+         if( vol > 0xffff )
+             vol = 0xffff;
+ 
+@@ -994,7 +1000,11 @@ static void WaveoutPollVolume( void * aout )
+     }
+ 
+     float volume = (float) ( vol & UINT32_C( 0xffff ) );
++#ifndef _MSC_VER
+     volume /= 0x7fff.fp0;
++#else
++    volume /= 32767.937500;
++#endif
+ 
+     vlc_mutex_lock(&p_aout->sys->lock);
+     if( !p_aout->sys->b_mute && volume != p_aout->sys->f_volume )
+-- 
+2.1.1
+

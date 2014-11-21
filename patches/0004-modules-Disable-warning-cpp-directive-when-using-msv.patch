@@ -1,0 +1,132 @@
+From db2380d8ad373a9378317ef534ca93d070d49e5a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 21 Oct 2014 14:17:30 +0200
+Subject: [PATCH 04/55] modules: Disable warning cpp directive when using msvc
+
+---
+ modules/access/bluray.c        | 2 +-
+ modules/codec/crystalhd.c      | 4 +++-
+ modules/control/rc.c           | 4 +++-
+ modules/control/win_msg.c      | 4 +++-
+ modules/demux/avformat/demux.c | 2 +-
+ modules/demux/mkv/mkv.cpp      | 2 ++
+ modules/demux/ogg.c            | 2 ++
+ modules/lua/libs/playlist.c    | 2 ++
+ 8 files changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/modules/access/bluray.c b/modules/access/bluray.c
+index 8540735..d581149 100644
+--- a/modules/access/bluray.c
++++ b/modules/access/bluray.c
+@@ -267,7 +267,7 @@ static void FindMountPoint(char **file)
+                 }
+         }
+     }
+-#else
++#elif !defined(_MSC_VER)
+ # warning Disc device to mount point not implemented
+ #endif
+ }
+diff --git a/modules/codec/crystalhd.c b/modules/codec/crystalhd.c
+index b8e39af..59a50bd 100644
+--- a/modules/codec/crystalhd.c
++++ b/modules/codec/crystalhd.c
+@@ -62,7 +62,9 @@
+    And forcing users to install the right dll at the right place will not work
+    Therefore, we need to dl_open and resolve the symbols */
+ #ifdef USE_DL_OPENING
+-#  warning DLL opening mode
++#  ifndef _MSC_VER
++#   warning DLL opening mode
++#  #endif
+ #  define BC_FUNC( a ) Our ## a
+ #  define BC_FUNC_PSYS( a ) p_sys->Our ## a
+ #else
+diff --git a/modules/control/rc.c b/modules/control/rc.c
+index 365c40e..6190b65 100644
+--- a/modules/control/rc.c
++++ b/modules/control/rc.c
+@@ -522,7 +522,9 @@ static void *Run( void *data )
+                 var_AddCallback( p_sys->p_input, "intf-event", InputEvent, p_intf );
+             }
+         }
+-#warning This is not reliable...
++#ifndef _MSC_VER
++# warning This is not reliable...
++#endif
+         else if( p_sys->p_input->b_dead )
+         {
+             var_DelCallback( p_sys->p_input, "intf-event", InputEvent, p_intf );
+diff --git a/modules/control/win_msg.c b/modules/control/win_msg.c
+index 32c890c..85d844e 100644
+--- a/modules/control/win_msg.c
++++ b/modules/control/win_msg.c
+@@ -91,7 +91,9 @@ static LRESULT CALLBACK WMCOPYWNDPROC(HWND hwnd, UINT uMsg,
+                     i_options++;
+                 }
+ 
+-#warning URI conversion must be done in calling process instead!
++#ifndef _MSC_VER
++# warning URI conversion must be done in calling process instead!
++#endif
+                 /* FIXME: This breaks relative paths if calling vlc.exe is
+                  * started from a different working directory. */
+                 char *psz_URI = NULL;
+diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
+index 826b78e..d6a271c 100644
+--- a/modules/demux/avformat/demux.c
++++ b/modules/demux/avformat/demux.c
+@@ -392,7 +392,7 @@ int OpenDemux( vlc_object_t *p_this )
+                 fmt.video.p_palette = xmalloc( sizeof(video_palette_t) );
+                 *fmt.video.p_palette = *(video_palette_t *)cc->palctrl;
+             }
+-#else
++#elif !defined(_MSC_VER)
+ # warning FIXME: implement palette transmission
+ #endif
+             psz_type = "video";
+diff --git a/modules/demux/mkv/mkv.cpp b/modules/demux/mkv/mkv.cpp
+index 5868ca1..a4b47e6 100644
+--- a/modules/demux/mkv/mkv.cpp
++++ b/modules/demux/mkv/mkv.cpp
+@@ -188,7 +188,9 @@ static int Open( vlc_object_t * p_this )
+                             // test whether this file belongs to our family
+                             const uint8_t *p_peek;
+                             bool          file_ok = false;
++#ifndef _MSC_VER
+ #warning Memory leak!
++#endif
+                             std::string   s_url = vlc_path2uri( s_filename.c_str(), "file" );
+                             stream_t      *p_file_stream = stream_UrlNew(
+                                                             p_demux,
+diff --git a/modules/demux/ogg.c b/modules/demux/ogg.c
+index a192f15..c308c1d 100644
+--- a/modules/demux/ogg.c
++++ b/modules/demux/ogg.c
+@@ -1259,7 +1259,9 @@ static void Ogg_DecodePacket( demux_t *p_demux,
+             }
+             else
+             {
++#ifndef _MSC_VER
+ #warning Memory leak
++#endif
+                 p_stream->i_headers = 0;
+                 p_stream->p_headers = NULL;
+                 free( p_org );
+diff --git a/modules/lua/libs/playlist.c b/modules/lua/libs/playlist.c
+index 8bcc8a7..1cd6469 100644
+--- a/modules/lua/libs/playlist.c
++++ b/modules/lua/libs/playlist.c
+@@ -324,7 +324,9 @@ static int vlclua_playlist_current( lua_State *L )
+         vlc_object_release( p_input );
+     }
+ 
++#ifndef _MSC_VER
+ #warning Indexing input items by ID is unsafe,
++#endif
+     lua_pushinteger( L, id );
+     return 1;
+ }
+-- 
+2.1.1
+

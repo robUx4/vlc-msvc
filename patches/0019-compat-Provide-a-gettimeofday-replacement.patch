@@ -1,0 +1,100 @@
+From d67085963bfb89124c407daf17d7ab91aab9854a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 14:08:53 +0200
+Subject: [PATCH 19/55] compat: Provide a gettimeofday replacement
+
+---
+ compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.ac          |  7 +++++-
+ 2 files changed, 66 insertions(+), 1 deletion(-)
+ create mode 100644 compat/gettimeofday.c
+
+diff --git a/compat/gettimeofday.c b/compat/gettimeofday.c
+new file mode 100644
+index 0000000..efcb1c2
+--- /dev/null
++++ b/compat/gettimeofday.c
+@@ -0,0 +1,60 @@
++/*****************************************************************************
++ * gettimeofday.c: gettimeofday() replacement
++ *****************************************************************************
++ * Copyright © 2014 VLC authors and VideoLAN
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU Lesser General Public License as published by
++ * the Free Software Foundation; either version 2.1 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public License
++ * along with this program; if not, write to the Free Software Foundation,
++ * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
++ *****************************************************************************/
++
++#ifdef HAVE_CONFIG_H
++# include <config.h>
++#endif
++
++#ifdef _MSC_VER
++
++/* Taken from postgresql */
++
++#include <sys/time.h>
++#include <Winsock2.h>
++
++/* FILETIME of Jan 1 1970 00:00:00. */
++static const unsigned __int64 epoch = 116444736000000000;
++
++/*
++ * timezone information is stored outside the kernel so tzp isn't used anymore.
++ *
++ * Note: this function is not for Win32 high precision timing purpose. See
++ * elapsed_time().
++ */
++int
++gettimeofday(struct timeval * tp, struct timezone * tzp)
++{
++	FILETIME	file_time;
++	SYSTEMTIME	system_time;
++	ULARGE_INTEGER ularge;
++
++	GetSystemTime(&system_time);
++	SystemTimeToFileTime(&system_time, &file_time);
++	ularge.LowPart = file_time.dwLowDateTime;
++	ularge.HighPart = file_time.dwHighDateTime;
++
++	tp->tv_sec = (long) ((ularge.QuadPart - epoch) / 10000000L);
++	tp->tv_usec = (long) (system_time.wMilliseconds * 1000);
++
++	return 0;
++}
++
++
++#endif
+\ No newline at end of file
+diff --git a/configure.ac b/configure.ac
+index 6e25605..4074d14 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -555,8 +555,13 @@ need_libc=false
+ 
+ dnl Check for usual libc functions
+ AC_CHECK_DECLS([nanosleep],,,[#include <time.h>])
++<<<<<<< HEAD
+ AC_CHECK_FUNCS([daemon fcntl fstatvfs fork getenv getpwuid_r isatty lstat memalign mmap open_memstream openat pread posix_fadvise posix_madvise setlocale stricmp strnicmp strptime uselocale pthread_cond_timedwait_monotonic_np pthread_condattr_setclock])
+-AC_REPLACE_FUNCS([atof atoll dirfd fdopendir flockfile fsync getdelim getpid gmtime_r lldiv localtime_r nrand48 poll posix_memalign rewind setenv strcasecmp strcasestr strdup strlcpy strndup strnlen strsep strtof strtok_r strtoll swab tdestroy strverscmp])
++AC_REPLACE_FUNCS([atof atoll dirfd fdopendir flockfile fsync getdelim getpid gettimeofday gmtime_r lldiv localtime_r nrand48 poll posix_memalign rewind setenv strcasecmp strcasestr strdup strlcpy strndup strnlen strsep strtof strtok_r strtoll swab tdestroy strverscmp])
++=======
++
++AC_REPLACE_FUNCS([atof atoll dirfd fdopendir flockfile fsync getdelim gettimeofday getpid gmtime_r lldiv localtime_r nrand48 poll posix_memalign rewind setenv strcasecmp strcasestr strdup strlcpy strndup strnlen strsep strtof strtok_r strtoll swab tdestroy strverscmp])
++>>>>>>> compat: Provide a gettimeofday replacement
+ AC_CHECK_FUNCS(fdatasync,,
+   [AC_DEFINE(fdatasync, fsync, [Alias fdatasync() to fsync() if missing.])
+ ])
+-- 
+2.1.1
+

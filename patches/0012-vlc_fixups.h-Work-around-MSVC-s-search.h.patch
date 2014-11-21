@@ -1,0 +1,43 @@
+From 11a94a0dba8870783425712e5c97ede9451dc0a9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 10:00:53 +0200
+Subject: [PATCH 12/55] vlc_fixups.h: Work around MSVC's search.h
+
+---
+ include/vlc_fixups.h | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
+index 728751b..5e39fdb 100644
+--- a/include/vlc_fixups.h
++++ b/include/vlc_fixups.h
+@@ -313,6 +313,9 @@ struct if_nameindex
+ #endif
+ 
+ /* search.h */
++#ifdef _MSC_VER
++#undef HAVE_SEARCH_H // MSVC doesn't provide some of the stuff we're interested in
++#endif
+ #ifndef HAVE_SEARCH_H
+ typedef struct entry {
+     char *key;
+@@ -335,10 +338,12 @@ void *tfind( const void *key, const void **rootp, int(*cmp)(const void *, const
+ void *tdelete( const void *key, void **rootp, int(*cmp)(const void *, const void *) );
+ void twalk( const void *root, void(*action)(const void *nodep, VISIT which, int depth) );
+ void tdestroy( void *root, void (*free_node)(void *nodep) );
+-#else // HAVE_SEARCH_H
+-# ifndef HAVE_TDESTROY
+-#  define tdestroy vlc_tdestroy
+-# endif
++
++#endif
++
++// MSVC doesn't provide a valid search.h, nor a tdestroy implementation
++#ifndef HAVE_TDESTROY
++# define tdestroy vlc_tdestroy
+ #endif
+ 
+ /* Random numbers */
+-- 
+2.1.1
+

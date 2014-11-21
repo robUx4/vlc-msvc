@@ -1,0 +1,129 @@
+From bbe18f3e2fd83002738420716f80c3e388d976c4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 21 Oct 2014 15:09:04 +0200
+Subject: [PATCH 06/55] modules: Work around MSVC broken preprocessor
+
+---
+ modules/access/dtv/access.c                  | 10 +++++++---
+ modules/demux/mkv/matroska_segment_parse.cpp |  7 +++----
+ modules/demux/mp4/mp4.c                      |  9 +++++----
+ modules/demux/ts.c                           | 20 +++++++++++---------
+ 4 files changed, 26 insertions(+), 20 deletions(-)
+
+diff --git a/modules/access/dtv/access.c b/modules/access/dtv/access.c
+index 95b1dd7..2d4e52b 100644
+--- a/modules/access/dtv/access.c
++++ b/modules/access/dtv/access.c
+@@ -243,13 +243,17 @@ vlc_module_begin ()
+     set_subcategory (SUBCAT_INPUT_ACCESS)
+     set_capability ("access", 0)
+     set_callbacks (Open, Close)
++
++#ifdef _WIN32
++# define EXTRA_SHORTCUT  ,"dvbt"
++#else
++# define EXTRA_SHORTCUT
++#endif
+     add_shortcut ("dtv", "tv", "dvb", /* "radio", "dab",*/
+                   "cable", "dvb-c", "cqam", "isdb-c",
+                   "satellite", "dvb-s", "dvb-s2", "isdb-s",
+                   "terrestrial", "dvb-t", "dvb-t2", "isdb-t", "atsc"
+-#ifdef _WIN32
+-                  ,"dvbt"
+-#endif
++                  EXTRA_SHORTCUT
+                  )
+ 
+ #ifdef HAVE_LINUX_DVB
+diff --git a/modules/demux/mkv/matroska_segment_parse.cpp b/modules/demux/mkv/matroska_segment_parse.cpp
+index d1943e5..ea07e2e 100644
+--- a/modules/demux/mkv/matroska_segment_parse.cpp
++++ b/modules/demux/mkv/matroska_segment_parse.cpp
+@@ -991,13 +991,12 @@ void matroska_segment_c::ParseChapterAtom( int i_level, KaxChapterAtom *ca, chap
+         else if( MKV_IS_ID( l, KaxChapterSegmentEditionUID ) )
+         {
+             chapters.p_segment_edition_uid = new KaxChapterSegmentEditionUID( *static_cast<KaxChapterSegmentEditionUID*>(l) );
+-            msg_Dbg( &sys.demuxer, "|   |   |   |   + ChapterSegmentEditionUID= %u",
+ #if LIBMATROSKA_VERSION < 0x010300
+-                     *(uint32*)chapters.p_segment_edition_uid->GetBuffer()
++            uint32 uuid = *(uint32*)chapters.p_segment_edition_uid->GetBuffer();
+ #else
+-                     *(uint32*)chapters.p_segment_edition_uid
++            uint32 uuid = *(uint32*)chapters.p_segment_edition_uid;
+ #endif
+-                   );
++            msg_Dbg( &sys.demuxer, "|   |   |   |   + ChapterSegmentEditionUID= %u", uuid );
+         }
+         else if( MKV_IS_ID( l, KaxChapterTimeStart ) )
+         {
+diff --git a/modules/demux/mp4/mp4.c b/modules/demux/mp4/mp4.c
+index aecc247..247c87e 100644
+--- a/modules/demux/mp4/mp4.c
++++ b/modules/demux/mp4/mp4.c
+@@ -658,14 +658,15 @@ static int Open( vlc_object_t * p_this )
+             case MAJOR_3gp5:
+             case MAJOR_3gp6:
+             case MAJOR_3gp7:
+-                msg_Dbg( p_demux, "3GPP Media file Release: %c",
++            {
+ #ifdef WORDS_BIGENDIAN
+-                        BOXDATA(p_ftyp)->i_major_brand
++                uint32_t mb = BOXDATA(p_ftyp)->i_major_brand;
+ #else
+-                        BOXDATA(p_ftyp)->i_major_brand >> 24
++                uint32_t mb = BOXDATA(p_ftyp)->i_major_brand >> 24;
+ #endif
+-                        );
++                msg_Dbg( p_demux, "3GPP Media file Release: %c", mb);
+                 break;
++            }
+             case MAJOR_qt__:
+                 msg_Dbg( p_demux, "Apple QuickTime file" );
+                 break;
+diff --git a/modules/demux/ts.c b/modules/demux/ts.c
+index b7de0e2..54d82e1 100644
+--- a/modules/demux/ts.c
++++ b/modules/demux/ts.c
+@@ -3001,13 +3001,14 @@ static void SDTCallBack( demux_t *p_demux, dvbpsi_sdt_t *p_sdt )
+         return;
+     }
+ 
+-    msg_Dbg( p_demux, "new SDT ts_id=%d version=%d current_next=%d "
+-             "network_id=%d",
+ #if (DVBPSI_VERSION_INT >= DVBPSI_VERSION_WANTED(1,0,0))
+-             p_sdt->i_extension,
++            uint32_t value = p_sdt->i_extension;
+ #else
+-             p_sdt->i_ts_id,
++            uint32_t value = p_sdt->i_ts_id;
+ #endif
++    msg_Dbg( p_demux, "new SDT ts_id=%d version=%d current_next=%d "
++             "network_id=%d",
++             value,
+              p_sdt->i_version, p_sdt->b_current_next,
+              p_sdt->i_network_id );
+ 
+@@ -3208,14 +3209,15 @@ static void EITCallBack( demux_t *p_demux,
+         return;
+     }
+ 
+-    msg_Dbg( p_demux, "new EIT service_id=%d version=%d current_next=%d "
+-             "ts_id=%d network_id=%d segment_last_section_number=%d "
+-             "last_table_id=%d",
+ #if (DVBPSI_VERSION_INT >= DVBPSI_VERSION_WANTED(1,0,0))
+-             p_eit->i_extension,
++        uint16_t value = p_eit->i_extension;
+ #else
+-             p_eit->i_service_id,
++        uint16_t value = p_eit->i_service_id;
+ #endif
++    msg_Dbg( p_demux, "new EIT service_id=%d version=%d current_next=%d "
++             "ts_id=%d network_id=%d segment_last_section_number=%d "
++             "last_table_id=%d",
++             value,
+              p_eit->i_version, p_eit->b_current_next,
+              p_eit->i_ts_id, p_eit->i_network_id,
+              p_eit->i_segment_last_section_number, p_eit->i_last_table_id );
+-- 
+2.1.1
+

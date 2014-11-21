@@ -1,0 +1,27 @@
+From 0ce1889915a2a800fd0f62ed75800002112ced5c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 15:42:35 +0100
+Subject: [PATCH 45/55] contribs: iconv: Apply the android patch for windows
+ phone as well
+
+---
+ contrib/src/iconv/rules.mak | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/src/iconv/rules.mak b/contrib/src/iconv/rules.mak
+index 3596463..11728e1 100644
+--- a/contrib/src/iconv/rules.mak
++++ b/contrib/src/iconv/rules.mak
+@@ -27,6 +27,9 @@ endif
+ ifdef HAVE_IOS
+ 	$(APPLY) $(SRC)/iconv/libiconv-android-ios.patch
+ endif
++ifdef HAVE_WINPHONE
++	$(APPLY) $(SRC)/iconv/libiconv-android-ios.patch
++endif
+ ifdef HAVE_WINRT
+ 	$(APPLY) $(SRC)/iconv/libiconv-winrt.patch
+ endif
+-- 
+2.1.1
+

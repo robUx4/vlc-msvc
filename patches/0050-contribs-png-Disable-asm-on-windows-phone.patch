@@ -1,0 +1,30 @@
+From a44d239f102ccf632814cd192cec8e4ce18a1bce Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 16:22:43 +0100
+Subject: [PATCH 50/55] contribs: png: Disable asm on windows phone
+
+---
+ contrib/src/png/rules.mak | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/src/png/rules.mak b/contrib/src/png/rules.mak
+index a63c4e6..c947f1b 100644
+--- a/contrib/src/png/rules.mak
++++ b/contrib/src/png/rules.mak
+@@ -21,8 +21,12 @@ png: libpng-$(PNG_VERSION).tar.xz .sum-png
+ 
+ DEPS_png = zlib $(DEPS_zlib)
+ 
++ifdef HAVE_WINPHONE
++CONF = --disable-arm-neon
++endif
++
+ .png: png
+ 	$(RECONF)
+-	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
++	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) $(CONF)
+ 	cd $< && $(MAKE) install
+ 	touch $@
+-- 
+2.1.1
+

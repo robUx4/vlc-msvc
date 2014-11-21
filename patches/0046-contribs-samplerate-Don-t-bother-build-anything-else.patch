@@ -1,0 +1,24 @@
+From 577f7c1fdbdffd26be62bfd67c8c45a48825bb1b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 15:43:14 +0100
+Subject: [PATCH 46/55] contribs: samplerate: Don't bother build anything else
+ than the lib
+
+---
+ contrib/src/samplerate/rules.mak | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/src/samplerate/rules.mak b/contrib/src/samplerate/rules.mak
+index c3548ba..c330009 100644
+--- a/contrib/src/samplerate/rules.mak
++++ b/contrib/src/samplerate/rules.mak
+@@ -21,5 +21,5 @@ samplerate: libsamplerate-$(SAMPLERATE_VERSION).tar.gz .sum-samplerate
+ 
+ .samplerate: samplerate
+ 	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
+-	cd $< && $(MAKE) install
++	cd $< && $(MAKE) -C src install
+ 	touch $@
+-- 
+2.1.1
+

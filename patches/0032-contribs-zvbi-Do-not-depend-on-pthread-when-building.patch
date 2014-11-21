@@ -1,0 +1,31 @@
+From 5cdd55a47540eaebcb5620bea38a48e861d87f30 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 15:29:17 +0200
+Subject: [PATCH 32/55] contribs: zvbi: Do not depend on pthread when building
+ with MSVC
+
+---
+ contrib/src/zvbi/rules.mak | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/src/zvbi/rules.mak b/contrib/src/zvbi/rules.mak
+index a54e910..3c7ea0e 100644
+--- a/contrib/src/zvbi/rules.mak
++++ b/contrib/src/zvbi/rules.mak
+@@ -25,7 +25,12 @@ ifdef HAVE_DARWIN_OS
+ endif
+ 	$(MOVE)
+ 
+-DEPS_zvbi = pthreads iconv $(DEPS_iconv)
++DEPS_zvbi = iconv $(DEPS_iconv)
++ifdef HAVE_WIN32
++ifdef HAVE_VISUALSTUDIO
++DEPS_zvbi += pthreads
++endif
++endif
+ 
+ ZVBI_CFLAGS := $(CFLAGS)
+ ZVBICONF := \
+-- 
+2.1.1
+

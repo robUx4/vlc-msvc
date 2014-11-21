@@ -1,0 +1,26 @@
+From bac04aaee0dbd39c6a975fff640304459954c47a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 12:22:15 +0200
+Subject: [PATCH 15/55] direct3d: Disable minimal array size
+
+This should be reverted when MS fixes https://connect.microsoft.com/VisualStudio/feedback/details/1007399/use-of-static-keyword-in-array-parameter-declaration
+---
+ modules/video_output/msw/direct3d.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/video_output/msw/direct3d.c b/modules/video_output/msw/direct3d.c
+index ad0cf00..b6ecb75 100644
+--- a/modules/video_output/msw/direct3d.c
++++ b/modules/video_output/msw/direct3d.c
+@@ -1330,7 +1330,7 @@ static void Direct3DDestroyShaders(vout_display_t *vd)
+  * Vertex 0 should be assigned coordinates at index 2 from the
+  * unrotated order and so on, thus yielding order: 2 3 0 1.
+  */
+-static void orientationVertexOrder(video_orientation_t orientation, int vertex_order[static 4])
++static void orientationVertexOrder(video_orientation_t orientation, int vertex_order[4])
+ {
+     switch (orientation) {
+         case ORIENT_ROTATED_90:
+-- 
+2.1.1
+
