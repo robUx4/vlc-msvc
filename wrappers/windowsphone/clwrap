@@ -8,7 +8,7 @@ ARGS_RELEASE="-Gw -Ot"
 LIBDIR=" -LIBPATH:`cygpath -w '/home/vlc/lib/'` "
 
 while [ $# -gt 0 ]; do
-	case $1 in
+    case $1 in
 	-o)
 		outfile=`cygpath -w $2`
 		shift
@@ -46,11 +46,7 @@ while [ $# -gt 0 ]; do
 		# Added to handle -Dsome_include=<somefile.h>
 		# That doesn't work unless the bracket part is quoted
 		case $def in
-            -DBUILDING_DLL | -DENABLE_RELOCATABLE*)
-                echo "Ignoring dll"
-                # Just drop this one. Work around iconv build system
-                ;;
-			*=\<*\>)
+            *=\<*\>)
 				def=`echo $def | sed 's/=/\"=/'`\"	
 				;;
 			*=\"*\")
@@ -60,7 +56,6 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS $def"
 		;;
 	-I)
-		echo "Handling -I <space>: '$2'"
 		# Handles -I <path>
 		ARGS="$ARGS -I`cygpath -w $2`"
 		shift
@@ -143,12 +138,11 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-#if [ "$HAVE_DEBUG" != "" ]; then
-#    ARGS="$ARGS $ARGS_DEBUG"
-#else
-#    ARGS="$ARGS $ARGS_RELEASE"
-#fi
-ARGS="$ARGS $ARGS_DEBUG"
+if [ "$HAVE_DEBUG" != "" ]; then
+    ARGS="$ARGS $ARGS_DEBUG"
+else
+    ARGS="$ARGS $ARGS_RELEASE"
+fi
 
 #ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x502"
 ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS"
@@ -201,6 +195,5 @@ elif [ "$EXTRALIBS" != "" -o BUILD_LIB != "" ]; then
 fi
 echo "Wrapped: $ARGS"
 cmd /C "$ARGS"
-
 exit $?
 
