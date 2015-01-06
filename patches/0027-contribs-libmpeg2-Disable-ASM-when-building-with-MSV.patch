@@ -1,7 +1,7 @@
-From ecce463c82eb306ff5c2179877b88d1bbf8ea165 Mon Sep 17 00:00:00 2001
+From a42d006b6f8cf319a81a36565ca7dd6961ada01e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:04:40 +0200
-Subject: [PATCH 27/55] contribs: libmpeg2: Disable ASM when building with MSVC
+Subject: [PATCH 27/62] contribs: libmpeg2: Disable ASM when building with MSVC
 
 ---
  contrib/src/libmpeg2/rules.mak | 7 ++++++-
@@ -33,5 +33,5 @@ index 650814a..e12012f 100644
  	cd $</include && $(MAKE) && $(MAKE) install
  	touch $@
 -- 
-2.1.1
+2.2.0
 

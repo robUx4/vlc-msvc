@@ -1,14 +1,14 @@
-From bbf64c9e82297005f8093e2d855162339f5680de Mon Sep 17 00:00:00 2001
+From df1857ed275c0439f4bc5b7ccbb924b1a5152767 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Thu, 20 Nov 2014 13:12:05 +0100
-Subject: [PATCH 55/55] Fix gai_strerror on Unicode
+Subject: [PATCH 55/62] Fix gai_strerror on Unicode
 
 ---
  include/vlc_network.h | 12 +++++++-----
  1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/include/vlc_network.h b/include/vlc_network.h
-index adbdc9e..c2b8d72 100644
+index effb324..f90172c 100644
 --- a/include/vlc_network.h
 +++ b/include/vlc_network.h
 @@ -38,6 +38,13 @@
@@ -38,5 +38,5 @@ index adbdc9e..c2b8d72 100644
  # ifndef NI_NUMERICHOST
  #  define NI_NUMERICHOST 0x01
 -- 
-2.1.1
+2.2.0
 

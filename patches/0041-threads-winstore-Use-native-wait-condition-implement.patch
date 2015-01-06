@@ -1,16 +1,16 @@
-From cb9aa7b234e27d0dd5432c84a1d6a9e17f1f4969 Mon Sep 17 00:00:00 2001
+From 04733c01800ecdc21ca8a88a44bc0081549f7244 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 13:07:07 +0100
-Subject: [PATCH 41/55] threads: winstore: Use native wait condition
+Subject: [PATCH 41/62] threads: winstore: Use native wait condition
  implementation
 
 ---
  include/vlc_threads.h |  4 ++++
- src/win32/thread.c    | 44 +++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 43 insertions(+), 5 deletions(-)
+ src/win32/thread.c    | 47 ++++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 46 insertions(+), 5 deletions(-)
 
 diff --git a/include/vlc_threads.h b/include/vlc_threads.h
-index 00435cb..45a733d 100644
+index d3f021b..cccafd0 100644
 --- a/include/vlc_threads.h
 +++ b/include/vlc_threads.h
 @@ -57,7 +57,11 @@ typedef struct
@@ -26,10 +26,10 @@ index 00435cb..45a733d 100644
  } vlc_cond_t;
  #define VLC_STATIC_COND { 0, 0 }
 diff --git a/src/win32/thread.c b/src/win32/thread.c
-index 1cb2ee0..32fef2b 100644
+index cab973e..9e08028 100644
 --- a/src/win32/thread.c
 +++ b/src/win32/thread.c
-@@ -202,10 +202,14 @@ enum
+@@ -203,10 +203,14 @@ enum
  
  static void vlc_cond_init_common (vlc_cond_t *p_condvar, unsigned clock)
  {
@@ -44,7 +44,7 @@ index 1cb2ee0..32fef2b 100644
      p_condvar->clock = clock;
  }
  
-@@ -221,7 +225,9 @@ void vlc_cond_init_daytime (vlc_cond_t *p_condvar)
+@@ -222,13 +226,22 @@ void vlc_cond_init_daytime (vlc_cond_t *p_condvar)
  
  void vlc_cond_destroy (vlc_cond_t *p_condvar)
  {
@@ -54,20 +54,20 @@ index 1cb2ee0..32fef2b 100644
  }
  
  void vlc_cond_signal (vlc_cond_t *p_condvar)
-@@ -229,8 +235,12 @@ void vlc_cond_signal (vlc_cond_t *p_condvar)
-     if (!p_condvar->clock)
-         return;
- 
+ {
 +#ifndef VLC_WINSTORE_APP
      /* This is suboptimal but works. */
      vlc_cond_broadcast (p_condvar);
 +#else
++    if (!p_condvar->clock)
++        return;
++
 +    WakeConditionVariable(&p_condvar->cond);
 +#endif
  }
  
  void vlc_cond_broadcast (vlc_cond_t *p_condvar)
-@@ -238,20 +248,25 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+@@ -236,20 +249,25 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
      if (!p_condvar->clock)
          return;
  
@@ -96,7 +96,7 @@ index 1cb2ee0..32fef2b 100644
      do
      {
          vlc_testcancel ();
-@@ -262,12 +277,16 @@ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
+@@ -260,12 +278,16 @@ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
      while (result == WAIT_IO_COMPLETION);
  
      ResetEvent (p_condvar->handle);
@@ -113,7 +113,7 @@ index 1cb2ee0..32fef2b 100644
  
      do
      {
-@@ -292,14 +311,29 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+@@ -290,14 +312,29 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
          if( total < 0 )
              total = 0;
  
@@ -146,5 +146,5 @@ index 1cb2ee0..32fef2b 100644
      return (result == WAIT_OBJECT_0) ? 0 : ETIMEDOUT;
  }
 -- 
-2.1.1
+2.2.0
 

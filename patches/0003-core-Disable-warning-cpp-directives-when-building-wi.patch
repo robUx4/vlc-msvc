@@ -1,17 +1,32 @@
-From aef5371f70d37a8588a682429df64eb411d940ba Mon Sep 17 00:00:00 2001
+From b530d00a745e04cb1d0b7bd11eadade2ff5a493c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:06:49 +0200
-Subject: [PATCH 03/55] core: Disable warning cpp directives when building with
+Subject: [PATCH 03/62] core: Disable warning cpp directives when building with
  MSVC
 
 ---
+ src/input/clock.c        | 2 ++
  src/playlist/thread.c    | 4 +++-
  src/text/url.c           | 2 ++
  src/video_output/event.h | 8 ++++++--
  src/win32/dirs.c         | 4 +++-
  src/win32/netconf.c      | 4 +++-
- 5 files changed, 17 insertions(+), 5 deletions(-)
+ 6 files changed, 19 insertions(+), 5 deletions(-)
 
+diff --git a/src/input/clock.c b/src/input/clock.c
+index 1419f8f..c8bef2f 100644
+--- a/src/input/clock.c
++++ b/src/input/clock.c
+@@ -534,7 +534,9 @@ void input_clock_GetSystemOrigin( input_clock_t *cl, mtime_t *pi_system, mtime_t
+     vlc_mutex_unlock( &cl->lock );
+ }
+ 
++#ifndef _MSC_VER
+ #warning "input_clock_SetJitter needs more work"
++#endif
+ void input_clock_SetJitter( input_clock_t *cl,
+                             mtime_t i_pts_delay, int i_cr_average )
+ {
 diff --git a/src/playlist/thread.c b/src/playlist/thread.c
 index 8e7b082..6feb47a 100644
 --- a/src/playlist/thread.c
@@ -98,5 +113,5 @@ index accdddf..00fbb8a 100644
          if( psz_proxy != NULL )
          {
 -- 
-2.1.1
+2.2.0
 

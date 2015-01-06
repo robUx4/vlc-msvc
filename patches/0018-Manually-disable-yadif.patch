@@ -1,7 +1,7 @@
-From 2dbd01bc24069d922430d2cc907ca0456ec29f60 Mon Sep 17 00:00:00 2001
+From 10eba7e325c54a0122bc01668fe0d8162146bfbf Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:29:17 +0200
-Subject: [PATCH 18/55] Manually disable yadif
+Subject: [PATCH 18/62] Manually disable yadif
 
 Please don't push this
 ---
@@ -10,10 +10,10 @@ Please don't push this
  2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/modules/video_filter/Modules.am b/modules/video_filter/Modules.am
-index 3bb8cdb..89de7d4 100644
+index b823e9d..36145e0 100644
 --- a/modules/video_filter/Modules.am
 +++ b/modules/video_filter/Modules.am
-@@ -19,8 +19,6 @@ libdeinterlace_plugin_la_SOURCES = \
+@@ -20,8 +20,6 @@ libdeinterlace_plugin_la_SOURCES = \
  	deinterlace/helpers.c deinterlace/helpers.h \
  	deinterlace/algo_basic.c deinterlace/algo_basic.h \
  	deinterlace/algo_x.c deinterlace/algo_x.h \
@@ -72,5 +72,5 @@ index e6a0b0f..cabb80d 100644
  
      /* Set output timestamps, if the algorithm didn't request CUSTOM_PTS
 -- 
-2.1.1
+2.2.0
 

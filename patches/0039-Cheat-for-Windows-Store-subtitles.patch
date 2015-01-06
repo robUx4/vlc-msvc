@@ -1,7 +1,7 @@
-From fac0fa2babc44832f880f9171c2f3224b9a42c35 Mon Sep 17 00:00:00 2001
+From a1285618865b386ba88b4e1530ba20cc97d0708f Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 16 Apr 2014 16:09:53 +0200
-Subject: [PATCH 39/55] Cheat for Windows Store subtitles
+Subject: [PATCH 39/62] Cheat for Windows Store subtitles
 
 ---
  lib/video.c | 2 +-
@@ -21,5 +21,5 @@ index 4abe36e..7ea21a8 100644
          vlc_object_release( p_input_thread );
      }
 -- 
-2.1.1
+2.2.0
 

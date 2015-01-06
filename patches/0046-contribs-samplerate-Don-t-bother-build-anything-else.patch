@@ -1,7 +1,7 @@
-From 577f7c1fdbdffd26be62bfd67c8c45a48825bb1b Mon Sep 17 00:00:00 2001
+From 69b0e2599673f4457ed5ad7ae818cade744278aa Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:43:14 +0100
-Subject: [PATCH 46/55] contribs: samplerate: Don't bother build anything else
+Subject: [PATCH 46/62] contribs: samplerate: Don't bother build anything else
  than the lib
 
 ---
@@ -20,5 +20,5 @@ index c3548ba..c330009 100644
 +	cd $< && $(MAKE) -C src install
  	touch $@
 -- 
-2.1.1
+2.2.0
 

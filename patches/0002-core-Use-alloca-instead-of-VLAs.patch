@@ -1,7 +1,7 @@
-From cdc57c9294fedf8309f8c5002480b7915aa872ea Mon Sep 17 00:00:00 2001
+From 348e7b4222690b242e96fc86cce63da8b8730af2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
-Subject: [PATCH 02/55] core: Use alloca instead of VLAs
+Subject: [PATCH 02/62] core: Use alloca instead of VLAs
 
 This is done only for code that is used on windows
 ---
@@ -12,12 +12,12 @@ This is done only for code that is used on windows
  src/input/subtitles.c   | 6 +++---
  src/misc/http_auth.c    | 4 ++--
  src/misc/messages.c     | 2 +-
- src/misc/picture_pool.c | 2 +-
+ src/misc/picture_pool.c | 4 ++--
  src/network/httpd.c     | 2 +-
  src/network/tcp.c       | 2 +-
  src/playlist/art.c      | 2 +-
  src/playlist/loadsave.c | 2 +-
- 12 files changed, 16 insertions(+), 16 deletions(-)
+ 12 files changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/src/config/chain.c b/src/config/chain.c
 index 7d0b71d..60c4953 100644
@@ -120,10 +120,10 @@ index 7d6d245..28f55ce 100644
      psz_header = strstr( psz_header, psz_what );
      if ( psz_header )
 diff --git a/src/misc/messages.c b/src/misc/messages.c
-index 14f73f0..f0ef742 100644
+index 6c04b8c..90314c3 100644
 --- a/src/misc/messages.c
 +++ b/src/misc/messages.c
-@@ -81,7 +81,7 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
+@@ -85,7 +85,7 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
      p = strchr(module, '.');
  
      size_t modlen = (p != NULL) ? (p - module) : 0;
@@ -133,7 +133,7 @@ index 14f73f0..f0ef742 100644
      {
          memcpy(modulebuf, module, modlen);
 diff --git a/src/misc/picture_pool.c b/src/misc/picture_pool.c
-index 98e093f..e659e4f 100644
+index 98e093f..1633649 100644
 --- a/src/misc/picture_pool.c
 +++ b/src/misc/picture_pool.c
 @@ -185,8 +185,8 @@ picture_pool_t *picture_pool_New(unsigned count, picture_t *const *tab)
@@ -146,6 +146,15 @@ index 98e093f..e659e4f 100644
  
      for (i = 0; i < count; i++) {
          picture[i] = picture_NewFromFormat(fmt);
+@@ -208,7 +208,7 @@ error:
+ 
+ picture_pool_t *picture_pool_Reserve(picture_pool_t *master, unsigned count)
+ {
+-    picture_t *picture[count ? count : 1];
++    picture_t **picture = alloca((count ? count : 1) * sizeof(*picture));
+     unsigned i;
+ 
+     for (i = 0; i < count; i++) {
 diff --git a/src/network/httpd.c b/src/network/httpd.c
 index a643c70..9b4f3ad 100644
 --- a/src/network/httpd.c
@@ -199,5 +208,5 @@ index 9215e2a..c3273f9 100644
      free( psz_temp );
      if( config_CreateDir( (vlc_object_t *)p_playlist, psz_dirname ) )
 -- 
-2.1.1
+2.2.0
 

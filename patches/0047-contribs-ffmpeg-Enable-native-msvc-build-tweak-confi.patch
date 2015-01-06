@@ -1,7 +1,7 @@
-From a39860a0c46312ebaefe7d5d3943c545f8f7371b Mon Sep 17 00:00:00 2001
+From f2433f5cde8c7c21df7717cb0037c4fe26a01860 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:19:30 +0100
-Subject: [PATCH 47/55] contribs: ffmpeg: Enable native msvc build & tweak
+Subject: [PATCH 47/62] contribs: ffmpeg: Enable native msvc build & tweak
  config for windows phone
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 47/55] contribs: ffmpeg: Enable native msvc build & tweak
  1 file changed, 12 insertions(+)
 
 diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
-index 6fccda6..c0d46aa 100644
+index 0a7beda..0b44756 100644
 --- a/contrib/src/ffmpeg/rules.mak
 +++ b/contrib/src/ffmpeg/rules.mak
 @@ -12,6 +12,10 @@ HASH=HEAD
@@ -23,7 +23,7 @@ index 6fccda6..c0d46aa 100644
  FFMPEGCONF = \
  	--cc="$(CC)" \
  	--pkg-config="$(PKG_CONFIG)" \
-@@ -142,8 +146,16 @@ FFMPEGCONF += --enable-w32threads --enable-dxva2 \
+@@ -138,8 +142,16 @@ FFMPEGCONF += --enable-w32threads --enable-dxva2 \
  ifdef HAVE_WIN64
  FFMPEGCONF += --cpu=athlon64 --arch=x86_64
  else # !WIN64
@@ -41,5 +41,5 @@ index 6fccda6..c0d46aa 100644
  else # !Windows
  FFMPEGCONF += --enable-pthreads
 -- 
-2.1.1
+2.2.0
 

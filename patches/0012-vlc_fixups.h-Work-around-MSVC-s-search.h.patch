@@ -1,14 +1,14 @@
-From 11a94a0dba8870783425712e5c97ede9451dc0a9 Mon Sep 17 00:00:00 2001
+From 148a81a02e34c3e4cb108969c59d05e7319de992 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 10:00:53 +0200
-Subject: [PATCH 12/55] vlc_fixups.h: Work around MSVC's search.h
+Subject: [PATCH 12/62] vlc_fixups.h: Work around MSVC's search.h
 
 ---
  include/vlc_fixups.h | 13 +++++++++----
  1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index 728751b..5e39fdb 100644
+index 56e9880..ed918a9 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
 @@ -313,6 +313,9 @@ struct if_nameindex
@@ -39,5 +39,5 @@ index 728751b..5e39fdb 100644
  
  /* Random numbers */
 -- 
-2.1.1
+2.2.0
 

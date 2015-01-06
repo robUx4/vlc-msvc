@@ -1,7 +1,7 @@
-From d9359e741f9b41b43218dc8215b57afeb4b5003d Mon Sep 17 00:00:00 2001
+From c6ff37be9dc2725cfa3aaa6b2eda2cb103c87dbf Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:56:03 +0200
-Subject: [PATCH 36/55] modules: bank: Workaround lack of "lib" prefix
+Subject: [PATCH 36/62] modules: bank: Workaround lack of "lib" prefix
 
 ---
  src/modules/bank.c | 2 +-
@@ -21,5 +21,5 @@ index f4fba50..0b3c177 100644
              if (len > strlen (suffix)
               && !strncmp (file, prefix, strlen (prefix))
 -- 
-2.1.1
+2.2.0
 

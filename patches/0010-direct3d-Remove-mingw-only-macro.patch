@@ -1,14 +1,14 @@
-From d094167e61941cb3aec76ea8ba288ac4cca237c2 Mon Sep 17 00:00:00 2001
+From 35ac6c0c7c8389882d92cbee4f5e050f93d7f793 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:26:23 +0200
-Subject: [PATCH 10/55] direct3d: Remove mingw only macro
+Subject: [PATCH 10/62] direct3d: Remove mingw only macro
 
 ---
  modules/video_output/msw/direct3d.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/modules/video_output/msw/direct3d.c b/modules/video_output/msw/direct3d.c
-index 6e141f4..ad0cf00 100644
+index 73b0f44..bddc9e5 100644
 --- a/modules/video_output/msw/direct3d.c
 +++ b/modules/video_output/msw/direct3d.c
 @@ -1213,12 +1213,12 @@ static int Direct3DCompileShader(vout_display_t *vd, const char *shader_source,
@@ -27,5 +27,5 @@ index 6e141f4..ad0cf00 100644
  
      if (FAILED(hr)) {
 -- 
-2.1.1
+2.2.0
 

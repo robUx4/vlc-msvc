@@ -1,14 +1,14 @@
-From 8f331777360e3826773be23b9b7d5162355a7a08 Mon Sep 17 00:00:00 2001
+From b1c766236cf4c13e085ba85c5cc7fd9c86f388d9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 13 Oct 2014 07:39:27 -0700
-Subject: [PATCH 01/55] vlc_fixup: Avoid redefining _ and N_
+Subject: [PATCH 01/62] vlc_fixup: Avoid redefining _ and N_
 
 ---
  include/vlc_fixups.h | 9 +++++++--
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index e515763..728751b 100644
+index cee1254..56e9880 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
 @@ -252,8 +252,13 @@ static inline locale_t newlocale(int mask, const char * locale, locale_t base)
@@ -28,5 +28,5 @@ index e515763..728751b 100644
  
  #ifdef __cplusplus
 -- 
-2.1.1
+2.2.0
 

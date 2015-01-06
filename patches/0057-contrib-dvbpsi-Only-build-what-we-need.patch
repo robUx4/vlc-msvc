@@ -1,0 +1,23 @@
+From 4d6d0e85277b170b8d8f402b1176d34d13dd6aa2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Mon, 5 Jan 2015 14:04:02 +0100
+Subject: [PATCH 57/62] contrib: dvbpsi: Only build what we need
+
+---
+ contrib/src/dvbpsi/rules.mak | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/src/dvbpsi/rules.mak b/contrib/src/dvbpsi/rules.mak
+index 556706e..ed4bd65 100644
+--- a/contrib/src/dvbpsi/rules.mak
++++ b/contrib/src/dvbpsi/rules.mak
+@@ -22,5 +22,5 @@ libdvbpsi: libdvbpsi-$(DVBPSI_VERSION).tar.bz2 .sum-dvbpsi
+ 
+ .dvbpsi: libdvbpsi
+ 	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
+-	cd $< && $(MAKE) install
++	cd $< && $(MAKE) -C src install
+ 	touch $@
+-- 
+2.2.0
+

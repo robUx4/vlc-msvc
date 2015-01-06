@@ -1,7 +1,7 @@
-From b7bb7b28899f80d291e77b7080cf66f242b257fb Mon Sep 17 00:00:00 2001
+From 15cddb5aa19a5608cd906d0aa9de8878dc64db57 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:05:14 +0200
-Subject: [PATCH 28/55] contribs: lua: Target MSVC specifically when building
+Subject: [PATCH 28/62] contribs: lua: Target MSVC specifically when building
  for it.
 
 This requires a patch in lua that adds the appropriate target
@@ -24,5 +24,5 @@ index 8be4af2..c5dfbee 100644
  # Feel free to add autodetection if you need to...
  PKGS += lua
 -- 
-2.1.1
+2.2.0
 

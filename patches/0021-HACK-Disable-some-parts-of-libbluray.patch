@@ -1,7 +1,7 @@
-From a21d90d2c7ee9b49199f6e4c56bf98d36397fada Mon Sep 17 00:00:00 2001
+From e3e6d924cf6dc2fe9894be709b61aefd6798a58e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:26:22 +0200
-Subject: [PATCH 21/55] HACK: Disable some parts of libbluray
+Subject: [PATCH 21/62] HACK: Disable some parts of libbluray
 
 ---
  contrib/src/bluray/rules.mak | 4 ++--
@@ -23,5 +23,5 @@ index db3980e..a778342 100644
  $(TARBALLS)/libbluray-$(BLURAY_VERSION).tar.bz2:
  	$(call download,$(BLURAY_URL))
 -- 
-2.1.1
+2.2.0
 

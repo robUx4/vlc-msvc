@@ -1,7 +1,7 @@
-From 5524c64ff7ae31aa6839ce50dcaad477293b0f69 Mon Sep 17 00:00:00 2001
+From 67eeafc5288f8d3aa05d1c694aa3a76eb289f04e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:13:22 +0200
-Subject: [PATCH 09/55] modules: Remove empty braces initializer to keep MSVC
+Subject: [PATCH 09/62] modules: Remove empty braces initializer to keep MSVC
  happy
 
 ---
@@ -36,5 +36,5 @@ index 7ce3407..412da4c 100644
      unsigned int  i;
      int64_t       i_start_time = -1;
 -- 
-2.1.1
+2.2.0
 

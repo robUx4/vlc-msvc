@@ -1,7 +1,7 @@
-From a395b3470b72b38bf6c0ea2af4cd845a6c391db0 Mon Sep 17 00:00:00 2001
+From e0d9d7e38afb60e4e8d13ea637bd94750a8c1bb0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:44:46 +0100
-Subject: [PATCH 43/55] rand: Provide COBJMACROS
+Subject: [PATCH 43/62] rand: Provide COBJMACROS
 
 ---
  src/win32/rand.c | 11 +++++++++++
@@ -30,5 +30,5 @@ index 948daea..3367416 100644
  # include <wincrypt.h>
  #endif
 -- 
-2.1.1
+2.2.0
 

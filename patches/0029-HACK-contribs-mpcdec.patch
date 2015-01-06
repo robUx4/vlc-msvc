@@ -1,7 +1,7 @@
-From 26075232a197ba4c4e28b0a5dc60d4f125122b8e Mon Sep 17 00:00:00 2001
+From 002ad36bb25985dc62d1a1dd0a842261f15b5e76 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:06:37 +0200
-Subject: [PATCH 29/55] HACK: contribs: mpcdec
+Subject: [PATCH 29/62] HACK: contribs: mpcdec
 
 ---
  contrib/src/mpcdec/rules.mak | 8 +++++++-
@@ -28,5 +28,5 @@ index e0c004a..8e7f364 100644
 +endif
  	touch $@
 -- 
-2.1.1
+2.2.0
 

@@ -1,7 +1,7 @@
-From 7f56134862d6c49ba57e77c0a8110a967a31e6a8 Mon Sep 17 00:00:00 2001
+From 7b216d5e45a0295f24bfd4d0a9055da207d9f199 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:03:18 +0200
-Subject: [PATCH 08/55] modules: Provide the GUIDs we need
+Subject: [PATCH 08/62] modules: Provide the GUIDs we need
 
 ---
  modules/access/dshow/vlc_dshow.h | 22 ++++++++++++++++++++++
@@ -133,7 +133,7 @@ index 7a47161..5b3343a 100644
  
  BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID); /* avoid warning */
 diff --git a/modules/codec/mft.c b/modules/codec/mft.c
-index 67a3dd6..8081dec 100644
+index 7dffde3..fcc0d73 100644
 --- a/modules/codec/mft.c
 +++ b/modules/codec/mft.c
 @@ -172,7 +172,10 @@ static const pair_format_guid video_format_table[] =
@@ -148,5 +148,5 @@ index 67a3dd6..8081dec 100644
   * We cannot use the FOURCC code for audio either since the
   * WAVE_FORMAT value is used to create the GUID.
 -- 
-2.1.1
+2.2.0
 

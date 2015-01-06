@@ -1,7 +1,7 @@
-From 76b755d7da5ee3046a7a9b7d30d612035d2af392 Mon Sep 17 00:00:00 2001
+From a517bd6f803eebc6ba0720d3aacd54a68696c305 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:43:53 +0200
-Subject: [PATCH 34/55] winvlc: Fix build issue with multiline strings &
+Subject: [PATCH 34/62] winvlc: Fix build issue with multiline strings &
  unicode macros/prefixes
 
 ---
@@ -114,5 +114,5 @@ index bd64488..c37f2b1 100644
                          pContext->Edx,pContext->Ecx,pContext->Eax,
                          pContext->Ebp,pContext->Eip,pContext->Esp );
 -- 
-2.1.1
+2.2.0
 

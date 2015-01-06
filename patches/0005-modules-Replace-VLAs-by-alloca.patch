@@ -1,7 +1,7 @@
-From b3b7eca9f48f749cafb88fb4d5e3eda2d041267b Mon Sep 17 00:00:00 2001
+From a964968c19949ee2865835d61d93e129b5dd1eb5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:46:08 +0200
-Subject: [PATCH 05/55] modules: Replace VLAs by alloca()
+Subject: [PATCH 05/62] modules: Replace VLAs by alloca()
 
 ---
  modules/access/ftp.c                  | 2 +-
@@ -218,5 +218,5 @@ index 3f117da..cc2e4b3 100644
      for (unsigned i = 0; i < count; i++) {
          picture_sys_t *picsys = malloc(sizeof (*picsys));
 -- 
-2.1.1
+2.2.0
 

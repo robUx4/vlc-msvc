@@ -1,7 +1,7 @@
-From cfa2a82d727a843ee4fcb186e342e42ed101f2f5 Mon Sep 17 00:00:00 2001
+From 8937b7b3a2054b71359f9a3998737a75bc7e686b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:21:27 +0100
-Subject: [PATCH 48/55] contribs: fontconfig: Always configure before build
+Subject: [PATCH 48/62] contribs: fontconfig: Always configure before build
 
 ---
  contrib/src/fontconfig/rules.mak | 2 +-
@@ -26,5 +26,5 @@ index 78b92c7..20eb967 100644
  ifndef HAVE_MACOSX
  	cd $< && $(MAKE) install
 -- 
-2.1.1
+2.2.0
 

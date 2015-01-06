@@ -1,7 +1,7 @@
-From 932333da557391a8ca85d7ad7b35421c021e5977 Mon Sep 17 00:00:00 2001
+From b112f7ee3571168099997f9989f9cced621dee9c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:26:48 +0200
-Subject: [PATCH 16/55] libvlc: Disable warning preprocessor directives when
+Subject: [PATCH 16/62] libvlc: Disable warning preprocessor directives when
  building with MSVC
 
 ---
@@ -23,5 +23,5 @@ index 1d57025..da35b64 100644
          return -1;
      }
 -- 
-2.1.1
+2.2.0
 

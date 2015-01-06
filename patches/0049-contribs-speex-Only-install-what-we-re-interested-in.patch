@@ -1,17 +1,17 @@
-From b14297adbfd4291e6f68ab979f4612c85f02d174 Mon Sep 17 00:00:00 2001
+From 6fc7dfd04899ac7c90f6c9941a35647393501d98 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:22:17 +0100
-Subject: [PATCH 49/55] contribs: speex: Only install what we're interested in
+Subject: [PATCH 49/62] contribs: speex: Only install what we're interested in
 
 ---
  contrib/src/speex/rules.mak | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/contrib/src/speex/rules.mak b/contrib/src/speex/rules.mak
-index fd90cde..dc1eb64 100644
+index 376dcbd..d91e4ac 100644
 --- a/contrib/src/speex/rules.mak
 +++ b/contrib/src/speex/rules.mak
-@@ -41,5 +41,6 @@ endif
+@@ -31,5 +31,6 @@ endif
  .speex: speex
  	mkdir -p $</m4 && $(RECONF)
  	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) $(SPEEX_CONF)
@@ -20,5 +20,5 @@ index fd90cde..dc1eb64 100644
 +	cd $< && $(MAKE) -C include install
  	touch $@
 -- 
-2.1.1
+2.2.0
 
