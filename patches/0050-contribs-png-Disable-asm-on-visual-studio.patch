@@ -1,21 +1,21 @@
-From c08d08a972ec518d0afae18ad6b1a6db277bcf79 Mon Sep 17 00:00:00 2001
+From 7f9c864f751a39a9b2dbc0745a14116b6419669e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:22:43 +0100
-Subject: [PATCH 50/62] contribs: png: Disable asm on windows phone
+Subject: [PATCH 50/74] contribs: png: Disable asm on visual studio
 
 ---
  contrib/src/png/rules.mak | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/contrib/src/png/rules.mak b/contrib/src/png/rules.mak
-index a63c4e6..c947f1b 100644
+index a63c4e6..e0bea0b 100644
 --- a/contrib/src/png/rules.mak
 +++ b/contrib/src/png/rules.mak
 @@ -21,8 +21,12 @@ png: libpng-$(PNG_VERSION).tar.xz .sum-png
  
  DEPS_png = zlib $(DEPS_zlib)
  
-+ifdef HAVE_WINPHONE
++ifdef HAVE_VISUALSTUDIO
 +CONF = --disable-arm-neon
 +endif
 +

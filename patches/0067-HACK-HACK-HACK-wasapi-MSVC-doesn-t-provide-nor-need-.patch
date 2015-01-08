@@ -1,0 +1,28 @@
+From dbfc2041b5281ac8781e1c78def7cbb552ef2e9c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 9 Jan 2015 10:40:29 +0100
+Subject: [PATCH 67/74] HACK HACK HACK: wasapi: MSVC doesn't provide nor need
+ -lksuser
+
+---
+ modules/audio_output/Makefile.am | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/modules/audio_output/Makefile.am b/modules/audio_output/Makefile.am
+index 0334dcb..81e8698 100644
+--- a/modules/audio_output/Makefile.am
++++ b/modules/audio_output/Makefile.am
+@@ -62,7 +62,9 @@ libmmdevice_plugin_la_LIBADD = -lole32 $(LIBM)
+ libwinstore_plugin_la_SOURCES = audio_output/winstore.c audio_output/mmdevice.h
+ libwinstore_plugin_la_LIBADD = -lole32
+ libwasapi_plugin_la_SOURCES = audio_output/wasapi.c
+-libwasapi_plugin_la_LIBADD = -lole32 -lksuser
++libwasapi_plugin_la_LIBADD = -lole32
++# FIXME
++#libwasapi_plugin_la_LIBADD += -lksuser
+ if HAVE_WASAPI
+ aout_LTLIBRARIES += libwasapi_plugin.la
+ if !HAVE_WINSTORE
+-- 
+2.2.0
+

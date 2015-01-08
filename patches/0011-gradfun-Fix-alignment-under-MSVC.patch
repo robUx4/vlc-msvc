@@ -1,7 +1,7 @@
-From f4507d16c4c93328a5e472c2009f34375ae32d1e Mon Sep 17 00:00:00 2001
+From 02f2ced465b35ecb1207b1dafe25cfddce000f18 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 09:56:13 +0200
-Subject: [PATCH 11/62] gradfun: Fix alignment under MSVC
+Subject: [PATCH 11/74] gradfun: Fix alignment under MSVC
 
 ---
  modules/video_filter/gradfun.h | 15 +++++++++++++++

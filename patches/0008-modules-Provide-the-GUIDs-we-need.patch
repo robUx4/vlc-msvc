@@ -1,15 +1,15 @@
-From 7b216d5e45a0295f24bfd4d0a9055da207d9f199 Mon Sep 17 00:00:00 2001
+From 199e6592947cd7b66f7a7c4dad5315c34358b078 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:03:18 +0200
-Subject: [PATCH 08/62] modules: Provide the GUIDs we need
+Subject: [PATCH 08/74] modules: Provide the GUIDs we need
 
 ---
  modules/access/dshow/vlc_dshow.h | 22 ++++++++++++++++++++++
  modules/access/dtv/bdagraph.cpp  | 22 ++++++++++++++++++++++
  modules/audio_output/mmdevice.c  | 21 ++++++++++++++++++---
- modules/audio_output/wasapi.c    |  6 ++++++
+ modules/audio_output/wasapi.c    |  8 ++++++++
  modules/codec/mft.c              |  3 +++
- 5 files changed, 71 insertions(+), 3 deletions(-)
+ 5 files changed, 73 insertions(+), 3 deletions(-)
 
 diff --git a/modules/access/dshow/vlc_dshow.h b/modules/access/dshow/vlc_dshow.h
 index 816884e..89881d2 100644
@@ -116,10 +116,10 @@ index d9d3573..2803704 100644
      if (((s) = (void *)GetProcAddress(h, #s)) == NULL) return FALSE
  
 diff --git a/modules/audio_output/wasapi.c b/modules/audio_output/wasapi.c
-index 7a47161..5b3343a 100644
+index 7a47161..ee20d60 100644
 --- a/modules/audio_output/wasapi.c
 +++ b/modules/audio_output/wasapi.c
-@@ -35,6 +35,12 @@
+@@ -35,6 +35,14 @@
  #include <vlc_plugin.h>
  #include "audio_output/mmdevice.h"
  
@@ -127,6 +127,8 @@ index 7a47161..5b3343a 100644
 +DEFINE_GUID(IID_IAudioClient, 0x1cb9ad4c, 0xdbfa, 0x4c32, 0xb1,0x78, 0xc2,0xf5,0x68,0xa7,0x03,0xb2);
 +DEFINE_GUID(IID_IAudioRenderClient, 0xf294acfc, 0x3146, 0x4483, 0xa7,0xbf, 0xad,0xdc,0xa7,0xc2,0x60,0xe2);
 +DEFINE_GUID(IID_IAudioClock, 0xcd63314f, 0x3fba, 0x4a1b, 0x81,0x2c, 0xef,0x96,0x35,0x87,0x28,0xe7);
++DEFINE_GUID(KSDATAFORMAT_SUBTYPE_IEEE_FLOAT, WAVE_FORMAT_IEEE_FLOAT, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
++DEFINE_GUID(KSDATAFORMAT_SUBTYPE_PCM, WAVE_FORMAT_PCM, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
 +#endif
 +
  static LARGE_INTEGER freq; /* performance counters frequency */

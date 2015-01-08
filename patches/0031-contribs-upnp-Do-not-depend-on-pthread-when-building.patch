@@ -1,7 +1,7 @@
-From e7f7d6c2ab885173cb2da4ffd157419d56a67c12 Mon Sep 17 00:00:00 2001
+From 91f8bbe2c56eadd5ba74fbc341e84994408df2c5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:22:17 +0200
-Subject: [PATCH 31/62] contribs: upnp: Do not depend on pthread when building
+Subject: [PATCH 31/74] contribs: upnp: Do not depend on pthread when building
  with MSVC
 
 ---

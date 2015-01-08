@@ -1,7 +1,7 @@
-From 148a81a02e34c3e4cb108969c59d05e7319de992 Mon Sep 17 00:00:00 2001
+From 2ed5e8a72bdf72ba1aef96818d124b2f4836dc7f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 10:00:53 +0200
-Subject: [PATCH 12/62] vlc_fixups.h: Work around MSVC's search.h
+Subject: [PATCH 12/74] vlc_fixups.h: Work around MSVC's search.h
 
 ---
  include/vlc_fixups.h | 13 +++++++++----

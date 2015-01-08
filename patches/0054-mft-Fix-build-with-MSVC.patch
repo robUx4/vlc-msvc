@@ -1,7 +1,7 @@
-From fdbc294330b32e3fb26977b10e9086d9fc7b6f69 Mon Sep 17 00:00:00 2001
+From 263ef964407a37ee0abc07466c1b01bf3a95f0e5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 21 Nov 2014 13:12:36 +0100
-Subject: [PATCH 54/62] mft: Fix build with MSVC
+Subject: [PATCH 54/74] mft: Fix build with MSVC
 
 ---
  modules/codec/mft.c | 24 ++++++++++++++++++++++++
