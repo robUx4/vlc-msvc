@@ -7,6 +7,10 @@ ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 LIBDIR=" -LIBPATH:`cygpath -w '/home/vlc/lib/'` "
 
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+INCLUDES_FOLDER=$SCRIPTPATH/../headers
+
 while [ $# -gt 0 ]; do
     case $1 in
 	-o)
@@ -149,10 +153,10 @@ ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOM
 #ARGS="$ARGS -DWINAPI_FAMILY=WINAPI_FAMILY_APP"
 ARGS="$ARGS -DWINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP"
 ARGS="$ARGS $WARNINGS"
-ARGS="$ARGS -I`cygpath -w '/home/vlc/headers'`"
+ARGS="$ARGS -I`cygpath -w '$INCLUDES_FOLDER'`"
 # Hotfix some contribs:
-ARGS="$ARGS -FI`cygpath -w /home/vlc/fixup.h`"
-ARGS="$ARGS -FI`cygpath -w /home/vlc/headers/winstorecompat.h`"
+ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
+ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/winstorecompat.h`"
 
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one
