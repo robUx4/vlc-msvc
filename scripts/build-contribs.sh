@@ -74,6 +74,7 @@ cd $PLATFORM
     --disable-disc \
     --disable-lua \
     --disable-protobuf \
-    --disable-mpg123
+    --disable-mpg123 \
+	|| exit 1
 
-make -j`nproc`
+make -j`nproc` || exit 1

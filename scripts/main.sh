@@ -106,9 +106,9 @@ else
 fi
 
 # We are now in ROOT_FOLDER/vlc
-sh $ROOT_FOLDER/scripts/build-contribs.sh
-sh $ROOT_FOLDER/scripts/build-vlc.sh
-# Now we are in the contribs folder
+sh $ROOT_FOLDER/scripts/build-contribs.sh && \
+	sh $ROOT_FOLDER/scripts/build-vlc.sh
+
 
 if [ "$PAUSE_AFTER_BUILD" != "" ] ; then
 	read -n1 -r -p "Press any key to continue..."
