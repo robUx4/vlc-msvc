@@ -12,4 +12,4 @@ IF EXIST C:\msys32\usr\bin\sh (
 	set SH_EXEC=C:\msys64\usr\bin\sh
 )
 
-exit
+start /Wait %SH_EXEC% -c "scripts/main.sh %* pause"

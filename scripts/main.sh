@@ -35,6 +35,13 @@ case $1 in
         exit 1
 esac
 
+shift
+
+if [ "$1" = "pause" ] ; then
+	PAUSE_AFTER_BUILD=1
+fi
+
+
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 ROOT_FOLDER=$SCRIPTPATH/..
@@ -103,3 +110,6 @@ sh $ROOT_FOLDER/scripts/build-contribs.sh
 sh $ROOT_FOLDER/scripts/build-vlc.sh
 # Now we are in the contribs folder
 
+if [ "$PAUSE_AFTER_BUILD" != "" ] ; then
+	read -n1 -r -p "Press any key to continue..."
+fi
