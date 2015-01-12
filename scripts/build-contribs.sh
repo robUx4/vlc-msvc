@@ -1,27 +1,17 @@
-export CC="$HOME/wrappers/windowsrt/clwrap"
-export CXX="$CC"
-export cc=$CC
-export cxx=$CXX
-export AR="$HOME/wrappers/arwrap"
-export NM="dumpbin.exe"
-#export nm=$NM
-export AS=armasm
-#export as=$AS
-export LD="$HOME/wrappers/ldwrap"
-export CCLD="$LD"
-export CXXLD="$CCLD"
-export RANLIB=true
-export PATH="$HOME/wrappers:$HOME/vlc/extra/tools/ragel/ragel:$PATH"
-export HAVE_ARMV7A=true
-export HAVE_VISUALSTUDIO=true
-export HAVE_WINDOWSRT=true
-#export HAVE_WINPHONE=true
-# Prevent some broken MSYS conversions
-# Mind that having a terminal ';' would make empty string a token
-# that would be compared against, thus not translating anything
-export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
+#!/bin/sh
 
-../bootstrap --host=arm-msvc-mingw32winrt --build=x86-w64-mingw32 \
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+ROOT_FOLDER=$SCRIPTPATH/../
+cd $ROOT_FOLDER/vlc/contrib
+
+if [ ! -d $PLATFORM ] ; then
+    mkdir $PLATFORM
+fi
+
+cd $PLATFORM
+
+../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--disable-gpl \
 	--disable-sout \
 	--enable-ffmpeg \
@@ -86,6 +76,4 @@ export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
     --disable-protobuf \
     --disable-mpg123
 
-# This was necessary at some point as a package was trying to link to zlib
-#make .zlib
-make
+make -j`nproc`
