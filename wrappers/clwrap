@@ -7,6 +7,24 @@ ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 LIBDIR=" -LIBPATH:`cygpath -w '/home/vlc/lib/'` "
 
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+INCLUDES_FOLDER=$SCRIPTPATH/../headers
+
+case $PLATFORM in
+	Windows)
+		WINAPI_FAMILY=WINAPI_FAMILY_APP
+		FORCED_LIBS="\"RuntimeObject.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
+		;;
+	WindowsPhone)
+		WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP
+		FORCED_LIBS="\"WindowsPhoneCore.lib\" \"RuntimeObject.lib\" \"PhoneAppModelHost.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
+		;;
+	*)
+		echo "Invalid platform"
+		exit 1
+esac
+
 while [ $# -gt 0 ]; do
     case $1 in
 	-o)
@@ -146,12 +164,13 @@ fi
 
 #ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x502"
 ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS"
-ARGS="$ARGS -DWINAPI_FAMILY=WINAPI_FAMILY_APP"
+#ARGS="$ARGS -DWINAPI_FAMILY=WINAPI_FAMILY_APP"
+ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
 ARGS="$ARGS $WARNINGS"
-ARGS="$ARGS -I`cygpath -w '/home/vlc/headers'`"
+ARGS="$ARGS -I`cygpath -w '$INCLUDES_FOLDER'`"
 # Hotfix some contribs:
-ARGS="$ARGS -FI`cygpath -w /home/vlc/fixup.h`"
-ARGS="$ARGS -FI`cygpath -w /home/vlc/headers/winstorecompat.h`"
+ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
+ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/winstorecompat.h`"
 
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one
@@ -166,16 +185,7 @@ if [ "$outfile" != "" ]; then
 	else
 		ARGS="$ARGS -Fe$outfile"
 	fi
-    # X86
-	EXTRALIBS="$EXTRALIBS \"user32.lib\" \"kernel32.lib\" \"Advapi32.lib\" \"Ole32.lib\""
-    #EXTRALIBS="$EXTRALIBS \"user32.lib\" \"kernel32.lib\" \"Advapi32.lib\" \"Shell32.lib\""
-    # ARM
-    #MSVCRTDIR="-LIBPATH:\"`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`\""
-    #MSVCRTDIR="$MSVCRTDIR -LIBPATH:\"`cygpath -w '/c/Program Files (x86)/Windows Phone Kits/8.1/lib/ARM'`\""
-    #EXTRALIBS="$EXTRALIBS " #-NODEFAULTLIB:msvcrt \"msvcrt.lib\" $MSVCRTDIR"
-    
-    #EXTRALIBS="$EXTRALIBS \"RuntimeObject.lib\""
-    EXTRALIBS="$EXTRALIBS \"RuntimeObject.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
+    EXTRALIBS="$EXTRALIBS $FORCED_LIBS"
 else
 	if [ "$preproc" != "" ]; then
 		ARGS=$(echo $ARGS | sed s/-P/-E/)

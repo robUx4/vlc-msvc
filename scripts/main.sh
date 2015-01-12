@@ -75,7 +75,7 @@ EOF
 fi
 
 # Set required environment variables:
-export CC="$ROOT_FOLDER/wrappers/$PLATFORM/clwrap"
+export CC="$ROOT_FOLDER/wrappers/clwrap"
 export CXX="$CC"
 export cc=$CC
 export cxx=$CXX
