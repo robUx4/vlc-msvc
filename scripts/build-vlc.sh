@@ -27,6 +27,15 @@ if [ ! -f $SRC_FOLDER/configure ] || [ "$SRC_FOLDER/configure" -ot "$SRC_FOLDER/
     $SRC_FOLDER/bootstrap || exit 1
 fi
 
+case $CONFIGURATION in
+    Debug)
+        DEBUG_MODE=--enable-debug
+        ;;
+    Release)
+        DEBUG_MODE=--disable-debug
+        ;;
+esac
+
 if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/configure.ac ] ; then
     echo "Running configure..."
     export PKG_CONFIG_PATH=$ROOT_FOLDER/vlc/contrib/$PLATFORM/lib/pkgconfig
@@ -35,7 +44,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --host=$BUILD_HOST \
         --build=x86-w64-mingw32 \
         --enable-winstore-app \
-        --enable-debug \
+        $DEBUG_MODE \
         --disable-sout \
         --enable-flac \
         --disable-lua \
