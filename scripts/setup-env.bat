@@ -6,7 +6,7 @@ set LIB=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib\store\arm;C:\
 
 :Start
 
-IF EXIST C:\msys32\usr\bin\sh (
+IF EXIST C:\msys32\usr\bin\sh.exe (
 	set SH_EXEC=C:\msys32\usr\bin\sh
 ) ELSE (
 	set SH_EXEC=C:\msys64\usr\bin\sh
