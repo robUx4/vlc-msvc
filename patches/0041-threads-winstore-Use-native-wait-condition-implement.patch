@@ -1,4 +1,4 @@
-From 65ea2ff9ffc1bf57c4520debe2c08e12c31e5391 Mon Sep 17 00:00:00 2001
+From 2156947ed00c821459764c481bd7fdb42b468a06 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 13:07:07 +0100
 Subject: [PATCH 41/74] threads: winstore: Use native wait condition
@@ -6,8 +6,8 @@ Subject: [PATCH 41/74] threads: winstore: Use native wait condition
 
 ---
  include/vlc_threads.h |  4 ++++
- src/win32/thread.c    | 47 ++++++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 46 insertions(+), 5 deletions(-)
+ src/win32/thread.c    | 59 +++++++++++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 54 insertions(+), 9 deletions(-)
 
 diff --git a/include/vlc_threads.h b/include/vlc_threads.h
 index d3f021b..cccafd0 100644
@@ -26,7 +26,7 @@ index d3f021b..cccafd0 100644
  } vlc_cond_t;
  #define VLC_STATIC_COND { 0, 0 }
 diff --git a/src/win32/thread.c b/src/win32/thread.c
-index cab973e..9e08028 100644
+index cab973e..a141b0e 100644
 --- a/src/win32/thread.c
 +++ b/src/win32/thread.c
 @@ -203,10 +203,14 @@ enum
@@ -67,7 +67,7 @@ index cab973e..9e08028 100644
  }
  
  void vlc_cond_broadcast (vlc_cond_t *p_condvar)
-@@ -236,20 +249,25 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+@@ -236,36 +249,51 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
      if (!p_condvar->clock)
          return;
  
@@ -90,18 +90,31 @@ index cab973e..9e08028 100644
          return;
      }
  
-+#ifndef VLC_WINSTORE_APP
 +    DWORD result;
 +
      do
      {
          vlc_testcancel ();
-@@ -260,12 +278,16 @@ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
+-        vlc_mutex_unlock (p_mutex);
+-        result = vlc_WaitForSingleObject (p_condvar->handle, INFINITE);
+-        vlc_mutex_lock (p_mutex);
++#ifndef VLC_WINSTORE_APP
++        vlc_mutex_unlock(p_mutex);
++        result = vlc_WaitForSingleObject(p_condvar->handle, INFINITE);
++        vlc_mutex_lock(p_mutex);
++#else
++        if (SleepConditionVariableCS(&p_condvar->cond, &p_mutex->mutex, 50))
++            return;
++        result = GetLastError();
++        if ( result == WAIT_TIMEOUT )
++            result = WAIT_IO_COMPLETION;
++#endif
+     }
      while (result == WAIT_IO_COMPLETION);
  
-     ResetEvent (p_condvar->handle);
-+#else
-+    vlc_cond_timedwait(p_condvar, p_mutex, INFINITE);
+-    ResetEvent (p_condvar->handle);
++#ifndef VLC_WINSTORE_APP
++    ResetEvent(p_condvar->handle);
 +#endif
  }
  
@@ -113,7 +126,7 @@ index cab973e..9e08028 100644
  
      do
      {
-@@ -290,14 +312,29 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+@@ -290,14 +318,27 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
          if( total < 0 )
              total = 0;
  
@@ -134,11 +147,9 @@ index cab973e..9e08028 100644
 +            new_delay = delay;
 +        if (SleepConditionVariableCS(&p_condvar->cond, &p_mutex->mutex, new_delay))
 +            return 0;
-+        if (delay != INFINITE)
++        if (deadline != INFINITE)
 +            delay -= new_delay;
 +        result = GetLastError();
-+        if (isCancelled())
-+            result = WAIT_IO_COMPLETION;
 +    }
 +    while (delay);
 +#endif

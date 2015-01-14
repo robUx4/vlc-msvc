@@ -1,4 +1,4 @@
-From 5f0f767082a2f1a16ba1ff58be0a96fae164c9ba Mon Sep 17 00:00:00 2001
+From 24f363097235efdc492c197f6f0ce02d3c29543b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:19:30 +0100
 Subject: [PATCH 47/74] contribs: ffmpeg: Enable native msvc build & tweak

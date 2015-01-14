@@ -1,4 +1,4 @@
-From 47047b19812be140e32b4720984b8a443d0f87c9 Mon Sep 17 00:00:00 2001
+From 82cbfef763476a13a92994268fadf47e61b775f7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 3 Dec 2014 15:47:33 +0100
 Subject: [PATCH 56/74] contribs: Fix mpcdec build with MSVC

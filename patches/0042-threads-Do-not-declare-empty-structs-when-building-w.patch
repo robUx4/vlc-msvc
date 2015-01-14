@@ -1,4 +1,4 @@
-From 34b0ac1f5dd55d38a8768dced4f70832fed9702c Mon Sep 17 00:00:00 2001
+From 80e80c3e8c3d872a4283498df5781397c75d1195 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:43:46 +0100
 Subject: [PATCH 42/74] threads: Do not declare empty structs when building
@@ -9,10 +9,10 @@ Subject: [PATCH 42/74] threads: Do not declare empty structs when building
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/win32/thread.c b/src/win32/thread.c
-index 9e08028..3c3e541 100644
+index a141b0e..8be3506 100644
 --- a/src/win32/thread.c
 +++ b/src/win32/thread.c
-@@ -708,13 +708,13 @@ static union
+@@ -712,13 +712,13 @@ static union
  {
      struct
      {

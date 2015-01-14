@@ -1,4 +1,4 @@
-From 263ef964407a37ee0abc07466c1b01bf3a95f0e5 Mon Sep 17 00:00:00 2001
+From 1ced215c5a2aa436f169e35eec7380db057dddfc Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 21 Nov 2014 13:12:36 +0100
 Subject: [PATCH 54/74] mft: Fix build with MSVC

@@ -1,4 +1,4 @@
-From 37ba092b520c2cc856d22036f79e617b3faa7265 Mon Sep 17 00:00:00 2001
+From 5877b8b75ba036a13b1e313137ad62fbb4d97f90 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:22:17 +0100
 Subject: [PATCH 49/74] contribs: speex: Only install what we're interested in

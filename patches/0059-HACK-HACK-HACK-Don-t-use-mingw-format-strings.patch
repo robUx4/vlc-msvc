@@ -1,4 +1,4 @@
-From 834a9ccbf0df782d30c236e35b8587c2752dd5fe Mon Sep 17 00:00:00 2001
+From d103e19404b84d4a386317285e66ba140fb672cf Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:10:42 +0100
 Subject: [PATCH 59/74] HACK HACK HACK: Don't use mingw format strings

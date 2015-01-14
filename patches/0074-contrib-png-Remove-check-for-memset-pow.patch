@@ -1,4 +1,4 @@
-From c14bc0f8bcff524ca28118c8c057baa0becd0775 Mon Sep 17 00:00:00 2001
+From 53dd91c8be2798d1d49716da3bb79ef9ae8d8a3f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 17:58:21 +0100
 Subject: [PATCH 74/74] contrib: png: Remove check for memset & pow

@@ -1,4 +1,4 @@
-From bc9b16e611645ecd9f91104e9ee89818b2b7b777 Mon Sep 17 00:00:00 2001
+From f3e863fce6a2e37393473f3c5e72caf30a884b97 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 7 Jan 2015 11:27:53 +0100
 Subject: [PATCH 62/74] contribs: taglib: Use visual studio when available

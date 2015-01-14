@@ -1,4 +1,4 @@
-From 85aa6099d390d8127c56f7887d9a48e6303b80f8 Mon Sep 17 00:00:00 2001
+From 58dd61329ba26079df6b0f54c07a74277c424dd8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:21:27 +0100
 Subject: [PATCH 48/74] contribs: fontconfig: Always configure before build
