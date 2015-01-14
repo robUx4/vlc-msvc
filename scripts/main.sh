@@ -106,8 +106,9 @@ else
 fi
 
 # We are now in ROOT_FOLDER/vlc
-sh $ROOT_FOLDER/scripts/build-contribs.sh && \
-	sh $ROOT_FOLDER/scripts/build-vlc.sh
+sh $SCRIPTPATH/build-contribs.sh && \
+	sh $SCRIPTPATH/build-vlc.sh && \
+    sh $SCRIPTPATH/package.sh $PLATFORM $CONFIGURATION
 
 
 if [ "$PAUSE_AFTER_BUILD" != "" ] ; then
