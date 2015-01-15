@@ -5,11 +5,11 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 ROOT_FOLDER=$SCRIPTPATH/../
 cd $ROOT_FOLDER/vlc/contrib
 
-if [ ! -d $PLATFORM ] ; then
-    mkdir $PLATFORM
+if [ ! -d $VLC_PLATFORM ] ; then
+    mkdir $VLC_PLATFORM
 fi
 
-cd $PLATFORM
+cd $VLC_PLATFORM
 
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--disable-gpl \

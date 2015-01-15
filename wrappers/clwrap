@@ -11,7 +11,7 @@ SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 INCLUDES_FOLDER=$SCRIPTPATH/../headers
 
-case $PLATFORM in
+case $VLC_PLATFORM in
 	Windows)
 		WINAPI_FAMILY=WINAPI_FAMILY_APP
 		FORCED_LIBS="\"Advapi32.lib\" \"user32.lib\" \"kernel32.lib\" \"RuntimeObject.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
@@ -21,7 +21,7 @@ case $PLATFORM in
 		FORCED_LIBS="\"WindowsPhoneCore.lib\" \"RuntimeObject.lib\" \"PhoneAppModelHost.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
 		;;
 	*)
-		echo "Invalid platform"
+		echo "clwrap: Invalid platform: $VLC_PLATFORM"
 		exit 1
 esac
 

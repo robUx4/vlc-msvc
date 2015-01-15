@@ -3,18 +3,18 @@
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-if [ "$PLATFORM" = "" ] ; then
-    echo "\$PLATFORM is unset"
+if [ "$VLC_PLATFORM" = "" ] ; then
+    echo "\$VLC_PLATFORM is unset"
     exit 1
 fi
 
-if [ "$CONFIGURATION" = "" ] ; then
-    echo "\$CONFIGURATION is unset"
+if [ "$VLC_CONFIGURATION" = "" ] ; then
+    echo "\$VLC_CONFIGURATION is unset"
     exit 1
 fi
 
 ROOT_FOLDER=$SCRIPTPATH/../
-BUILD_FOLDER=$ROOT_FOLDER/vlc/${PLATFORM}_${CONFIGURATION}/
+BUILD_FOLDER=$ROOT_FOLDER/vlc/${VLC_PLATFORM}_${VLC_CONFIGURATION}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
 fi
@@ -27,7 +27,7 @@ if [ ! -f $SRC_FOLDER/configure ] || [ "$SRC_FOLDER/configure" -ot "$SRC_FOLDER/
     $SRC_FOLDER/bootstrap || exit 1
 fi
 
-case $CONFIGURATION in
+case $VLC_CONFIGURATION in
     Debug)
         DEBUG_MODE=--enable-debug
         ;;
@@ -38,7 +38,7 @@ esac
 
 if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/configure.ac ] ; then
     echo "Running configure..."
-    export PKG_CONFIG_PATH=$ROOT_FOLDER/vlc/contrib/$PLATFORM/lib/pkgconfig
+    export PKG_CONFIG_PATH=$ROOT_FOLDER/vlc/contrib/$VLC_PLATFORM/lib/pkgconfig
     #Lua is compiled fine, but configure.ac tries to run luac while checking for it... since it's an arm binary...
     $SCRIPTPATH/../vlc/configure \
         --host=$BUILD_HOST \

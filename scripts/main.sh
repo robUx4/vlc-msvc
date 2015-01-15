@@ -11,10 +11,10 @@ usage()
 
 case $1 in
     Windows)
-        export PLATFORM=Windows
+        export VLC_PLATFORM=Windows
         ;;
     WP|WindowsPhone)
-        export PLATFORM=WindowsPhone
+        export VLC_PLATFORM=WindowsPhone
         ;;
     *)
         usage
@@ -25,10 +25,10 @@ shift
 
 case $1 in
     Debug)
-        export CONFIGURATION=Debug
+        export VLC_CONFIGURATION=Debug
         ;;
     Release)
-        export CONFIGURATION=Release
+        export VLC_CONFIGURATION=Release
         ;;
     *)
         usage
@@ -97,7 +97,7 @@ export HAVE_VISUALSTUDIO=true
 # that would be compared against, thus not translating anything
 export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
 
-if [ "$PLATFORM" = "WindowsPhone" ] ; then
+if [ "$VLC_PLATFORM" = "WindowsPhone" ] ; then
     export HAVE_WINPHONE=true
     export BUILD_HOST=arm-msvc-mingw32winphone
 else
@@ -108,7 +108,7 @@ fi
 # We are now in ROOT_FOLDER/vlc
 sh $SCRIPTPATH/build-contribs.sh && \
 	sh $SCRIPTPATH/build-vlc.sh && \
-    sh $SCRIPTPATH/package.sh $PLATFORM $CONFIGURATION
+    sh $SCRIPTPATH/package.sh $VLC_PLATFORM $VLC_CONFIGURATION
 
 
 if [ "$PAUSE_AFTER_BUILD" != "" ] ; then
