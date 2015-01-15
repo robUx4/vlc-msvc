@@ -1,7 +1,7 @@
-From 392668c4caf80c898d10f23031ba97a039f49915 Mon Sep 17 00:00:00 2001
+From 603d6bfe955d47c80b014585dc941b239b974584 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 11:34:18 +0100
-Subject: [PATCH 68/74] contrib: dvbpsi: Fix msvc build
+Subject: [PATCH 68/76] contrib: dvbpsi: Fix msvc build
 
 ---
  contrib/src/dvbpsi/msvc.patch | 56 +++++++++++++++++++++++++++++++++++++++++++

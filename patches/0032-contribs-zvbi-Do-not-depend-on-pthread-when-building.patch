@@ -1,7 +1,7 @@
-From cc31334f3bc120fea09a3b2b15e581d268900953 Mon Sep 17 00:00:00 2001
+From 40338ddd86d315bb0e3ad5d48dead8895d483e07 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:29:17 +0200
-Subject: [PATCH 32/74] contribs: zvbi: Do not depend on pthread when building
+Subject: [PATCH 32/76] contribs: zvbi: Do not depend on pthread when building
  with MSVC
 
 ---

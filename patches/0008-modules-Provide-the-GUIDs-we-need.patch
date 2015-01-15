@@ -1,7 +1,7 @@
-From 199e6592947cd7b66f7a7c4dad5315c34358b078 Mon Sep 17 00:00:00 2001
+From 524ef58c59eaa7165a6176185e7f2fbd3f48fcfd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:03:18 +0200
-Subject: [PATCH 08/74] modules: Provide the GUIDs we need
+Subject: [PATCH 08/76] modules: Provide the GUIDs we need
 
 ---
  modules/access/dshow/vlc_dshow.h | 22 ++++++++++++++++++++++

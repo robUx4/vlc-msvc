@@ -1,7 +1,7 @@
-From ae29b4796634bd56367d8fa996af94633ab36fb3 Mon Sep 17 00:00:00 2001
+From bad03ee4ec8352a9016c33f4c157b769b3c93766 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:22:43 +0100
-Subject: [PATCH 50/74] contribs: png: Disable asm on visual studio
+Subject: [PATCH 50/76] contribs: png: Disable asm on visual studio
 
 ---
  contrib/src/png/rules.mak | 6 +++++-

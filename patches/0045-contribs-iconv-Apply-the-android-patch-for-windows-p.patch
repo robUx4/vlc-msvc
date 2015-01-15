@@ -1,7 +1,7 @@
-From 069bc40ae1fba97f45b34e6c883ced27dad8a277 Mon Sep 17 00:00:00 2001
+From 950b38ea437c84349c86a686ddb122096fb54a36 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:42:35 +0100
-Subject: [PATCH 45/74] contribs: iconv: Apply the android patch for windows
+Subject: [PATCH 45/76] contribs: iconv: Apply the android patch for windows
  phone as well
 
 ---

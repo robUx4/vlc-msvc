@@ -1,7 +1,7 @@
-From 46f733056878cf2121c9355d934cb89ad6e0ae8c Mon Sep 17 00:00:00 2001
+From 1b345ffcaa633d6b8fc944936ed550cdf8d0681c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 10:39:00 +0100
-Subject: [PATCH 65/74] winstore: Fix ActivateDevice
+Subject: [PATCH 65/76] winstore: Fix ActivateDevice
 
 The opaque pointer actually is the device, not p_sys
 ---

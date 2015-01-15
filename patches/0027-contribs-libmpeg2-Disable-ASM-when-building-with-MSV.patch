@@ -1,7 +1,7 @@
-From c2d52c48af59fd2ed34c91ce22c0a042ec3b6663 Mon Sep 17 00:00:00 2001
+From ed69df8a4b6dcd9a8d92c68dcbf016aea5bd8566 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:04:40 +0200
-Subject: [PATCH 27/74] contribs: libmpeg2: Disable ASM when building with MSVC
+Subject: [PATCH 27/76] contribs: libmpeg2: Disable ASM when building with MSVC
 
 ---
  contrib/src/libmpeg2/rules.mak | 7 ++++++-

@@ -1,7 +1,7 @@
-From 348e7b4222690b242e96fc86cce63da8b8730af2 Mon Sep 17 00:00:00 2001
+From 0c3881afe61b5faa395f56d9624424ab5f962753 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
-Subject: [PATCH 02/74] core: Use alloca instead of VLAs
+Subject: [PATCH 02/76] core: Use alloca instead of VLAs
 
 This is done only for code that is used on windows
 ---

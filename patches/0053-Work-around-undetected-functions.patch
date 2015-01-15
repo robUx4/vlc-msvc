@@ -1,7 +1,7 @@
-From 42d8095d46db9c0bd2cab11754b4fcc23128046b Mon Sep 17 00:00:00 2001
+From fd7ec88688b96b2d919fe65456d245d37249a98a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 17:13:16 +0100
-Subject: [PATCH 53/74] Work around undetected functions
+Subject: [PATCH 53/76] Work around undetected functions
 
 ---
  compat/getpid.c | 4 ++++

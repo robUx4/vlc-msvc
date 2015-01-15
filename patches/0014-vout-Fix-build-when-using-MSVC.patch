@@ -1,7 +1,7 @@
-From 70aa0308606033cd4b4221653f63cd308bb67310 Mon Sep 17 00:00:00 2001
+From 658c379cfa7bb6ecdf46536e19c8ee1dcd6a219c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:21:31 +0200
-Subject: [PATCH 14/74] vout: Fix build when using MSVC
+Subject: [PATCH 14/76] vout: Fix build when using MSVC
 
 ---
  modules/video_output/msw/events.c     | 4 ++++

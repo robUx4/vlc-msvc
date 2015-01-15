@@ -1,7 +1,7 @@
-From 24f2bbce5f975f035bed326e5886ea2d8123aa9c Mon Sep 17 00:00:00 2001
+From b2ac9bc778943b67e956220443d374cfc4c6229d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:40:06 +0200
-Subject: [PATCH 22/74] HACK: contribs: libav/ffmpeg: Fix build using visual
+Subject: [PATCH 22/76] HACK: contribs: libav/ffmpeg: Fix build using visual
  studio
 
 ---

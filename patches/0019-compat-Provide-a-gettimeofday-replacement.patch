@@ -1,7 +1,7 @@
-From 08b49472ee93001df9cf43dc6e1cdfcc7d028889 Mon Sep 17 00:00:00 2001
+From 91f34829e8b263c28ea31124d29147c131e5a9b8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:08:53 +0200
-Subject: [PATCH 19/74] compat: Provide a gettimeofday replacement
+Subject: [PATCH 19/76] compat: Provide a gettimeofday replacement
 
 ---
  compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -11,7 +11,7 @@ Subject: [PATCH 19/74] compat: Provide a gettimeofday replacement
 
 diff --git a/compat/gettimeofday.c b/compat/gettimeofday.c
 new file mode 100644
-index 0000000..efcb1c2
+index 0000000..408784c
 --- /dev/null
 +++ b/compat/gettimeofday.c
 @@ -0,0 +1,60 @@

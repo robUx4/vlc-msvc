@@ -1,7 +1,7 @@
-From b46aa82630b9039513646eba2c2e9e21e96100de Mon Sep 17 00:00:00 2001
+From c658c2f155a054858de059477c7919a5deeff63d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 8 Jan 2015 17:31:32 +0100
-Subject: [PATCH 64/74] contrib: dca: Work around hardcoded path
+Subject: [PATCH 64/76] contrib: dca: Work around hardcoded path
 
 ---
  contrib/src/dca/msvc.patch | 10 ++++++++++

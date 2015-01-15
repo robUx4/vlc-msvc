@@ -1,7 +1,7 @@
-From 9ad801cc3f2f8dbafde1eca379cb4c2a18e2317e Mon Sep 17 00:00:00 2001
+From cdba9cd87151eafce26061d4d0c9e698197495ab Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:16:22 +0100
-Subject: [PATCH 44/74] ws2: Ugly workaround conflicting windows versions
+Subject: [PATCH 44/76] ws2: Ugly workaround conflicting windows versions
 
 ---
  compat/gettimeofday.c       |  3 +--
@@ -22,7 +22,7 @@ Subject: [PATCH 44/74] ws2: Ugly workaround conflicting windows versions
  create mode 100644 include/vlc_ws2tcpip.h
 
 diff --git a/compat/gettimeofday.c b/compat/gettimeofday.c
-index efcb1c2..f2abab5 100644
+index 408784c..3ade0c1 100644
 --- a/compat/gettimeofday.c
 +++ b/compat/gettimeofday.c
 @@ -25,9 +25,8 @@
@@ -92,7 +92,7 @@ index 70281a2..effb324 100644
  struct iovec
 diff --git a/include/vlc_winsock2.h b/include/vlc_winsock2.h
 new file mode 100644
-index 0000000..cf49cd5
+index 0000000..eb1f9f6
 --- /dev/null
 +++ b/include/vlc_winsock2.h
 @@ -0,0 +1,50 @@
@@ -149,7 +149,7 @@ index 0000000..cf49cd5
 \ No newline at end of file
 diff --git a/include/vlc_ws2tcpip.h b/include/vlc_ws2tcpip.h
 new file mode 100644
-index 0000000..c01932e
+index 0000000..c06c9c2
 --- /dev/null
 +++ b/include/vlc_ws2tcpip.h
 @@ -0,0 +1,50 @@

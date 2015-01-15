@@ -1,7 +1,7 @@
-From 08853bbf9ebabc0a30b47262ead48778810270c4 Mon Sep 17 00:00:00 2001
+From 98ef9c1dd45683e227b53e9e5ea835e22af768b1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:57:03 +0100
-Subject: [PATCH 72/74] fribidi: Fix MSVC build
+Subject: [PATCH 72/76] fribidi: Fix MSVC build
 
 ---
  contrib/src/fribidi/msvc.patch | 18 ++++++++++++++++++
