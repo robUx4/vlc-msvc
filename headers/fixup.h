@@ -102,4 +102,6 @@ typedef unsigned int mode_t;
 # define F_OK    0       /* Test for existence.  */
 #endif
 
+#define PATH_MAX MAX_PATH
+
 #endif
