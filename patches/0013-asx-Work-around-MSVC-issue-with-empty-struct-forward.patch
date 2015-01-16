@@ -1,4 +1,4 @@
-From 410d3d09fbfef7431f4d75a4c349289824509891 Mon Sep 17 00:00:00 2001
+From 3f9026a1f8dd99d224ad119b91ad881e565793dc Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 10:58:34 +0200
 Subject: [PATCH 13/76] asx: Work around MSVC issue with empty struct/forward

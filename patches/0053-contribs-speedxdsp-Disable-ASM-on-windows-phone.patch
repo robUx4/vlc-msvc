@@ -1,0 +1,27 @@
+From f9ab30353a92925113f34b7319ade474a0aea82d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 16:40:17 +0100
+Subject: [PATCH 53/76] contribs: speedxdsp: Disable ASM on windows phone
+
+---
+ contrib/src/speexdsp/rules.mak | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/contrib/src/speexdsp/rules.mak b/contrib/src/speexdsp/rules.mak
+index e82c6ba..0e6a7e8 100644
+--- a/contrib/src/speexdsp/rules.mak
++++ b/contrib/src/speexdsp/rules.mak
+@@ -32,6 +32,10 @@ SPEEXDSP_CONF += --enable-arm5e-asm
+ endif
+ endif
+ 
++ifdef HAVE_WINPHONE
++SPEEXDSP_CONF += --disable-neon
++endif
++
+ .speexdsp: speexdsp
+ 	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) $(SPEEXDSP_CONF)
+ 	cd $< && $(MAKE) install
+-- 
+2.2.0
+

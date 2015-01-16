@@ -1,4 +1,4 @@
-From 9fa1781e5ff374f65d45cadceb40223a0c7f3761 Mon Sep 17 00:00:00 2001
+From be6f26522652b204409ffbcca193c542d8abaa1d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:31:38 +0200
 Subject: [PATCH 07/76] modules: Work around lack of MSVC support for C99

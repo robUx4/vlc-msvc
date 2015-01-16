@@ -1,4 +1,4 @@
-From f12d7cfd826be3b14098eabb826bef706ff5c676 Mon Sep 17 00:00:00 2001
+From 6286ffdca26c709695b90aa71ea1efbda976ca23 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 09:56:13 +0200
 Subject: [PATCH 11/76] gradfun: Fix alignment under MSVC

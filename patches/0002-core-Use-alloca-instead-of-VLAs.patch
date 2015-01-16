@@ -1,4 +1,4 @@
-From 0c3881afe61b5faa395f56d9624424ab5f962753 Mon Sep 17 00:00:00 2001
+From a140b4f94101b176d47d14058f193e68ab2c5183 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
 Subject: [PATCH 02/76] core: Use alloca instead of VLAs
@@ -55,10 +55,10 @@ index 7bab109..d912c8d 100644
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
 diff --git a/src/input/item.c b/src/input/item.c
-index 40b854e..88dbe72 100644
+index 33c7b26..f3619fc 100644
 --- a/src/input/item.c
 +++ b/src/input/item.c
-@@ -774,7 +774,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
+@@ -785,7 +785,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
      const int i_epg_info = p_item->i_epg;
      if( i_epg_info > 0 )
      {

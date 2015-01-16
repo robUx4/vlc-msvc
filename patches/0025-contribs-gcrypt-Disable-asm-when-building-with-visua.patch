@@ -1,4 +1,4 @@
-From f4d6c14a05172ee1765e1f9b1564153901619dea Mon Sep 17 00:00:00 2001
+From 4c87c525283bff37a4b7b24bd8dfd165b2c631f4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:07 +0200
 Subject: [PATCH 25/76] contribs: gcrypt: Disable asm when building with

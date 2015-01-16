@@ -1,4 +1,4 @@
-From 658c379cfa7bb6ecdf46536e19c8ee1dcd6a219c Mon Sep 17 00:00:00 2001
+From 4d481c34c3ba17bb2f2002919d7bd85974a5a91d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:21:31 +0200
 Subject: [PATCH 14/76] vout: Fix build when using MSVC
@@ -9,7 +9,7 @@ Subject: [PATCH 14/76] vout: Fix build when using MSVC
  2 files changed, 9 insertions(+)
 
 diff --git a/modules/video_output/msw/events.c b/modules/video_output/msw/events.c
-index 42e7064..7708ec5 100644
+index 73eb5c0..10f8083 100644
 --- a/modules/video_output/msw/events.c
 +++ b/modules/video_output/msw/events.c
 @@ -26,6 +26,10 @@

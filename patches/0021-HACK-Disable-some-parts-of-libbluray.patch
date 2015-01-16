@@ -1,4 +1,4 @@
-From edcc6ce496ef992e97d2b774b73c893d34d930f0 Mon Sep 17 00:00:00 2001
+From 18c8b3a6a5e4f64b128877aa96e7aec37a57d7e7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:26:22 +0200
 Subject: [PATCH 21/76] HACK: Disable some parts of libbluray
@@ -8,7 +8,7 @@ Subject: [PATCH 21/76] HACK: Disable some parts of libbluray
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/contrib/src/bluray/rules.mak b/contrib/src/bluray/rules.mak
-index db3980e..a778342 100644
+index a21547c..0321a62 100644
 --- a/contrib/src/bluray/rules.mak
 +++ b/contrib/src/bluray/rules.mak
 @@ -13,8 +13,8 @@ endif

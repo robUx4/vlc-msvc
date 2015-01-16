@@ -1,0 +1,30 @@
+From 2df56bd897424825621aed137a3eeef564f6f26b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 9 Jan 2015 10:39:00 +0100
+Subject: [PATCH 66/76] winstore: Fix ActivateDevice
+
+The opaque pointer actually is the device, not p_sys
+---
+ modules/audio_output/winstore.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/modules/audio_output/winstore.c b/modules/audio_output/winstore.c
+index 7dbe747..0c0190b 100644
+--- a/modules/audio_output/winstore.c
++++ b/modules/audio_output/winstore.c
+@@ -101,10 +101,9 @@ static void Flush(audio_output_t *aout, bool wait)
+ static HRESULT ActivateDevice(void *opaque, REFIID iid, PROPVARIANT *actparms,
+                               void **restrict pv)
+ {
+-    aout_sys_t *sys = opaque;
++    (void) iid; (void) actparms;
++    *pv = opaque;
+ 
+-    (void)iid; (void)actparms;
+-    *pv = sys->client;
+     return S_OK;
+ }
+ 
+-- 
+2.2.0
+

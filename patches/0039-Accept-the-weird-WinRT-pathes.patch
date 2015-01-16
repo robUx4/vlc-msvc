@@ -1,0 +1,28 @@
+From fb0b2a4a50cd9014a0807d16df7ca1a755bf0b9d Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Kempf <jb@videolan.org>
+Date: Wed, 12 Mar 2014 00:11:26 +0100
+Subject: [PATCH 39/76] Accept the weird WinRT pathes
+
+---
+ src/text/url.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/text/url.c b/src/text/url.c
+index 0eff5b4..13f32e8 100644
+--- a/src/text/url.c
++++ b/src/text/url.c
+@@ -193,6 +193,11 @@ char *vlc_path2uri (const char *path, const char *scheme)
+     }
+     else
+ #endif
++#if VLC_WINSTORE_APP
++    if ((!strncmp(path, "file://{", 8) || path[0] == '{') && strlen(path) > 32)
++        return strdup( path );
++    else
++#endif
+     if (!strncmp (path, "\\\\", 2))
+     {   /* Windows UNC paths */
+ #if !defined( _WIN32 ) && !defined( __OS2__ )
+-- 
+2.2.0
+

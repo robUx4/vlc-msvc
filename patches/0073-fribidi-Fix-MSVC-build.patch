@@ -1,0 +1,52 @@
+From aeb2126d934311bad833c45c8ba291ce1aea128d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 9 Jan 2015 16:57:03 +0100
+Subject: [PATCH 73/76] fribidi: Fix MSVC build
+
+---
+ contrib/src/fribidi/msvc.patch | 18 ++++++++++++++++++
+ contrib/src/fribidi/rules.mak  |  3 +++
+ 2 files changed, 21 insertions(+)
+ create mode 100644 contrib/src/fribidi/msvc.patch
+
+diff --git a/contrib/src/fribidi/msvc.patch b/contrib/src/fribidi/msvc.patch
+new file mode 100644
+index 0000000..a84bea8
+--- /dev/null
++++ b/contrib/src/fribidi/msvc.patch
+@@ -0,0 +1,18 @@
++--- fribidi/charset/fribidi-char-sets.c	2012-12-02 17:25:40.000000000 +0100
+++++ /home/vlc/vlc/contrib/windowsphone/fribidi/charset/fribidi-char-sets.c	2014-12-15 16:54:39.537785800 +0100
++@@ -117,6 +117,7 @@
++ # include <glib/gstrfuncs.h>
++ # define fribidi_strcasecmp g_ascii_strcasecmp
++ #else /* !FRIBIDI_USE_GLIB */
+++#if !defined(_MSC_VER)
++ static char
++ toupper (
++   /* input */
++@@ -125,6 +126,7 @@
++ {
++   return c < 'a' || c > 'z' ? c : c + 'A' - 'a';
++ }
+++#endif
++ 
++ static int
++ fribidi_strcasecmp (
+diff --git a/contrib/src/fribidi/rules.mak b/contrib/src/fribidi/rules.mak
+index ffb1165..57a7a93 100644
+--- a/contrib/src/fribidi/rules.mak
++++ b/contrib/src/fribidi/rules.mak
+@@ -16,6 +16,9 @@ fribidi: fribidi-$(FRIBIDI_VERSION).tar.bz2 .sum-fribidi
+ 	$(UNPACK)
+ 	$(APPLY) $(SRC)/fribidi/fribidi.patch
+ 	$(APPLY) $(SRC)/fribidi/no-ansi.patch
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/fribidi/msvc.patch
++endif
+ 	$(MOVE)
+ 
+ # FIXME: DEPS_fribidi = iconv $(DEPS_iconv)
+-- 
+2.2.0
+
