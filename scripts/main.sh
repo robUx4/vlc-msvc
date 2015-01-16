@@ -74,6 +74,11 @@ EOF
     fi
 fi
 
+# Run this before playing with our environment, except for the path,
+# since we want the tools we already built to be detected
+export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
+sh $SCRIPTPATH/build-tools.sh || exit 1
+
 # Set required environment variables:
 export CC="$ROOT_FOLDER/wrappers/clwrap"
 export CXX="$CC"
@@ -88,7 +93,6 @@ export CXXLD="$CCLD"
 export RANLIB=true
 #export RC=rc.exe
 export WINDRES="$ROOT_FOLDER/wrappers/windreswrap"
-#export PATH="$HOME/vlc/extra/tools/ragel/ragel:$PATH"
 export PATH="$ROOT_FOLDER/wrappers:$PATH"
 export HAVE_ARMV7A=true
 export HAVE_VISUALSTUDIO=true
