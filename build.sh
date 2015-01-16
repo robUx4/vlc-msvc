@@ -45,7 +45,6 @@ test_package()
 
 test_package make
 test_package dos2unix
-test_package cmake mingw-w64-`uname -m`-cmake
 test_package unzip
 test_package pkg-config
 test_package autoreconf autoconf
