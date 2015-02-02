@@ -2,11 +2,26 @@
 
 # This assumes we're running in vlc-msvc root folder
 
+for i in $@ ; do
+    if [ "$i" = "pause" ] ; then
+        PAUSE_AFTER_BUILD=1
+    fi
+done
+
+terminate()
+{
+if [ "$PAUSE_AFTER_BUILD" != "" ] ; then
+	read -n1 -r -p "Press any key to continue..."
+fi
+exit $1
+}
+
 usage()
 {
     echo "./build.sh <platform> <configuration>"
     echo "platform: Windows|WindowsPhone"
     echo "configuration: Debug|Release"
+    terminate 1
 }
 
 case $1 in
@@ -18,7 +33,7 @@ case $1 in
         ;;
     *)
         usage
-        exit 1
+        ;;
 esac
 
 shift
@@ -32,14 +47,10 @@ case $1 in
         ;;
     *)
         usage
-        exit 1
+        ;;
 esac
 
 shift
-
-if [ "$1" = "pause" ] ; then
-	PAUSE_AFTER_BUILD=1
-fi
 
 
 SCRIPT=$(readlink -f "$0")
@@ -58,7 +69,7 @@ if [ ! -d $"vlc" ]; then
     if [ $? -ne 0 ]; then
         git am --abort
         echo "Applying the patches failed, aborting git-am"
-        exit 1
+        terminate 1
     fi
 else
     echo "VLC source found"
@@ -70,14 +81,14 @@ else
 ***
 
 EOF
-        exit 1
+        terminate 1
     fi
 fi
 
 # Run this before playing with our environment, except for the path,
 # since we want the tools we already built to be detected
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
-sh $SCRIPTPATH/build-tools.sh || exit 1
+sh $SCRIPTPATH/build-tools.sh || terminate 1
 
 # Set required environment variables:
 export CC="$ROOT_FOLDER/wrappers/clwrap"
@@ -114,7 +125,4 @@ sh $SCRIPTPATH/build-contribs.sh && \
 	sh $SCRIPTPATH/build-vlc.sh && \
     sh $SCRIPTPATH/package.sh $VLC_PLATFORM $VLC_CONFIGURATION
 
-
-if [ "$PAUSE_AFTER_BUILD" != "" ] ; then
-	read -n1 -r -p "Press any key to continue..."
-fi
+terminate 0
