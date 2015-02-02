@@ -40,7 +40,7 @@ test_package()
 	else
 		pkg=$1
 	fi
-	which $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg
+	which $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || exit 1
 }
 
 test_package make
