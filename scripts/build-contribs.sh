@@ -11,6 +11,9 @@ fi
 
 cd $VLC_PLATFORM
 
+# Ugly hack:
+dos2unix ../src/*/*.patch
+
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--disable-gpl \
 	--disable-sout \
