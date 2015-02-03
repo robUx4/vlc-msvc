@@ -71,6 +71,8 @@ if [ ! -d $"vlc" ]; then
         echo "Applying the patches failed, aborting git-am"
         terminate 1
     fi
+    # Ugly hack. To be done only once:
+    dos2unix ../src/*/*.patch
 else
     echo "VLC source found"
     cd vlc
