@@ -77,8 +77,8 @@ if [ ! -d $"vlc" ]; then
         terminate 1
     fi
     # Ugly hack. To be done only once:
-    dos2unix ../src/ebml/*.patch
-    dos2unix ../src/openjpeg/*.patch
+    dos2unix vlc/contribs/src/ebml/*.patch
+    dos2unix vlc/contribs/src/openjpeg/*.patch
 else
     echo "VLC source found"
     cd vlc
