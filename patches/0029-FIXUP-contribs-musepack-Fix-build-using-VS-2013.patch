@@ -1,4 +1,4 @@
-From 62aa5cf8a2ac82d1c4c2e5d2dcc42032d0326a85 Mon Sep 17 00:00:00 2001
+From 5c51200c1d99e44f48482170a9676c01da0b8329 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 2 Feb 2015 13:18:30 +0100
 Subject: [PATCH 29/75] FIXUP: contribs: musepack: Fix build using VS 2013
@@ -8,7 +8,7 @@ Subject: [PATCH 29/75] FIXUP: contribs: musepack: Fix build using VS 2013
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/contrib/src/mpcdec/rules.mak b/contrib/src/mpcdec/rules.mak
-index 8e7f364..a17bd8d 100644
+index 7f1cd71..fda1a26 100644
 --- a/contrib/src/mpcdec/rules.mak
 +++ b/contrib/src/mpcdec/rules.mak
 @@ -40,12 +40,13 @@ endif

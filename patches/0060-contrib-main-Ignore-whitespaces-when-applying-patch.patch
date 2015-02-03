@@ -1,4 +1,4 @@
-From 6ee887f68cec6d595b316155bc95a15a4d4a30c6 Mon Sep 17 00:00:00 2001
+From da0f5d1d20d75a0b969b25af9e7d5ae055c9a027 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:12:30 +0100
 Subject: [PATCH 60/75] contrib: main: Ignore whitespaces when applying patch
@@ -8,7 +8,7 @@ Subject: [PATCH 60/75] contrib: main: Ignore whitespaces when applying patch
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/contrib/src/main.mak b/contrib/src/main.mak
-index b42ea46..28323e1 100644
+index 9ef4a25..ef32c48 100644
 --- a/contrib/src/main.mak
 +++ b/contrib/src/main.mak
 @@ -305,7 +305,7 @@ UNPACK = $(RM) -R $@ \

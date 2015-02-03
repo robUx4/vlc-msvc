@@ -1,4 +1,4 @@
-From 2e015c1a651533eb0dfdfd6f8d9a8b656f02d58d Mon Sep 17 00:00:00 2001
+From f713abfb728c4f4120f9da89b67ea5ceed6b9226 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:40:06 +0200
 Subject: [PATCH 21/75] HACK: contribs: libav/ffmpeg: Fix build using visual
@@ -9,7 +9,7 @@ Subject: [PATCH 21/75] HACK: contribs: libav/ffmpeg: Fix build using visual
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
-index 6b94cbb..0a7beda 100644
+index d9a9d5c..f201b7d 100644
 --- a/contrib/src/ffmpeg/rules.mak
 +++ b/contrib/src/ffmpeg/rules.mak
 @@ -17,7 +17,7 @@ FFMPEGCONF = \
@@ -21,7 +21,7 @@ index 6b94cbb..0a7beda 100644
  	--enable-libopenjpeg \
  	--disable-debug \
  	--disable-avdevice \
-@@ -171,7 +171,8 @@ $(TARBALLS)/ffmpeg-$(HASH).tar.gz:
+@@ -170,7 +170,8 @@ $(TARBALLS)/ffmpeg-$(HASH).tar.gz:
  ffmpeg: ffmpeg-$(HASH).tar.gz .sum-ffmpeg
  	rm -Rf $@ $@-$(HASH)
  	mkdir -p $@-$(HASH)

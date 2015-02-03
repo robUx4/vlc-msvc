@@ -1,4 +1,4 @@
-From 6da8a3443b75195a4f3639a457896f449605185a Mon Sep 17 00:00:00 2001
+From 7b07e79980db0b4e716787e94541fcfe76ce3609 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 10:40:29 +0100
 Subject: [PATCH 65/75] HACK HACK HACK: wasapi: MSVC doesn't provide nor need

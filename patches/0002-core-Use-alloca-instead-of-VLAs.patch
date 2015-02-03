@@ -1,4 +1,4 @@
-From 1d905faa2866f904f4c7293cfb31af045e1e82b7 Mon Sep 17 00:00:00 2001
+From 9339ba452f91665877487cb3ffcd7fa6d7a29dde Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
 Subject: [PATCH 02/75] core: Use alloca instead of VLAs
@@ -55,10 +55,10 @@ index 7bab109..d912c8d 100644
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
 diff --git a/src/input/item.c b/src/input/item.c
-index 40b854e..88dbe72 100644
+index 33c7b26..f3619fc 100644
 --- a/src/input/item.c
 +++ b/src/input/item.c
-@@ -774,7 +774,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
+@@ -785,7 +785,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
      const int i_epg_info = p_item->i_epg;
      if( i_epg_info > 0 )
      {
@@ -68,7 +68,7 @@ index 40b854e..88dbe72 100644
          {
              const vlc_epg_t *p_epg = p_item->pp_epg[i];
 diff --git a/src/input/stream.c b/src/input/stream.c
-index ba7bcee..08d1009 100644
+index a5e3c22..4f98707 100644
 --- a/src/input/stream.c
 +++ b/src/input/stream.c
 @@ -257,7 +257,7 @@ stream_t *stream_UrlNew( vlc_object_t *p_parent, const char *psz_url )

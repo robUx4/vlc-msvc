@@ -1,4 +1,4 @@
-From fe906d9cc4effa40bbabe8ec3177d8fb2b2a30c0 Mon Sep 17 00:00:00 2001
+From 137b6e08e9d5f56312f31932334e3299eb4b6bba Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:56:03 +0200
 Subject: [PATCH 36/75] modules: bank: Workaround lack of "lib" prefix

@@ -1,4 +1,4 @@
-From c2734cd80833a4a78333d37002156f17dce604a5 Mon Sep 17 00:00:00 2001
+From ed537e28715ea1c658bc1c94bc3adb88f5bb4e76 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 3 Feb 2015 16:14:27 +0100
 Subject: [PATCH 75/75] win32: rand: Remove unneeded include

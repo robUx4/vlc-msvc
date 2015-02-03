@@ -1,4 +1,4 @@
-From a5301828b5329fd0d7164413bf454fac9e3cc816 Mon Sep 17 00:00:00 2001
+From 5e801a4e0e2d227ddd02b77df88df2bedf1a3d06 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:13:22 +0200
 Subject: [PATCH 09/75] modules: Remove empty braces initializer to keep MSVC

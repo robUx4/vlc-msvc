@@ -1,4 +1,4 @@
-From d7f3a33c220eaf53e3ac10d8d6aa781dc2c3c5c1 Mon Sep 17 00:00:00 2001
+From b627e9e2b2191f16a2d82c4975b4d391a75d67f5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:43:46 +0100
 Subject: [PATCH 42/75] threads: Do not declare empty structs when building

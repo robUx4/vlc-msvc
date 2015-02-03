@@ -1,4 +1,4 @@
-From 57ef099882f7256ea4802d7359eb23403ee33e00 Mon Sep 17 00:00:00 2001
+From 3c3687474eb3827eeca5dc2284c99e19a305d427 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:46:08 +0200
 Subject: [PATCH 05/75] modules: Replace VLAs by alloca()
@@ -33,10 +33,10 @@ index 5224e7e..d7d8fcf 100644
      memcpy( fmtbuf, fmt, fmtlen );
      memcpy( fmtbuf + fmtlen, "\r\n", 3 );
 diff --git a/modules/access/vcd/cdrom.c b/modules/access/vcd/cdrom.c
-index efa3cd2..7e42d11 100644
+index a4a8bd4..7ce9ad4 100644
 --- a/modules/access/vcd/cdrom.c
 +++ b/modules/access/vcd/cdrom.c
-@@ -1285,7 +1285,7 @@ static int CdTextRead( vlc_object_t *p_object, const vcddev_t *p_vcddev,
+@@ -1282,7 +1282,7 @@ static int CdTextRead( vlc_object_t *p_object, const vcddev_t *p_vcddev,
      TOCEx.Format = CDROM_READ_TOC_EX_FORMAT_CDTEXT;
  
      const int i_header_size = __MAX( 4, MINIMUM_CDROM_READ_TOC_EX_SIZE );
@@ -103,7 +103,7 @@ index f80510e..e21d014 100644
  
          char *key = var_InheritString( p_intf, varname );
 diff --git a/modules/control/rc.c b/modules/control/rc.c
-index 6190b65..c76961c 100644
+index 12635ad..fae89df 100644
 --- a/modules/control/rc.c
 +++ b/modules/control/rc.c
 @@ -140,7 +140,7 @@ VLC_FORMAT(2, 3)

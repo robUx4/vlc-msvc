@@ -1,4 +1,4 @@
-From 1794aa7011c59ade64087fac17e102d752e7d7ae Mon Sep 17 00:00:00 2001
+From 014ed818025dbfb3e50f02be3ba5176a7ae006a7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 16 Jan 2015 14:27:08 +0100
 Subject: [PATCH 73/75] tools: Update to cmake 3.1
@@ -22,7 +22,7 @@ index 49fa424..b887973 100755
  check_tar
  check ragel
 diff --git a/extras/tools/packages.mak b/extras/tools/packages.mak
-index f3374be..255dc0c 100644
+index e8f0b16..6ba5fef 100644
 --- a/extras/tools/packages.mak
 +++ b/extras/tools/packages.mak
 @@ -7,8 +7,8 @@ YASM_VERSION=1.2.0

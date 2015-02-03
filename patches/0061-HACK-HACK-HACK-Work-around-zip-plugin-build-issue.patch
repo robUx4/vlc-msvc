@@ -1,4 +1,4 @@
-From 1465867986b7894d46a00e61970bb268159760a2 Mon Sep 17 00:00:00 2001
+From 8bedb19c40f9daff3604f17fbbceb75fe136ac04 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:16:41 +0100
 Subject: [PATCH 61/75] HACK HACK HACK: Work around zip plugin build issue
@@ -8,7 +8,7 @@ Subject: [PATCH 61/75] HACK HACK HACK: Work around zip plugin build issue
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/modules/access/Makefile.am b/modules/access/Makefile.am
-index e154bee..3f7da2d 100644
+index ec8119f..f0ef2a8 100644
 --- a/modules/access/Makefile.am
 +++ b/modules/access/Makefile.am
 @@ -47,7 +47,7 @@ access_LTLIBRARIES += libtimecode_plugin.la

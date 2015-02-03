@@ -1,4 +1,4 @@
-From e2da83754dc033ae85472e285970d71045593eb7 Mon Sep 17 00:00:00 2001
+From 65e49b8ea518b3488e07cfb5ecfc308339606d67 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:06:49 +0200
 Subject: [PATCH 03/75] core: Disable warning cpp directives when building with
@@ -28,10 +28,10 @@ index 1419f8f..c8bef2f 100644
                              mtime_t i_pts_delay, int i_cr_average )
  {
 diff --git a/src/playlist/thread.c b/src/playlist/thread.c
-index 8e7b082..6feb47a 100644
+index 62085d9..5a8a3f8 100644
 --- a/src/playlist/thread.c
 +++ b/src/playlist/thread.c
-@@ -438,7 +438,9 @@ static void LoopInput( playlist_t *p_playlist )
+@@ -441,7 +441,9 @@ static void LoopInput( playlist_t *p_playlist )
          input_Stop( p_input, true );
      }
  

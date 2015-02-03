@@ -1,4 +1,4 @@
-From 0a059a3c5e99b16b5c41f94247a3cd7bba13bc97 Mon Sep 17 00:00:00 2001
+From 1497270f0367f5e1294692ed1aca8175f40d5a6a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:51:11 +0100
 Subject: [PATCH 68/75] contribs: ffmpeg: Fix for our way of providing default
@@ -39,10 +39,10 @@ index 0000000..f8944c9
 +     probe_cc depcc "$dep_cc"
 +     CCDEP=${_DEPCMD:-$DEPCMD}
 diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
-index 0b44756..84d4faa 100644
+index f49ff40..5c0c7f1 100644
 --- a/contrib/src/ffmpeg/rules.mak
 +++ b/contrib/src/ffmpeg/rules.mak
-@@ -185,6 +185,7 @@ ffmpeg: ffmpeg-$(HASH).tar.gz .sum-ffmpeg
+@@ -188,6 +188,7 @@ ffmpeg: ffmpeg-$(HASH).tar.gz .sum-ffmpeg
  	mkdir -p $@-$(HASH)
  	touch $@-$(HASH)/README.md
  	tar xvf $< -C $@-$(HASH) --strip-components=1 -l --ignore-command-error
