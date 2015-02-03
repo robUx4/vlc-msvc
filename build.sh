@@ -45,7 +45,7 @@ test_package()
 
 test_gcc()
 {
-    which gcc | grep /mingw || pacman -S mingw-w64-`uname -m`-gcc
+    which gcc | grep /mingw || pacman -S --noconfirm mingw-w64-`uname -m`-gcc
 }
 
 test_package make
