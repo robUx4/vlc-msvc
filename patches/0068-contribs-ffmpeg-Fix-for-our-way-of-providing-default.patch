@@ -1,0 +1,55 @@
+From 0a059a3c5e99b16b5c41f94247a3cd7bba13bc97 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 9 Jan 2015 16:51:11 +0100
+Subject: [PATCH 68/74] contribs: ffmpeg: Fix for our way of providing default
+ LDFLAGS
+
+---
+ contrib/src/ffmpeg/msvc.patch | 22 ++++++++++++++++++++++
+ contrib/src/ffmpeg/rules.mak  |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 contrib/src/ffmpeg/msvc.patch
+
+diff --git a/contrib/src/ffmpeg/msvc.patch b/contrib/src/ffmpeg/msvc.patch
+new file mode 100644
+index 0000000..f8944c9
+--- /dev/null
++++ b/contrib/src/ffmpeg/msvc.patch
+@@ -0,0 +1,22 @@
++--- ffmpeg/configure	2015-01-08 12:58:43.000000000 +0100
+++++ /home/vlc/vlc/contrib/windowsphone/ffmpeg/configure	2014-12-15 16:56:13.022084500 +0100
++@@ -2705,7 +2702,7 @@
++             -lavifil32)           echo vfw32.lib ;;
++             -lavicap32)           echo vfw32.lib user32.lib ;;
++             -l*)                  echo ${flag#-l}.lib ;;
++-            -L*)                  echo -libpath:${flag#-L} ;;
+++            -L*)                  echo -LIBPATH:`cygpath -w ${flag#-L}` ;;
++             *)                    echo $flag ;;
++         esac
++     done
++@@ -3044,6 +3041,10 @@
++ add_host_ldflags $_flags $_ldflags
++ HOSTLD_O=${_ld_o-$HOSTLD_O}
++ 
+++_ldflags=$LDFLAGS
+++LDFLAGS=
+++add_ldflags $_ldflags
+++
++ if [ -z "$CC_DEPFLAGS" ] && [ "$dep_cc" != "$cc" ]; then
++     probe_cc depcc "$dep_cc"
++     CCDEP=${_DEPCMD:-$DEPCMD}
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index 0b44756..84d4faa 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -185,6 +185,7 @@ ffmpeg: ffmpeg-$(HASH).tar.gz .sum-ffmpeg
+ 	mkdir -p $@-$(HASH)
+ 	touch $@-$(HASH)/README.md
+ 	tar xvf $< -C $@-$(HASH) --strip-components=1 -l --ignore-command-error
++	$(APPLY) $(SRC)/ffmpeg/msvc.patch
+ 	$(MOVE)
+ 
+ .ffmpeg: ffmpeg
+-- 
+2.2.0
+

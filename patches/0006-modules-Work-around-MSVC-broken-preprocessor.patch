@@ -1,7 +1,7 @@
-From 72e6ab31ba1c2b64a7ba0cddb66d8fd0ca04c492 Mon Sep 17 00:00:00 2001
+From a5f3641c3ce363eb21ad3be5bd4c2ce32fed0852 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:09:04 +0200
-Subject: [PATCH 06/75] modules: Work around MSVC broken preprocessor
+Subject: [PATCH 06/74] modules: Work around MSVC broken preprocessor
 
 ---
  modules/access/dtv/access.c                  | 10 +++++++---
@@ -57,10 +57,10 @@ index d1943e5..ea07e2e 100644
          else if( MKV_IS_ID( l, KaxChapterTimeStart ) )
          {
 diff --git a/modules/demux/mp4/mp4.c b/modules/demux/mp4/mp4.c
-index e221024..6a0757f 100644
+index aecc247..247c87e 100644
 --- a/modules/demux/mp4/mp4.c
 +++ b/modules/demux/mp4/mp4.c
-@@ -623,14 +623,15 @@ static int Open( vlc_object_t * p_this )
+@@ -658,14 +658,15 @@ static int Open( vlc_object_t * p_this )
              case MAJOR_3gp5:
              case MAJOR_3gp6:
              case MAJOR_3gp7:
@@ -81,10 +81,10 @@ index e221024..6a0757f 100644
                  msg_Dbg( p_demux, "Apple QuickTime file" );
                  break;
 diff --git a/modules/demux/ts.c b/modules/demux/ts.c
-index 577c0cc..1cb0f45 100644
+index b7de0e2..54d82e1 100644
 --- a/modules/demux/ts.c
 +++ b/modules/demux/ts.c
-@@ -3409,13 +3409,14 @@ static void SDTCallBack( demux_t *p_demux, dvbpsi_sdt_t *p_sdt )
+@@ -3001,13 +3001,14 @@ static void SDTCallBack( demux_t *p_demux, dvbpsi_sdt_t *p_sdt )
          return;
      }
  
@@ -103,7 +103,7 @@ index 577c0cc..1cb0f45 100644
               p_sdt->i_version, p_sdt->b_current_next,
               p_sdt->i_network_id );
  
-@@ -3623,14 +3624,15 @@ static void EITCallBack( demux_t *p_demux,
+@@ -3208,14 +3209,15 @@ static void EITCallBack( demux_t *p_demux,
          return;
      }
  

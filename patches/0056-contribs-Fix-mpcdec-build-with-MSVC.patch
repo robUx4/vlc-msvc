@@ -1,0 +1,45 @@
+From 737857ebcf6fc96961a763abc41448feed1d93f9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 3 Dec 2014 15:47:33 +0100
+Subject: [PATCH 56/74] contribs: Fix mpcdec build with MSVC
+
+---
+ contrib/src/mpcdec/musepack-asinh-msvc.patch | 11 +++++++++++
+ contrib/src/mpcdec/rules.mak                 |  3 +++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 contrib/src/mpcdec/musepack-asinh-msvc.patch
+
+diff --git a/contrib/src/mpcdec/musepack-asinh-msvc.patch b/contrib/src/mpcdec/musepack-asinh-msvc.patch
+new file mode 100644
+index 0000000..bbb860e
+--- /dev/null
++++ b/contrib/src/mpcdec/musepack-asinh-msvc.patch
+@@ -0,0 +1,11 @@
++--- musepack.clean/libmpcpsy/psy_tab.c	2014-12-03 15:25:37.877616700 +0100
+++++ musepack/libmpcpsy/psy_tab.c	2014-12-03 15:20:59.300071300 +0100
++@@ -186,7 +187,7 @@
++     }
++ }
++ 
++-#ifdef _MSC_VER
+++#if defined(_MSC_VER) && _MSC_VER < 1800
++ static double
++ asinh ( double x )
++ {
+diff --git a/contrib/src/mpcdec/rules.mak b/contrib/src/mpcdec/rules.mak
+index a17bd8d..85cb4ec 100644
+--- a/contrib/src/mpcdec/rules.mak
++++ b/contrib/src/mpcdec/rules.mak
+@@ -28,6 +28,9 @@ musepack: musepack_src_r$(MUSE_REV).tar.gz .sum-mpcdec
+ 	$(UNPACK)
+ 	$(APPLY) $(SRC)/mpcdec/musepack-no-cflags-clobber.patch
+ 	$(APPLY) $(SRC)/mpcdec/musepack-no-binaries.patch
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/mpcdec/musepack-asinh-msvc.patch
++endif
+ 	sed -i.orig \
+ 		-e 's,^add_subdirectory(mpcgain),,g' \
+ 		-e 's,^add_subdirectory(mpcchap),,g' \
+-- 
+2.2.0
+

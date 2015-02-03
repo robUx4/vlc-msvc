@@ -1,7 +1,7 @@
-From 06cf40c4ac6c48d62a0e8f5b15694f97c4001e42 Mon Sep 17 00:00:00 2001
+From 0f7264141303bbe3ccac4a111a322994a1915b07 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
-Subject: [PATCH 04/75] modules: Disable warning cpp directive when using msvc
+Subject: [PATCH 04/74] modules: Disable warning cpp directive when using msvc
 
 ---
  modules/access/bluray.c        | 2 +-
@@ -15,7 +15,7 @@ Subject: [PATCH 04/75] modules: Disable warning cpp directive when using msvc
  8 files changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/modules/access/bluray.c b/modules/access/bluray.c
-index 4a46407..0885cf1 100644
+index 8540735..d581149 100644
 --- a/modules/access/bluray.c
 +++ b/modules/access/bluray.c
 @@ -267,7 +267,7 @@ static void FindMountPoint(char **file)
@@ -43,7 +43,7 @@ index b8e39af..59a50bd 100644
  #  define BC_FUNC_PSYS( a ) p_sys->Our ## a
  #else
 diff --git a/modules/control/rc.c b/modules/control/rc.c
-index c3eb726..12635ad 100644
+index 365c40e..6190b65 100644
 --- a/modules/control/rc.c
 +++ b/modules/control/rc.c
 @@ -522,7 +522,9 @@ static void *Run( void *data )
@@ -100,7 +100,7 @@ index 5868ca1..a4b47e6 100644
                              stream_t      *p_file_stream = stream_UrlNew(
                                                              p_demux,
 diff --git a/modules/demux/ogg.c b/modules/demux/ogg.c
-index 6e0a500..7f25d52 100644
+index a192f15..c308c1d 100644
 --- a/modules/demux/ogg.c
 +++ b/modules/demux/ogg.c
 @@ -1259,7 +1259,9 @@ static void Ogg_DecodePacket( demux_t *p_demux,
@@ -114,10 +114,10 @@ index 6e0a500..7f25d52 100644
                  p_stream->p_headers = NULL;
                  free( p_org );
 diff --git a/modules/lua/libs/playlist.c b/modules/lua/libs/playlist.c
-index 1159262..5b59ad9 100644
+index 8bcc8a7..1cd6469 100644
 --- a/modules/lua/libs/playlist.c
 +++ b/modules/lua/libs/playlist.c
-@@ -323,7 +323,9 @@ static int vlclua_playlist_current( lua_State *L )
+@@ -324,7 +324,9 @@ static int vlclua_playlist_current( lua_State *L )
          vlc_object_release( p_input );
      }
  

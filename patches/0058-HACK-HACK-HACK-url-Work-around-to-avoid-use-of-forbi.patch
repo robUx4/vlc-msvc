@@ -1,0 +1,26 @@
+From edf33f31766bb0055e6823d28f6d769db302f145 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Mon, 5 Jan 2015 14:06:42 +0100
+Subject: [PATCH 58/74] HACK HACK HACK: url: Work around to avoid use of
+ forbidden functions
+
+---
+ src/text/url.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/text/url.c b/src/text/url.c
+index 13f32e8..143da10 100644
+--- a/src/text/url.c
++++ b/src/text/url.c
+@@ -526,7 +526,7 @@ static char *vlc_idna_to_ascii (const char *idn)
+         return NULL;
+     return adn;
+ 
+-#elif defined (_WIN32) && (_WIN32_WINNT >= 0x0601)
++#elif defined (_WIN32) && (_WIN32_WINNT >= 0x0601) && !defined(VLC_WINSTORE_APP)
+     char *ret = NULL;
+ 
+     wchar_t *wide = ToWide (idn);
+-- 
+2.2.0
+
