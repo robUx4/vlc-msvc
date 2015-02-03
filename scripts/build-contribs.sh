@@ -50,7 +50,6 @@ cd $VLC_PLATFORM
     --disable-upnp \
 	--disable-nettle \
 	--disable-goom \
-	--enable-dca \
 	--disable-mad \
 	--disable-projectM \
 	--disable-pthreads \
