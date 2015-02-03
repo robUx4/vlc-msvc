@@ -1,7 +1,7 @@
 From 737857ebcf6fc96961a763abc41448feed1d93f9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 3 Dec 2014 15:47:33 +0100
-Subject: [PATCH 56/74] contribs: Fix mpcdec build with MSVC
+Subject: [PATCH 56/75] contribs: Fix mpcdec build with MSVC
 
 ---
  contrib/src/mpcdec/musepack-asinh-msvc.patch | 11 +++++++++++

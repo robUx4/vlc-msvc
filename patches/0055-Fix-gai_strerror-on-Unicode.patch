@@ -1,7 +1,7 @@
 From 809642cde17d35c38a2c3e3b33c006870c522f76 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Thu, 20 Nov 2014 13:12:05 +0100
-Subject: [PATCH 55/74] Fix gai_strerror on Unicode
+Subject: [PATCH 55/75] Fix gai_strerror on Unicode
 
 ---
  include/vlc_network.h | 12 +++++++-----

@@ -1,7 +1,7 @@
 From 62aa5cf8a2ac82d1c4c2e5d2dcc42032d0326a85 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 2 Feb 2015 13:18:30 +0100
-Subject: [PATCH 29/74] FIXUP: contribs: musepack: Fix build using VS 2013
+Subject: [PATCH 29/75] FIXUP: contribs: musepack: Fix build using VS 2013
 
 ---
  contrib/src/mpcdec/rules.mak | 3 ++-

@@ -1,7 +1,7 @@
 From 0a059a3c5e99b16b5c41f94247a3cd7bba13bc97 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:51:11 +0100
-Subject: [PATCH 68/74] contribs: ffmpeg: Fix for our way of providing default
+Subject: [PATCH 68/75] contribs: ffmpeg: Fix for our way of providing default
  LDFLAGS
 
 ---
