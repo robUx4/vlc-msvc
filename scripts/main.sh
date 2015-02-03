@@ -64,6 +64,11 @@ if [ ! -d $"vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
     cd vlc
+
+    # Just in case, git checkout requires a git username to behave. If none is set, invent one
+    git config --get user.email > /dev/null 2&>1 || git config user.email 'windowsrt-build@videolan.org'
+    git config --get user.name > /dev/null 2>&1 || git config user.name 'windowsrt build'
+
     git checkout $TESTED_HASH
     git am -3 ../patches/*.patch
     if [ $? -ne 0 ]; then
