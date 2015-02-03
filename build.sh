@@ -43,6 +43,11 @@ test_package()
 	which $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || exit 1
 }
 
+test_gcc()
+{
+    which gcc | grep /mingw || pacman -S mingw-w64-`uname -m`-gcc
+}
+
 test_package make
 test_package dos2unix
 test_package unzip
@@ -56,7 +61,7 @@ test_package svn subversion
 test_package tar
 test_package patch
 test_package cvs
-test_package gcc #required by ffmpeg for gaspp
+test_gcc #required by ffmpeg for gaspp & to build cmake
 
 cmd.exe /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
 
