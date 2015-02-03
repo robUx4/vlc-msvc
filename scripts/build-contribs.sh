@@ -35,8 +35,6 @@ cd $VLC_PLATFORM
 	--enable-speex \
 	--enable-speexdsp \
 	--enable-zlib \
-	--disable-dvdread \
-	--disable-dvdnav \
 	--disable-caca \
 	--disable-directx \
 	--disable-chromaprint \
