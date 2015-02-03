@@ -1,7 +1,7 @@
-From e53d86f46b39479228eadb0db77c6bdfc07374f6 Mon Sep 17 00:00:00 2001
+From ebf5e289a8cb92593089f8af57dcca093696ddf8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:22:15 +0200
-Subject: [PATCH 15/76] direct3d: Disable minimal array size
+Subject: [PATCH 15/75] direct3d: Disable minimal array size
 
 This should be reverted when MS fixes https://connect.microsoft.com/VisualStudio/feedback/details/1007399/use-of-static-keyword-in-array-parameter-declaration
 ---

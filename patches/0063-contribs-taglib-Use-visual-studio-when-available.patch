@@ -1,7 +1,7 @@
-From 3e3c8c9be4074678a628204ec6935745d72eed4c Mon Sep 17 00:00:00 2001
+From 52fe349da6b77d494abdef6f62e8bb07d6417bd0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 7 Jan 2015 11:27:53 +0100
-Subject: [PATCH 63/76] contribs: taglib: Use visual studio when available
+Subject: [PATCH 63/75] contribs: taglib: Use visual studio when available
 
 ---
  contrib/src/taglib/rules.mak | 12 +++++++++++-

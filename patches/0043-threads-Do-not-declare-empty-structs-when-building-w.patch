@@ -1,7 +1,7 @@
-From 6718bb08989214036b409340992eafc1fd9bbb00 Mon Sep 17 00:00:00 2001
+From d1db40b1f70a9ae2a3d7e104cc524b679c6ecc2d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:43:46 +0100
-Subject: [PATCH 43/76] threads: Do not declare empty structs when building
+Subject: [PATCH 43/75] threads: Do not declare empty structs when building
  with MSVC
 
 ---

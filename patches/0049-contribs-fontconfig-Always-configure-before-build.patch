@@ -1,7 +1,7 @@
-From 646cdbb2ce5167624cedf9ed8dc27fda641034f1 Mon Sep 17 00:00:00 2001
+From 06a1fc3f0b033e578208b0777900af99d999baad Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:21:27 +0100
-Subject: [PATCH 49/76] contribs: fontconfig: Always configure before build
+Subject: [PATCH 49/75] contribs: fontconfig: Always configure before build
 
 ---
  contrib/src/fontconfig/rules.mak | 2 +-

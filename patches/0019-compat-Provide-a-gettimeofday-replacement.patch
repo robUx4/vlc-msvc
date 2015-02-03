@@ -1,7 +1,7 @@
-From ed521a679f6fb821c50fa590b0b00543c01f9e01 Mon Sep 17 00:00:00 2001
+From baa30b8c5cf9cb41b4acaee4cf00ffecc65c62ae Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:08:53 +0200
-Subject: [PATCH 19/76] compat: Provide a gettimeofday replacement
+Subject: [PATCH 19/75] compat: Provide a gettimeofday replacement
 
 ---
  compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -77,7 +77,7 @@ index 0000000..408784c
 +#endif
 \ No newline at end of file
 diff --git a/configure.ac b/configure.ac
-index 55a64ba..85fe51e 100644
+index 2704b28..18fa87b 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -557,7 +557,7 @@ need_libc=false

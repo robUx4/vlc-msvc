@@ -1,7 +1,7 @@
-From 39c17290cb38d716e13df4f0f4ac198a58746cb6 Mon Sep 17 00:00:00 2001
+From b28c2cc0809ed9b150aa952102bd4906bee8124d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:16:22 +0100
-Subject: [PATCH 45/76] ws2: Ugly workaround conflicting windows versions
+Subject: [PATCH 45/75] ws2: Ugly workaround conflicting windows versions
 
 ---
  compat/gettimeofday.c       |  3 +--
@@ -205,7 +205,7 @@ index 0000000..c06c9c2
 +#endif
 \ No newline at end of file
 diff --git a/modules/access/live555.cpp b/modules/access/live555.cpp
-index a86c439..66a9768 100644
+index d49fc6d..19dc1a8 100644
 --- a/modules/access/live555.cpp
 +++ b/modules/access/live555.cpp
 @@ -53,7 +53,7 @@

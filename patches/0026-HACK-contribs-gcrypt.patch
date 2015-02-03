@@ -1,7 +1,7 @@
-From b318b765fd8caa92d49c23fb6df3990c4c22c6f1 Mon Sep 17 00:00:00 2001
+From a7fdd28cca61edd52e15d80227fe34d31773ef98 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:38 +0200
-Subject: [PATCH 26/76] HACK: contribs: gcrypt
+Subject: [PATCH 26/75] HACK: contribs: gcrypt
 
 AKA work around my lack of autotools skills
 ---

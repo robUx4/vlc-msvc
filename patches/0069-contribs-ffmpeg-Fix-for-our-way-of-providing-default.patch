@@ -1,7 +1,7 @@
-From 469688900ff8b961bd6d671e56bfdef506eb5320 Mon Sep 17 00:00:00 2001
+From 40d643dec8780bf70ae3036535d2968be0e5dbc6 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:51:11 +0100
-Subject: [PATCH 71/76] contribs: ffmpeg: Fix for our way of providing default
+Subject: [PATCH 69/75] contribs: ffmpeg: Fix for our way of providing default
  LDFLAGS
 
 ---
@@ -39,10 +39,10 @@ index 0000000..f8944c9
 +     probe_cc depcc "$dep_cc"
 +     CCDEP=${_DEPCMD:-$DEPCMD}
 diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
-index 0b44756..84d4faa 100644
+index bbf59eb..9ce6a28 100644
 --- a/contrib/src/ffmpeg/rules.mak
 +++ b/contrib/src/ffmpeg/rules.mak
-@@ -185,6 +185,7 @@ ffmpeg: ffmpeg-$(HASH).tar.gz .sum-ffmpeg
+@@ -184,6 +184,7 @@ ffmpeg: ffmpeg-$(HASH).tar.gz .sum-ffmpeg
  	mkdir -p $@-$(HASH)
  	touch $@-$(HASH)/README.md
  	tar xvf $< -C $@-$(HASH) --strip-components=1 -l --ignore-command-error

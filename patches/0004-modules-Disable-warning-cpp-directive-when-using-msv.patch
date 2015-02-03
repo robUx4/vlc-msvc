@@ -1,7 +1,7 @@
-From 43637cd9947b34281762dc96b46597b7b2aa6608 Mon Sep 17 00:00:00 2001
+From 06cf40c4ac6c48d62a0e8f5b15694f97c4001e42 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
-Subject: [PATCH 04/76] modules: Disable warning cpp directive when using msvc
+Subject: [PATCH 04/75] modules: Disable warning cpp directive when using msvc
 
 ---
  modules/access/bluray.c        | 2 +-
@@ -15,7 +15,7 @@ Subject: [PATCH 04/76] modules: Disable warning cpp directive when using msvc
  8 files changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/modules/access/bluray.c b/modules/access/bluray.c
-index 8540735..d581149 100644
+index 4a46407..0885cf1 100644
 --- a/modules/access/bluray.c
 +++ b/modules/access/bluray.c
 @@ -267,7 +267,7 @@ static void FindMountPoint(char **file)

@@ -1,7 +1,7 @@
-From 223efe735a57aedefc70dcd8cd9d06d973c530a9 Mon Sep 17 00:00:00 2001
+From 6e00e2528aa689ecf43f88186ffa1ddfed0623fd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:16:28 +0200
-Subject: [PATCH 31/76] contribs: opus: Force alloca usage when building with
+Subject: [PATCH 31/75] contribs: opus: Force alloca usage when building with
  MSVC
 
 ---

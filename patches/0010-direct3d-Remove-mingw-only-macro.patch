@@ -1,7 +1,7 @@
-From 55818dcaa879b09a4aa2fa4af9df952b4fb3c728 Mon Sep 17 00:00:00 2001
+From 378f3ec8ed7f931f73f3fa72a6486a0f6ac0e41f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:26:23 +0200
-Subject: [PATCH 10/76] direct3d: Remove mingw only macro
+Subject: [PATCH 10/75] direct3d: Remove mingw only macro
 
 ---
  modules/video_output/msw/direct3d9.c | 4 ++--

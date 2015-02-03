@@ -1,7 +1,7 @@
-From 54e0fa0569ff920c4fe0ef52cdd69c1b078d8e3b Mon Sep 17 00:00:00 2001
+From 7ceea017566fd2b8fa15d8b75da7d2ef18960f61 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:30:36 +0200
-Subject: [PATCH 34/76] winvlc: Use alloca rather than VLA
+Subject: [PATCH 34/75] winvlc: Use alloca rather than VLA
 
 ---
  bin/winvlc.c | 2 +-

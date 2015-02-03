@@ -1,7 +1,7 @@
-From b1707095265ced81c68e0cf56602016901c62989 Mon Sep 17 00:00:00 2001
+From 0a4adac7320dfeb45e26d6306d406449040b0e7b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:05:14 +0200
-Subject: [PATCH 28/76] contribs: lua: Target MSVC specifically when building
+Subject: [PATCH 28/75] contribs: lua: Target MSVC specifically when building
  for it.
 
 This requires a patch in lua that adds the appropriate target

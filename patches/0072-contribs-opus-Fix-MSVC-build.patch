@@ -1,7 +1,7 @@
-From c8cfc98b5adef8930eb691348ba261286d256b22 Mon Sep 17 00:00:00 2001
+From b3994a60a0e28c200bc78efe7057b2fd8222c4dd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 17:47:55 +0100
-Subject: [PATCH 74/76] contribs: opus: Fix MSVC build
+Subject: [PATCH 72/75] contribs: opus: Fix MSVC build
 
 This is applied upstream and can be removed when we update opus version
 ---

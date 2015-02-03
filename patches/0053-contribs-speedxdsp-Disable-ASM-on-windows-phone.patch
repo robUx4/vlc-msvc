@@ -1,7 +1,7 @@
-From f9ab30353a92925113f34b7319ade474a0aea82d Mon Sep 17 00:00:00 2001
+From cbbcb75f30b760f01b29cbc38cb41619d451d0ae Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:40:17 +0100
-Subject: [PATCH 53/76] contribs: speedxdsp: Disable ASM on windows phone
+Subject: [PATCH 53/75] contribs: speedxdsp: Disable ASM on windows phone
 
 ---
  contrib/src/speexdsp/rules.mak | 4 ++++

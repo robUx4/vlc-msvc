@@ -1,7 +1,7 @@
-From ed11e3731d8933b154cadf1fac42475d92bb5b64 Mon Sep 17 00:00:00 2001
+From 591ae0b5aca17768cd41e3b65aaa5bc05db817b7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:56:03 +0200
-Subject: [PATCH 37/76] modules: bank: Workaround lack of "lib" prefix
+Subject: [PATCH 37/75] modules: bank: Workaround lack of "lib" prefix
 
 ---
  src/modules/bank.c | 2 +-

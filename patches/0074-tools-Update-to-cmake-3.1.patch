@@ -1,7 +1,7 @@
-From 2d941491c62e8d75ace23110d10e1f71a79bd4f1 Mon Sep 17 00:00:00 2001
+From 5b08808847f1f2c8e4038086067d5544d2cfe7e7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 16 Jan 2015 14:27:08 +0100
-Subject: [PATCH 76/76] tools: Update to cmake 3.1
+Subject: [PATCH 74/75] tools: Update to cmake 3.1
 
 ---
  extras/tools/bootstrap    | 2 +-

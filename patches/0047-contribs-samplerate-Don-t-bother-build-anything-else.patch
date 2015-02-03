@@ -1,7 +1,7 @@
-From c86a6b982de00d7dbffb68a9de1728fe3c3d0739 Mon Sep 17 00:00:00 2001
+From bfa2c1d5528dd78225a9e71f86cb5dfbc9f843c5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:43:14 +0100
-Subject: [PATCH 47/76] contribs: samplerate: Don't bother build anything else
+Subject: [PATCH 47/75] contribs: samplerate: Don't bother build anything else
  than the lib
 
 ---
