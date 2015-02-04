@@ -72,6 +72,8 @@ cd $VLC_PLATFORM
     --disable-lua \
     --disable-protobuf \
     --disable-mpg123 \
+	--disable-directx \
+	--disable-dshow \
 	|| exit 1
 
 make -j`nproc` || exit 1
