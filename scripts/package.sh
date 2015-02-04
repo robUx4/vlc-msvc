@@ -32,12 +32,22 @@ cp _win32/bin/vlc.dll tmp/libvlc.dll
 cp _win32/lib/vlccore.dll.lib tmp/vlccore.lib
 cp _win32/bin/vlccore.dll tmp/libvlccore.dll
 
-PACKAGE_FOLDER=./$VLC_PLATFORM/vlc-arm/$VLC_CONFIGURATION
+cd tmp/plugins
+for f in */ ; do
+    cd $f
+    for i in *.dll ; do
+        mv $i lib$i
+    done
+    cd ..
+done
+cd ../../
+
+
+PACKAGE_FOLDER=$ROOT_FOLDER/$VLC_PLATFORM/vlc-arm/$VLC_CONFIGURATION
 
 if [ -d $PACKAGE_FOLDER ] ; then
     rm -rf $PACKAGE_FOLDER
 fi
-mkdir -p $VLC_PLATFORM/vlc-arm/
 mv tmp $PACKAGE_FOLDER
 
 
