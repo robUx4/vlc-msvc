@@ -203,7 +203,6 @@ elif [ "$EXTRALIBS" != "" -o BUILD_LIB != "" ]; then
         ARGS="$ARGS -out:$outfile -APPCONTAINER"
     fi
 fi
-echo "Wrapped: $ARGS"
 cmd /C "$ARGS"
 exit $?
 
