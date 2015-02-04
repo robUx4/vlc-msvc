@@ -1,14 +1,14 @@
-From 14c60af01191ce5d8cdb9f4c61721cff25130a18 Mon Sep 17 00:00:00 2001
+From cc724c4238b93dcb5d16801620d3243f3a1443e7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:42:35 +0100
-Subject: [PATCH 45/75] contribs: iconv: Fix msvc build
+Subject: [PATCH 45/79] contribs: iconv: Fix msvc build
 
 ---
- contrib/src/iconv/rules.mak | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ contrib/src/iconv/rules.mak | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/contrib/src/iconv/rules.mak b/contrib/src/iconv/rules.mak
-index 3596463..62d6f55 100644
+index 3596463..2163473 100644
 --- a/contrib/src/iconv/rules.mak
 +++ b/contrib/src/iconv/rules.mak
 @@ -27,7 +27,8 @@ endif
@@ -21,6 +21,18 @@ index 3596463..62d6f55 100644
  	$(APPLY) $(SRC)/iconv/libiconv-winrt.patch
  endif
  	$(UPDATE_AUTOCONFIG) && cd $(UNPACK_DIR) && mv config.guess config.sub build-aux
+@@ -36,5 +37,11 @@ endif
+ 
+ .iconv: iconv
+ 	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) --disable-nls
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/iconv/msvc.patch
++endif
+ 	cd $< && $(MAKE) install
++ifdef HAVE_VISUALSTUDIO
++	cp $(PREFIX)/lib/iconv.lib $(PREFIX)/lib/libiconv.a
++endif
+ 	touch $@
 -- 
 2.2.0
 

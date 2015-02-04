@@ -1,7 +1,7 @@
 From 982a08fca04afd866e9e4ce0f36765863f9eb6f0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:44:46 +0100
-Subject: [PATCH 43/75] rand: Provide COBJMACROS
+Subject: [PATCH 43/79] rand: Provide COBJMACROS
 
 ---
  src/win32/rand.c | 11 +++++++++++

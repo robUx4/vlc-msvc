@@ -1,7 +1,7 @@
-From bb55cc5f86fca4bdf9f3057171ab850e8de4cfc5 Mon Sep 17 00:00:00 2001
+From 36a1ffe1c26cbca49b0952ce13de91aa0ae8f6a3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:19:30 +0100
-Subject: [PATCH 47/75] contribs: ffmpeg: Enable native msvc build & tweak
+Subject: [PATCH 47/79] contribs: ffmpeg: Enable native msvc build & tweak
  config for windows phone
 
 ---

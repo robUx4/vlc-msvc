@@ -1,7 +1,7 @@
-From 3d9d3b91f4f1ebbdfba420fb06c6bf517718306c Mon Sep 17 00:00:00 2001
+From 710915f58707b0b109e54562bab1e8e9c8fedf3f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 7 Jan 2015 11:29:18 +0100
-Subject: [PATCH 63/75] HACK HACK HACK: Disable some modules the ugly way
+Subject: [PATCH 63/79] HACK HACK HACK: Disable some modules the ugly way
 
 ---
  modules/audio_output/Makefile.am       |  2 +-

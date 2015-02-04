@@ -1,7 +1,7 @@
 From 9a73d3d0d8d06a8bbfecf2ade706cb3e33be6c67 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 12:58:49 +0100
-Subject: [PATCH 40/75] thread: winstore: Do not discard a signaled object.
+Subject: [PATCH 40/79] thread: winstore: Do not discard a signaled object.
 
 When a thread is cancelled yet not killable, discarding a WAIT_OBJECT_X would cause the thread to wait forever, since vlc_testcancel would not abort the thread.
 ---

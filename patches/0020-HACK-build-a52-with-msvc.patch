@@ -1,7 +1,7 @@
 From 0ac38ef1718c365dcb16dbb8a5da55117f409397 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:14:23 +0200
-Subject: [PATCH 20/75] HACK: build a52 with msvc
+Subject: [PATCH 20/79] HACK: build a52 with msvc
 
 ---
  contrib/src/a52/rules.mak | 3 +++

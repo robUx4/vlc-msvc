@@ -1,7 +1,7 @@
 From 8e6bf6fa9c14cc9488188256b576ed7044e8c685 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:06:37 +0200
-Subject: [PATCH 28/75] contribs: mpcdec: Build with msvc when available
+Subject: [PATCH 28/79] contribs: mpcdec: Build with msvc when available
 
 ---
  contrib/src/mpcdec/rules.mak | 8 +++++++-

@@ -1,7 +1,7 @@
-From 6ce53909cbc779758c7bd5adf2913aa88359aa06 Mon Sep 17 00:00:00 2001
+From 932674450124d06eec436aad946674dfa5a51c92 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:04:02 +0100
-Subject: [PATCH 57/75] contrib: dvbpsi: Only build what we need
+Subject: [PATCH 57/79] contrib: dvbpsi: Only build what we need
 
 ---
  contrib/src/dvbpsi/rules.mak | 2 +-

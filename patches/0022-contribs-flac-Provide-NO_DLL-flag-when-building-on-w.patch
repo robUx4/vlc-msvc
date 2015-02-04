@@ -1,7 +1,7 @@
 From aa01ae24babaf1550d78a41d28976aeef4b0dfc9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:55:03 +0200
-Subject: [PATCH 22/75] contribs: flac: Provide NO_DLL flag when building on
+Subject: [PATCH 22/79] contribs: flac: Provide NO_DLL flag when building on
  windows
 
 ---

@@ -1,7 +1,7 @@
-From 0b1851876a5f3d1534ce1bc83b7e8c2d6aa00d7c Mon Sep 17 00:00:00 2001
+From 00406563e00d070a20c3095677726374181398fc Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:52:03 +0100
-Subject: [PATCH 69/75] contribs: openjpeg: Fix windows build
+Subject: [PATCH 69/79] contribs: openjpeg: Fix windows build
 
 ---
  contrib/src/openjpeg/msvc.patch | 11 +++++++++++
