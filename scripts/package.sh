@@ -28,9 +28,9 @@ mkdir tmp
 cp -R _win32/include tmp/
 cp -R _win32/lib/vlc/plugins tmp/
 cp _win32/lib/vlc.dll.lib tmp/vlc.lib
-cp _win32/bin/vlc.dll tmp/libvlc.dll
+cp _win32/bin/vlc.dll tmp/
 cp _win32/lib/vlccore.dll.lib tmp/vlccore.lib
-cp _win32/bin/vlccore.dll tmp/libvlccore.dll
+cp _win32/bin/vlccore.dll tmp/
 
 cd tmp/plugins
 for f in */ ; do
