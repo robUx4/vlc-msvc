@@ -3,7 +3,7 @@
 ARGS="cl.exe -nologo -MD -EHsc"
 ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
-LIBDIR=" -LIBPATH:`cygpath -w '/home/vlc/lib/'` "
+LIBDIR=" "
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
