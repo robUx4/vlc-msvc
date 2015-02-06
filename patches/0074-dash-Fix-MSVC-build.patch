@@ -1,0 +1,190 @@
+From d86c4fb4fe95fa6f0bd8f06fa9c22c92b0ced091 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 4 Feb 2015 14:27:33 +0100
+Subject: [PATCH 74/78] dash: Fix MSVC build
+
+---
+ modules/demux/dash/DASHManager.cpp                             |  3 +++
+ modules/demux/dash/Streams.cpp                                 |  6 +++---
+ .../demux/dash/adaptationlogic/AlwaysBestAdaptationLogic.cpp   |  2 +-
+ .../demux/dash/adaptationlogic/AlwaysLowestAdaptationLogic.cpp |  4 ++--
+ .../demux/dash/adaptationlogic/RateBasedAdaptationLogic.cpp    |  6 +++---
+ modules/demux/dash/adaptationlogic/Representationselectors.cpp | 10 +++++++---
+ modules/demux/dash/mpd/Period.cpp                              |  4 ++--
+ modules/demux/dash/mpd/SegmentTimeline.cpp                     |  4 ++++
+ 8 files changed, 25 insertions(+), 14 deletions(-)
+
+diff --git a/modules/demux/dash/DASHManager.cpp b/modules/demux/dash/DASHManager.cpp
+index d6990da..a5349c7 100644
+--- a/modules/demux/dash/DASHManager.cpp
++++ b/modules/demux/dash/DASHManager.cpp
+@@ -42,6 +42,9 @@
+ #include "SegmentTracker.hpp"
+ #include <vlc_stream.h>
+ 
++#undef max
++#include <algorithm>
++
+ using namespace dash;
+ using namespace dash::http;
+ using namespace dash::logic;
+diff --git a/modules/demux/dash/Streams.cpp b/modules/demux/dash/Streams.cpp
+index b85c8e3..4858fa9 100644
+--- a/modules/demux/dash/Streams.cpp
++++ b/modules/demux/dash/Streams.cpp
+@@ -87,14 +87,14 @@ Format Stream::mimeToFormat(const std::string &mime)
+     return format;
+ }
+ 
+-void Stream::create(demux_t *demux, AbstractAdaptationLogic *logic, SegmentTracker *tracker)
++void Stream::create(demux_t *demux, AbstractAdaptationLogic *logic, dash::SegmentTracker *tracker)
+ {
+     switch(format)
+     {
+-        case Streams::MP4:
++        case dash::Streams::MP4:
+             output = new MP4StreamOutput(demux);
+             break;
+-        case Streams::MPEG2TS:
++        case dash::Streams::MPEG2TS:
+             output = new MPEG2TSStreamOutput(demux);
+             break;
+         default:
+diff --git a/modules/demux/dash/adaptationlogic/AlwaysBestAdaptationLogic.cpp b/modules/demux/dash/adaptationlogic/AlwaysBestAdaptationLogic.cpp
+index 7d7b435..5535cd6 100644
+--- a/modules/demux/dash/adaptationlogic/AlwaysBestAdaptationLogic.cpp
++++ b/modules/demux/dash/adaptationlogic/AlwaysBestAdaptationLogic.cpp
+@@ -36,7 +36,7 @@ AlwaysBestAdaptationLogic::AlwaysBestAdaptationLogic    (MPD *mpd) :
+ {
+ }
+ 
+-Representation *AlwaysBestAdaptationLogic::getCurrentRepresentation(Streams::Type type, mpd::Period *period) const
++Representation *AlwaysBestAdaptationLogic::getCurrentRepresentation(dash::Streams::Type type, Period *period) const
+ {
+     RepresentationSelector selector;
+     return selector.select(period, type);
+diff --git a/modules/demux/dash/adaptationlogic/AlwaysLowestAdaptationLogic.cpp b/modules/demux/dash/adaptationlogic/AlwaysLowestAdaptationLogic.cpp
+index 43f019c..e42b579 100644
+--- a/modules/demux/dash/adaptationlogic/AlwaysLowestAdaptationLogic.cpp
++++ b/modules/demux/dash/adaptationlogic/AlwaysLowestAdaptationLogic.cpp
+@@ -23,12 +23,12 @@
+ using namespace dash::logic;
+ using namespace dash::mpd;
+ 
+-AlwaysLowestAdaptationLogic::AlwaysLowestAdaptationLogic(mpd::MPD *mpd):
++AlwaysLowestAdaptationLogic::AlwaysLowestAdaptationLogic(MPD *mpd):
+     AbstractAdaptationLogic(mpd)
+ {
+ }
+ 
+-Representation *AlwaysLowestAdaptationLogic::getCurrentRepresentation(Streams::Type type, mpd::Period *period) const
++Representation *AlwaysLowestAdaptationLogic::getCurrentRepresentation(dash::Streams::Type type, Period *period) const
+ {
+     RepresentationSelector selector;
+     return selector.select(period, type, 0);
+diff --git a/modules/demux/dash/adaptationlogic/RateBasedAdaptationLogic.cpp b/modules/demux/dash/adaptationlogic/RateBasedAdaptationLogic.cpp
+index 58fc0ec..bd9cf3b 100644
+--- a/modules/demux/dash/adaptationlogic/RateBasedAdaptationLogic.cpp
++++ b/modules/demux/dash/adaptationlogic/RateBasedAdaptationLogic.cpp
+@@ -44,7 +44,7 @@ RateBasedAdaptationLogic::RateBasedAdaptationLogic  (MPD *mpd) :
+     height = var_InheritInteger(mpd->getVLCObject(), "dash-prefheight");
+ }
+ 
+-Representation *RateBasedAdaptationLogic::getCurrentRepresentation(Streams::Type type, mpd::Period *period) const
++Representation *RateBasedAdaptationLogic::getCurrentRepresentation(dash::Streams::Type type, Period *period) const
+ {
+     if(period == NULL)
+         return NULL;
+@@ -78,13 +78,13 @@ void RateBasedAdaptationLogic::updateDownloadRate(size_t size, mtime_t time)
+         currentBps = bpsAvg;
+ }
+ 
+-FixedRateAdaptationLogic::FixedRateAdaptationLogic(mpd::MPD *mpd) :
++FixedRateAdaptationLogic::FixedRateAdaptationLogic(MPD *mpd) :
+     AbstractAdaptationLogic(mpd)
+ {
+     currentBps = var_InheritInteger( mpd->getVLCObject(), "dash-prefbw" ) * 8192;
+ }
+ 
+-Representation *FixedRateAdaptationLogic::getCurrentRepresentation(Streams::Type type, mpd::Period *period) const
++Representation *FixedRateAdaptationLogic::getCurrentRepresentation(dash::Streams::Type type, Period *period) const
+ {
+     if(period == NULL)
+         return NULL;
+diff --git a/modules/demux/dash/adaptationlogic/Representationselectors.cpp b/modules/demux/dash/adaptationlogic/Representationselectors.cpp
+index 697a96e..5f0680e 100644
+--- a/modules/demux/dash/adaptationlogic/Representationselectors.cpp
++++ b/modules/demux/dash/adaptationlogic/Representationselectors.cpp
+@@ -20,17 +20,21 @@
+ #include "Representationselectors.hpp"
+ #include <limits>
+ 
++#ifdef max
++#undef max
++#endif
++
+ using namespace dash::logic;
+ 
+ RepresentationSelector::RepresentationSelector()
+ {
+ }
+ 
+-Representation * RepresentationSelector::select(Period *period, Streams::Type type) const
++Representation * RepresentationSelector::select(Period *period, dash::Streams::Type type) const
+ {
+     return select(period, type, std::numeric_limits<uint64_t>::max());
+ }
+-Representation * RepresentationSelector::select(Period *period, Streams::Type type, uint64_t bitrate) const
++Representation * RepresentationSelector::select(Period *period, dash::Streams::Type type, uint64_t bitrate) const
+ {
+     if (period == NULL)
+         return NULL;
+@@ -53,7 +57,7 @@ Representation * RepresentationSelector::select(Period *period, Streams::Type ty
+     return best;
+ }
+ 
+-Representation * RepresentationSelector::select(Period *period, Streams::Type type, uint64_t bitrate,
++Representation * RepresentationSelector::select(Period *period, dash::Streams::Type type, uint64_t bitrate,
+                                                 int width, int height) const
+ {
+     if(period == NULL)
+diff --git a/modules/demux/dash/mpd/Period.cpp b/modules/demux/dash/mpd/Period.cpp
+index 904107b..99edcb7 100644
+--- a/modules/demux/dash/mpd/Period.cpp
++++ b/modules/demux/dash/mpd/Period.cpp
+@@ -52,7 +52,7 @@ const std::vector<AdaptationSet*>&  Period::getAdaptationSets() const
+     return this->adaptationSets;
+ }
+ 
+-const std::vector<AdaptationSet*>   Period::getAdaptationSets(Streams::Type type) const
++const std::vector<AdaptationSet*>   Period::getAdaptationSets(dash::Streams::Type type) const
+ {
+     std::vector<AdaptationSet*> list;
+     std::vector<AdaptationSet*>::const_iterator it;
+@@ -73,7 +73,7 @@ void                                Period::addAdaptationSet(AdaptationSet *adap
+     }
+ }
+ 
+-AdaptationSet * Period::getAdaptationSet(Streams::Type type) const
++AdaptationSet * Period::getAdaptationSet(dash::Streams::Type type) const
+ {
+     std::vector<AdaptationSet *>::const_iterator it;
+     for(it = adaptationSets.begin(); it != adaptationSets.end(); it++)
+diff --git a/modules/demux/dash/mpd/SegmentTimeline.cpp b/modules/demux/dash/mpd/SegmentTimeline.cpp
+index 7ca8cbf..41af25c 100644
+--- a/modules/demux/dash/mpd/SegmentTimeline.cpp
++++ b/modules/demux/dash/mpd/SegmentTimeline.cpp
+@@ -28,6 +28,10 @@
+ 
+ #include "SegmentTimeline.h"
+ 
++#undef max
++
++#include <algorithm>
++
+ using namespace dash::mpd;
+ 
+ SegmentTimeline::SegmentTimeline(TimescaleAble *parent)
+-- 
+2.2.0
+

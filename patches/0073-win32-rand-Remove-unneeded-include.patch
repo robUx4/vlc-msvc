@@ -1,0 +1,24 @@
+From 91c37f038c362d39b6735e925660681ba0bf6710 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 3 Feb 2015 16:14:27 +0100
+Subject: [PATCH 73/78] win32: rand: Remove unneeded include
+
+---
+ src/win32/rand.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/win32/rand.c b/src/win32/rand.c
+index 3367416..6e1564f 100644
+--- a/src/win32/rand.c
++++ b/src/win32/rand.c
+@@ -30,7 +30,6 @@
+ # define COBJMACROS
+ # define INITGUID
+ # include <winstring.h>
+-# include <roapi.h>
+ # include <windows.security.cryptography.h>
+ # ifdef _MSC_VER
+ #  ifndef __cplusplus
+-- 
+2.2.0
+

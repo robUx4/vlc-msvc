@@ -1,0 +1,28 @@
+From 8ac214111630d4c44becfc6988ec940b7d146507 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 16:26:13 +0100
+Subject: [PATCH 49/78] compat: flockfile: Do not use warning directive under
+ msvc
+
+---
+ compat/flockfile.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/compat/flockfile.c b/compat/flockfile.c
+index d01fd1f..97b8d89 100644
+--- a/compat/flockfile.c
++++ b/compat/flockfile.c
+@@ -26,7 +26,9 @@
+ 
+ #ifdef _WIN32
+ # ifndef HAVE__LOCK_FILE
+-#  warning Broken SDK: VLC logs will be garbage.
++#  ifndef _MSC_VER
++#   warning Broken SDK: VLC logs will be garbage.
++#  endif
+ #  define _lock_file(s) ((void)(s))
+ #  define _unlock_file(s) ((void)(s))
+ #  undef _getc_nolock
+-- 
+2.2.0
+

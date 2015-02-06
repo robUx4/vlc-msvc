@@ -1,7 +1,7 @@
 From 6373bb4f0c17c250d071694fe94c2441fa7eb84f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:09:04 +0200
-Subject: [PATCH 06/79] modules: Work around MSVC broken preprocessor
+Subject: [PATCH 06/78] modules: Work around MSVC broken preprocessor
 
 ---
  modules/access/dtv/access.c                  | 10 +++++++---
