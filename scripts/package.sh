@@ -43,6 +43,7 @@ done
 cd ../../
 
 
+mkdir -p $ROOT_FOLDER/$VLC_PLATFORM/vlc-arm/
 PACKAGE_FOLDER=$ROOT_FOLDER/$VLC_PLATFORM/vlc-arm/$VLC_CONFIGURATION
 
 if [ -d $PACKAGE_FOLDER ] ; then
