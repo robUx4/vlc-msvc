@@ -1,0 +1,34 @@
+From 334dc6e257d53e9d8944b409b5da3802a2601047 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 14:44:46 +0100
+Subject: [PATCH 42/79] rand: Provide COBJMACROS
+
+---
+ src/win32/rand.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/src/win32/rand.c b/src/win32/rand.c
+index 948daea..3367416 100644
+--- a/src/win32/rand.c
++++ b/src/win32/rand.c
+@@ -32,6 +32,17 @@
+ # include <winstring.h>
+ # include <roapi.h>
+ # include <windows.security.cryptography.h>
++# ifdef _MSC_VER
++#  ifndef __cplusplus
++typedef __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics ICryptographicBufferStatics;
++typedef __x_ABI_CWindows_CStorage_CStreams_CIBuffer IBuffer;
++#   define ICryptographicBufferStatics_Release __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics_Release
++#   define ICryptographicBufferStatics_CopyToByteArray __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics_CopyToByteArray
++#   define IBuffer_Release __x_ABI_CWindows_CStorage_CStreams_CIBuffer_Release
++#   define ICryptographicBufferStatics_GenerateRandom __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics_GenerateRandom
++#  endif
++DEFINE_GUID(IID_ICryptographicBufferStatics, 0x320b7e22, 0x3cb0, 0x4cdf, 0x86,0x63, 0x1d,0x28,0x91,0x00,0x65,0xeb);
++# endif
+ #else
+ # include <wincrypt.h>
+ #endif
+-- 
+2.2.0
+

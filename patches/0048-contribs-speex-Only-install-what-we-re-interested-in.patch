@@ -1,0 +1,24 @@
+From ecc949adb623a0d9cbb8db910d53e8e2698ed4c4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 16:22:17 +0100
+Subject: [PATCH 48/79] contribs: speex: Only install what we're interested in
+
+---
+ contrib/src/speex/rules.mak | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/src/speex/rules.mak b/contrib/src/speex/rules.mak
+index a5f003c..d891c98 100644
+--- a/contrib/src/speex/rules.mak
++++ b/contrib/src/speex/rules.mak
+@@ -30,5 +30,6 @@ endif
+ 
+ .speex: speex
+ 	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) $(SPEEX_CONF)
+-	cd $< && $(MAKE) install
++	cd $< && $(MAKE) -C libspeex install
++	cd $< && $(MAKE) -C include install
+ 	touch $@
+-- 
+2.2.0
+

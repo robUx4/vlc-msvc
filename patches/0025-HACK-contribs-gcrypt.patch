@@ -1,4 +1,4 @@
-From 87643fd98eb2e91a4affd2d0e7f277d85b1953ce Mon Sep 17 00:00:00 2001
+From 7196752d266484cc9f59c523cd35392d365617bd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:38 +0200
 Subject: [PATCH 25/79] HACK: contribs: gcrypt

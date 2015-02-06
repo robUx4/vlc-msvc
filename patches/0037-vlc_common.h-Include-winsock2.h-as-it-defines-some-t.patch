@@ -1,4 +1,4 @@
-From ade695a7295f0937029bd8be32bbcbb3a30e314b Mon Sep 17 00:00:00 2001
+From f1a6f10e5d9a2b6d59e4b3da7f444cb88a5b5269 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:59:43 +0200
 Subject: [PATCH 37/79] vlc_common.h: Include winsock2.h as it defines some

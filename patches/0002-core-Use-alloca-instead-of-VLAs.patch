@@ -1,4 +1,4 @@
-From 9339ba452f91665877487cb3ffcd7fa6d7a29dde Mon Sep 17 00:00:00 2001
+From d2758a4f34f4f005fb0643e2d5e91d69f46dd111 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
 Subject: [PATCH 02/79] core: Use alloca instead of VLAs
@@ -42,7 +42,7 @@ index 7d0b71d..60c4953 100644
          snprintf( name, sizeof (name), "%s%s", psz_prefix,
                    b_once ? (ppsz_options[i] + 1) : ppsz_options[i] );
 diff --git a/src/config/file.c b/src/config/file.c
-index 7bab109..d912c8d 100644
+index b445698..4c8d72b 100644
 --- a/src/config/file.c
 +++ b/src/config/file.c
 @@ -284,7 +284,7 @@ int config_CreateDir( vlc_object_t *p_this, const char *psz_dirname )
@@ -55,10 +55,10 @@ index 7bab109..d912c8d 100644
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
 diff --git a/src/input/item.c b/src/input/item.c
-index 33c7b26..f3619fc 100644
+index 76fc818..28d90de 100644
 --- a/src/input/item.c
 +++ b/src/input/item.c
-@@ -785,7 +785,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
+@@ -792,7 +792,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
      const int i_epg_info = p_item->i_epg;
      if( i_epg_info > 0 )
      {

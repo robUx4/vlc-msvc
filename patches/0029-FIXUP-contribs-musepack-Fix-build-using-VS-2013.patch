@@ -1,4 +1,4 @@
-From 5c51200c1d99e44f48482170a9676c01da0b8329 Mon Sep 17 00:00:00 2001
+From 7dd87bb9bf67f135ddeda90906a923b1aa6c09d3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 2 Feb 2015 13:18:30 +0100
 Subject: [PATCH 29/79] FIXUP: contribs: musepack: Fix build using VS 2013

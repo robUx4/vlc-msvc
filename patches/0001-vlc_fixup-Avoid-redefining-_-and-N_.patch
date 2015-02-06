@@ -1,4 +1,4 @@
-From 50b0022d5ef1e5990df53da89235eaa56d336be9 Mon Sep 17 00:00:00 2001
+From f9d1c527295f6dfd8db42a463be9ebee6732c63c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 13 Oct 2014 07:39:27 -0700
 Subject: [PATCH 01/79] vlc_fixup: Avoid redefining _ and N_

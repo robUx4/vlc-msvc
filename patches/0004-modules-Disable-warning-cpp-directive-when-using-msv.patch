@@ -1,4 +1,4 @@
-From 3f45f14789c9998c9b5ddcfc4865bc1a1f7b72ca Mon Sep 17 00:00:00 2001
+From 7eba97ec785b73f7eee4c5af80cd06fdb3b1dba8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
 Subject: [PATCH 04/79] modules: Disable warning cpp directive when using msvc

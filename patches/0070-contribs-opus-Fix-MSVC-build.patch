@@ -1,0 +1,46 @@
+From 29509ba2a06ae444905eadd9dafeb44cd243b86a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 9 Jan 2015 17:47:55 +0100
+Subject: [PATCH 70/79] contribs: opus: Fix MSVC build
+
+This is applied upstream and can be removed when we update opus version
+---
+ contrib/src/opus/msvc.patch | 11 +++++++++++
+ contrib/src/opus/rules.mak  |  3 +++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 contrib/src/opus/msvc.patch
+
+diff --git a/contrib/src/opus/msvc.patch b/contrib/src/opus/msvc.patch
+new file mode 100644
+index 0000000..633cb42
+--- /dev/null
++++ b/contrib/src/opus/msvc.patch
+@@ -0,0 +1,11 @@
++--- opus/celt/float_cast.h	2013-11-29 21:17:15.000000000 +0100
+++++ /home/vlc/vlc/contrib/windowsphone/opus/celt/float_cast.h	2014-12-15 16:55:21.951193100 +0100
++@@ -97,7 +97,7 @@
++         {
++                 return _mm_cvtss_si32(_mm_load_ss(&value));
++         }
++-#elif (defined(_MSC_VER) && _MSC_VER >= 1400) && (defined (WIN32) || defined (_WIN32))
+++#elif (defined(_MSC_VER) && _MSC_VER >= 1400) && (defined (WIN32) || defined (_WIN32)) && !defined(_M_ARM)
++         #include <math.h>
++ 
++         /*      Win32 doesn't seem to have these functions.
+diff --git a/contrib/src/opus/rules.mak b/contrib/src/opus/rules.mak
+index dda0c47..2ee0642 100644
+--- a/contrib/src/opus/rules.mak
++++ b/contrib/src/opus/rules.mak
+@@ -17,6 +17,9 @@ $(TARBALLS)/opus-$(OPUS_VERSION).tar.gz:
+ opus: opus-$(OPUS_VERSION).tar.gz .sum-opus
+ 	$(UNPACK)
+ 	$(UPDATE_AUTOCONFIG)
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/opus/msvc.patch
++endif
+ 	$(MOVE)
+ 
+ OPUS_CONF= --disable-extra-programs --disable-doc
+-- 
+2.2.0
+

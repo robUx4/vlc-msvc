@@ -1,4 +1,4 @@
-From 676150b8d8505831935af72995b51cbc07a01987 Mon Sep 17 00:00:00 2001
+From 4f43b998d868e20956bf6a8e5c539f1b65c3363b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:16:28 +0200
 Subject: [PATCH 30/79] contribs: opus: Force alloca usage when building with
