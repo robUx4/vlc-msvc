@@ -59,7 +59,7 @@ ROOT_FOLDER=$SCRIPTPATH/..
 
 cd $ROOT_FOLDER
 
-TESTED_HASH=969a8451cc02885a0fb411da1216667f2f38a302
+TESTED_HASH=457b73154ab210737acb68673830244e07b587e9
 if [ ! -d $"vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
