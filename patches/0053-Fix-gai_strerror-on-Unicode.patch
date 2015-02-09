@@ -1,4 +1,4 @@
-From 1944feb4abc76b3cbf23f868151daf89b705e695 Mon Sep 17 00:00:00 2001
+From df643f131d359131d2162476f3d89c171fb72f17 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Thu, 20 Nov 2014 13:12:05 +0100
 Subject: [PATCH 53/78] Fix gai_strerror on Unicode

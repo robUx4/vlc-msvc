@@ -1,4 +1,4 @@
-From 85cda26f88b2e22be11bda4afa7876d541813413 Mon Sep 17 00:00:00 2001
+From c8d479704c1bf8df291283926e727a29ed0407f4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 7 Jan 2015 11:29:18 +0100
 Subject: [PATCH 61/78] HACK HACK HACK: Disable some modules the ugly way

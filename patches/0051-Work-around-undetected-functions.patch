@@ -1,4 +1,4 @@
-From 1f1a78d191d85ae47900d210e8985624b5572987 Mon Sep 17 00:00:00 2001
+From 827fb98f3c18183f975c8fbda4a7e677e72fe6c0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 17:13:16 +0100
 Subject: [PATCH 51/78] Work around undetected functions

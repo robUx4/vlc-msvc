@@ -1,4 +1,4 @@
-From 74f256f6dac78384bca35e395ad3dd891ca71498 Mon Sep 17 00:00:00 2001
+From 6d451f4f6c3a505b1d549ed58516fd5a2c739e72 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 8 Jan 2015 17:31:32 +0100
 Subject: [PATCH 62/78] contrib: dca: Work around hardcoded path

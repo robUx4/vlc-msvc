@@ -1,4 +1,4 @@
-From f85a57ba2ebac65f503758801fae236ce219bbbc Mon Sep 17 00:00:00 2001
+From e7c6fd39e7c81f0b55922c1d08c676e7f377bb8f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:06:42 +0100
 Subject: [PATCH 56/78] HACK HACK HACK: url: Work around to avoid use of

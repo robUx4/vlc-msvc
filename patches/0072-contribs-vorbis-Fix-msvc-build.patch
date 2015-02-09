@@ -1,4 +1,4 @@
-From 7ee0693a8acf4f7851a241af4c04c7751428b9c7 Mon Sep 17 00:00:00 2001
+From a7149fa74a42b5b92400137f528baaf8d580cca6 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 3 Feb 2015 13:51:52 +0100
 Subject: [PATCH 72/78] contribs: vorbis: Fix msvc build

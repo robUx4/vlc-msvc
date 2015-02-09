@@ -1,4 +1,4 @@
-From a4d6ff0cb2fab09631f88074ca4a08e5f07c7eb8 Mon Sep 17 00:00:00 2001
+From f13ffb044237def2384a3c1a5117fe6620c4223f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 17:47:55 +0100
 Subject: [PATCH 69/78] contribs: opus: Fix MSVC build

@@ -1,4 +1,4 @@
-From 09d183b3488553d171ed43759d08f5a1439deb9a Mon Sep 17 00:00:00 2001
+From 802c26c252cc0b80da2ce16cbc1ced9ea09400b2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:43:14 +0100
 Subject: [PATCH 44/78] contribs: samplerate: Don't bother build anything else

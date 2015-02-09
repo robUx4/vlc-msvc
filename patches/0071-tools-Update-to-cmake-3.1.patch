@@ -1,4 +1,4 @@
-From 19ac40f52f80903cccdd6b922bc32ebb0f4e3f98 Mon Sep 17 00:00:00 2001
+From a5a24425fb53ec2465ee7aea36143cd459453e2b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 16 Jan 2015 14:27:08 +0100
 Subject: [PATCH 71/78] tools: Update to cmake 3.1

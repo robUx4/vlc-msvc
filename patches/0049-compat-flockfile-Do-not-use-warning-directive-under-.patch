@@ -1,4 +1,4 @@
-From 8ac214111630d4c44becfc6988ec940b7d146507 Mon Sep 17 00:00:00 2001
+From eac295e53943988f698e20ae0ccf2f9679ef05ea Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:26:13 +0100
 Subject: [PATCH 49/78] compat: flockfile: Do not use warning directive under

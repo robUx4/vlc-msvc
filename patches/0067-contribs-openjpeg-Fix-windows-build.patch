@@ -1,4 +1,4 @@
-From a8f01bb513afe09b52312238bdccbf0458e712c5 Mon Sep 17 00:00:00 2001
+From ea5b54bddb8dec8c72afbe97fc4531ec07e92b4c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:52:03 +0100
 Subject: [PATCH 67/78] contribs: openjpeg: Fix windows build
