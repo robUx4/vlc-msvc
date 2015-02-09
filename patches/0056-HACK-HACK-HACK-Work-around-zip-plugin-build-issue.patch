@@ -1,0 +1,25 @@
+From 042a649f550dd8478ac30c2dd1cd2f1e6a9ee0d3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Mon, 5 Jan 2015 14:16:41 +0100
+Subject: [PATCH 56/77] HACK HACK HACK: Work around zip plugin build issue
+
+---
+ modules/access/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/access/Makefile.am b/modules/access/Makefile.am
+index 3bc9146..ce64602 100644
+--- a/modules/access/Makefile.am
++++ b/modules/access/Makefile.am
+@@ -47,7 +47,7 @@ access_LTLIBRARIES += libtimecode_plugin.la
+ libvdr_plugin_la_SOURCES = access/vdr.c
+ access_LTLIBRARIES += libvdr_plugin.la
+ 
+-libzip_plugin_la_SOURCES = access/zip/zip.h access/zip/zipstream.c access/zip/zipaccess.c
++libzip_plugin_la_SOURCES = access/zip/zip.h access/zip/zipstream.c access/zip/zipaccess.c $(libunzip_la_SOURCES)
+ libzip_plugin_la_CFLAGS = $(AM_CFLAGS) $(MINIZIP_CFLAGS)
+ libzip_plugin_la_LIBADD = $(MINIZIP_LIBS)
+ libunzip_la_SOURCES = access/zip/unzip/unzip.c access/zip/unzip/unzip.h access/zip/unzip/crypt.h \
+-- 
+2.2.0
+

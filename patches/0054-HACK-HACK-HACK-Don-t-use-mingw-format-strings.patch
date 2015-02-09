@@ -1,0 +1,26 @@
+From b9449c15a851ab9febdab8ddeab7e9c5723f3a7d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Mon, 5 Jan 2015 14:10:42 +0100
+Subject: [PATCH 54/77] HACK HACK HACK: Don't use mingw format strings
+
+This should be removed when our toolchain isn't considered as vanilla mingw
+---
+ include/vlc_common.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/vlc_common.h b/include/vlc_common.h
+index 27f0ac9..b4e344e 100644
+--- a/include/vlc_common.h
++++ b/include/vlc_common.h
+@@ -64,7 +64,7 @@
+ #endif
+ 
+ /* Try to fix format strings for all versions of mingw and mingw64 */
+-#if defined( _WIN32 ) && defined( __USE_MINGW_ANSI_STDIO )
++#if defined( _WIN32 ) && defined( __USE_MINGW_ANSI_STDIO ) && !defined( _MSC_VER )
+  #undef PRId64
+  #define PRId64 "lld"
+  #undef PRIi64
+-- 
+2.2.0
+

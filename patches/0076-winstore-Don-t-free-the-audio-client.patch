@@ -1,0 +1,25 @@
+From b9b46e0747223727c6d223a1ec42a6618d236fab Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 10 Feb 2015 11:58:23 +0100
+Subject: [PATCH 76/77] winstore: Don't free the audio client.
+
+It is owned by an external component.
+---
+ modules/audio_output/winstore.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/modules/audio_output/winstore.c b/modules/audio_output/winstore.c
+index 6ae99ef..4df0bc9 100644
+--- a/modules/audio_output/winstore.c
++++ b/modules/audio_output/winstore.c
+@@ -197,7 +197,6 @@ static void Close(vlc_object_t *obj)
+     audio_output_t *aout = (audio_output_t *)obj;
+     aout_sys_t *sys = aout->sys;
+ 
+-    free(sys->client);
+     free(sys);
+ }
+ 
+-- 
+2.2.0
+

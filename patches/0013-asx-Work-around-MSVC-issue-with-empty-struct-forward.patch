@@ -1,7 +1,7 @@
 From 4bc0bd7395dc5c6c1236d90b28f76fd7d1cb594a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 10:58:34 +0200
-Subject: [PATCH 13/78] asx: Work around MSVC issue with empty struct/forward
+Subject: [PATCH 13/77] asx: Work around MSVC issue with empty struct/forward
  declaration
 
 ---

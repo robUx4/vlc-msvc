@@ -1,0 +1,25 @@
+From 4beba0f42c5a0bab0525bc4e8d7685ae894d5eea Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Mon, 5 Jan 2015 14:12:30 +0100
+Subject: [PATCH 55/77] contrib: main: Ignore whitespaces when applying patch
+
+---
+ contrib/src/main.mak | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/src/main.mak b/contrib/src/main.mak
+index f0773b9..99d74a0 100644
+--- a/contrib/src/main.mak
++++ b/contrib/src/main.mak
+@@ -315,7 +315,7 @@ UNPACK = $(RM) -R $@ \
+ 	$(foreach f,$(filter %.tar.xz,$^), && tar xvJf $(f)) \
+ 	$(foreach f,$(filter %.zip,$^), && unzip $(f))
+ UNPACK_DIR = $(patsubst %.tar,%,$(basename $(notdir $<)))
+-APPLY = (cd $(UNPACK_DIR) && patch -fp1) <
++APPLY = (cd $(UNPACK_DIR) && patch -lfp1) <
+ pkg_static = (cd $(UNPACK_DIR) && ../../../contrib/src/pkg-static.sh $(1))
+ MOVE = mv $(UNPACK_DIR) $@ && touch $@
+ 
+-- 
+2.2.0
+

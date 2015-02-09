@@ -1,7 +1,7 @@
 From 52e776af353756a52426eb4f725c91e3b70b25b5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:31:38 +0200
-Subject: [PATCH 07/78] modules: Work around lack of MSVC support for C99
+Subject: [PATCH 07/77] modules: Work around lack of MSVC support for C99
  hexadecimal floating point numbers
 
 ---

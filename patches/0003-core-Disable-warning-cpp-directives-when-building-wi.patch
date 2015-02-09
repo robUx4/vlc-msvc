@@ -1,7 +1,7 @@
 From b4bdfb5907abd4bf9bfc715ddcc8f020752cbf2b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:06:49 +0200
-Subject: [PATCH 03/78] core: Disable warning cpp directives when building with
+Subject: [PATCH 03/77] core: Disable warning cpp directives when building with
  MSVC
 
 ---
