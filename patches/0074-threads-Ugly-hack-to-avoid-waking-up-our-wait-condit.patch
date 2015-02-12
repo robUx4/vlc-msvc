@@ -1,7 +1,7 @@
 From 9102448e1fdcb0c83d6ea7f34b7f24a34f093745 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 26 Jan 2015 12:07:35 +0100
-Subject: [PATCH 74/77] threads: Ugly hack to avoid waking up our wait
+Subject: [PATCH 74/80] threads: Ugly hack to avoid waking up our wait
  conditions every 50ms
 
 ---

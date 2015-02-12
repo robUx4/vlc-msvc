@@ -1,7 +1,7 @@
 From 5191a66dd1a0dd34cb6cd3b0b0441e5bb3b5bf5b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 17:58:21 +0100
-Subject: [PATCH 67/77] contrib: png: Remove check for memset & pow
+Subject: [PATCH 67/80] contrib: png: Remove check for memset & pow
 
 We provide those functions, though as a wrapper, which configure fails to detect
 ---

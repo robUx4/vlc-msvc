@@ -1,7 +1,7 @@
 From 630246973c30fb8e1e11f938c9435580888be0c5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:26:13 +0100
-Subject: [PATCH 46/77] compat: flockfile: Do not use warning directive under
+Subject: [PATCH 46/80] compat: flockfile: Do not use warning directive under
  msvc
 
 ---

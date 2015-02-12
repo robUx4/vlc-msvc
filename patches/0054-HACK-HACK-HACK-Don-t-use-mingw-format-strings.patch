@@ -1,7 +1,7 @@
 From b9449c15a851ab9febdab8ddeab7e9c5723f3a7d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:10:42 +0100
-Subject: [PATCH 54/77] HACK HACK HACK: Don't use mingw format strings
+Subject: [PATCH 54/80] HACK HACK HACK: Don't use mingw format strings
 
 This should be removed when our toolchain isn't considered as vanilla mingw
 ---

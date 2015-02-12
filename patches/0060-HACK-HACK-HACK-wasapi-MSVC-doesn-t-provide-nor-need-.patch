@@ -1,7 +1,7 @@
 From 9c4d5dada8e8c80ef68e185fdf8859b0420f2181 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 10:40:29 +0100
-Subject: [PATCH 60/77] HACK HACK HACK: wasapi: MSVC doesn't provide nor need
+Subject: [PATCH 60/80] HACK HACK HACK: wasapi: MSVC doesn't provide nor need
  -lksuser
 
 ---

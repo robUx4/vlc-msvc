@@ -1,7 +1,7 @@
 From 4beba0f42c5a0bab0525bc4e8d7685ae894d5eea Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:12:30 +0100
-Subject: [PATCH 55/77] contrib: main: Ignore whitespaces when applying patch
+Subject: [PATCH 55/80] contrib: main: Ignore whitespaces when applying patch
 
 ---
  contrib/src/main.mak | 2 +-
