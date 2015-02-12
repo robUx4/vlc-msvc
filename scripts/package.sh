@@ -26,22 +26,12 @@ find _win32/lib/vlc -name *.lib -exec rm {} \;
 mkdir tmp
 
 cp -R _win32/include tmp/
-cp -R _win32/lib/vlc/plugins tmp/
-cp _win32/lib/vlc.dll.lib tmp/vlc.lib
-cp _win32/bin/vlc.dll tmp/
-cp _win32/lib/vlccore.dll.lib tmp/vlccore.lib
-cp _win32/bin/vlccore.dll tmp/
-
-cd tmp/plugins
-for f in */ ; do
-    cd $f
-    for i in *.dll ; do
-        mv $i lib$i
-    done
-    cd ..
-done
-cd ../../
-
+cp -R _win32/lib/vlc/plugins    \
+        _win32/lib/libvlc.lib   \
+        _win32/bin/libvlc.dll   \
+        _win32/lib/libvlccore.lib  \
+        _win32/bin/libvlccore.dll  \
+        tmp
 
 mkdir -p $ROOT_FOLDER/$VLC_PLATFORM/vlc-arm/
 PACKAGE_FOLDER=$ROOT_FOLDER/$VLC_PLATFORM/vlc-arm/$VLC_CONFIGURATION
