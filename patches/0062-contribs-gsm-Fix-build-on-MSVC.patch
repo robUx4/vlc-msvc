@@ -1,7 +1,7 @@
 From 4ee144c90b50f15cb769c9a0799ff591ad6f041d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 6 Feb 2015 18:22:28 +0100
-Subject: [PATCH 62/80] contribs: gsm: Fix build on MSVC
+Subject: [PATCH 62/82] contribs: gsm: Fix build on MSVC
 
 ---
  contrib/src/gsm/msvc.patch | 10 ++++++++++

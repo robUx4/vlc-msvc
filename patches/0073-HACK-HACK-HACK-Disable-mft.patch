@@ -1,7 +1,7 @@
 From bf425d300d780219679b6d2fe9ccd264b8226ab5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 5 Feb 2015 11:18:25 +0100
-Subject: [PATCH 73/80] HACK HACK HACK: Disable mft
+Subject: [PATCH 73/82] HACK HACK HACK: Disable mft
 
 ---
  modules/codec/Makefile.am | 2 +-

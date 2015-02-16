@@ -1,7 +1,7 @@
 From c66ed07105ff7f1f90e2e293df37f61862b7d707 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:42:35 +0100
-Subject: [PATCH 40/80] contribs: iconv: Fix msvc build
+Subject: [PATCH 40/82] contribs: iconv: Fix msvc build
 
 ---
  contrib/src/iconv/msvc.patch | 22 ++++++++++++++++++++++

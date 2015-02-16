@@ -1,7 +1,7 @@
 From b9b46e0747223727c6d223a1ec42a6618d236fab Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 10 Feb 2015 11:58:23 +0100
-Subject: [PATCH 76/80] winstore: Don't free the audio client.
+Subject: [PATCH 76/82] winstore: Don't free the audio client.
 
 It is owned by an external component.
 ---

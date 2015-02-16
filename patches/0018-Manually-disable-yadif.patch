@@ -1,7 +1,7 @@
 From ad37a5fa1db45e209abd32fc4ab75e92375a51f5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:29:17 +0200
-Subject: [PATCH 18/80] Manually disable yadif
+Subject: [PATCH 18/82] Manually disable yadif
 
 Please don't push this
 ---

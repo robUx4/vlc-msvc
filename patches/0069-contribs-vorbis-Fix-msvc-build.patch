@@ -1,7 +1,7 @@
 From 3aac9e709af8eaa517047f997d077c1fbf4304bf Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 3 Feb 2015 13:51:52 +0100
-Subject: [PATCH 69/80] contribs: vorbis: Fix msvc build
+Subject: [PATCH 69/82] contribs: vorbis: Fix msvc build
 
 ---
  contrib/src/vorbis/msvc.patch | 11 +++++++++++

@@ -1,7 +1,7 @@
 From 6b5d74a188ef954fd549b39bb969a6d653afcddd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:06:42 +0100
-Subject: [PATCH 53/80] HACK HACK HACK: url: Work around to avoid use of
+Subject: [PATCH 53/82] HACK HACK HACK: url: Work around to avoid use of
  forbidden functions
 
 ---
