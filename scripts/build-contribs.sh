@@ -42,8 +42,6 @@ cd $VLC_PLATFORM
 	--disable-gme \
 	--disable-gmp \
 	--disable-libgpg-error \
-    --disable-net \
-    --disable-sout \
 	--disable-gnutls \
     --disable-gcrypt \
     --disable-ssh2 \
