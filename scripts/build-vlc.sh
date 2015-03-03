@@ -71,7 +71,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --disable-telx \
         --enable-nls \
         --disable-mad \
-        --disable-dca \
         --disable-schroedinger \
         --disable-theora \
         --disable-goom \
@@ -94,7 +93,8 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --disable-atmo \
         --disable-vlc \
         --disable-vcd \
-        --disable-directx || exit 1
+        --disable-directx \
+        --disable-smbclient || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool
     sed -i 's/library_names_spec=\"\\$libname.dll.lib\"/library_names_spec=\"\\$libname.lib\"/' libtool
