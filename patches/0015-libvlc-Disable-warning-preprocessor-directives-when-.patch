@@ -1,0 +1,27 @@
+From e9ac7d01cc44271574bb9891e7e90a2b18fb67d7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 12:26:48 +0200
+Subject: [PATCH 15/71] libvlc: Disable warning preprocessor directives when
+ building with MSVC
+
+---
+ lib/media_list.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/media_list.c b/lib/media_list.c
+index d4dae1a..480e86e 100644
+--- a/lib/media_list.c
++++ b/lib/media_list.c
+@@ -272,7 +272,9 @@ libvlc_media_list_add_file_content( libvlc_media_list_t * p_mlist,
+ 
+     if( libvlc_media_list_add_media( p_mlist, p_md ) )
+     {
++#ifndef _MSC_VER
+ #warning Missing error handling!
++#endif
+         /* printerr and leaks */
+         return -1;
+     }
+-- 
+2.2.0
+

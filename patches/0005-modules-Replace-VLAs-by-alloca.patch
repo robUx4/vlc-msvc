@@ -1,7 +1,7 @@
-From 4474cb6a4815ec5e17c51058b58b4f828dfbe2d5 Mon Sep 17 00:00:00 2001
+From a42dc1d07d8391b40dacaf9e8eb14dd8cf1a56ad Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:46:08 +0200
-Subject: [PATCH 05/82] modules: Replace VLAs by alloca()
+Subject: [PATCH 05/71] modules: Replace VLAs by alloca()
 
 ---
  modules/access/ftp.c                  | 2 +-
@@ -46,10 +46,10 @@ index a4a8bd4..7ce9ad4 100644
      if( !DeviceIoControl( p_vcddev->h_device_handle, IOCTL_CDROM_READ_TOC_EX,
                            &TOCEx, sizeof(TOCEx), header, i_header_size, &i_read, 0 ) )
 diff --git a/modules/codec/avcodec/audio.c b/modules/codec/avcodec/audio.c
-index a37f1cf..4d6dde4 100644
+index 514f76d..afafb14 100644
 --- a/modules/codec/avcodec/audio.c
 +++ b/modules/codec/avcodec/audio.c
-@@ -408,7 +408,7 @@ static block_t *DecodeAudio( decoder_t *p_dec, block_t **pp_block )
+@@ -407,7 +407,7 @@ static block_t *DecodeAudio( decoder_t *p_dec, block_t **pp_block )
          if (unlikely(p_block == NULL))
              goto drop;
  
@@ -58,7 +58,7 @@ index a37f1cf..4d6dde4 100644
          for (int i = 0; i < ctx->channels; i++)
              planes[i] = frame->extended_data[i];
  
-@@ -550,7 +550,7 @@ static void SetupOutputFormat( decoder_t *p_dec, bool b_trust )
+@@ -549,7 +549,7 @@ static void SetupOutputFormat( decoder_t *p_dec, bool b_trust )
       * FIXME should we use fmt_in.audio.i_physical_channels or not ?
       */
      const unsigned i_order_max = 8 * sizeof(p_sys->p_context->channel_layout);
@@ -103,7 +103,7 @@ index f80510e..e21d014 100644
  
          char *key = var_InheritString( p_intf, varname );
 diff --git a/modules/control/rc.c b/modules/control/rc.c
-index 12635ad..fae89df 100644
+index 0ada15c..84797e7 100644
 --- a/modules/control/rc.c
 +++ b/modules/control/rc.c
 @@ -140,7 +140,7 @@ VLC_FORMAT(2, 3)
@@ -183,7 +183,7 @@ index 717050c..057ff50 100644
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
 diff --git a/modules/services_discovery/sap.c b/modules/services_discovery/sap.c
-index 8888215..a078b36 100644
+index abdf957..4c8a18c 100644
 --- a/modules/services_discovery/sap.c
 +++ b/modules/services_discovery/sap.c
 @@ -533,7 +533,7 @@ static void *Run( void *data )

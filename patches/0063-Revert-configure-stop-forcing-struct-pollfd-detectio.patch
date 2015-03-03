@@ -1,0 +1,28 @@
+From 32230c3c4baa65decf88b53f2bb7c6e8d61be3ce Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 4 Feb 2015 12:23:02 +0100
+Subject: [PATCH 63/71] Revert "configure: stop forcing struct pollfd detection
+ to XP"
+
+This reverts commit 36f3f9c4ff55721991158f878990b0cbb283a193.
+While configure.ac fails to build its test program without this change, it still considers the type to exist without it.
+This is an ugly work around
+---
+ configure.ac | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configure.ac b/configure.ac
+index cd62672..7368603 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -609,6 +609,7 @@ AC_CHECK_TYPES([struct pollfd],,,
+ #if HAVE_POLL
+ # include <poll.h>
+ #elif defined (_WIN32)
++# define _WIN32_WINNT 0x502
+ # include <winsock2.h>
+ #endif
+ ])
+-- 
+2.2.0
+

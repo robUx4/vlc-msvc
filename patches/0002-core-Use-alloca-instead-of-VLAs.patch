@@ -1,7 +1,7 @@
-From d2758a4f34f4f005fb0643e2d5e91d69f46dd111 Mon Sep 17 00:00:00 2001
+From cb3ec6219896b2d75e5a8b0b3bd7a77554e4d7ea Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
-Subject: [PATCH 02/82] core: Use alloca instead of VLAs
+Subject: [PATCH 02/71] core: Use alloca instead of VLAs
 
 This is done only for code that is used on windows
 ---
@@ -68,7 +68,7 @@ index 76fc818..28d90de 100644
          {
              const vlc_epg_t *p_epg = p_item->pp_epg[i];
 diff --git a/src/input/stream.c b/src/input/stream.c
-index a5e3c22..4f98707 100644
+index 55ec2c8..0ee4ad7 100644
 --- a/src/input/stream.c
 +++ b/src/input/stream.c
 @@ -257,7 +257,7 @@ stream_t *stream_UrlNew( vlc_object_t *p_parent, const char *psz_url )
@@ -120,10 +120,10 @@ index 7d6d245..28f55ce 100644
      psz_header = strstr( psz_header, psz_what );
      if ( psz_header )
 diff --git a/src/misc/messages.c b/src/misc/messages.c
-index 6c04b8c..90314c3 100644
+index e22e4fe7..6089e1a 100644
 --- a/src/misc/messages.c
 +++ b/src/misc/messages.c
-@@ -85,7 +85,7 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
+@@ -97,7 +97,7 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
      p = strchr(module, '.');
  
      size_t modlen = (p != NULL) ? (p - module) : 0;
@@ -156,7 +156,7 @@ index 98e093f..1633649 100644
  
      for (i = 0; i < count; i++) {
 diff --git a/src/network/httpd.c b/src/network/httpd.c
-index a643c70..9b4f3ad 100644
+index 94dec90..8cbd553 100644
 --- a/src/network/httpd.c
 +++ b/src/network/httpd.c
 @@ -1723,7 +1723,7 @@ auth_failed:

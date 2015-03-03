@@ -1,0 +1,30 @@
+From a8c1ea3079c529f80df34f7ea5a5191b0f614998 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 15:16:28 +0200
+Subject: [PATCH 25/71] contribs: opus: Force alloca usage when building with
+ MSVC
+
+---
+ contrib/src/opus/rules.mak | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/src/opus/rules.mak b/contrib/src/opus/rules.mak
+index b7e7959..2ee0642 100644
+--- a/contrib/src/opus/rules.mak
++++ b/contrib/src/opus/rules.mak
+@@ -27,7 +27,11 @@ ifndef HAVE_FPU
+ OPUS_CONF += --enable-fixed-point
+ endif
+ 
++ifdef HAVE_VISUALSTUDIO
++OPUS_CFLAGS=-DUSE_ALLOCA
++endif
++
+ .opus: opus
+-	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) $(OPUS_CONF)
++	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) $(OPUS_CONF) CFLAGS="$(OPUS_CFLAGS)"
+ 	cd $< && $(MAKE) install
+ 	touch $@
+-- 
+2.2.0
+

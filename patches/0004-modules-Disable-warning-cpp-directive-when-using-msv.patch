@@ -1,7 +1,7 @@
-From 7eba97ec785b73f7eee4c5af80cd06fdb3b1dba8 Mon Sep 17 00:00:00 2001
+From d3d019dff448097e86402db0e8270a5a0bf0c098 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
-Subject: [PATCH 04/82] modules: Disable warning cpp directive when using msvc
+Subject: [PATCH 04/71] modules: Disable warning cpp directive when using msvc
 
 ---
  modules/access/bluray.c        | 2 +-
@@ -15,7 +15,7 @@ Subject: [PATCH 04/82] modules: Disable warning cpp directive when using msvc
  8 files changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/modules/access/bluray.c b/modules/access/bluray.c
-index 4a46407..0885cf1 100644
+index 0d2a5ed..4480fac 100644
 --- a/modules/access/bluray.c
 +++ b/modules/access/bluray.c
 @@ -267,7 +267,7 @@ static void FindMountPoint(char **file)
@@ -43,7 +43,7 @@ index b8e39af..59a50bd 100644
  #  define BC_FUNC_PSYS( a ) p_sys->Our ## a
  #else
 diff --git a/modules/control/rc.c b/modules/control/rc.c
-index c3eb726..12635ad 100644
+index ca2b4a1..0ada15c 100644
 --- a/modules/control/rc.c
 +++ b/modules/control/rc.c
 @@ -522,7 +522,9 @@ static void *Run( void *data )
@@ -86,10 +86,10 @@ index 826b78e..d6a271c 100644
  #endif
              psz_type = "video";
 diff --git a/modules/demux/mkv/mkv.cpp b/modules/demux/mkv/mkv.cpp
-index 5868ca1..a4b47e6 100644
+index 7b8abb1..8e4bce7 100644
 --- a/modules/demux/mkv/mkv.cpp
 +++ b/modules/demux/mkv/mkv.cpp
-@@ -188,7 +188,9 @@ static int Open( vlc_object_t * p_this )
+@@ -192,7 +192,9 @@ static int Open( vlc_object_t * p_this )
                              // test whether this file belongs to our family
                              const uint8_t *p_peek;
                              bool          file_ok = false;
@@ -100,7 +100,7 @@ index 5868ca1..a4b47e6 100644
                              stream_t      *p_file_stream = stream_UrlNew(
                                                              p_demux,
 diff --git a/modules/demux/ogg.c b/modules/demux/ogg.c
-index 6e0a500..7f25d52 100644
+index 8326b4e..a07ac60 100644
 --- a/modules/demux/ogg.c
 +++ b/modules/demux/ogg.c
 @@ -1259,7 +1259,9 @@ static void Ogg_DecodePacket( demux_t *p_demux,

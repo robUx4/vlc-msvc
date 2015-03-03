@@ -1,0 +1,68 @@
+From 6e1546d47b03ea2edce8a45cbafef6472a97a062 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 20 Nov 2014 15:42:35 +0100
+Subject: [PATCH 37/71] contribs: iconv: Fix msvc build
+
+---
+ contrib/src/iconv/msvc.patch | 22 ++++++++++++++++++++++
+ contrib/src/iconv/rules.mak  |  9 ++++++++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/src/iconv/msvc.patch
+
+diff --git a/contrib/src/iconv/msvc.patch b/contrib/src/iconv/msvc.patch
+new file mode 100644
+index 0000000..48c3a6a
+--- /dev/null
++++ b/contrib/src/iconv/msvc.patch
+@@ -0,0 +1,22 @@
++--- iconv/lib/Makefile	2015-02-05 17:48:56.635091900 +0100
+++++ iconv/lib/Makefile.orig	2015-02-05 17:48:53.793121800 +0100
++@@ -21,7 +21,7 @@
++ INCLUDES = -I. -I$(srcdir) -I../include -I$(srcdir)/../include -I.. -I$(srcdir)/..
++ # -DBUILDING_LIBICONV: Change expansion of LIBICONV_DLL_EXPORTED macro.
++ # -DBUILDING_DLL: Change expansion of RELOCATABLE_DLL_EXPORTED macro.
++-DEFS = -DLIBDIR=\"$(libdir)\" -DBUILDING_LIBICONV -DBUILDING_DLL \
+++DEFS = -DLIBDIR=\"$(libdir)\" -DBUILDING_LIBICONV \
++ -DENABLE_RELOCATABLE=1 -DIN_LIBRARY -DINSTALLDIR=\"$(libdir)\" -DNO_XMALLOC \
++ -Dset_relocation_prefix=libiconv_set_relocation_prefix \
++ -Drelocate=libiconv_relocate -DHAVE_CONFIG_H
++--- iconv/libcharset/lib/Makefile.orig	2015-02-05 18:00:40.608066800 +0100
+++++ iconv/libcharset/lib/Makefile	2015-02-05 18:00:47.905317000 +0100
++@@ -19,7 +19,7 @@
++ INCLUDES = -I. -I$(srcdir) -I.. -I$(srcdir)/.. -I../include
++ # -DBUILDING_LIBCHARSET: Change expansion of LIBCHARSET_DLL_EXPORTED macro.
++ # -DBUILDING_DLL: Change expansion of RELOCATABLE_DLL_EXPORTED macro.
++-DEFS = -DLIBDIR=\"$(libdir)\" -DBUILDING_LIBCHARSET -DBUILDING_DLL \
+++DEFS = -DLIBDIR=\"$(libdir)\" -DBUILDING_LIBCHARSET \
++ -DENABLE_RELOCATABLE=1 -DIN_LIBRARY -DINSTALLDIR=\"$(libdir)\" -DNO_XMALLOC \
++ -Dset_relocation_prefix=libcharset_set_relocation_prefix \
++ -Drelocate=libcharset_relocate -DHAVE_CONFIG_H
+diff --git a/contrib/src/iconv/rules.mak b/contrib/src/iconv/rules.mak
+index 3596463..2163473 100644
+--- a/contrib/src/iconv/rules.mak
++++ b/contrib/src/iconv/rules.mak
+@@ -27,7 +27,8 @@ endif
+ ifdef HAVE_IOS
+ 	$(APPLY) $(SRC)/iconv/libiconv-android-ios.patch
+ endif
+-ifdef HAVE_WINRT
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/iconv/libiconv-android-ios.patch
+ 	$(APPLY) $(SRC)/iconv/libiconv-winrt.patch
+ endif
+ 	$(UPDATE_AUTOCONFIG) && cd $(UNPACK_DIR) && mv config.guess config.sub build-aux
+@@ -36,5 +37,11 @@ endif
+ 
+ .iconv: iconv
+ 	cd $< && $(HOSTVARS) ./configure $(HOSTCONF) --disable-nls
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/iconv/msvc.patch
++endif
+ 	cd $< && $(MAKE) install
++ifdef HAVE_VISUALSTUDIO
++	cp $(PREFIX)/lib/iconv.lib $(PREFIX)/lib/libiconv.a
++endif
+ 	touch $@
+-- 
+2.2.0
+

@@ -1,0 +1,27 @@
+From 188f1f29f79815d3c26f409f02e4149e683826d2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 15:59:43 +0200
+Subject: [PATCH 31/71] vlc_common.h: Include winsock2.h as it defines some
+ types we need
+
+---
+ include/vlc_common.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/vlc_common.h b/include/vlc_common.h
+index 98d91fc..2fbab2f 100644
+--- a/include/vlc_common.h
++++ b/include/vlc_common.h
+@@ -402,6 +402,9 @@ typedef enum
+ #       define PATH_MAX MAX_PATH
+ #   endif
+ #   include <windows.h>
++#   ifdef _MSC_VER
++#    include <winsock2.h>
++#   endif
+ #endif
+ 
+ #ifdef __SYMBIAN32__
+-- 
+2.2.0
+
