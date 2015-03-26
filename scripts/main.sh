@@ -2,6 +2,11 @@
 
 # This assumes we're running in vlc-msvc root folder
 
+# adjust pathes that may have been altered when calling cmd.exe
+export ACLOCAL_PATH=`cygpath -p $ACLOCAL_PATH`
+export INFOPATH=`cygpath -p $INFOPATH`
+export MANPATH=`cygpath -p $MANPATH`
+
 for i in $@ ; do
     if [ "$i" = "pause" ] ; then
         PAUSE_AFTER_BUILD=1
