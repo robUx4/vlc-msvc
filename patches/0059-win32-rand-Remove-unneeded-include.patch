@@ -1,7 +1,7 @@
 From af315240b24c994d5e87afe2d6f0770f70d013fa Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 3 Feb 2015 16:14:27 +0100
-Subject: [PATCH 59/71] win32: rand: Remove unneeded include
+Subject: [PATCH 59/74] win32: rand: Remove unneeded include
 
 ---
  src/win32/rand.c | 1 -

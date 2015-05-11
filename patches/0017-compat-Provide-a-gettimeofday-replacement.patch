@@ -1,7 +1,7 @@
 From 4fb89bf646509de99ea7ac8975a557238810570b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:08:53 +0200
-Subject: [PATCH 17/71] compat: Provide a gettimeofday replacement
+Subject: [PATCH 17/74] compat: Provide a gettimeofday replacement
 
 ---
  compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++

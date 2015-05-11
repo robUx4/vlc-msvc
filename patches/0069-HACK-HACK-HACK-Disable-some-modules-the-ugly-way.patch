@@ -1,18 +1,18 @@
-From bf96a2b6df2001d6c0872cae3d398793e9c931f1 Mon Sep 17 00:00:00 2001
+From 0991bdcbf8d59e5f1f2a21b94fef8b88dfce4bc3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:29:17 +0200
-Subject: [PATCH 69/71] HACK HACK HACK: Disable some modules the ugly way
+Subject: [PATCH 69/74] HACK HACK HACK: Disable some modules the ugly way
 
 ---
  modules/access/Makefile.am                     |  2 ++
  modules/audio_output/Makefile.am               |  2 +-
  modules/control/Makefile.am                    |  8 ++++----
  modules/services_discovery/Makefile.am         |  2 +-
- modules/video_filter/Makefile.am               | 16 ++++++++--------
+ modules/video_filter/Makefile.am               | 20 +++++++++-----------
  modules/video_filter/deinterlace/deinterlace.c | 10 ++++++----
  modules/video_filter/deinterlace/deinterlace.h |  2 +-
  modules/video_splitter/Makefile.am             |  2 +-
- 8 files changed, 24 insertions(+), 20 deletions(-)
+ 8 files changed, 25 insertions(+), 23 deletions(-)
 
 diff --git a/modules/access/Makefile.am b/modules/access/Makefile.am
 index ce64602..89b57b3 100644
@@ -85,7 +85,7 @@ index b526338..dd6788a 100644
  
  libos2drive_plugin_la_SOURCES = services_discovery/os2drive.c
 diff --git a/modules/video_filter/Makefile.am b/modules/video_filter/Makefile.am
-index dc2b5b4..c649432 100644
+index dc2b5b4..4b553e6 100644
 --- a/modules/video_filter/Makefile.am
 +++ b/modules/video_filter/Makefile.am
 @@ -49,12 +49,12 @@ libpuzzle_plugin_la_SOURCES = \
@@ -118,6 +118,17 @@ index dc2b5b4..c649432 100644
  
  libatmo_plugin_la_SOURCES = video_filter/atmo/atmo.cpp \
  	video_filter/atmo/AtmoDefs.h \
+@@ -138,9 +138,7 @@ libdeinterlace_plugin_la_SOURCES = \
+ 	video_filter/deinterlace/helpers.c video_filter/deinterlace/helpers.h \
+ 	video_filter/deinterlace/algo_basic.c video_filter/deinterlace/algo_basic.h \
+ 	video_filter/deinterlace/algo_x.c video_filter/deinterlace/algo_x.h \
+-	video_filter/deinterlace/algo_yadif.c video_filter/deinterlace/algo_yadif.h \
+-	video_filter/deinterlace/yadif.h video_filter/deinterlace/yadif_template.h \
+-	video_filter/deinterlace/algo_phosphor.c video_filter/deinterlace/algo_phosphor.h \
++    video_filter/deinterlace/algo_phosphor.c video_filter/deinterlace/algo_phosphor.h \
+ 	video_filter/deinterlace/algo_ivtc.c video_filter/deinterlace/algo_ivtc.h
+ # inline ASM doesn't build with -O0
+ libdeinterlace_plugin_la_CFLAGS = $(AM_CFLAGS) -O2
 diff --git a/modules/video_filter/deinterlace/deinterlace.c b/modules/video_filter/deinterlace/deinterlace.c
 index e6a0b0f..cabb80d 100644
 --- a/modules/video_filter/deinterlace/deinterlace.c

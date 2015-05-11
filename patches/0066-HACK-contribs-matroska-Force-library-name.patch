@@ -1,7 +1,7 @@
 From d717cb1dba6ad28d60ae63a41968b4dc3344c220 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 12 Feb 2015 15:56:05 +0100
-Subject: [PATCH 66/71] HACK: contribs: matroska: Force library name
+Subject: [PATCH 66/74] HACK: contribs: matroska: Force library name
 
 ---
  contrib/src/matroska/rules.mak | 3 +++

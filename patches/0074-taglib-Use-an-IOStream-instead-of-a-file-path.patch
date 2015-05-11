@@ -1,0 +1,159 @@
+From 62911c3dc40eeb9829ab761cd68aa580a7270692 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Tue, 28 Apr 2015 12:09:42 +0200
+Subject: [PATCH 74/74] taglib: Use an IOStream instead of a file path
+
+This allows us to use taglib on WinRT
+---
+ modules/meta_engine/taglib.cpp | 116 ++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 98 insertions(+), 18 deletions(-)
+
+diff --git a/modules/meta_engine/taglib.cpp b/modules/meta_engine/taglib.cpp
+index a600796..95d0a12 100644
+--- a/modules/meta_engine/taglib.cpp
++++ b/modules/meta_engine/taglib.cpp
+@@ -59,6 +59,7 @@
+ #include <fileref.h>
+ #include <tag.h>
+ #include <tbytevector.h>
++#include <tiostream.h>
+ 
+ #if TAGLIB_VERSION >= VERSION_INT(1,7,0)
+ # define TAGLIB_HAVE_APEFILE_H
+@@ -114,6 +115,101 @@ vlc_module_end ()
+ 
+ using namespace TagLib;
+ 
++class VlcIostream : public IOStream
++{
++public:
++    VlcIostream(demux_t* p_demux)
++        :  m_demux( p_demux )
++    {
++        m_previousPos = stream_Tell( m_demux->s );
++    }
++
++    ~VlcIostream()
++    {
++        stream_Seek( m_demux->s, m_previousPos );
++    }
++
++    FileName name() const
++    {
++        return m_demux->psz_location;
++    }
++
++    ByteVector readBlock(ulong length)
++    {
++        std::vector<uchar> buff;
++        buff.reserve( length );
++        int i_read = stream_Read( m_demux->s, &buff[0], length);
++        return ByteVector((const char*)&buff[0], i_read);
++    }
++
++    void writeBlock(const ByteVector& data)
++    {
++        // Let's stay Read-Only for now
++        return;
++    }
++
++    void insert(const ByteVector& data, ulong start, ulong replace)
++    {
++        return;
++    }
++
++    void removeBlock(ulong start, ulong length)
++    {
++        return;
++    }
++
++    bool readOnly() const
++    {
++        return true;
++    }
++
++    bool isOpen() const
++    {
++        return true;
++    }
++
++    void seek(long offset, Position p)
++    {
++        uint64_t pos = 0;
++        switch (p)
++        {
++            case Current:
++                pos = stream_Tell( m_demux->s );
++                break;
++            case End:
++                pos = stream_Size( m_demux->s );
++                break;
++            default:
++                break;
++        }
++        stream_Seek( m_demux->s, pos + offset );
++    }
++
++    void clear()
++    {
++        return;
++    }
++
++    long tell() const
++    {
++        return stream_Tell( m_demux->s );
++    }
++
++    long length()
++    {
++        return stream_Size( m_demux->s );
++    }
++
++    void truncate(long length)
++    {
++        return;
++    }
++
++private:
++    demux_t* m_demux;
++    int64_t m_previousPos;
++};
++
+ static void ExtractTrackNumberValues( vlc_meta_t* p_meta, const char *psz_value )
+ {
+     unsigned int i_trknum, i_trktot;
+@@ -671,29 +767,13 @@ static int ReadMeta( vlc_object_t* p_this)
+     demux_meta_t*   p_demux_meta = (demux_meta_t *)p_this;
+     demux_t*        p_demux = p_demux_meta->p_demux;
+     vlc_meta_t*     p_meta;
+-    FileRef f;
+ 
+     p_demux_meta->p_meta = NULL;
+     if( strcmp( p_demux->psz_access, "file" ) )
+         return VLC_EGENERIC;
+ 
+-    char *psz_path = strdup( p_demux->psz_file );
+-    if( !psz_path )
+-        return VLC_ENOMEM;
+-
+-#if defined(_WIN32)
+-    wchar_t *wpath = ToWide( psz_path );
+-    if( wpath == NULL )
+-    {
+-        free( psz_path );
+-        return VLC_EGENERIC;
+-    }
+-    f = FileRef( wpath );
+-    free( wpath );
+-#else
+-    f = FileRef( psz_path );
+-#endif
+-    free( psz_path );
++    VlcIostream s( p_demux );
++    FileRef f( &s );
+ 
+     if( f.isNull() )
+         return VLC_EGENERIC;
+-- 
+2.2.0
+

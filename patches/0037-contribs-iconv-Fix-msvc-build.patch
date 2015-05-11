@@ -1,7 +1,7 @@
 From 6e1546d47b03ea2edce8a45cbafef6472a97a062 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:42:35 +0100
-Subject: [PATCH 37/71] contribs: iconv: Fix msvc build
+Subject: [PATCH 37/74] contribs: iconv: Fix msvc build
 
 ---
  contrib/src/iconv/msvc.patch | 22 ++++++++++++++++++++++

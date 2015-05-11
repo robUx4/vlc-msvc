@@ -1,7 +1,7 @@
 From 32230c3c4baa65decf88b53f2bb7c6e8d61be3ce Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 4 Feb 2015 12:23:02 +0100
-Subject: [PATCH 63/71] Revert "configure: stop forcing struct pollfd detection
+Subject: [PATCH 63/74] Revert "configure: stop forcing struct pollfd detection
  to XP"
 
 This reverts commit 36f3f9c4ff55721991158f878990b0cbb283a193.

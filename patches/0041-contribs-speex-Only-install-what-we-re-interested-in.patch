@@ -1,7 +1,7 @@
 From f9b549440a4c93c24ef76cb1aa94e93566f3e999 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:22:17 +0100
-Subject: [PATCH 41/71] contribs: speex: Only install what we're interested in
+Subject: [PATCH 41/74] contribs: speex: Only install what we're interested in
 
 ---
  contrib/src/speex/rules.mak | 3 ++-

@@ -1,7 +1,7 @@
 From c9324d5b06611130df34ae0a0aaa2b0016912571 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:16:22 +0100
-Subject: [PATCH 36/71] ws2: Ugly workaround conflicting windows versions
+Subject: [PATCH 36/74] ws2: Ugly workaround conflicting windows versions
 
 ---
  compat/gettimeofday.c       |  3 +--
