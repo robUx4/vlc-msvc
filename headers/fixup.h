@@ -2,7 +2,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 
-# ifndef snprintf
+# if !defined(snprintf) && _MSC_VER < 1900
 #  define snprintf _snprintf
 # endif
 # ifndef snwprintf
@@ -77,7 +77,7 @@ typedef unsigned int mode_t;
 # define strcasecmp _stricmp
 # define HAVE_STRCASECMP
 # define strncasecmp _strnicmp
-# ifndef vsnprintf
+# if !defined(vsnprintf) && _MSC_VER < 1900
 #  define vsnprintf _vsnprintf
 # endif
 
