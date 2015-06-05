@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "CC Wrapping $@"
+#echo "CC Wrapping $@"
 
 ARGS="cl.exe -MD -EHsc"
 ARGS_DEBUG="-FS -Zi"
@@ -211,7 +211,7 @@ if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
     fi
 fi
 
-echo $ARGS
+#echo $ARGS
 cmd /C "$ARGS"
 exit $?
 
