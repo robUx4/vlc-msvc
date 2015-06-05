@@ -38,6 +38,10 @@ while [ $# -gt 0 ]; do
 	-c)
 		compile=1
 		;;
+	-Fo*)
+		outfile=${1#-Fo}
+		compile=1
+		;;
 	*.c|*.cc)
 		file=`cygpath -w $1`
 		inputfile=$file
