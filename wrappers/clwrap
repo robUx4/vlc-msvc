@@ -1,6 +1,8 @@
 #!/bin/sh
 
-ARGS="cl.exe -nologo -MD -EHsc"
+echo "CC Wrapping $@"
+
+ARGS="cl.exe -MD -EHsc"
 ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 
@@ -26,6 +28,7 @@ while [ $# -gt 0 ]; do
     case $1 in
 	-o)
 		outfile=`cygpath -w $2`
+		compile=1
 		shift
 		;;
 	-E)
@@ -33,13 +36,24 @@ while [ $# -gt 0 ]; do
 		preproc=1
 		;;
 	-c)
-		ARGS="$ARGS $1"
-		compile=1
 		;;
-	*.c|*.cpp|*.cxx|*.cc)
+	*.c|*.cc)
 		file=`cygpath -w $1`
 		inputfile=$file
-		ARGS="$ARGS $file"
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+		fi
+		ARGS="$ARGS -Tc$file"
+		compile=1
+		;;
+	*.cpp|*.cxx)
+		file=`cygpath -w $1`
+		inputfile=$file
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+		fi
+		ARGS="$ARGS -Tp$file"
+		compile=1
 		;;
 	*.dll)
 		EXTRALIBS="$EXTRALIBS $1"
@@ -150,42 +164,45 @@ else
     ARGS="$ARGS $ARGS_RELEASE"
 fi
 
-ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
+#ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
 ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
 ARGS="$ARGS $WARNINGS"
 ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 # Hotfix some contribs:
 ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
-ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/winstorecompat.h`"
+#ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/winstorecompat.h`"
 
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one
 # There need to be double quotes around the path
-ARGS="$ARGS "'-I"C:/Program Files (x86)/Windows Kits/8.1/Include/um/"'" "'-I"C:/Program Files (x86)/Windows Kits/8.1/Include/shared/"'" "'-I"C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include"'
 
-if [ "$outfile" != "" ]; then
-	if [ "$preproc" != "" ]; then
-		ARGS="$ARGS -Fi$outfile"
-	elif [ "$compile" != "" ]; then
-		ARGS="$ARGS -Fo$outfile"
+if [ "$preproc" != "" ]; then
+	if [ "$outfile" != "" ]; then
+		ARGS="$ARGS -c -Fi$outfile"
 	else
-		ARGS="$ARGS -Fe$outfile"
-	fi
-    EXTRALIBS="$EXTRALIBS $FORCED_LIBS"
-else
-	if [ "$preproc" != "" ]; then
 		ARGS=$(echo $ARGS | sed s/-P/-E/)
 	fi
+else
+	ARGS="$ARGS -c"
+	if [ "$outfile" != "" ]; then
+		if [ "$compile" != "" ]; then
+			ARGS="$ARGS -Fo$outfile"
+		else
+			ARGS="$ARGS -Fe$outfile"
+		fi
+	fi
 fi
+EXTRALIBS="$EXTRALIBS $FORCED_LIBS"
+
 if [ "$deps" != "" ]; then
 	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
 	exit $?
 fi
 
 if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
-    ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
     if [ "$BUILD_LIB" != "" ]; then
         # Ensure all our libraries are called "libXXX"
+        ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
         ARGS="$ARGS -out:$outfile -APPCONTAINER"
     fi
 fi

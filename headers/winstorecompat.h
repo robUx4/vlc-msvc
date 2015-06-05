@@ -8,12 +8,15 @@
 #include <math.h>
 #include <float.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#if _MSC_VER < 1900
 int _CRTIMP _snwprintf(wchar_t *buffer, size_t count, const wchar_t *format, ...);
+#endif
 
 __forceinline int getpid(void)
 {
@@ -171,6 +174,7 @@ __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSectio
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
 }
 
+#if 0
 #define _beginthreadex CreateThread
 #define _endthreadex ExitThread
 
@@ -192,6 +196,7 @@ __forceinline BeginThreadEx(
   _Out_opt_  LPDWORD lpThreadId
 );
 }*/
+#endif
 
 __forceinline wchar_t* _wgetcwd(wchar_t *buffer, int maxlen)
 {
@@ -233,10 +238,10 @@ __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 #define CSIDL_FLAG_CREATE 0x8000
 #define CSIDL_COMMON_APPDATA 0x0023
 
-#endif
-
 #ifdef __cplusplus
 } //extern "C"
 #endif
+
+#endif /* FORCE_WINSTORECOMPAT */
 
 #endif //WINSTORECOMPAT_H__

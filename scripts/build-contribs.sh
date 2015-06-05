@@ -72,6 +72,9 @@ cd $VLC_PLATFORM
     --disable-mpg123 \
 	--disable-directx \
 	--disable-dshow \
+    --disable-mpcdec \
+    --disable-taglib \
 	|| exit 1
 
-make -j`nproc` || exit 1
+#make -j`nproc` || exit 1
+make || exit 1

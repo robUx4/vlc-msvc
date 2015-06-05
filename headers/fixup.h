@@ -11,7 +11,9 @@
 # ifndef __cplusplus
 #  define inline __inline
 # endif
+# if _MSC_VER < 1900
 # define strdup _strdup
+#endif
 typedef signed long int ssize_t;
 typedef signed long int off_t;
 typedef unsigned int mode_t;
@@ -23,7 +25,7 @@ typedef unsigned int mode_t;
 # define bcopy memcpy
 # define bcmp memcmp
 
-//# ifndef restrict
+//messes with autoconf detection # ifndef restrict
 //#  define restrict __restrict
 //# endif
 

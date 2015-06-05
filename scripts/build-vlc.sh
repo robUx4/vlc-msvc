@@ -103,3 +103,4 @@ fi
 
 echo "Lauching build"
 make -j`nproc` || exit 1
+#make || exit 1

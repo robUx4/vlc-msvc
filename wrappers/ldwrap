@@ -2,6 +2,18 @@
 
 echo "LD Wrapping $@"
 
+case $VLC_PLATFORM in
+	Windows)
+		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		;;
+	WindowsPhone)
+		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		;;
+	*)
+		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		exit 1
+esac
+
 while [ $# -gt 0 ]; do
 	case $1 in
 	-o)
@@ -20,6 +32,15 @@ while [ $# -gt 0 ]; do
 	*.obj)
 		OBJS="$OBJS `cygpath -w $1`"
 		;;
+	-l*)
+		OBJS="$OBJS ${1#-l}.lib"
+		;;
+	-L*)
+		libpath=${1#-L}
+		if [ "$libpath" != "/mingw32/lib" ]; then
+			LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+		fi
+		;;
 	-*)
 		ARGS="$ARGS $1"
 		;;
@@ -35,10 +56,11 @@ if [ "$LINK_TARGET" = "" ]; then
 	exit 1
 fi
 
-echo "Args: $ARGS"
-echo "Objs: $OBJS"
+#echo "Args: $ARGS"
+#echo "Objs: $OBJS"
 
 #MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-lib -OUT:$LINK_TARGET $ARGS $OBJS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+echo link -nologo -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS
+link -nologo -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
 exit $?
 
