@@ -36,24 +36,25 @@ while [ $# -gt 0 ]; do
 		preproc=1
 		;;
 	-c)
+		compile=1
 		;;
 	*.c|*.cc)
 		file=`cygpath -w $1`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
 			outfile=${file%.*}.o
+			exefile=${file%.*}.exe
 		fi
 		ARGS="$ARGS -Tc$file"
-		compile=1
 		;;
 	*.cpp|*.cxx)
 		file=`cygpath -w $1`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
 			outfile=${file%.*}.o
+			exefile=${file%.*}.exe
 		fi
 		ARGS="$ARGS -Tp$file"
-		compile=1
 		;;
 	*.dll)
 		EXTRALIBS="$EXTRALIBS $1"
@@ -183,12 +184,11 @@ if [ "$preproc" != "" ]; then
 		ARGS=$(echo $ARGS | sed s/-P/-E/)
 	fi
 else
-	ARGS="$ARGS -c"
 	if [ "$outfile" != "" ]; then
 		if [ "$compile" != "" ]; then
-			ARGS="$ARGS -Fo$outfile"
+			ARGS="$ARGS -c -Fo$outfile"
 		else
-			ARGS="$ARGS -Fe$outfile"
+			ARGS="$ARGS -Fe$exefile"
 		fi
 	fi
 fi
@@ -200,9 +200,9 @@ if [ "$deps" != "" ]; then
 fi
 
 if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
+    ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
     if [ "$BUILD_LIB" != "" ]; then
         # Ensure all our libraries are called "libXXX"
-        ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
         ARGS="$ARGS -out:$outfile -APPCONTAINER"
     fi
 fi
