@@ -110,8 +110,8 @@ export cxx=$CXX
 export AR="$ROOT_FOLDER/wrappers/ar"
 export NM="dumpbin.exe -symbols"
 #export AS=armasm
-#export LD="$ROOT_FOLDER/wrappers/ldwrap"
-export LD="link"
+export LD="$ROOT_FOLDER/wrappers/ldwrap"
+#export LD="link"
 #export LD="link"
 export CCLD="$LD"
 export CXXLD="$CCLD"
@@ -124,6 +124,7 @@ export PATH="$ROOT_FOLDER/wrappers:$PATH"
 #export LDFLAGS="kernel32.lib runtimeobject.lib"
 export CPPFLAGS="$CPPFLAGS -nologo -MD -EHsc -FI \"`cygpath $ROOT_FOLDER/headers/fixup.h`\" -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
 #export CPPFLAGS="$CPPFLAGS -MD -FI \"`cygpath $ROOT_FOLDER/headers/fixup.h`\" -FI \"`cygpath $ROOT_FOLDER/headers/winstorecompat.h`\"   -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -lkernel32 -lruntimeobject"
+#export CPPFLAGS="$CPPFLAGS -link kernel32.lib runtimeobject.lib"
 export HAVE_ARMV7A=true
 export HAVE_VISUALSTUDIO=true
 # Prevent some broken MSYS conversions
