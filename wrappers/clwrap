@@ -31,15 +31,16 @@ while [ $# -gt 0 ]; do
 		compile=1
 		shift
 		;;
+	-Fo*)
+		outfile=${1#-Fo}
+		compile=1
+		;;
 	-E)
 		ARGS="$ARGS -P"
 		preproc=1
 		;;
 	-c)
-		compile=1
-		;;
-	-Fo*)
-		outfile=${1#-Fo}
+		ARGS="$ARGS -c"
 		compile=1
 		;;
 	*.c|*.cc)
@@ -196,7 +197,7 @@ if [ "$preproc" != "" ]; then
 else
 	if [ "$outfile" != "" ]; then
 		if [ "$compile" != "" ]; then
-			if ["$outfile" != "${inputfile%.*}.exe"]; then
+			if [ "$inputfile" != "" -a "$outfile" != "${inputfile%.*}.exe" ]; then
 				# avoid LNK1149 error
 				ARGS="$ARGS -Fo$outfile"
 			fi
