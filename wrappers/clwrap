@@ -156,6 +156,12 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS `cygpath -w $1`"
 		
 		;;
+	-ffast-math)
+		ARGS="$ARGS -fp:fast"
+		;;
+	-pipe|-funroll-loops|-mms-bitfields)
+		# ignored
+		;;
 	*)
 		ARGS="$ARGS $1"
 		;;
