@@ -160,8 +160,11 @@ while [ $# -gt 0 ]; do
 	-ffast-math)
 		ARGS="$ARGS -fp:fast"
 		;;
-	-pipe|-funroll-loops|-mms-bitfields)
-		# ignored
+	-fomit-frame-pointer)
+		ARGS="$ARGS -Oy"
+		;;
+	-pipe|-funroll-loops|-mms-bitfields|-no-seh)
+		# silently ignore known flags
 		;;
 	*)
 		ARGS="$ARGS $1"
@@ -224,4 +227,3 @@ fi
 #echo $ARGS
 cmd /C "$ARGS"
 exit $?
-
