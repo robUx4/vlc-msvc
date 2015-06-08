@@ -77,19 +77,21 @@ typedef unsigned int mode_t;
 #define __func__ __FUNCDNAME__
 
 # define strcasecmp _stricmp
-# define HAVE_STRCASECMP
 # define strncasecmp _strnicmp
 # if !defined(vsnprintf) && _MSC_VER < 1900
 #  define vsnprintf _vsnprintf
 # endif
 
-#define HAVE_LLDIV
-#define HAVE_STRNLEN
+#if _MSC_VER < 1900
 #define HAVE_ATOF
 #define HAVE_ATOLL
+#define HAVE_LLDIV
+#define HAVE_STRCASECMP
+#define HAVE_STRNLEN
 #define HAVE_STRTOLL
 #define HAVE_SWAB
-    
+#endif
+
 /* Values for the second argument to access.
    These may be OR'd together.  */
 #ifndef R_OK
