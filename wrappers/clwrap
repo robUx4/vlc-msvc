@@ -167,7 +167,10 @@ while [ $# -gt 0 ]; do
 	-fomit-frame-pointer)
 		ARGS="$ARGS -Oy"
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase)
+	-pedantic)
+		ARGS="$ARGS -sdl"
+		;;
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions)
 		# silently ignore known flags
 		;;
 	-Ze|-Za)
