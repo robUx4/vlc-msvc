@@ -166,6 +166,9 @@ while [ $# -gt 0 ]; do
 	-pipe|-funroll-loops|-mms-bitfields|-no-seh)
 		# silently ignore known flags
 		;;
+	-Ze|-Za)
+		# deprecated and incompatible with latest WDK
+		;;
 	*)
 		ARGS="$ARGS $1"
 		;;
