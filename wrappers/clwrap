@@ -119,8 +119,11 @@ while [ $# -gt 0 ]; do
 		BUILD_LIB=1
 		ARGS="$ARGS -LD"
 		;;
-	-O3)
+	-O)
 		ARGS="$ARGS -O2"
+		;;
+	-O3)
+		ARGS="$ARGS -Ox"
 		;;
 	-L*)
         libpath=${1#-L}
