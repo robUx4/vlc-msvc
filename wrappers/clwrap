@@ -128,9 +128,15 @@ while [ $# -gt 0 ]; do
 	-g)
 		HAVE_DEBUG=1
 		;;
-    -Wall)
-        # You DON'T want this.
-        ;;
+	-Wall)
+		WARNINGS="-W4"
+		;;
+	-Wextra)
+		WARNINGS="-Wall"
+		;;
+	-Werror)
+		WARNINGS="-WX"
+		;;
 	-Wl*)
 		params=${1#-Wl,}
         for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
@@ -145,7 +151,6 @@ while [ $# -gt 0 ]; do
         done
 		;;
 	-W*)
-		WARNINGS="-W3"
 		;;
 	*.a|*.obj|*.lib)
 		# Keep this a low priority match
@@ -163,7 +168,7 @@ while [ $# -gt 0 ]; do
 	-fomit-frame-pointer)
 		ARGS="$ARGS -Oy"
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-no-seh)
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase)
 		# silently ignore known flags
 		;;
 	-Ze|-Za)
@@ -184,7 +189,7 @@ fi
 
 #ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
 ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
-ARGS="$ARGS $WARNINGS"
+ARGS="$ARGS $WARNINGS -wd4820 -wd4668"
 ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 # Hotfix some contribs:
 ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
