@@ -89,6 +89,10 @@ while [ $# -gt 0 ]; do
 		# Handles -I<path> (without space)
 		ARGS="$ARGS -I`cygpath -w ${1#-I}`"
 		;;
+	-include)
+		ARGS="$ARGS -FI`cygpath -w $2`"
+		shift
+		;;
 	-lm)
 		;;
 	-l*)
