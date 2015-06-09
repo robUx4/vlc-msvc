@@ -36,7 +36,6 @@ while [ $# -gt 0 ]; do
 		compile=1
 		;;
 	-E)
-		ARGS="$ARGS -P"
 		preproc=1
 		;;
 	-c)
@@ -200,10 +199,11 @@ ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
 # There need to be double quotes around the path
 
 if [ "$preproc" != "" ]; then
-	if [ "$outfile" != "" ]; then
-		ARGS="$ARGS -Fi$outfile"
+	if [ "$compile" != "" ]; then
+		ARGS="$ARGS -P -Fi$outfile"
 	else
-		ARGS=$(echo $ARGS | sed s/-P/-E/)
+		#ARGS=$(echo $ARGS | sed s/-P/-E/)
+		ARGS="$ARGS -EP"
 	fi
 else
 	if [ "$outfile" != "" ]; then
