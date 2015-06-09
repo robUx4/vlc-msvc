@@ -2,6 +2,14 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#ifndef WIN32
+#define WIN32
+#endif /* WIN32 */
+
+#if _MSC_VER >= 1900
+#define __STDC_VERSION__ 199901L
+#endif
+
 # if !defined(snprintf) && _MSC_VER < 1900
 #  define snprintf _snprintf
 # endif
