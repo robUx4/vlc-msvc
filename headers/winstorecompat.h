@@ -1,8 +1,6 @@
 #ifndef WINSTORECOMPAT_H__
 # define WINSTORECOMPAT_H__
 
-#ifdef FORCE_WINSTORECOMPAT
-
 #include <Windows.h>
 #include <stddef.h>
 #include <math.h>
@@ -256,7 +254,5 @@ __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 #ifdef __cplusplus
 } //extern "C"
 #endif
-
-#endif /* FORCE_WINSTORECOMPAT */
 
 #endif //WINSTORECOMPAT_H__
