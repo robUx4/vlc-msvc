@@ -2,7 +2,7 @@
 
 #echo "CC Wrapping $@"
 
-ARGS="cl.exe -MD -EHsc"
+ARGS="cl.exe -nologo -MD -EHsc"
 ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 
@@ -179,7 +179,7 @@ while [ $# -gt 0 ]; do
 	-pedantic)
 		ARGS="$ARGS -sdl"
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions)
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-std=*)
 		# silently ignore known flags
 		;;
 	-Ze|-Za)
