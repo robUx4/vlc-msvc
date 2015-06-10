@@ -33,6 +33,11 @@ __forceinline char *getenv(const char *name)
 
 __forceinline HRESULT SHGetFolderPathW(HWND hwnd,int csidl,HANDLE hToken,DWORD dwFlags,LPWSTR pszPath)
 {
+    UNREFERENCED_PARAMETER(hwnd);
+    UNREFERENCED_PARAMETER(csidl);
+    UNREFERENCED_PARAMETER(hToken);
+    UNREFERENCED_PARAMETER(dwFlags);
+    UNREFERENCED_PARAMETER(pszPath);
     return S_FALSE;
 }
 
@@ -104,6 +109,8 @@ __forceinline HMODULE GetModuleHandleW(LPCWSTR lpModuleName)
 __forceinline DWORD GetModuleFileNameA(HMODULE hModule, LPCSTR lpFilename, DWORD nSize)
 {
     wchar_t msg[512];
+    UNREFERENCED_PARAMETER(hModule);
+    UNREFERENCED_PARAMETER(nSize);
 
     _snwprintf(msg, 511, L"GetModuleFileNameW (%S) call suppressed\n", lpFilename);
     msg[511] = '\0';
@@ -116,6 +123,8 @@ __forceinline DWORD GetModuleFileNameA(HMODULE hModule, LPCSTR lpFilename, DWORD
 __forceinline DWORD GetModuleFileNameW(HMODULE hModule, LPTSTR lpFilename, DWORD nSize)
 {
     wchar_t msg[512];
+    UNREFERENCED_PARAMETER(hModule);
+    UNREFERENCED_PARAMETER(nSize);
 
     _snwprintf(msg, 511, L"GetModuleFileNameW (%ws) call suppressed\n", lpFilename);
     msg[511] = '\0';
@@ -157,12 +166,22 @@ __forceinline HMODULE LoadLibraryW(LPCWSTR lpFileName)
 
 __forceinline BOOL CreateTimerQueueTimer (PHANDLE phNewTimer, HANDLE TimerQueue, WAITORTIMERCALLBACK Callback, PVOID Parameter, DWORD DueTime, DWORD Period, ULONG Flags)
 {
+    UNREFERENCED_PARAMETER(phNewTimer);
+    UNREFERENCED_PARAMETER(TimerQueue);
+    UNREFERENCED_PARAMETER(Callback);
+    UNREFERENCED_PARAMETER(Parameter);
+    UNREFERENCED_PARAMETER(DueTime);
+    UNREFERENCED_PARAMETER(Period);
+    UNREFERENCED_PARAMETER(Flags);
     SetLastError(ERROR_ACCESS_DENIED);
     return 0;
 }
 
 __forceinline BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer, HANDLE CompletionEvent)
 {
+    UNREFERENCED_PARAMETER(TimerQueue);
+    UNREFERENCED_PARAMETER(Timer);
+    UNREFERENCED_PARAMETER(CompletionEvent);
     SetLastError(ERROR_ACCESS_DENIED);
     return 0;
 }
