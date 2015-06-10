@@ -94,7 +94,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --disable-vlc \
         --disable-vcd \
         --disable-directx \
-        --disable-mkv \
         --disable-smbclient || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool
@@ -104,4 +103,4 @@ fi
 
 echo "Lauching build"
 make -j`nproc` || exit 1
-#make || exit 1
+#make V=1 || exit 1
