@@ -76,5 +76,5 @@ cd $VLC_PLATFORM
     --disable-taglib \
 	|| exit 1
 
-#make -j`nproc` || exit 1
-make || exit 1
+make -j`nproc` || exit 1
+#make V=1 || exit 1
