@@ -1,6 +1,10 @@
 rem call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_arm
 rem call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_arm store
-call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86 store
+
+IF /I "%1" == "WindowsPhone" set VLC_ARCH=ARM
+IF /I "%1" == "Windows"      set VLC_ARCH=x86
+
+call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %VLC_ARCH% store
 
 rem set Path=%Path%;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE
 
