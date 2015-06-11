@@ -32,9 +32,11 @@ usage()
 case $1 in
     Windows)
         export VLC_PLATFORM=Windows
+	export VLC_ARCH=x86
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
+	export VLC_ARCH=ARM
         ;;
     *)
         usage
@@ -46,11 +48,9 @@ shift
 case $1 in
     Debug)
         export VLC_CONFIGURATION=Debug
-#	export CPPFLAGS = "-FS -Zi"
         ;;
     Release)
         export VLC_CONFIGURATION=Release
-#	export CPPFLAGS = "-Gw -Ot"
         ;;
     *)
         usage
