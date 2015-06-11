@@ -182,7 +182,15 @@ while [ $# -gt 0 ]; do
 	-pedantic)
 		ARGS="$ARGS -sdl"
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-std=*|-fno-signed-zeros)
+	-std=*)
+		C_STD_VARIANT=${1#--std=}
+		echo C_STD_VARIANT = $C_STD_VARIANT
+		if [ "$C_STD_VARIANT" == "gnu99" ]; then
+			echo "Unsupported C standard $C_STD_VARIANT"
+			exit 1
+		fi
+		;;
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-fno-signed-zeros)
 		# silently ignore known flags
 		;;
 	-march=*)
