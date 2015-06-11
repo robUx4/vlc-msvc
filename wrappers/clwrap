@@ -26,6 +26,8 @@ esac
 
 ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
 
+NO_LOGO="nologo"
+
 while [ $# -gt 0 ]; do
     case $1 in
 	-o)
@@ -164,6 +166,12 @@ while [ $# -gt 0 ]; do
 		# Keep this a low priority match
 		ARGS="$ARGS `cygpath -w $1`"
 		;;
+	-nologo*)
+		NO_LOGO=${1#-}
+		;;
+	/nologo*)
+		NO_LOGO=${1#/}
+		;;
 	/*)
 		#libav's configure step uses absolute path in msys format, we need to convert
 		# them manually to native windows path.
@@ -184,7 +192,6 @@ while [ $# -gt 0 ]; do
 		;;
 	-std=*)
 		C_STD_VARIANT=${1#--std=}
-		echo C_STD_VARIANT = $C_STD_VARIANT
 		if [ "$C_STD_VARIANT" == "gnu99" ]; then
 			echo "Unsupported C standard $C_STD_VARIANT"
 			exit 1
@@ -229,6 +236,7 @@ else
 fi
 
 #ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
+ARGS="$ARGS -$NO_LOGO"
 ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710"
 ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 # Hotfix some contribs:
