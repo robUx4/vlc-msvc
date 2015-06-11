@@ -2,10 +2,6 @@
 # define WINSTORECOMPAT_H__
 
 #include <Windows.h>
-#include <stddef.h>
-#include <math.h>
-#include <float.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 #ifdef __cplusplus
@@ -14,7 +10,6 @@ extern "C" {
 
 #if _MSC_VER < 1900
 int _CRTIMP _snwprintf_s(wchar_t *buffer, size_t count, const wchar_t *format, ...);
-#endif
 
 __forceinline int getpid(void)
 {
@@ -28,6 +23,7 @@ __forceinline char *getenv(const char *name)
     return NULL;
 }
 #define HAVE_GETENV
+#endif
 
 __forceinline HRESULT SHGetFolderPathW(HWND hwnd,int csidl,HANDLE hToken,DWORD dwFlags,LPWSTR pszPath)
 {
