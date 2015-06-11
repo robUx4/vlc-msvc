@@ -2,7 +2,7 @@
 
 #echo "CC Wrapping $@"
 
-ARGS="cl.exe -nologo -MD -EHsc"
+ARGS="cl.exe -MD -EHsc"
 ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 
@@ -176,11 +176,33 @@ while [ $# -gt 0 ]; do
 	-fomit-frame-pointer)
 		ARGS="$ARGS -Oy"
 		;;
+	-fno-math-errno)
+		ARGS="$ARGS -fp:except-"
+		;;
 	-pedantic)
 		ARGS="$ARGS -sdl"
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-std=*)
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-std=*|-fno-signed-zeros)
 		# silently ignore known flags
+		;;
+	-march=*)
+		ARCH=${1#-march=}
+		if [ "$VLC_ARCH" == "x86" ]; then
+			if [ "$ARCH" != "i686" ]; then
+				echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
+				exit 1
+			fi
+		else
+			if [ "$VLC_ARCH" == "ARM" ]; then
+				if [ "$ARCH" != "arm" ]; then
+					echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
+					exit 1
+				fi
+			else
+				echo "VLC_ARCH no supported $VLC_ARCH"
+				exit 1
+			fi
+		fi
 		;;
 	-Ze|-Za)
 		# deprecated and incompatible with latest WDK
