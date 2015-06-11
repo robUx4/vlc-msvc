@@ -130,7 +130,7 @@ typedef struct
  * Returns a pointer to a DIR structure appropriately filled in to begin
  * searching a directory.
  */
-static _TDIR *
+__forceinline _TDIR *
 _topendir (const _TCHAR *szPath)
 {
   _TDIR *nd;
@@ -221,7 +221,7 @@ _topendir (const _TCHAR *szPath)
  * Return a pointer to a dirent structure filled with the information on the
  * next entry in the directory.
  */
-static struct _tdirent *
+__forceinline struct _tdirent *
 _treaddir (_TDIR * dirp)
 {
   errno = 0;
@@ -298,7 +298,7 @@ _treaddir (_TDIR * dirp)
  *
  * Frees up resources allocated by opendir.
  */
-static int
+__forceinline int
 _tclosedir (_TDIR * dirp)
 {
   int rc;
@@ -329,7 +329,7 @@ _tclosedir (_TDIR * dirp)
  * Return to the beginning of the directory "stream". We simply call findclose
  * and then reset things like an opendir.
  */
-static void
+__forceinline void
 _trewinddir (_TDIR * dirp)
 {
   errno = 0;
@@ -355,7 +355,7 @@ _trewinddir (_TDIR * dirp)
  * Returns the "position" in the "directory stream" which can be used with
  * seekdir to go back to an old entry. We simply return the value in stat.
  */
-static long
+__forceinline long
 _ttelldir (_TDIR * dirp)
 {
   errno = 0;
@@ -377,7 +377,7 @@ _ttelldir (_TDIR * dirp)
  * have changed while we weren't looking. But that is probably the case with
  * any such system.
  */
-static void
+__forceinline void
 _tseekdir (_TDIR * dirp, long lPos)
 {
   errno = 0;
