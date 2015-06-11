@@ -98,6 +98,9 @@ typedef unsigned int mode_t;
 #define HAVE_STRNLEN
 #define HAVE_STRTOLL
 #define HAVE_SWAB
+#else
+#define HAVE_REWIND
+#define HAVE_STRNLEN
 #endif
 
 #define NOMINMAX
