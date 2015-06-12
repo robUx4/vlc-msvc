@@ -72,7 +72,6 @@ cd $VLC_PLATFORM
     --disable-mpg123 \
     --disable-d3d11 \
     --disable-libarchive \
-	--disable-directx \
 	--disable-dshow \
     --disable-mpcdec \
     --disable-taglib \
