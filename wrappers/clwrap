@@ -2,7 +2,7 @@
 
 #echo "CC Wrapping $@"
 
-ARGS="cl.exe -MD -EHsc"
+ARGS="cl.exe -EHsc"
 ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 
@@ -123,6 +123,15 @@ while [ $# -gt 0 ]; do
 		BUILD_LIB=1
 		ARGS="$ARGS -LD"
 		;;
+	-static)
+		BUILD_LIB=
+		;;
+	-shared-libgcc)
+		STATIC_RUNTIME=
+		;;
+	-static-libgcc)
+		STATIC_RUNTIME=1
+		;;
 	-O)
 		ARGS="$ARGS -O2"
 		;;
@@ -233,6 +242,20 @@ if [ "$HAVE_DEBUG" != "" ]; then
     ARGS="$ARGS $ARGS_DEBUG"
 else
     ARGS="$ARGS $ARGS_RELEASE"
+fi
+
+if [ "$STATIC_RUNTIME" != "" ]; then
+  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+    ARGS="$ARGS -MTd"
+  else
+    ARGS="$ARGS -MT"
+  fi
+else
+  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+    ARGS="$ARGS -MDd"
+  else
+    ARGS="$ARGS -MD"
+  fi
 fi
 
 #ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
