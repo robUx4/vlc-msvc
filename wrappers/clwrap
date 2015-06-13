@@ -108,7 +108,7 @@ while [ $# -gt 0 ]; do
             "shlwapi" | "ole32" )
                 # Ignore those for windows phone
                 ;;
-            "ws2_32" | "winmm" | "shlwapi" | "ole32" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" )
+            "ws2_32" | "winmm" | "shlwapi" | "ole32" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" )
                 ARGS="$ARGS $libname.lib"
                 ;;
             "stdc++" | "pthreadGC2" )
