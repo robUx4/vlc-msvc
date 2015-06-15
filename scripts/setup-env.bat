@@ -4,7 +4,8 @@ rem call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" 
 IF /I "%1" == "WindowsPhone" set VLC_ARCH=ARM
 IF /I "%1" == "Windows"      set VLC_ARCH=x86
 
-call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %VLC_ARCH% store
+call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %VLC_ARCH%
+rem store forces %_app.dll runtime that isn't available #wtf
 
 rem set Path=%Path%;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE
 
