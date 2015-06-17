@@ -75,6 +75,7 @@ cd $VLC_PLATFORM
 	--disable-dshow \
     --disable-mpcdec \
     --disable-taglib \
+    --disable-live555 \
 	|| exit 1
 
 make -j`nproc` || exit 1
