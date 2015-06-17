@@ -304,6 +304,7 @@ if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
     fi
 fi
 
-#echo $ARGS
+set
+echo $ARGS
 cmd /C "$ARGS"
 exit $?
