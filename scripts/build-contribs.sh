@@ -78,5 +78,5 @@ cd $VLC_PLATFORM
     --disable-live555 \
 	|| exit 1
 
-#make -j`nproc` || exit 1
-make V=1 || exit 1
+make -j`nproc` || exit 1
+#make V=1 || exit 1
