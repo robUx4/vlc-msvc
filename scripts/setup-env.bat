@@ -1,5 +1,5 @@
-@IF EXIST "%VS140COMNTOOLS%vsvars32.bat" goto vs2015
 @IF EXIST "%VS120COMNTOOLS%vsvars32.bat" goto vs2013
+@IF EXIST "%VS140COMNTOOLS%vsvars32.bat" goto vs2015
 @echo VS 2015 or VS 2013 not found
 @exit -1
 
