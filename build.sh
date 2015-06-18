@@ -3,13 +3,16 @@
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|WindowsPhone"
+    echo "platform: Window|WindowsRT|WindowsPhone"
     echo "configuration: Debug|Release"
 }
 
 case $1 in
     Windows)
         PLATFORM=Windows
+        ;;
+    WindowsRT)
+        PLATFORM=WindowsRT
         ;;
     WP|WindowsPhone)
         PLATFORM=WindowsPhone
@@ -64,5 +67,4 @@ test_package patch
 test_package cvs
 test_gcc #required by ffmpeg for gaspp & to build cmake
 
-cmd.exe /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
-
+$COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"

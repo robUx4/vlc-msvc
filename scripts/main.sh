@@ -24,7 +24,7 @@ exit $1
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|WindowsPhone"
+    echo "platform: Windows|WindowsRT|WindowsPhone"
     echo "configuration: Debug|Release"
     terminate 1
 }
