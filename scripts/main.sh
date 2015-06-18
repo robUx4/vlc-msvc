@@ -36,7 +36,7 @@ case $1 in
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
-	export VLC_ARCH=ARM
+	export VLC_ARCH=arm
         ;;
     *)
         usage

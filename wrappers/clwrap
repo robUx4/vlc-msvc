@@ -217,7 +217,7 @@ while [ $# -gt 0 ]; do
 				exit 1
 			fi
 		else
-			if [ "$VLC_ARCH" == "ARM" ]; then
+			if [ "$VLC_ARCH" == "arm" ]; then
 				if [ "$ARCH" != "arm" ]; then
 					echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
 					exit 1
