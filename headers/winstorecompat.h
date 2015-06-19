@@ -181,7 +181,7 @@ __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSectio
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
 }
 
-#if 0
+#if _MSC_VER < 1900
 #define _beginthreadex CreateThread
 #define _endthreadex ExitThread
 

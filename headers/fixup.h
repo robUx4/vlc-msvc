@@ -91,13 +91,14 @@ typedef unsigned int mode_t;
 # endif
 
 #if _MSC_VER < 1900
-#define HAVE_ATOF
-#define HAVE_ATOLL
-#define HAVE_LLDIV
+//#define HAVE_ATOF
+//#define HAVE_ATOLL
+///#define HAVE_LLDIV
 #define HAVE_STRCASECMP
 #define HAVE_STRNLEN
-#define HAVE_STRTOLL
-#define HAVE_SWAB
+#define HAVE_REWIND
+//#define HAVE_STRTOLL
+//#define HAVE_SWAB
 #else
 #define HAVE_REWIND
 #define HAVE_STRNLEN
