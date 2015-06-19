@@ -5,36 +5,66 @@
 
 :vs2015
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
+@set STORE_VARIANT=store
 @goto setupenv
 
 :vs2013
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
+@set STORE_VARIANT=
 @goto setupenv
 
 :setupenv
+call %VSVARS% %STORE_VARIANT%
 @IF /I "%1" == "WindowsPhone" goto setup_WindowsPhone
 @IF /I "%1" == "WindowsRT"    goto setup_WindowsRT
 @IF /I "%1" == "Windows"      goto setup_Windows
 
 
+@REM -----------------------------------------------------------------------
+:GetWindowsPhoneKitDir
+@set WindowsPhoneKitDir=
+@call :GetWindowsPhoneKitDirHelper32 HKLM > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper32 HKCU > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper64 HKLM > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper64 HKCU > nul 2>&1
+@exit /B 0
+
+:GetWindowsPhoneKitDirHelper32
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\Microsoft\Microsoft SDKs\WindowsPhoneApp\v8.1" /v "InstallationFolder"') DO (
+	@if "%%i"=="InstallationFolder" (
+		@SET WindowsPhoneKitDir=%%k
+	)
+)
+@if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
+:GetWindowsPhoneKitDirHelper64
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\WindowsPhoneApp\v8.1" /v "InstallationFolder"') DO (
+	@if "%%i"=="InstallationFolder" (
+		@SET WindowsPhoneKitDir=%%k
+	)
+)
+@if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
 :setup_WindowsPhone
-call %VSVARS% store
-@IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
-call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
-@set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
-@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+@call :GetWindowsPhoneKitDir
+@set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
+@rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
 
 :setup_WindowsRT
-call %VSVARS%
-@IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
-call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
+call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+@rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
+@rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
 
 :setup_Windows
-call %VSVARS%
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
 @goto run_bash
 
