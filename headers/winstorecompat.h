@@ -9,8 +9,6 @@ extern "C" {
 #endif
 
 #if _MSC_VER < 1900
-int _CRTIMP _snwprintf_s(wchar_t *buffer, size_t count, const wchar_t *format, ...);
-
 __forceinline int getpid(void)
 {
     return GetCurrentProcessId();
