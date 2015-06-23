@@ -118,4 +118,10 @@ typedef unsigned int mode_t;
 
 #define PATH_MAX MAX_PATH
 
+#include <winapifamily.h>
+
+#if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+#include "winstorecompat.h"
+#endif /* WINAPI_FAMILY_PC_APP || WINAPI_FAMILY_PHONE_APP */
+
 #endif

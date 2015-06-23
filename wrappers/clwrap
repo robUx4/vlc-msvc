@@ -260,12 +260,11 @@ else
 fi
 
 ARGS="$ARGS -$NO_LOGO"
-ARGS="$ARGS -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE"
+ARGS="$ARGS -D_WIN32_WINNT=0x603 -DUNICODE -D_UNICODE"
 ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710"
 ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 # Hotfix some contribs:
 ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
-ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/winstorecompat.h`"
 
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one

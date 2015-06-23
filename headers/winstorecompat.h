@@ -1,8 +1,6 @@
 #ifndef WINSTORECOMPAT_H__
 # define WINSTORECOMPAT_H__
 
-#ifdef FORCE_WINSTORECOMPAT
-
 #include <Windows.h>
 #include <stddef.h>
 #include <math.h>
@@ -232,8 +230,6 @@ __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 #define CSIDL_MYPICTURES 0x0027
 #define CSIDL_FLAG_CREATE 0x8000
 #define CSIDL_COMMON_APPDATA 0x0023
-
-#endif
 
 #ifdef __cplusplus
 } //extern "C"
