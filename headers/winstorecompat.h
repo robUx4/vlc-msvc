@@ -2,17 +2,13 @@
 # define WINSTORECOMPAT_H__
 
 #include <Windows.h>
-#include <stddef.h>
-#include <math.h>
-#include <float.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int _CRTIMP _snwprintf(wchar_t *buffer, size_t count, const wchar_t *format, ...);
-
+#if _MSC_VER < 1900
 __forceinline int getpid(void)
 {
     return GetCurrentProcessId();
@@ -25,6 +21,7 @@ __forceinline char *getenv(const char *name)
     return NULL;
 }
 #define HAVE_GETENV
+#endif
 
 __forceinline HRESULT SHGetFolderPathW(HWND hwnd,int csidl,HANDLE hToken,DWORD dwFlags,LPWSTR pszPath)
 {
@@ -184,6 +181,7 @@ __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSectio
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
 }
 
+#if _MSC_VER < 1900
 #define _beginthreadex CreateThread
 #define _endthreadex ExitThread
 
@@ -205,6 +203,7 @@ __forceinline BeginThreadEx(
   _Out_opt_  LPDWORD lpThreadId
 );
 }*/
+#endif
 
 __forceinline wchar_t* _wgetcwd(wchar_t *buffer, int maxlen)
 {

@@ -6,7 +6,11 @@
 #define WIN32
 #endif /* WIN32 */
 
-# ifndef snprintf
+#if _MSC_VER >= 1900
+#define __STDC_VERSION__ 199901L
+#endif
+
+# if !defined(snprintf) && _MSC_VER < 1900
 #  define snprintf _snprintf
 # endif
 # ifndef snwprintf
@@ -15,7 +19,9 @@
 # ifndef __cplusplus
 #  define inline __inline
 # endif
+# if _MSC_VER < 1900
 # define strdup _strdup
+#endif
 typedef signed long int ssize_t;
 typedef signed long int off_t;
 typedef unsigned int mode_t;
@@ -79,19 +85,20 @@ typedef unsigned int mode_t;
 #define __func__ __FUNCDNAME__
 
 # define strcasecmp _stricmp
-# define HAVE_STRCASECMP
 # define strncasecmp _strnicmp
-# ifndef vsnprintf
+# if !defined(vsnprintf) && _MSC_VER < 1900
 #  define vsnprintf _vsnprintf
 # endif
 
-#define HAVE_LLDIV
+#if _MSC_VER < 1900
+#define HAVE_STRCASECMP
 #define HAVE_STRNLEN
-#define HAVE_ATOF
-#define HAVE_ATOLL
-#define HAVE_STRTOLL
-#define HAVE_SWAB
-    
+#define HAVE_REWIND
+#else
+#define HAVE_STRNLEN
+#define HAVE_REWIND
+#endif
+
 #define NOMINMAX
 
 /* Values for the second argument to access.
