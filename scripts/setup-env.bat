@@ -1,9 +1,85 @@
-call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86_arm
+@IF EXIST "%VS120COMNTOOLS%vsvars32.bat" goto vs2013
+@IF EXIST "%VS140COMNTOOLS%vsvars32.bat" goto vs2015
+@echo VS 2015 or VS 2013 not found
+@exit -1
 
-set Path=%Path%;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE
+:vs2015
+@set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
+@set STORE_VARIANT=store
+@goto setupenv
 
-IF /I "%1" == "WindowsPhone" set LIB=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib\store\arm;C:\Program Files (x86)\Windows Phone Kits\8.1\lib\ARM;%LIB%
-IF /I "%1" == "Windows" set LIB=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib\store\arm;%LIB%
+:vs2013
+@set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
+@set STORE_VARIANT=
+@goto setupenv
+
+:setupenv
+call %VSVARS% %STORE_VARIANT%
+@IF /I "%1" == "WindowsPhone" goto setup_WindowsPhone
+@IF /I "%1" == "Windows"      goto setup_Windows
+@IF /I "%1" == "Metrox86"     goto setup_Metrox86
 
 
+@REM -----------------------------------------------------------------------
+:GetWindowsPhoneKitDir
+@set WindowsPhoneKitDir=
+@call :GetWindowsPhoneKitDirHelper32 HKLM > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper32 HKCU > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper64 HKLM > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper64 HKCU > nul 2>&1
+@exit /B 0
+
+:GetWindowsPhoneKitDirHelper32
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\Microsoft\Microsoft SDKs\WindowsPhoneApp\v8.1" /v "InstallationFolder"') DO (
+	@if "%%i"=="InstallationFolder" (
+		@SET WindowsPhoneKitDir=%%k
+	)
+)
+@if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
+:GetWindowsPhoneKitDirHelper64
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\WindowsPhoneApp\v8.1" /v "InstallationFolder"') DO (
+	@if "%%i"=="InstallationFolder" (
+		@SET WindowsPhoneKitDir=%%k
+	)
+)
+@if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
+:setup_WindowsPhone
+call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+@call :GetWindowsPhoneKitDir
+@set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
+@rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
+@goto run_bash
+
+:setup_Windows
+call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+@set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+@rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
+@rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
+@goto run_bash
+
+:setup_Metrox86
+call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
+@set LIB=%VCINSTALLDIR%lib\store;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
+@rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86
+@goto run_bash
+
+
+:run_bash
 %WD%%MSYSCON% --hold always /usr/bin/bash scripts/main.sh %*
+@goto :eof
+
+:bad_vcvarsphoneall
+@echo "%VCINSTALLDIR%bin\vcvarsphoneall.bat" needs to be moved into "%VCINSTALLDIR%vcvarsphoneall.bat"
+@IF NOT EXIST "%VS140COMNTOOLS%vsvars32.bat" goto :eof
+@echo "%VCINSTALLDIR%bin\x86_arm\vcvarsphonex86_arm.bat" needs to call "%VS140COMNTOOLS%VCVarsPhoneQueryRegistry.bat" not "%~dp0VCVarsPhoneQueryRegistry.bat"
+@echo "%VS140COMNTOOLS%VCVarsPhoneQueryRegistry.bat" needs to look for WindowsPhoneApp\v8.1 SDKs, not WindowsPhone\v8.0 ones
+@goto :eof

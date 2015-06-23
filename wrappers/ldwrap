@@ -2,6 +2,18 @@
 
 echo "LD Wrapping $@"
 
+case $VLC_PLATFORM in
+	Windows|Metrox86)
+		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		;;
+	WindowsPhone)
+		FORCED_LIBS="-APPCONTAINER WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		;;
+	*)
+		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		exit 1
+esac
+
 while [ $# -gt 0 ]; do
 	case $1 in
 	-o)

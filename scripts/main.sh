@@ -24,7 +24,7 @@ exit $1
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|WindowsPhone"
+    echo "platform: Windows|Metrox86|WindowsPhone"
     echo "configuration: Debug|Release"
     terminate 1
 }
@@ -32,9 +32,18 @@ usage()
 case $1 in
     Windows)
         export VLC_PLATFORM=Windows
+        export VLC_ABI=winrt
+        export VLC_ARCH=arm
+        ;;
+    Metrox86)
+        export VLC_PLATFORM=Metrox86
+        export VLC_ABI=winrt
+        export VLC_ARCH=x86
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
+        export VLC_ABI=windowsphone
+        export VLC_ARCH=arm
         ;;
     *)
         usage
@@ -117,14 +126,7 @@ export HAVE_VISUALSTUDIO=true
 # Mind that having a terminal ';' would make empty string a token
 # that would be compared against, thus not translating anything
 export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
-
-if [ "$VLC_PLATFORM" = "WindowsPhone" ] ; then
-    export HAVE_WINPHONE=true
-    export BUILD_HOST=arm-msvc-mingw32winphone
-else
-    export HAVE_WINDOWSRT=true
-    export BUILD_HOST=arm-msvc-mingw32winrt
-fi
+export BUILD_HOST=$VLC_ARCH-msvc-mingw32$VLC_ABI
 
 # We are now in ROOT_FOLDER/vlc
 sh $SCRIPTPATH/build-contribs.sh && \
