@@ -70,9 +70,9 @@ cd $VLC_PLATFORM
     --disable-lua \
     --disable-protobuf \
     --disable-mpg123 \
-    --disable-d3d11 \
-    --disable-libarchive \
+	--disable-d3d11 \
 	--disable-dshow \
+    --disable-libarchive \
     --disable-mpcdec \
     --disable-taglib \
     --disable-live555 \

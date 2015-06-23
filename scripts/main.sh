@@ -99,47 +99,27 @@ fi
 
 # Set required environment variables:
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
-#export CC="$ROOT_FOLDER/wrappers/clwrap"
 export CC="$ROOT_FOLDER/wrappers/clwrap"
 export CXX="$ROOT_FOLDER/wrappers/clwrap"
-#export CC="cl"
-#export CXX="cl"
-#export CPP="$CC -E"
 export cc=$CC
 export cxx=$CXX
 export AR="$ROOT_FOLDER/wrappers/ar"
 export NM="dumpbin.exe -symbols"
 #export AS=armasm
 export LD="$ROOT_FOLDER/wrappers/ldwrap"
-#export LD="link"
-#export LD="link"
 export CCLD="$LD"
 export CXXLD="$CCLD"
 export RANLIB=true
 #export RC=rc.exe
 export WINDRES="$ROOT_FOLDER/wrappers/windres"
 export PATH="$ROOT_FOLDER/wrappers:$PATH"
-#export LDFLAGS="$LDFLAGS -link \"kernel32.lib\" \"runtimeobject.lib\""
-#export LDFLAGS="$LDFLAGS TODO.lib"
-#export LDFLAGS="kernel32.lib runtimeobject.lib"
-#export CPPFLAGS="$CPPFLAGS -nologo -MD -EHsc -FI \"`cygpath $ROOT_FOLDER/headers/fixup.h`\" -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
-#export CPPFLAGS="$CPPFLAGS -DWIN32 -D_WIN32_WINNT=0x603 -DUNICODE -D_UNICODE"
-#export CPPFLAGS="$CPPFLAGS -MD -FI \"`cygpath $ROOT_FOLDER/headers/fixup.h`\" -FI \"`cygpath $ROOT_FOLDER/headers/winstorecompat.h`\"   -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX -lkernel32 -lruntimeobject"
-#export CPPFLAGS="$CPPFLAGS -link kernel32.lib runtimeobject.lib"
 export HAVE_ARMV7A=true
 export HAVE_VISUALSTUDIO=true
 # Prevent some broken MSYS conversions
 # Mind that having a terminal ';' would make empty string a token
 # that would be compared against, thus not translating anything
 export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
-
-if [ "$VLC_PLATFORM" = "WindowsPhone" ] ; then
-    export HAVE_WINPHONE=true
-    export BUILD_HOST=arm-msvc-mingw32winphone
-else
-    export HAVE_WINDOWSRT=true
-    export BUILD_HOST=x86-msvc-mingw32winrt
-fi
+export BUILD_HOST=$VLC_ARCH-msvc-mingw32$VLC_ABI
 
 # We are now in ROOT_FOLDER/vlc
 sh $SCRIPTPATH/build-contribs.sh && \
