@@ -70,7 +70,7 @@ cd $VLC_PLATFORM
     --disable-lua \
     --disable-protobuf \
     --disable-mpg123 \
-	--disable-directx \
+	--disable-d3d11 \
 	--disable-dshow \
 	|| exit 1
 
