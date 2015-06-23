@@ -2,6 +2,10 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#ifndef WIN32
+#define WIN32
+#endif /* WIN32 */
+
 # ifndef snprintf
 #  define snprintf _snprintf
 # endif
@@ -88,6 +92,8 @@ typedef unsigned int mode_t;
 #define HAVE_STRTOLL
 #define HAVE_SWAB
     
+#define NOMINMAX
+
 /* Values for the second argument to access.
    These may be OR'd together.  */
 #ifndef R_OK
@@ -101,6 +107,14 @@ typedef unsigned int mode_t;
 #ifndef F_OK
 # define F_OK    0       /* Test for existence.  */
 #endif
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif /* _CRT_SECURE_NO_WARNINGS */
+
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif /* _USE_MATH_DEFINES */
 
 #define PATH_MAX MAX_PATH
 
