@@ -14,12 +14,12 @@ if [ "$VLC_CONFIGURATION" = "" ] ; then
 fi
 
 ROOT_FOLDER=$SCRIPTPATH/../
+SRC_FOLDER=$ROOT_FOLDER/vlc/
 BUILD_FOLDER=$ROOT_FOLDER/vlc/${VLC_PLATFORM}_${VLC_CONFIGURATION}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
 fi
 cd $BUILD_FOLDER
-SRC_FOLDER=$BUILD_FOLDER/../
 
 if [ ! -f $SRC_FOLDER/configure ] || [ "$SRC_FOLDER/configure" -ot "$SRC_FOLDER/configure.ac" ] ; then
     echo "Bootstraping..."
