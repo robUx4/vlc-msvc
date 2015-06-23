@@ -76,8 +76,7 @@ __forceinline HMODULE GetModuleHandleA(LPCSTR lpModuleName)
 {
     wchar_t msg[512];
 
-    _snwprintf(msg, 511, L"GetModuleHandleA (%S) call suppressed\n", lpModuleName);
-    msg[511] = '\0';
+    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleHandleA (%S) call suppressed\n", lpModuleName);
 
     OutputDebugStringW(msg);
 
@@ -88,8 +87,7 @@ __forceinline HMODULE GetModuleHandleW(LPCWSTR lpModuleName)
 {
     wchar_t msg[512];
 
-    _snwprintf(msg, 511, L"GetModuleHandleW (%ws) call suppressed\n", lpModuleName);
-    msg[511] = '\0';
+    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleHandleW (%ws) call suppressed\n", lpModuleName);
 
     OutputDebugStringW(msg);
 
@@ -100,8 +98,7 @@ __forceinline DWORD GetModuleFileNameA(HMODULE hModule, LPCSTR lpFilename, DWORD
 {
     wchar_t msg[512];
 
-    _snwprintf(msg, 511, L"GetModuleFileNameW (%S) call suppressed\n", lpFilename);
-    msg[511] = '\0';
+    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleFileNameW (%S) call suppressed\n", lpFilename);
 
     OutputDebugStringW(msg);
 
@@ -112,8 +109,7 @@ __forceinline DWORD GetModuleFileNameW(HMODULE hModule, LPTSTR lpFilename, DWORD
 {
     wchar_t msg[512];
 
-    _snwprintf(msg, 511, L"GetModuleFileNameW (%ws) call suppressed\n", lpFilename);
-    msg[511] = '\0';
+    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleFileNameW (%ws) call suppressed\n", lpFilename);
 
     OutputDebugStringW(msg);
 
