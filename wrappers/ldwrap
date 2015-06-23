@@ -20,6 +20,15 @@ while [ $# -gt 0 ]; do
 	*.obj)
 		OBJS="$OBJS `cygpath -w $1`"
 		;;
+	-l*)
+		OBJS="$OBJS ${1#-l}.lib"
+		;;
+	-L*)
+		libpath=${1#-L}
+		if [ "$libpath" != "/mingw32/lib" ]; then
+			LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+		fi
+		;;
 	-*)
 		ARGS="$ARGS $1"
 		;;
