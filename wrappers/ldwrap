@@ -48,6 +48,6 @@ echo "Args: $ARGS"
 echo "Objs: $OBJS"
 
 #MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-lib -OUT:$LINK_TARGET $ARGS $OBJS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+link -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
 exit $?
 
