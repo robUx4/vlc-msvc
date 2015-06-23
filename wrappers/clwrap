@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARGS="cl.exe -nologo -MD -EHsc"
+ARGS="cl.exe -EHsc"
 ARGS_DEBUG="-FS -Zi"
 ARGS_RELEASE="-Gw -Ot"
 
@@ -22,24 +22,45 @@ case $VLC_PLATFORM in
 		exit 1
 esac
 
+ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
+
+NO_LOGO="nologo"
+
 while [ $# -gt 0 ]; do
     case $1 in
 	-o)
 		outfile=`cygpath -w $2`
+		compile=1
 		shift
 		;;
+	-Fo*)
+		outfile=${1#-Fo}
+		compile=1
+		;;
 	-E)
-		ARGS="$ARGS -P"
 		preproc=1
 		;;
 	-c)
-		ARGS="$ARGS $1"
+		ARGS="$ARGS -c"
 		compile=1
 		;;
-	*.c|*.cpp|*.cxx|*.cc)
+	*.c|*.cc)
 		file=`cygpath -w $1`
 		inputfile=$file
-		ARGS="$ARGS $file"
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+			exefile=${file%.*}.exe
+		fi
+		ARGS="$ARGS -Tc$file"
+		;;
+	*.cpp|*.cxx)
+		file=`cygpath -w $1`
+		inputfile=$file
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+			exefile=${file%.*}.exe
+		fi
+		ARGS="$ARGS -Tp$file"
 		;;
 	*.dll)
 		EXTRALIBS="$EXTRALIBS $1"
@@ -70,6 +91,10 @@ while [ $# -gt 0 ]; do
 		# Handles -I<path> (without space)
 		ARGS="$ARGS -I`cygpath -w ${1#-I}`"
 		;;
+	-include)
+		ARGS="$ARGS -FI`cygpath -w $2`"
+		shift
+		;;
 	-lm)
 		;;
 	-l*)
@@ -96,8 +121,20 @@ while [ $# -gt 0 ]; do
 		BUILD_LIB=1
 		ARGS="$ARGS -LD"
 		;;
-	-O3)
+	-static)
+		BUILD_LIB=
+		;;
+	-shared-libgcc)
+		STATIC_RUNTIME=
+		;;
+	-static-libgcc)
+		STATIC_RUNTIME=1
+		;;
+	-O)
 		ARGS="$ARGS -O2"
+		;;
+	-O3)
+		ARGS="$ARGS -Ox"
 		;;
 	-L*)
         libpath=${1#-L}
@@ -108,9 +145,15 @@ while [ $# -gt 0 ]; do
 	-g)
 		HAVE_DEBUG=1
 		;;
-    -Wall)
-        # You DON'T want this.
-        ;;
+	-Wall)
+		WARNINGS="-W4"
+		;;
+	-Wextra)
+		WARNINGS="-Wall"
+		;;
+	-Werror)
+		WARNINGS="-WX"
+		;;
 	-Wl*)
 		params=${1#-Wl,}
         for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
@@ -125,17 +168,69 @@ while [ $# -gt 0 ]; do
         done
 		;;
 	-W*)
-		WARNINGS="-W3"
 		;;
 	*.a|*.obj|*.lib)
 		# Keep this a low priority match
 		ARGS="$ARGS `cygpath -w $1`"
+		;;
+	-nologo*)
+		NO_LOGO=${1#-}
+		;;
+	/nologo*)
+		NO_LOGO=${1#/}
 		;;
 	/*)
 		#libav's configure step uses absolute path in msys format, we need to convert
 		# them manually to native windows path.
 		ARGS="$ARGS `cygpath -w $1`"
 		
+		;;
+	-ffast-math)
+		ARGS="$ARGS -fp:fast"
+		;;
+	-fomit-frame-pointer)
+		ARGS="$ARGS -Oy"
+		;;
+	-fno-math-errno)
+		ARGS="$ARGS -fp:except-"
+		;;
+	-pedantic)
+		ARGS="$ARGS -sdl"
+		;;
+	-std=*)
+		C_STD_VARIANT=${1#--std=}
+		if [ "$C_STD_VARIANT" == "gnu99" ]; then
+			echo "Unsupported C standard $C_STD_VARIANT"
+			exit 1
+		fi
+		;;
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-fno-signed-zeros)
+		# silently ignore known flags
+		;;
+	-march=*)
+		ARCH=${1#-march=}
+		if [ "$VLC_ARCH" == "x86" ]; then
+			if [ "$ARCH" != "i686" ]; then
+				echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
+				exit 1
+			fi
+		else
+			if [ "$VLC_ARCH" == "arm" ]; then
+				if [ "$ARCH" != "arm" ]; then
+					echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
+					exit 1
+				fi
+			else
+				echo "VLC_ARCH no supported $VLC_ARCH"
+				exit 1
+			fi
+		fi
+		;;
+	-cpu=*)
+		# silently ignore for now
+		;;
+	-Ze|-Za)
+		# deprecated and incompatible with latest WDK
 		;;
 	*)
 		ARGS="$ARGS $1"
@@ -150,8 +245,22 @@ else
     ARGS="$ARGS $ARGS_RELEASE"
 fi
 
+if [ "$STATIC_RUNTIME" != "" ]; then
+  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+    ARGS="$ARGS -MTd"
+  else
+    ARGS="$ARGS -MT"
+  fi
+else
+  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+    ARGS="$ARGS -MDd"
+  else
+    ARGS="$ARGS -MD"
+  fi
+fi
+
+ARGS="$ARGS -$NO_LOGO"
 ARGS="$ARGS -D_USE_MATH_DEFINES -DWIN32 -D_WIN32_WINNT=0x603 -DFORCE_WINSTORECOMPAT -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX"
-ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
 ARGS="$ARGS $WARNINGS"
 ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 # Hotfix some contribs:
@@ -163,20 +272,27 @@ ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/winstorecompat.h`"
 # There need to be double quotes around the path
 ARGS="$ARGS "'-I"C:/Program Files (x86)/Windows Kits/8.1/Include/um/"'" "'-I"C:/Program Files (x86)/Windows Kits/8.1/Include/shared/"'" "'-I"C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include"'
 
-if [ "$outfile" != "" ]; then
-	if [ "$preproc" != "" ]; then
-		ARGS="$ARGS -Fi$outfile"
-	elif [ "$compile" != "" ]; then
-		ARGS="$ARGS -Fo$outfile"
+if [ "$preproc" != "" ]; then
+	if [ "$compile" != "" ]; then
+		ARGS="$ARGS -P -Fi$outfile"
 	else
-		ARGS="$ARGS -Fe$outfile"
+		#ARGS=$(echo $ARGS | sed s/-P/-E/)
+		ARGS="$ARGS -EP"
 	fi
-    EXTRALIBS="$EXTRALIBS $FORCED_LIBS"
 else
-	if [ "$preproc" != "" ]; then
-		ARGS=$(echo $ARGS | sed s/-P/-E/)
+	if [ "$outfile" != "" ]; then
+		if [ "$compile" != "" ]; then
+			if [ "$inputfile" != "" -a "$outfile" != "${inputfile%.*}.exe" ]; then
+				# avoid LNK1149 error
+				ARGS="$ARGS -Fo$outfile"
+			fi
+		else
+			ARGS="$ARGS -Fe$exefile"
+		fi
 	fi
 fi
+EXTRALIBS="$EXTRALIBS $FORCED_LIBS"
+
 if [ "$deps" != "" ]; then
 	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
 	exit $?
