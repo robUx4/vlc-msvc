@@ -98,7 +98,7 @@ fi
 # Set required environment variables:
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
 export CC="$ROOT_FOLDER/wrappers/clwrap"
-export CXX="$CC"
+export CXX="$ROOT_FOLDER/wrappers/clwrap"
 export cc=$CC
 export cxx=$CXX
 export AR="$ROOT_FOLDER/wrappers/ar"
