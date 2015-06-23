@@ -24,7 +24,7 @@ exit $1
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|WindowsRT|WindowsPhone"
+    echo "platform: Windows|Metrox86|WindowsPhone"
     echo "configuration: Debug|Release"
     terminate 1
 }
@@ -32,11 +32,23 @@ usage()
 case $1 in
     Windows)
         export VLC_PLATFORM=Windows
-	export VLC_ARCH=x86
+        export VLC_ABI=winrt
+        export VLC_ARCH=arm
+        export AS=armasm
+        export HAVE_WINDOWSRT=true
+        ;;
+    Metrox86)
+        export VLC_PLATFORM=Metrox86
+        export VLC_ABI=winrt
+        export VLC_ARCH=x86
+        export HAVE_WINDOWSRT=true
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
-	export VLC_ARCH=arm
+        export VLC_ABI=windowsphone
+        export VLC_ARCH=arm
+        export AS=armasm
+        export HAVE_WINPHONE=true
         ;;
     *)
         usage
@@ -105,7 +117,6 @@ export cc=$CC
 export cxx=$CXX
 export AR="$ROOT_FOLDER/wrappers/ar"
 export NM="dumpbin.exe -symbols"
-#export AS=armasm
 export LD="$ROOT_FOLDER/wrappers/ldwrap"
 export CCLD="$LD"
 export CXXLD="$CCLD"

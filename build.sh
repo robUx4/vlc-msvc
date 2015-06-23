@@ -3,7 +3,7 @@
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Window|WindowsRT|WindowsPhone"
+    echo "platform: Windows|Metrox86|WindowsPhone"
     echo "configuration: Debug|Release"
 }
 
@@ -11,8 +11,8 @@ case $1 in
     Windows)
         PLATFORM=Windows
         ;;
-    WindowsRT)
-        PLATFORM=WindowsRT
+    Metrox86)
+        PLATFORM=Metrox86
         ;;
     WP|WindowsPhone)
         PLATFORM=WindowsPhone

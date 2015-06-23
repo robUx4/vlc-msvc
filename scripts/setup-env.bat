@@ -16,8 +16,8 @@
 :setupenv
 call %VSVARS% %STORE_VARIANT%
 @IF /I "%1" == "WindowsPhone" goto setup_WindowsPhone
-@IF /I "%1" == "WindowsRT"    goto setup_WindowsRT
 @IF /I "%1" == "Windows"      goto setup_Windows
+@IF /I "%1" == "Metrox86"     goto setup_Metrox86
 
 
 @REM -----------------------------------------------------------------------
@@ -56,7 +56,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
 
-:setup_WindowsRT
+:setup_Windows
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
@@ -64,8 +64,12 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
 
-:setup_Windows
+:setup_Metrox86
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
+@set LIB=%VCINSTALLDIR%lib\store;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
+@rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86
 @goto run_bash
 
 
