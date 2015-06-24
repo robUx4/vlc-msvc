@@ -6,11 +6,13 @@
 :vs2015
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=store
+@set CMAKE_VS=Visual Studio 14 2015
 @goto setupenv
 
 :vs2013
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=
+@set CMAKE_VS=Visual Studio 12 2013
 @goto setupenv
 
 :setupenv
@@ -52,6 +54,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @call :GetWindowsPhoneKitDir
 @set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@set CMAKE_TARGET=-G "%CMAKE_VS% ARM"
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
@@ -60,6 +63,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+@set CMAKE_TARGET=-G "%CMAKE_VS% ARM"
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
@@ -68,6 +72,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
 @set LIB=%VCINSTALLDIR%lib\store;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@set CMAKE_TARGET=-G "%CMAKE_VS%"
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86
 @goto run_bash
