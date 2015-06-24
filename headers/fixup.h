@@ -84,20 +84,12 @@ typedef unsigned int mode_t;
 
 #define __func__ __FUNCDNAME__
 
+# define HAVE_STRCASECMP /* bogus autoconf detection using a define */
 # define strcasecmp _stricmp
 # define strncasecmp _strnicmp
 # if !defined(vsnprintf) && _MSC_VER < 1900
 #  define vsnprintf _vsnprintf
 # endif
-
-#if _MSC_VER < 1900
-#define HAVE_STRCASECMP
-#define HAVE_STRNLEN
-#define HAVE_REWIND
-#else
-#define HAVE_STRNLEN
-#define HAVE_REWIND
-#endif
 
 #define NOMINMAX
 

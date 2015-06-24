@@ -4,6 +4,12 @@
 #include <Windows.h>
 #include <stdio.h>
 
+/* not detected properly by autoconf due to early forced include */
+#define HAVE_STRNLEN
+#define HAVE_WCSCPY
+#define HAVE_WCSLEN
+#define HAVE_REWIND
+
 #ifdef __cplusplus
 extern "C" {
 #endif
