@@ -26,10 +26,17 @@ __forceinline int getpid(void)
 
 __forceinline char *getenv(const char *name)
 {
-    (void)name;
+    UNREFERENCED_PARAMETER(name);
     return NULL;
 }
 #define HAVE_GETENV
+
+__forceinline char *putenv(const char *name)
+{
+    UNREFERENCED_PARAMETER(name);
+    return NULL;
+}
+#define HAVE_PUTENV
 #endif
 
 __forceinline HRESULT SHGetFolderPathW(HWND hwnd,int csidl,HANDLE hToken,DWORD dwFlags,LPWSTR pszPath)
