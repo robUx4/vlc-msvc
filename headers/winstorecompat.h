@@ -4,7 +4,7 @@
 #pragma warning(push)
 #pragma warning(disable:4255)    /* no function prototype given */
 #include <Windows.h>
-#include <stdio.h>
+//#include <stdio.h>
 #pragma warning(pop)
 
 /* not detected properly by autoconf due to early forced include */
@@ -83,6 +83,7 @@ __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
 
 #define CreateSemaphore CreateSemaphoreW
 
+#if 0
 __forceinline HMODULE GetModuleHandleA(LPCSTR lpModuleName)
 {
     wchar_t msg[512];
@@ -130,6 +131,7 @@ __forceinline DWORD GetModuleFileNameW(HMODULE hModule, LPTSTR lpFilename, DWORD
 
     return 0;
 }
+#endif
 
 __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
 {
