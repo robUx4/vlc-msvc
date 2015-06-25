@@ -1,8 +1,11 @@
 #ifndef WINSTORECOMPAT_H__
 # define WINSTORECOMPAT_H__
 
+#pragma warning(push)
+#pragma warning(disable:4255)    /* no function prototype given */
 #include <Windows.h>
 #include <stdio.h>
+#pragma warning(pop)
 
 /* not detected properly by autoconf due to early forced include */
 #define HAVE_STRNLEN
