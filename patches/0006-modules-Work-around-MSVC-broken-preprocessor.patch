@@ -1,7 +1,7 @@
-From 773058c07e9d2921d49cce6a0d67c8b114ea3762 Mon Sep 17 00:00:00 2001
+From 21a786bbbcb28ef3e3f079aa88e8135e7198b9af Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:09:04 +0200
-Subject: [PATCH 06/74] modules: Work around MSVC broken preprocessor
+Subject: [PATCH 06/96] modules: Work around MSVC broken preprocessor
 
 ---
  modules/access/dtv/access.c                  | 10 +++++++---
@@ -35,10 +35,10 @@ index f7d3bef..cc8cd6c 100644
  
  #ifdef HAVE_LINUX_DVB
 diff --git a/modules/demux/mkv/matroska_segment_parse.cpp b/modules/demux/mkv/matroska_segment_parse.cpp
-index ff47a2b5..029770f 100644
+index 4229869..37e4b20 100644
 --- a/modules/demux/mkv/matroska_segment_parse.cpp
 +++ b/modules/demux/mkv/matroska_segment_parse.cpp
-@@ -991,13 +991,12 @@ void matroska_segment_c::ParseChapterAtom( int i_level, KaxChapterAtom *ca, chap
+@@ -994,13 +994,12 @@ void matroska_segment_c::ParseChapterAtom( int i_level, KaxChapterAtom *ca, chap
          else if( MKV_IS_ID( l, KaxChapterSegmentEditionUID ) )
          {
              chapters.p_segment_edition_uid = new KaxChapterSegmentEditionUID( *static_cast<KaxChapterSegmentEditionUID*>(l) );
@@ -56,10 +56,10 @@ index ff47a2b5..029770f 100644
          else if( MKV_IS_ID( l, KaxChapterTimeStart ) )
          {
 diff --git a/modules/demux/mp4/mp4.c b/modules/demux/mp4/mp4.c
-index e221024..6a0757f 100644
+index 38c71d0..6f8cb19 100644
 --- a/modules/demux/mp4/mp4.c
 +++ b/modules/demux/mp4/mp4.c
-@@ -623,14 +623,15 @@ static int Open( vlc_object_t * p_this )
+@@ -630,14 +630,15 @@ static int Open( vlc_object_t * p_this )
              case MAJOR_3gp5:
              case MAJOR_3gp6:
              case MAJOR_3gp7:
@@ -80,5 +80,5 @@ index e221024..6a0757f 100644
                  msg_Dbg( p_demux, "Apple QuickTime file" );
                  break;
 -- 
-2.2.0
+2.4.2
 

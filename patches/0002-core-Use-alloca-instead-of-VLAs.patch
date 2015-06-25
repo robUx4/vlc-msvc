@@ -1,7 +1,7 @@
-From cb3ec6219896b2d75e5a8b0b3bd7a77554e4d7ea Mon Sep 17 00:00:00 2001
+From a1266c119619ac26c49d05eb12dc73d37f423ef5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
-Subject: [PATCH 02/74] core: Use alloca instead of VLAs
+Subject: [PATCH 02/96] core: Use alloca instead of VLAs
 
 This is done only for code that is used on windows
 ---
@@ -42,10 +42,10 @@ index 7d0b71d..60c4953 100644
          snprintf( name, sizeof (name), "%s%s", psz_prefix,
                    b_once ? (ppsz_options[i] + 1) : ppsz_options[i] );
 diff --git a/src/config/file.c b/src/config/file.c
-index b445698..4c8d72b 100644
+index 3c1712a..a8f3360 100644
 --- a/src/config/file.c
 +++ b/src/config/file.c
-@@ -284,7 +284,7 @@ int config_CreateDir( vlc_object_t *p_this, const char *psz_dirname )
+@@ -278,7 +278,7 @@ int config_CreateDir( vlc_object_t *p_this, const char *psz_dirname )
          case ENOENT:
          {
              /* Let's try to create the parent directory */
@@ -55,10 +55,10 @@ index b445698..4c8d72b 100644
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
 diff --git a/src/input/item.c b/src/input/item.c
-index 76fc818..28d90de 100644
+index 2dd8ca0..fb48f10 100644
 --- a/src/input/item.c
 +++ b/src/input/item.c
-@@ -792,7 +792,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
+@@ -853,7 +853,7 @@ void input_item_SetEpgOffline( input_item_t *p_item )
      const int i_epg_info = p_item->i_epg;
      if( i_epg_info > 0 )
      {
@@ -68,10 +68,10 @@ index 76fc818..28d90de 100644
          {
              const vlc_epg_t *p_epg = p_item->pp_epg[i];
 diff --git a/src/input/stream.c b/src/input/stream.c
-index 55ec2c8..0ee4ad7 100644
+index 3251510..5219a17 100644
 --- a/src/input/stream.c
 +++ b/src/input/stream.c
-@@ -257,7 +257,7 @@ stream_t *stream_UrlNew( vlc_object_t *p_parent, const char *psz_url )
+@@ -264,7 +264,7 @@ stream_t *stream_UrlNew( vlc_object_t *p_parent, const char *psz_url )
      if( !psz_url )
          return NULL;
  
@@ -120,10 +120,10 @@ index 7d6d245..28f55ce 100644
      psz_header = strstr( psz_header, psz_what );
      if ( psz_header )
 diff --git a/src/misc/messages.c b/src/misc/messages.c
-index e22e4fe7..6089e1a 100644
+index 8cbb7f1..abbcd28 100644
 --- a/src/misc/messages.c
 +++ b/src/misc/messages.c
-@@ -97,7 +97,7 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
+@@ -100,7 +100,7 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
      p = strchr(module, '.');
  
      size_t modlen = (p != NULL) ? (p - module) : 0;
@@ -133,7 +133,7 @@ index e22e4fe7..6089e1a 100644
      {
          memcpy(modulebuf, module, modlen);
 diff --git a/src/misc/picture_pool.c b/src/misc/picture_pool.c
-index 98e093f..1633649 100644
+index 64c60a9..f906001 100644
 --- a/src/misc/picture_pool.c
 +++ b/src/misc/picture_pool.c
 @@ -185,8 +185,8 @@ picture_pool_t *picture_pool_New(unsigned count, picture_t *const *tab)
@@ -156,10 +156,10 @@ index 98e093f..1633649 100644
  
      for (i = 0; i < count; i++) {
 diff --git a/src/network/httpd.c b/src/network/httpd.c
-index 94dec90..8cbd553 100644
+index 2af6b4e..2abc433 100644
 --- a/src/network/httpd.c
 +++ b/src/network/httpd.c
-@@ -1723,7 +1723,7 @@ auth_failed:
+@@ -1718,7 +1718,7 @@ auth_failed:
  
  static void httpdLoop(httpd_host_t *host)
  {
@@ -169,18 +169,18 @@ index 94dec90..8cbd553 100644
      for (nfd = 0; nfd < host->nfd; nfd++) {
          ufd[nfd].fd = host->fds[nfd];
 diff --git a/src/network/tcp.c b/src/network/tcp.c
-index b7712ee..ba57cdc 100644
+index f999aaf..399a797 100644
 --- a/src/network/tcp.c
 +++ b/src/network/tcp.c
-@@ -277,7 +277,7 @@ int net_Accept (vlc_object_t *p_this, int *pi_fd)
-     unsigned n = 0;
+@@ -276,7 +276,7 @@ int net_Accept (vlc_object_t *p_this, int *pi_fd)
      while (pi_fd[n] != -1)
          n++;
--    struct pollfd ufd[n + 1];
-+    struct pollfd *ufd = alloca((n + 1) * sizeof(*ufd));
  
+-    struct pollfd ufd[n];
++    struct pollfd *ufd = alloca(n * sizeof(*ufd));
      /* Initialize file descriptor set */
-     for (unsigned i = 0; i <= n; i++)
+     for (unsigned i = 0; i < n; i++)
+     {
 diff --git a/src/playlist/art.c b/src/playlist/art.c
 index 18a3764..c102411 100644
 --- a/src/playlist/art.c
@@ -208,5 +208,5 @@ index 9215e2a..c3273f9 100644
      free( psz_temp );
      if( config_CreateDir( (vlc_object_t *)p_playlist, psz_dirname ) )
 -- 
-2.2.0
+2.4.2
 

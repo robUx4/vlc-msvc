@@ -1,12 +1,11 @@
-From 4fb89bf646509de99ea7ac8975a557238810570b Mon Sep 17 00:00:00 2001
+From 2ca54cde8b4c1988b644cc8178cfe44f39331220 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:08:53 +0200
-Subject: [PATCH 17/74] compat: Provide a gettimeofday replacement
+Subject: [PATCH 17/96] compat: Provide a gettimeofday replacement
 
 ---
  compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.ac          |  2 +-
- 2 files changed, 61 insertions(+), 1 deletion(-)
+ 1 file changed, 60 insertions(+)
  create mode 100644 compat/gettimeofday.c
 
 diff --git a/compat/gettimeofday.c b/compat/gettimeofday.c
@@ -76,19 +75,6 @@ index 0000000..408784c
 +
 +#endif
 \ No newline at end of file
-diff --git a/configure.ac b/configure.ac
-index edd67d1..cd62672 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -556,7 +556,7 @@ need_libc=false
- dnl Check for usual libc functions
- AC_CHECK_DECLS([nanosleep],,,[#include <time.h>])
- AC_CHECK_FUNCS([daemon fcntl fstatvfs fork getenv getpwuid_r isatty lstat memalign mmap open_memstream openat pread posix_fadvise posix_madvise setlocale stricmp strnicmp strptime uselocale pthread_cond_timedwait_monotonic_np pthread_condattr_setclock])
--AC_REPLACE_FUNCS([atof atoll dirfd fdopendir flockfile fsync getdelim getpid gmtime_r lldiv localtime_r nrand48 poll posix_memalign rewind setenv strcasecmp strcasestr strdup strlcpy strndup strnlen strsep strtof strtok_r strtoll swab tdestroy strverscmp])
-+AC_REPLACE_FUNCS([atof atoll dirfd fdopendir flockfile fsync getdelim getpid gettimeofday gmtime_r lldiv localtime_r nrand48 poll posix_memalign rewind setenv strcasecmp strcasestr strdup strlcpy strndup strnlen strsep strtof strtok_r strtoll swab tdestroy strverscmp])
- AC_CHECK_FUNCS(fdatasync,,
-   [AC_DEFINE(fdatasync, fsync, [Alias fdatasync() to fsync() if missing.])
- ])
 -- 
-2.2.0
+2.4.2
 

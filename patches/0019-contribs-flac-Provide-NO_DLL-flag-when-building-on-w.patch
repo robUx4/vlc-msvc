@@ -1,19 +1,19 @@
-From 1bcf549443085bc62610875f244c4f8c02c1af22 Mon Sep 17 00:00:00 2001
+From f402487560fe084f6f6b7ee386d056e7cd3ba10b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:55:03 +0200
-Subject: [PATCH 19/74] contribs: flac: Provide NO_DLL flag when building on
+Subject: [PATCH 19/96] contribs: flac: Provide NO_DLL flag when building on
  windows
 
 ---
- contrib/src/flac/rules.mak | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ contrib/src/flac/rules.mak | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/contrib/src/flac/rules.mak b/contrib/src/flac/rules.mak
-index 7e5ad72..354cb41 100644
+index 53cf8e0..ede1bb5 100644
 --- a/contrib/src/flac/rules.mak
 +++ b/contrib/src/flac/rules.mak
-@@ -42,10 +42,14 @@ FLACCONF += --disable-asm-optimizations
- endif
+@@ -47,6 +47,10 @@ ifdef HAVE_WIN32
+ FLAC_CFLAGS += -mstackrealign
  endif
  
 +ifdef HAVE_WIN32
@@ -23,11 +23,6 @@ index 7e5ad72..354cb41 100644
  DEPS_flac = ogg $(DEPS_ogg)
  
  .flac: flac
--	cd $< && $(HOSTVARS) ./configure $(FLACCONF)
-+	cd $< && $(HOSTVARS) ./configure $(FLACCONF) CFLAGS=$(FLACCFLAGS)
- 	cd $</include && $(MAKE) install
- 	cd $</src && $(MAKE) -C share install && $(MAKE) -C libFLAC install
- 	touch $@
 -- 
-2.2.0
+2.4.2
 

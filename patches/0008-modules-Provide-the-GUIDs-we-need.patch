@@ -1,18 +1,17 @@
-From 3ebe55175b88bcf1f1b7cacca876b860fbbe490c Mon Sep 17 00:00:00 2001
+From 713228a47805caa85542ce6ce944a2b684863d2a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:03:18 +0200
-Subject: [PATCH 08/74] modules: Provide the GUIDs we need
+Subject: [PATCH 08/96] modules: Provide the GUIDs we need
 
 ---
  modules/access/dshow/vlc_dshow.h | 22 ++++++++++++++++++++++
  modules/access/dtv/bdagraph.cpp  | 22 ++++++++++++++++++++++
  modules/audio_output/mmdevice.c  | 21 ++++++++++++++++++---
  modules/audio_output/wasapi.c    |  8 ++++++++
- modules/codec/mft.c              |  3 +++
- 5 files changed, 73 insertions(+), 3 deletions(-)
+ 4 files changed, 70 insertions(+), 3 deletions(-)
 
 diff --git a/modules/access/dshow/vlc_dshow.h b/modules/access/dshow/vlc_dshow.h
-index 816884e..89881d2 100644
+index be98882..577508b 100644
 --- a/modules/access/dshow/vlc_dshow.h
 +++ b/modules/access/dshow/vlc_dshow.h
 @@ -31,6 +31,27 @@
@@ -43,17 +42,17 @@ index 816884e..89881d2 100644
  #include <wtypes.h>
  #include <unknwn.h>
  #include <ole2.h>
-@@ -370,4 +391,5 @@ DECLARE_INTERFACE_(IAMTVAudio, IUnknown)
+@@ -371,4 +392,5 @@ DECLARE_INTERFACE_(IAMTVAudio, IUnknown)
  };
  
  #endif /* __MINGW64_VERSION_MAJOR */
 +#endif /* _MSC_VER */
  #endif /* VLC_DSHOW_H */
 diff --git a/modules/access/dtv/bdagraph.cpp b/modules/access/dtv/bdagraph.cpp
-index fd33a60..ce97223 100644
+index 17cfd0c..bff7b43 100644
 --- a/modules/access/dtv/bdagraph.cpp
 +++ b/modules/access/dtv/bdagraph.cpp
-@@ -35,6 +35,28 @@
+@@ -37,6 +37,28 @@
  #include "dtv/dtv.h"
  #undef DEBUG_MONIKER_NAME
  
@@ -134,21 +133,6 @@ index 7a47161..ee20d60 100644
  static LARGE_INTEGER freq; /* performance counters frequency */
  
  BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID); /* avoid warning */
-diff --git a/modules/codec/mft.c b/modules/codec/mft.c
-index 7dffde3..fcc0d73 100644
---- a/modules/codec/mft.c
-+++ b/modules/codec/mft.c
-@@ -172,7 +172,10 @@ static const pair_format_guid video_format_table[] =
-     { 0, NULL }
- };
- 
-+#ifndef _MSC_VER
- DEFINE_GUID(MFAudioFormat_Dolby_AC3, 0xe06d802c, 0xdb46, 0x11cf, 0xb4, 0xd1, 0x00, 0x80, 0x5f, 0x6c, 0xbb, 0xea);
-+#endif
-+
- /*
-  * We cannot use the FOURCC code for audio either since the
-  * WAVE_FORMAT value is used to create the GUID.
 -- 
-2.2.0
+2.4.2
 

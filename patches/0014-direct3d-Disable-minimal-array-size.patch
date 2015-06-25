@@ -1,7 +1,7 @@
-From a489cf85227e83a1ddbc8d00df5a4c12360df9d7 Mon Sep 17 00:00:00 2001
+From db34192539bfd6ad38b0353125a3dc315f3639d2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:22:15 +0200
-Subject: [PATCH 14/74] direct3d: Disable minimal array size
+Subject: [PATCH 14/96] direct3d: Disable minimal array size
 
 This should be reverted when MS fixes https://connect.microsoft.com/VisualStudio/feedback/details/1007399/use-of-static-keyword-in-array-parameter-declaration
 ---
@@ -9,10 +9,10 @@ This should be reverted when MS fixes https://connect.microsoft.com/VisualStudio
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/modules/video_output/msw/direct3d9.c b/modules/video_output/msw/direct3d9.c
-index fb96fcc..5915f91 100644
+index d24eb8b..e0b11ea 100644
 --- a/modules/video_output/msw/direct3d9.c
 +++ b/modules/video_output/msw/direct3d9.c
-@@ -1338,7 +1338,7 @@ static void Direct3D9DestroyShaders(vout_display_t *vd)
+@@ -1419,7 +1419,7 @@ static void Direct3D9DestroyShaders(vout_display_t *vd)
   * Vertex 0 should be assigned coordinates at index 2 from the
   * unrotated order and so on, thus yielding order: 2 3 0 1.
   */
@@ -22,5 +22,5 @@ index fb96fcc..5915f91 100644
      switch (orientation) {
          case ORIENT_ROTATED_90:
 -- 
-2.2.0
+2.4.2
 

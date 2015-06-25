@@ -1,7 +1,7 @@
-From d684be569caff897c9db438853f28006cabc07cb Mon Sep 17 00:00:00 2001
+From 38f3c415e673a508a588ad85bbf933711e4766ad Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:56:24 +0200
-Subject: [PATCH 20/74] HACK HACK HACK: contribs: fontconfig
+Subject: [PATCH 20/96] HACK HACK HACK: contribs: fontconfig
 
 ---
  contrib/src/fontconfig/rules.mak | 7 +++++--
@@ -31,5 +31,5 @@ index 3c19996..78b92c7 100644
 +endif
  	touch $@
 -- 
-2.2.0
+2.4.2
 

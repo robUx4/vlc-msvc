@@ -1,7 +1,7 @@
-From dbf97858a7f7d84209350e1e7a07822eaa36793f Mon Sep 17 00:00:00 2001
+From 6787e14014545a3a2b1cd8ded3c008a6daf67d11 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:13:22 +0200
-Subject: [PATCH 09/74] modules: Remove empty braces initializer to keep MSVC
+Subject: [PATCH 09/96] modules: Remove empty braces initializer to keep MSVC
  happy
 
 ---
@@ -23,7 +23,7 @@ index eaf8175..82b592a 100644
          { 0, 1 },
          { 0, 1, 2 },
 diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
-index 7ce3407..412da4c 100644
+index f16cc31..c14dfdb 100644
 --- a/modules/demux/avformat/demux.c
 +++ b/modules/demux/avformat/demux.c
 @@ -157,7 +157,7 @@ int OpenDemux( vlc_object_t *p_this )
@@ -36,5 +36,5 @@ index 7ce3407..412da4c 100644
      unsigned int  i;
      int64_t       i_start_time = -1;
 -- 
-2.2.0
+2.4.2
 

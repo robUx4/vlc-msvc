@@ -1,7 +1,7 @@
-From a42dc1d07d8391b40dacaf9e8eb14dd8cf1a56ad Mon Sep 17 00:00:00 2001
+From 6e01c460a49c30aa343382b1c3a85009ce492c56 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:46:08 +0200
-Subject: [PATCH 05/74] modules: Replace VLAs by alloca()
+Subject: [PATCH 05/96] modules: Replace VLAs by alloca()
 
 ---
  modules/access/ftp.c                  | 2 +-
@@ -9,7 +9,7 @@ Subject: [PATCH 05/74] modules: Replace VLAs by alloca()
  modules/codec/avcodec/audio.c         | 4 ++--
  modules/codec/libass.c                | 4 ++--
  modules/control/globalhotkeys/win32.c | 2 +-
- modules/control/rc.c                  | 2 +-
+ modules/control/oldrc.c               | 2 +-
  modules/demux/avformat/demux.c        | 2 +-
  modules/demux/avi/avi.c               | 4 ++--
  modules/demux/playlist/dvb.c          | 2 +-
@@ -20,7 +20,7 @@ Subject: [PATCH 05/74] modules: Replace VLAs by alloca()
  13 files changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/modules/access/ftp.c b/modules/access/ftp.c
-index 5224e7e..d7d8fcf 100644
+index e5c5cfc..9e552fe 100644
 --- a/modules/access/ftp.c
 +++ b/modules/access/ftp.c
 @@ -151,7 +151,7 @@ static int ftp_SendCommand( vlc_object_t *obj, access_sys_t *sys,
@@ -46,10 +46,10 @@ index a4a8bd4..7ce9ad4 100644
      if( !DeviceIoControl( p_vcddev->h_device_handle, IOCTL_CDROM_READ_TOC_EX,
                            &TOCEx, sizeof(TOCEx), header, i_header_size, &i_read, 0 ) )
 diff --git a/modules/codec/avcodec/audio.c b/modules/codec/avcodec/audio.c
-index 514f76d..afafb14 100644
+index fd3a7c0..ff71680 100644
 --- a/modules/codec/avcodec/audio.c
 +++ b/modules/codec/avcodec/audio.c
-@@ -407,7 +407,7 @@ static block_t *DecodeAudio( decoder_t *p_dec, block_t **pp_block )
+@@ -354,7 +354,7 @@ static block_t *DecodeAudio( decoder_t *p_dec, block_t **pp_block )
          if (unlikely(p_block == NULL))
              goto drop;
  
@@ -58,7 +58,7 @@ index 514f76d..afafb14 100644
          for (int i = 0; i < ctx->channels; i++)
              planes[i] = frame->extended_data[i];
  
-@@ -549,7 +549,7 @@ static void SetupOutputFormat( decoder_t *p_dec, bool b_trust )
+@@ -477,7 +477,7 @@ static void SetupOutputFormat( decoder_t *p_dec, bool b_trust )
       * FIXME should we use fmt_in.audio.i_physical_channels or not ?
       */
      const unsigned i_order_max = 8 * sizeof(p_sys->p_context->channel_layout);
@@ -68,10 +68,10 @@ index 514f76d..afafb14 100644
  
      if( p_sys->p_context->channel_layout )
 diff --git a/modules/codec/libass.c b/modules/codec/libass.c
-index f6f14a6..a7680cd 100644
+index 067ef6b..c67a8d9 100644
 --- a/modules/codec/libass.c
 +++ b/modules/codec/libass.c
-@@ -448,7 +448,7 @@ static void SubpictureUpdate( subpicture_t *p_subpic,
+@@ -446,7 +446,7 @@ static void SubpictureUpdate( subpicture_t *p_subpic,
       * it looks ugly (text unaligned).
       */
      const int i_max_region = 4;
@@ -80,7 +80,7 @@ index f6f14a6..a7680cd 100644
      const int i_region = BuildRegions( region, i_max_region, p_img, fmt.i_width, fmt.i_height );
  
      if( i_region <= 0 )
-@@ -553,7 +553,7 @@ static int BuildRegions( rectangle_t *p_region, int i_max_region, ASS_Image *p_i
+@@ -551,7 +551,7 @@ static int BuildRegions( rectangle_t *p_region, int i_max_region, ASS_Image *p_i
      int i_maxh = i_w_inc;
      int i_maxw = i_h_inc;
      int i_region;
@@ -90,10 +90,10 @@ index f6f14a6..a7680cd 100644
      i_region = 0;
      for( int i_used = 0; i_used < i_count; )
 diff --git a/modules/control/globalhotkeys/win32.c b/modules/control/globalhotkeys/win32.c
-index f80510e..e21d014 100644
+index a4508f6..fa67fb4 100644
 --- a/modules/control/globalhotkeys/win32.c
 +++ b/modules/control/globalhotkeys/win32.c
-@@ -170,7 +170,7 @@ static void *Thread( void *p_data )
+@@ -171,7 +171,7 @@ static void *Thread( void *p_data )
              p_hotkey->psz_action != NULL;
              p_hotkey++ )
      {
@@ -102,11 +102,11 @@ index f80510e..e21d014 100644
          sprintf( varname, "global-key-%s", p_hotkey->psz_action );
  
          char *key = var_InheritString( p_intf, varname );
-diff --git a/modules/control/rc.c b/modules/control/rc.c
-index 0ada15c..84797e7 100644
---- a/modules/control/rc.c
-+++ b/modules/control/rc.c
-@@ -140,7 +140,7 @@ VLC_FORMAT(2, 3)
+diff --git a/modules/control/oldrc.c b/modules/control/oldrc.c
+index a3ccb5b..29f0272 100644
+--- a/modules/control/oldrc.c
++++ b/modules/control/oldrc.c
+@@ -141,7 +141,7 @@ VLC_FORMAT(2, 3)
  static void msg_rc( intf_thread_t *p_intf, const char *psz_fmt, ... )
  {
      va_list args;
@@ -116,7 +116,7 @@ index 0ada15c..84797e7 100644
      snprintf (fmt_eol, sizeof (fmt_eol), "%s\r\n", psz_fmt);
      va_start( args, psz_fmt );
 diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
-index d6a271c..7ce3407 100644
+index 47a6cde..f16cc31 100644
 --- a/modules/demux/avformat/demux.c
 +++ b/modules/demux/avformat/demux.c
 @@ -288,7 +288,7 @@ int OpenDemux( vlc_object_t *p_this )
@@ -129,10 +129,10 @@ index d6a271c..7ce3407 100644
      unsigned int nb_streams = p_sys->ic->nb_streams;
      for (unsigned i = 1; i < nb_streams; i++)
 diff --git a/modules/demux/avi/avi.c b/modules/demux/avi/avi.c
-index 0a35b42..028d77a 100644
+index 613210d..7ccee2f 100644
 --- a/modules/demux/avi/avi.c
 +++ b/modules/demux/avi/avi.c
-@@ -2468,8 +2468,8 @@ static void AVI_IndexLoad( demux_t *p_demux )
+@@ -2487,8 +2487,8 @@ static void AVI_IndexLoad( demux_t *p_demux )
  
      /* Load indexes */
      assert( p_sys->i_track <= 100 );
@@ -144,10 +144,10 @@ index 0a35b42..028d77a 100644
      {
          avi_index_Init( &p_idx_indx[i] );
 diff --git a/modules/demux/playlist/dvb.c b/modules/demux/playlist/dvb.c
-index 0b5e796..4c7ff1a 100644
+index 94289a4..7211be5 100644
 --- a/modules/demux/playlist/dvb.c
 +++ b/modules/demux/playlist/dvb.c
-@@ -60,7 +60,7 @@ int Import_DVB(vlc_object_t *obj)
+@@ -61,7 +61,7 @@ int Import_DVB(vlc_object_t *p_this)
          return VLC_EGENERIC;
      len = eol - peek;
  
@@ -157,10 +157,10 @@ index 0b5e796..4c7ff1a 100644
      line[len] = '\0';
  
 diff --git a/modules/lua/libs/net.c b/modules/lua/libs/net.c
-index 4d6e87b..271ad91 100644
+index 00905ce..6bc13b3 100644
 --- a/modules/lua/libs/net.c
 +++ b/modules/lua/libs/net.c
-@@ -302,7 +302,7 @@ static int vlclua_net_recv( lua_State *L )
+@@ -303,7 +303,7 @@ static int vlclua_net_recv( lua_State *L )
  {
      int fd = vlclua_fd_get( L, luaL_checkint( L, 1 ) );
      size_t i_len = luaL_optint( L, 2, 1 );
@@ -183,10 +183,10 @@ index 717050c..057ff50 100644
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
 diff --git a/modules/services_discovery/sap.c b/modules/services_discovery/sap.c
-index abdf957..4c8a18c 100644
+index de512d1..853d76d 100644
 --- a/modules/services_discovery/sap.c
 +++ b/modules/services_discovery/sap.c
-@@ -533,7 +533,7 @@ static void *Run( void *data )
+@@ -534,7 +534,7 @@ static void *Run( void *data )
      {
          vlc_restorecancel (canc);
          unsigned n = p_sd->p_sys->i_fd;
@@ -195,7 +195,7 @@ index abdf957..4c8a18c 100644
  
          for (unsigned i = 0; i < n; i++)
          {
-@@ -1191,7 +1191,7 @@ static sdp_t *ParseSDP (vlc_object_t *p_obj, const char *psz_sdp)
+@@ -1192,7 +1192,7 @@ static sdp_t *ParseSDP (vlc_object_t *p_obj, const char *psz_sdp)
          /* Extract one line */
          char *eol = strchr (psz_sdp, '\n');
          size_t linelen = eol ? (size_t)(eol - psz_sdp) : strlen (psz_sdp);
@@ -218,5 +218,5 @@ index 3f117da..cc2e4b3 100644
      for (unsigned i = 0; i < count; i++) {
          picture_sys_t *picsys = malloc(sizeof (*picsys));
 -- 
-2.2.0
+2.4.2
 
