@@ -11,15 +11,18 @@
 #endif
 
 # if !defined(snprintf) && _MSC_VER < 1900
+#  define HAVE_SNPRINTF /* bogus autoconf detection using a define */
 #  define snprintf _snprintf
 # endif
 # ifndef snwprintf
+#  define HAVE_SNWPRINTF /* bogus autoconf detection using a define */
 #  define snwprintf _snwprintf
 # endif
 # ifndef __cplusplus
 #  define inline __inline
 # endif
-# if _MSC_VER < 1900
+# if !defined(strdup) && _MSC_VER < 1900
+//#  define HAVE_STRDUP /* bogus autoconf detection using a define */
 # define strdup _strdup
 #endif
 typedef signed long int ssize_t;
@@ -84,10 +87,16 @@ typedef unsigned int mode_t;
 
 #define __func__ __FUNCDNAME__
 
+# if !defined(strcasecmp)
 # define HAVE_STRCASECMP /* bogus autoconf detection using a define */
 # define strcasecmp _stricmp
+#endif
+# if !defined(strncasecmp)
+#  define HAVE_STRNCASECMP /* bogus autoconf detection using a define */
 # define strncasecmp _strnicmp
-# if !defined(vsnprintf) && _MSC_VER < 1900
+#endif
+# if !defined(vsnprintf) && !defined(__cplusplus) && _MSC_VER < 1900
+#  define HAVE_VSNPRINTF /* bogus autoconf detection using a define */
 #  define vsnprintf _vsnprintf
 # endif
 

@@ -11,7 +11,6 @@
 #define HAVE_STRNLEN
 #define HAVE_WCSCPY
 #define HAVE_WCSLEN
-#define HAVE_REWIND
 
 #ifdef __cplusplus
 extern "C" {
