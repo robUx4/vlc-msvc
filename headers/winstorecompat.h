@@ -89,55 +89,10 @@ __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
 
 #define CreateSemaphore CreateSemaphoreW
 
-#if 0
-__forceinline HMODULE GetModuleHandleA(LPCSTR lpModuleName)
-{
-    wchar_t msg[512];
-
-    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleHandleA (%S) call suppressed\n", lpModuleName);
-
-    OutputDebugStringW(msg);
-
-    return NULL;
-}
-
-__forceinline HMODULE GetModuleHandleW(LPCWSTR lpModuleName)
-{
-    wchar_t msg[512];
-
-    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleHandleW (%ws) call suppressed\n", lpModuleName);
-
-    OutputDebugStringW(msg);
-
-    return NULL;
-}
-
-__forceinline DWORD GetModuleFileNameA(HMODULE hModule, LPCSTR lpFilename, DWORD nSize)
-{
-    wchar_t msg[512];
-    UNREFERENCED_PARAMETER(hModule);
-    UNREFERENCED_PARAMETER(nSize);
-
-    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleFileNameW (%S) call suppressed\n", lpFilename);
-
-    OutputDebugStringW(msg);
-
-    return 0;
-}
-
-__forceinline DWORD GetModuleFileNameW(HMODULE hModule, LPTSTR lpFilename, DWORD nSize)
-{
-    wchar_t msg[512];
-    UNREFERENCED_PARAMETER(hModule);
-    UNREFERENCED_PARAMETER(nSize);
-
-    _snwprintf_s(msg, 512, _TRUNCATE, L"GetModuleFileNameW (%ws) call suppressed\n", lpFilename);
-
-    OutputDebugStringW(msg);
-
-    return 0;
-}
-#endif
+#define GetModuleHandleA(x)        (NULL)
+#define GetModuleHandleW(x)        (NULL)
+#define GetModuleFileNameA(h,f,s)     (0)
+#define GetModuleFileNameW(h,f,s)     (0)
 
 __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
 {
