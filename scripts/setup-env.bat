@@ -54,7 +54,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @call :GetWindowsPhoneKitDir
 @set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
-@set CMAKE_TARGET=-G "%CMAKE_VS% ARM" -p:Configuration=%2
+@set CMAKE_TARGET=-G "%CMAKE_VS% ARM"
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
@@ -63,7 +63,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
-@set CMAKE_TARGET=-G "%CMAKE_VS% ARM" -p:Configuration=%2
+@set CMAKE_TARGET=-G "%CMAKE_VS% ARM"
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
 @goto run_bash
@@ -72,7 +72,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
 @set LIB=%VCINSTALLDIR%lib\store;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
-@set CMAKE_TARGET=-G "%CMAKE_VS%" -p:Configuration=%2
+@set CMAKE_TARGET=-G "%CMAKE_VS%"
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86
 @goto run_bash
