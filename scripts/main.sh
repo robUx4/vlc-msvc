@@ -45,7 +45,7 @@ case $1 in
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
-        export VLC_ABI=windowsphone
+        export VLC_ABI=winphone
         export VLC_ARCH=arm
         export AS=armasm
         export HAVE_WINPHONE=true
