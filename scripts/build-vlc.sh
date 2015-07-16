@@ -2,9 +2,15 @@
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
+ROOT_FOLDER=$SCRIPTPATH/../
 
-if [ "$VLC_PLATFORM" = "" ] ; then
-    echo "\$VLC_PLATFORM is unset"
+if [ "$VLC_ABI" = "" ] ; then
+    echo "\$VLC_ABI is unset"
+    exit 1
+fi
+
+if [ "$VLC_ARCH" = "" ] ; then
+    echo "\$VLC_ARCH is unset"
     exit 1
 fi
 
@@ -13,9 +19,8 @@ if [ "$VLC_CONFIGURATION" = "" ] ; then
     exit 1
 fi
 
-ROOT_FOLDER=$SCRIPTPATH/../
 SRC_FOLDER=$ROOT_FOLDER/vlc/
-BUILD_FOLDER=$ROOT_FOLDER/vlc/${VLC_PLATFORM}_${VLC_CONFIGURATION}/
+BUILD_FOLDER=$ROOT_FOLDER/vlc/${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
 fi
