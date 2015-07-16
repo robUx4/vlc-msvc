@@ -38,7 +38,7 @@ case $1 in
         export HAVE_WINDOWSRT=true
         ;;
     Metrox86)
-        export VLC_PLATFORM=Metrox86
+        export VLC_PLATFORM=Windows
         export VLC_ABI=winrt
         export VLC_ARCH=x86
         export HAVE_WINDOWSRT=true
