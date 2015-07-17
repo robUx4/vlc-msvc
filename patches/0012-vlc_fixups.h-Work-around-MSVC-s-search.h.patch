@@ -1,7 +1,7 @@
-From 1b617f6d57ac1621deecbe95e81dfbebb5162998 Mon Sep 17 00:00:00 2001
+From fbb489c4214d4b937b3d2400fd1fe9e3c8cff6ac Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 10:00:53 +0200
-Subject: [PATCH 12/96] vlc_fixups.h: Work around MSVC's search.h
+Subject: [PATCH 12/99] vlc_fixups.h: Work around MSVC's search.h
 
 ---
  include/vlc_fixups.h | 13 +++++++++----
@@ -39,5 +39,5 @@ index 7bd5aa0..94a71cd 100644
  
  /* Random numbers */
 -- 
-2.4.2
+1.9.5.msysgit.0
 

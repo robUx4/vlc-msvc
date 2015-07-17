@@ -1,7 +1,7 @@
-From fbe579fdaf754896fc51fb6d31a89bd9583203ea Mon Sep 17 00:00:00 2001
+From 66ceeb28aef2c20d72c2a266bd920c7d5eca43ed Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:07 +0200
-Subject: [PATCH 21/96] contribs: gcrypt: Disable asm when building with
+Subject: [PATCH 21/99] contribs: gcrypt: Disable asm when building with
  visualstudio
 
 ---
@@ -23,5 +23,5 @@ index 4b2cce0..6ba2eaa 100644
  GCRYPT_EXTRA_CFLAGS = -fheinous-gnu-extensions
  else
 -- 
-2.4.2
+1.9.5.msysgit.0
 

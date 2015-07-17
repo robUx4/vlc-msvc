@@ -1,0 +1,35 @@
+From 6be132944fb31174135ba87e3fc5074bfe480607 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 13:24:21 +0200
+Subject: [PATCH 88/99] vlc_arrays.h: all calls to DictHash() expect an int so
+ return that
+
+---
+ include/vlc_arrays.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/vlc_arrays.h b/include/vlc_arrays.h
+index 91f5405..d5802ee 100644
+--- a/include/vlc_arrays.h
++++ b/include/vlc_arrays.h
+@@ -375,7 +375,7 @@ vlc_array_remove( vlc_array_t * p_array, int i_index )
+  * fast and not suck too much. This one is pretty fast and did 0 collisions
+  * in wenglish's dictionary.
+  */
+-static inline uint64_t DictHash( const char *psz_string, int hashsize )
++static inline int DictHash( const char *psz_string, int hashsize )
+ {
+     uint64_t i_hash = 0;
+     if( psz_string )
+@@ -387,7 +387,7 @@ static inline uint64_t DictHash( const char *psz_string, int hashsize )
+             i_hash ^= i_hash >> 8;
+         }
+     }
+-    return i_hash % hashsize;
++    return (int) (i_hash % hashsize);
+ }
+ 
+ typedef struct vlc_dictionary_entry_t
+-- 
+1.9.5.msysgit.0
+

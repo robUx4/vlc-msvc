@@ -1,0 +1,29 @@
+From 110fd3731760e24ed4e0f6f0fbfddf24d76f0c34 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 11:17:12 +0200
+Subject: [PATCH 88/96] vlc_common: map VLC_UNUSED to the
+ UNREFERENCED_PARAMETER macro for MSVC
+
+---
+ include/vlc_common.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/include/vlc_common.h b/include/vlc_common.h
+index 0c00ec8..42a5fc7 100644
+--- a/include/vlc_common.h
++++ b/include/vlc_common.h
+@@ -774,7 +774,11 @@ static inline void SetQWLE (void *p, uint64_t qw)
+ }
+ 
+ /* */
++#ifdef _MSC_VER
++#define VLC_UNUSED(x) UNREFERENCED_PARAMETER(x)
++#else
+ #define VLC_UNUSED(x) (void)(x)
++#endif
+ 
+ /* Stuff defined in src/extras/libc.c */
+ 
+-- 
+2.4.2
+

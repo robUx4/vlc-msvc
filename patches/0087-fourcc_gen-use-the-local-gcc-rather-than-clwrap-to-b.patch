@@ -1,0 +1,26 @@
+From 48b576a0b9259f464bae10ae3882607960869cf4 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 10:41:21 +0200
+Subject: [PATCH 87/96] fourcc_gen: use the local gcc rather than clwrap to
+ build the fourcc_gen exe
+
+---
+ src/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index e608e4d..c5c19b2 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -522,7 +522,7 @@ MOSTLYCLEANFILES = fourcc_gen
+ 
+ fourcc_gen: misc/fourcc_gen.c misc/fourcc_list.h ../include/vlc_fourcc.h
+ 	$(AM_V_at)rm -f -- $@
+-	$(AM_V_CC)$(BUILDCC) -I$(srcdir) -o $@ $<
++	$(AM_V_at)gcc -std=c99 $(BUILDCC) -I$(srcdir) -o $@ $<
+ 
+ fourcc_tables.h: fourcc_gen
+ 	$(AM_V_at)rm -f -- $@.tmp
+-- 
+2.4.2
+

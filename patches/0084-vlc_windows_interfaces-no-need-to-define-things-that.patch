@@ -1,0 +1,32 @@
+From f4b9c43acade8cd01f17f8f850da74695ac2d228 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Wed, 24 Jun 2015 19:20:37 +0200
+Subject: [PATCH 84/99] vlc_windows_interfaces: no need to define things that
+ are provided with MSVC
+
+---
+ include/vlc_windows_interfaces.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/vlc_windows_interfaces.h b/include/vlc_windows_interfaces.h
+index e4c41f2..a9282c1 100644
+--- a/include/vlc_windows_interfaces.h
++++ b/include/vlc_windows_interfaces.h
+@@ -24,6 +24,8 @@
+ #ifndef MINGW_WORKAROUNDS_H
+ #define MINGW_WORKAROUNDS_H
+ 
++#ifndef _MSC_VER
++
+ #ifdef __MINGW32__
+ # include <_mingw.h>
+ #endif
+@@ -228,4 +230,5 @@ struct ITaskbarList3Vtbl
+ # define THBN_CLICKED        0x1800
+ #endif
+ 
++#endif /* _MSC_VER */
+ #endif //MINGW_WORKAROUNDS_H
+-- 
+1.9.5.msysgit.0
+

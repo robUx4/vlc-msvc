@@ -1,7 +1,7 @@
-From a1266c119619ac26c49d05eb12dc73d37f423ef5 Mon Sep 17 00:00:00 2001
+From df5e6e6ad49661383b61ea528fa16f3f32e13055 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:02:28 +0200
-Subject: [PATCH 02/96] core: Use alloca instead of VLAs
+Subject: [PATCH 02/99] core: Use alloca instead of VLAs
 
 This is done only for code that is used on windows
 ---
@@ -208,5 +208,5 @@ index 9215e2a..c3273f9 100644
      free( psz_temp );
      if( config_CreateDir( (vlc_object_t *)p_playlist, psz_dirname ) )
 -- 
-2.4.2
+1.9.5.msysgit.0
 

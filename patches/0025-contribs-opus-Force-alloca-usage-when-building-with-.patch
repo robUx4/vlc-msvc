@@ -1,7 +1,7 @@
-From 4ed3f3091894341088606f1865e2e3bb43c6670b Mon Sep 17 00:00:00 2001
+From 391d9f48b1e95901b2148156ae56169b9c74cb20 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:16:28 +0200
-Subject: [PATCH 25/96] contribs: opus: Force alloca usage when building with
+Subject: [PATCH 25/99] contribs: opus: Force alloca usage when building with
  MSVC
 
 ---
@@ -26,5 +26,5 @@ index b7e7959..2ee0642 100644
  	cd $< && $(MAKE) install
  	touch $@
 -- 
-2.4.2
+1.9.5.msysgit.0
 

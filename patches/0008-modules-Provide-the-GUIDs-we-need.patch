@@ -1,7 +1,7 @@
-From 713228a47805caa85542ce6ce944a2b684863d2a Mon Sep 17 00:00:00 2001
+From da853aa3c251bc2b65f11eacd3f3098351f8ec35 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:03:18 +0200
-Subject: [PATCH 08/96] modules: Provide the GUIDs we need
+Subject: [PATCH 08/99] modules: Provide the GUIDs we need
 
 ---
  modules/access/dshow/vlc_dshow.h | 22 ++++++++++++++++++++++
@@ -134,5 +134,5 @@ index 7a47161..ee20d60 100644
  
  BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID); /* avoid warning */
 -- 
-2.4.2
+1.9.5.msysgit.0
 

@@ -1,0 +1,209 @@
+From b85db2266b2c73ae37f7696d001594b02cf179e5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Wed, 22 Oct 2014 12:29:17 +0200
+Subject: [PATCH 68/99] HACK HACK HACK: Disable some modules the ugly way
+
+---
+ modules/access/Makefile.am                     |  2 ++
+ modules/audio_output/Makefile.am               |  2 +-
+ modules/control/Makefile.am                    |  8 ++++----
+ modules/services_discovery/Makefile.am         |  2 +-
+ modules/video_filter/Makefile.am               | 20 +++++++++-----------
+ modules/video_filter/deinterlace/deinterlace.c | 10 ++++++----
+ modules/video_filter/deinterlace/deinterlace.h |  2 +-
+ modules/video_splitter/Makefile.am             |  2 +-
+ 8 files changed, 25 insertions(+), 23 deletions(-)
+
+diff --git a/modules/access/Makefile.am b/modules/access/Makefile.am
+index 95a418c..a6080e9 100644
+--- a/modules/access/Makefile.am
++++ b/modules/access/Makefile.am
+@@ -422,8 +422,10 @@ if HAVE_WIN32
+ libsmb_plugin_la_LIBADD += -lmpr
+ endif
+ libsmb_plugin_la_LDFLAGS = $(AM_LDFLAGS) -rpath '$(accessdir)'
++if !HAVE_WINSTORE
+ access_LTLIBRARIES += $(LTLIBsmb)
+ EXTRA_LTLIBRARIES += libsmb_plugin.la
++endif
+ 
+ libdsm_plugin_la_SOURCES = access/dsm/access.c access/dsm/sd.c
+ libdsm_plugin_la_CFLAGS = $(AM_CFLAGS) $(DSM_CFLAGS)
+diff --git a/modules/audio_output/Makefile.am b/modules/audio_output/Makefile.am
+index c48590c..f9fbd1c 100644
+--- a/modules/audio_output/Makefile.am
++++ b/modules/audio_output/Makefile.am
+@@ -96,7 +96,7 @@ libwaveout_plugin_la_SOURCES = audio_output/waveout.c \
+ 	audio_output/windows_audio_common.h
+ libwaveout_plugin_la_LIBADD = -lwinmm
+ if HAVE_WIN32
+-aout_LTLIBRARIES += libwaveout_plugin.la
++#aout_LTLIBRARIES += libwaveout_plugin.la
+ endif
+ 
+ libauhal_plugin_la_SOURCES = audio_output/auhal.c \
+diff --git a/modules/control/Makefile.am b/modules/control/Makefile.am
+index 06f258c..441a23e 100644
+--- a/modules/control/Makefile.am
++++ b/modules/control/Makefile.am
+@@ -13,8 +13,8 @@ control_LTLIBRARIES = \
+ 	libdummy_plugin.la \
+ 	libgestures_plugin.la \
+ 	libhotkeys_plugin.la \
+-	libnetsync_plugin.la \
+-	liboldrc_plugin.la
++	libnetsync_plugin.la
++#	liboldrc_plugin.la
+ 
+ liblirc_plugin_la_SOURCES = control/lirc.c
+ liblirc_plugin_la_LIBADD = -llirc_client
+@@ -60,11 +60,11 @@ if HAVE_XCB_KEYSYMS
+ control_LTLIBRARIES += libxcb_hotkeys_plugin.la
+ endif
+ 
+-libntservice_plugin_la_SOURCES = control/ntservice.c
++#libntservice_plugin_la_SOURCES = control/ntservice.c
+ libwin_hotkeys_plugin_la_SOURCES = control/globalhotkeys/win32.c
+ libwin_msg_plugin_la_SOURCES = control/win_msg.c
+ if HAVE_WIN32
+-control_LTLIBRARIES += libntservice_plugin.la
++#control_LTLIBRARIES += libntservice_plugin.la
+ if !HAVE_WINSTORE
+ control_LTLIBRARIES += libwin_hotkeys_plugin.la libwin_msg_plugin.la
+ endif
+diff --git a/modules/services_discovery/Makefile.am b/modules/services_discovery/Makefile.am
+index 11fca94..9d51fcf 100644
+--- a/modules/services_discovery/Makefile.am
++++ b/modules/services_discovery/Makefile.am
+@@ -61,7 +61,7 @@ endif
+ 
+ libwindrive_plugin_la_SOURCES = services_discovery/windrive.c
+ if HAVE_WIN32
+-sd_LTLIBRARIES += libwindrive_plugin.la
++#sd_LTLIBRARIES += libwindrive_plugin.la
+ endif
+ 
+ libos2drive_plugin_la_SOURCES = services_discovery/os2drive.c
+diff --git a/modules/video_filter/Makefile.am b/modules/video_filter/Makefile.am
+index dc2b5b4..4b553e6 100644
+--- a/modules/video_filter/Makefile.am
++++ b/modules/video_filter/Makefile.am
+@@ -49,12 +49,12 @@ libpuzzle_plugin_la_SOURCES = \
+ libpuzzle_plugin_la_LIBADD = $(LIBM)
+ libripple_plugin_la_SOURCES = video_filter/ripple.c
+ libripple_plugin_la_LIBADD = $(LIBM)
+-librotate_plugin_la_SOURCES = video_filter/rotate.c
+-librotate_plugin_la_LIBADD = libvlc_motion.la $(LIBM)
+-librotate_plugin_la_LDFLAGS = $(AM_LDFLAGS) -rpath '$(video_filterdir)'
+-if HAVE_DARWIN
+-librotate_plugin_la_LDFLAGS += -Wl,-framework,IOKit,-framework,CoreFoundation
+-endif
++#librotate_plugin_la_SOURCES = video_filter/rotate.c
++#librotate_plugin_la_LIBADD = libvlc_motion.la $(LIBM)
++#librotate_plugin_la_LDFLAGS = $(AM_LDFLAGS) -rpath '$(video_filterdir)'
++#if HAVE_DARWIN
++#librotate_plugin_la_LDFLAGS += -Wl,-framework,IOKit,-framework,CoreFoundation
++#endif
+ libscale_plugin_la_SOURCES = video_filter/scale.c
+ libscene_plugin_la_SOURCES = video_filter/scene.c
+ libscene_plugin_la_LIBADD = $(LIBM)
+@@ -103,8 +103,8 @@ video_filter_LTLIBRARIES = \
+ 	libvhs_plugin.la \
+ 	libfps_plugin.la \
+ 	libfreeze_plugin.la \
+-	libpuzzle_plugin.la \
+-	librotate_plugin.la
++	libpuzzle_plugin.la
++#	librotate_plugin.la
+ 
+ libatmo_plugin_la_SOURCES = video_filter/atmo/atmo.cpp \
+ 	video_filter/atmo/AtmoDefs.h \
+@@ -138,9 +138,7 @@ libdeinterlace_plugin_la_SOURCES = \
+ 	video_filter/deinterlace/helpers.c video_filter/deinterlace/helpers.h \
+ 	video_filter/deinterlace/algo_basic.c video_filter/deinterlace/algo_basic.h \
+ 	video_filter/deinterlace/algo_x.c video_filter/deinterlace/algo_x.h \
+-	video_filter/deinterlace/algo_yadif.c video_filter/deinterlace/algo_yadif.h \
+-	video_filter/deinterlace/yadif.h video_filter/deinterlace/yadif_template.h \
+-	video_filter/deinterlace/algo_phosphor.c video_filter/deinterlace/algo_phosphor.h \
++    video_filter/deinterlace/algo_phosphor.c video_filter/deinterlace/algo_phosphor.h \
+ 	video_filter/deinterlace/algo_ivtc.c video_filter/deinterlace/algo_ivtc.h
+ # inline ASM doesn't build with -O0
+ libdeinterlace_plugin_la_CFLAGS = $(AM_CFLAGS) -O2
+diff --git a/modules/video_filter/deinterlace/deinterlace.c b/modules/video_filter/deinterlace/deinterlace.c
+index e6a0b0f..cabb80d 100644
+--- a/modules/video_filter/deinterlace/deinterlace.c
++++ b/modules/video_filter/deinterlace/deinterlace.c
+@@ -184,7 +184,7 @@ static void SetFilterMethod( filter_t *p_filter, const char *mode, bool pack )
+                  " for packed format", mode );
+         mode = "blend";
+     }
+-    else if( !strcmp( mode, "yadif" ) )
++    /*else if( !strcmp( mode, "yadif" ) )
+     {
+         p_sys->i_mode = DEINTERLACE_YADIF;
+         p_sys->b_use_frame_history = true;
+@@ -194,7 +194,7 @@ static void SetFilterMethod( filter_t *p_filter, const char *mode, bool pack )
+         p_sys->i_mode = DEINTERLACE_YADIF2X;
+         p_sys->b_double_rate = true;
+         p_sys->b_use_frame_history = true;
+-    }
++    }*/
+     else if( p_sys->chroma->pixel_size > 1 )
+     {
+         msg_Err( p_filter, "unknown or incompatible deinterlace mode \"%s\""
+@@ -472,7 +472,7 @@ picture_t *Deinterlace( filter_t *p_filter, picture_t *p_pic )
+             RenderX( p_dst[0], p_pic );
+             break;
+ 
+-        case DEINTERLACE_YADIF:
++        /*case DEINTERLACE_YADIF:
+             if( RenderYadif( p_filter, p_dst[0], p_pic, 0, 0 ) )
+                 goto drop;
+             break;
+@@ -485,7 +485,7 @@ picture_t *Deinterlace( filter_t *p_filter, picture_t *p_pic )
+             if( p_dst[2] )
+                 RenderYadif( p_filter, p_dst[2], p_pic, 2, !b_top_field_first );
+             break;
+-
++        */
+         case DEINTERLACE_PHOSPHOR:
+             if( RenderPhosphor( p_filter, p_dst[0], 0,
+                                 !b_top_field_first ) )
+@@ -504,6 +504,8 @@ picture_t *Deinterlace( filter_t *p_filter, picture_t *p_pic )
+             if( RenderIVTC( p_filter, p_dst[0] ) )
+                 goto drop;
+             break;
++        default:
++            assert(false);
+     }
+ 
+     /* Set output timestamps, if the algorithm didn't request CUSTOM_PTS
+diff --git a/modules/video_filter/deinterlace/deinterlace.h b/modules/video_filter/deinterlace/deinterlace.h
+index 7fc036d..778dcd2 100644
+--- a/modules/video_filter/deinterlace/deinterlace.h
++++ b/modules/video_filter/deinterlace/deinterlace.h
+@@ -39,7 +39,7 @@ struct vlc_object_t;
+ /* Local algorithm headers */
+ #include "algo_basic.h"
+ #include "algo_x.h"
+-#include "algo_yadif.h"
++//#include "algo_yadif.h"
+ #include "algo_phosphor.h"
+ #include "algo_ivtc.h"
+ 
+diff --git a/modules/video_splitter/Makefile.am b/modules/video_splitter/Makefile.am
+index f0e023c..3a8afa6 100644
+--- a/modules/video_splitter/Makefile.am
++++ b/modules/video_splitter/Makefile.am
+@@ -12,7 +12,7 @@ libpanoramix_plugin_la_SOURCES = video_splitter/panoramix.c
+ libpanoramix_plugin_la_CFLAGS = $(AM_CFLAGS)
+ libpanoramix_plugin_la_LIBADD = $(LIBM)
+ if HAVE_WIN32
+-splitter_LTLIBRARIES += libpanoramix_plugin.la
++#splitter_LTLIBRARIES += libpanoramix_plugin.la
+ else
+ if HAVE_XCB_RANDR
+ libpanoramix_plugin_la_CFLAGS += $(XCB_RANDR_CFLAGS)
+-- 
+1.9.5.msysgit.0
+

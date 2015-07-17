@@ -1,0 +1,27 @@
+From fdbe12af5a5b2878ec2cfb3e2c58d750e9a1b42b Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 14:03:00 +0200
+Subject: [PATCH 91/99] configure: don't try to find feature for a certain
+ Windows version if it's forced
+
+---
+ configure.ac | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index 8f3f53a..adfa806 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -604,7 +604,9 @@ AC_CHECK_TYPES([struct pollfd],,,
+ #if HAVE_POLL
+ # include <poll.h>
+ #elif defined (_WIN32)
++# ifndef _WIN32_WINNT
+ # define _WIN32_WINNT 0x502
++# endif
+ # include <winsock2.h>
+ #endif
+ ])
+-- 
+1.9.5.msysgit.0
+

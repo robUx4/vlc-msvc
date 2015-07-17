@@ -1,0 +1,24 @@
+From ac51cf4fd64b923c3a2dd64368927e38b57765e7 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@videolabs.io>
+Date: Wed, 24 Jun 2015 17:26:02 +0200
+Subject: [PATCH 79/99] gitignore: ignore the build directories
+
+---
+ .gitignore | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/.gitignore b/.gitignore
+index 53b8f4f..cb31048 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -53,3 +53,7 @@ build-*
+ contrib-*
+ install-*
+ 
++/contrib/Windows*
++/contrib/Metrox86*
++/Windows*
++/Metrox86*
+-- 
+1.9.5.msysgit.0
+

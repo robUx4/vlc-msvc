@@ -1,0 +1,28 @@
+From 545d521afd5dd93d8d4b2908eac1d2577da94fb2 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@videolabs.io>
+Date: Wed, 24 Jun 2015 17:50:36 +0200
+Subject: [PATCH 82/99] demux: fix incorrect ifdef
+
+---
+ modules/demux/avformat/demux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
+index c14dfdb..2f64513 100644
+--- a/modules/demux/avformat/demux.c
++++ b/modules/demux/avformat/demux.c
+@@ -386,9 +386,9 @@ int OpenDemux( vlc_object_t *p_this )
+ 
+             get_rotation(&fmt, s);
+ 
+-#elif !defined(_MSC_VER)
+-
++#if !defined(_MSC_VER)
+ # warning FIXME: implement palette transmission
++#endif
+             psz_type = "video";
+             fmt.video.i_frame_rate = cc->time_base.den;
+             fmt.video.i_frame_rate_base = cc->time_base.num * __MAX( cc->ticks_per_frame, 1 );
+-- 
+1.9.5.msysgit.0
+

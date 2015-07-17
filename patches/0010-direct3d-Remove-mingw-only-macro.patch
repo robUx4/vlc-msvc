@@ -1,7 +1,7 @@
-From becf75d62812ca885e61cb620297eff85d3d1a08 Mon Sep 17 00:00:00 2001
+From 9dfa3915465cda66d05e07bd1d80e64e2b4a5df4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:26:23 +0200
-Subject: [PATCH 10/96] direct3d: Remove mingw only macro
+Subject: [PATCH 10/99] direct3d: Remove mingw only macro
 
 ---
  modules/video_output/msw/direct3d9.c | 4 ++--
@@ -29,5 +29,5 @@ index 3ab12f1..d24eb8b 100644
  
      if (compiled_shader)
 -- 
-2.4.2
+1.9.5.msysgit.0
 

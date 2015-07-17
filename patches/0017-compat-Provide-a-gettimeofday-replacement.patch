@@ -1,7 +1,7 @@
-From 2ca54cde8b4c1988b644cc8178cfe44f39331220 Mon Sep 17 00:00:00 2001
+From ac967308a8feb3ecd4cc758e457d947a0fdcd934 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:08:53 +0200
-Subject: [PATCH 17/96] compat: Provide a gettimeofday replacement
+Subject: [PATCH 17/99] compat: Provide a gettimeofday replacement
 
 ---
  compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -76,5 +76,5 @@ index 0000000..408784c
 +#endif
 \ No newline at end of file
 -- 
-2.4.2
+1.9.5.msysgit.0
 

@@ -1,7 +1,7 @@
-From e5ad8d6781c1e44ea4a9b660cd0147ff319c2fc6 Mon Sep 17 00:00:00 2001
+From 3ef6b5cbf32fb5be60a1ce92391c62a91a2352e1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
-Subject: [PATCH 04/96] modules: Disable warning cpp directive when using msvc
+Subject: [PATCH 04/99] modules: Disable warning cpp directive when using msvc
 
 ---
  modules/access/bluray.c        | 2 +-
@@ -97,5 +97,5 @@ index 1159262..5b59ad9 100644
      return 1;
  }
 -- 
-2.4.2
+1.9.5.msysgit.0
 

@@ -1,7 +1,7 @@
-From 3ad5edcfaa2cd4311ff89949e08ee53ec15a730b Mon Sep 17 00:00:00 2001
+From ba69a9eb695e4569b02c4406c649fc8b01d8867c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:14:23 +0200
-Subject: [PATCH 18/96] HACK: build a52 with msvc
+Subject: [PATCH 18/99] HACK: build a52 with msvc
 
 ---
  contrib/src/a52/rules.mak | 3 +++
@@ -20,5 +20,5 @@ index 1db72df..db4e79d 100644
 +endif
  	touch $@
 -- 
-2.4.2
+1.9.5.msysgit.0
 

@@ -1,0 +1,52 @@
+From e3dd289fc40cf3da90a8a09d53c8a58608187861 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 14:32:48 +0200
+Subject: [PATCH 93/99] dvdpsi: check the right variant of C99, don't force
+ gnu99
+
+---
+ contrib/src/dvbpsi/gnu99.patch | 19 +++++++++++++++++++
+ contrib/src/dvbpsi/rules.mak   |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 contrib/src/dvbpsi/gnu99.patch
+
+diff --git a/contrib/src/dvbpsi/gnu99.patch b/contrib/src/dvbpsi/gnu99.patch
+new file mode 100644
+index 0000000..e622649
+--- /dev/null
++++ b/contrib/src/dvbpsi/gnu99.patch
+@@ -0,0 +1,19 @@
++--- libdvbpsi/configure.ac.old	2015-06-11 09:40:07.940291000 +0200
+++++ libdvbpsi/configure.ac	2015-06-11 09:53:31.984279700 +0200
++@@ -14,6 +14,7 @@
++ AC_C_INLINE
++ 
++ AM_PROG_CC_C_O
+++AC_PROG_CC_C99
++ 
++ AC_LIBTOOL_WIN32_DLL
++ AM_PROG_LIBTOOL
++@@ -22,7 +23,7 @@
++ CFLAGS_save="${CFLAGS}"
++ 
++ dnl add features to CFLAGS
++-CFLAGS_dist="-Wall -Werror --std=gnu99 -D_GNU_SOURCE"
+++CFLAGS_dist="-Wall -Werror -D_GNU_SOURCE"
++ CFLAGS_dist="${CFLAGS_dist} -Wpointer-arith -Wcast-align -Wcast-qual -Wstrict-prototypes -Wshadow -Waggregate-return -Wmissing-prototypes -Wnested-externs -Wsign-compare"
++ 
++ dnl check the operating system
+diff --git a/contrib/src/dvbpsi/rules.mak b/contrib/src/dvbpsi/rules.mak
+index 6983ad9..251a958 100644
+--- a/contrib/src/dvbpsi/rules.mak
++++ b/contrib/src/dvbpsi/rules.mak
+@@ -19,6 +19,7 @@ libdvbpsi: libdvbpsi-$(DVBPSI_VERSION).tar.bz2 .sum-dvbpsi
+ 	$(APPLY) $(SRC)/dvbpsi/dvbpsi-noexamples.patch
+ 	$(APPLY) $(SRC)/dvbpsi/dvbpsi-sys-types.patch
+ ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/dvbpsi/gnu99.patch
+ 	$(APPLY) $(SRC)/dvbpsi/msvc.patch
+ endif
+ 	$(MOVE)
+-- 
+1.9.5.msysgit.0
+

@@ -1,7 +1,7 @@
-From 6787e14014545a3a2b1cd8ded3c008a6daf67d11 Mon Sep 17 00:00:00 2001
+From 9fd1b77a74cbc5b97d761890392d9f9c7a2b68eb Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:13:22 +0200
-Subject: [PATCH 09/96] modules: Remove empty braces initializer to keep MSVC
+Subject: [PATCH 09/99] modules: Remove empty braces initializer to keep MSVC
  happy
 
 ---
@@ -36,5 +36,5 @@ index f16cc31..c14dfdb 100644
      unsigned int  i;
      int64_t       i_start_time = -1;
 -- 
-2.4.2
+1.9.5.msysgit.0
 
