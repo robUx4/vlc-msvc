@@ -1,4 +1,4 @@
-From bef8cb765c26f1b13d800aae68904af906e3d252 Mon Sep 17 00:00:00 2001
+From 02f1c53bedaa048167b6593470fcaa1fd751e257 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:31:38 +0200
 Subject: [PATCH 07/99] modules: Work around lack of MSVC support for C99
@@ -92,5 +92,5 @@ index 3ce8158..4ad4348 100644
      vlc_mutex_lock(&p_aout->sys->lock);
      if( !p_aout->sys->b_mute && volume != p_aout->sys->f_volume )
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

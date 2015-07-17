@@ -1,4 +1,4 @@
-From 8035145e7f4de326757f4a51449a9db4f2f19b2f Mon Sep 17 00:00:00 2001
+From a5a508db6929cd870861da07da0d6a81ce2526b1 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 16 Apr 2014 16:09:53 +0200
 Subject: [PATCH 33/99] Cheat for Windows Store subtitles
@@ -21,5 +21,5 @@ index b2c9b34..bb3cb5c 100644
          vlc_object_release( p_input_thread );
      }
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

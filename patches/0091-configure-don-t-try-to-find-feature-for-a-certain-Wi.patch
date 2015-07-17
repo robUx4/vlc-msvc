@@ -1,4 +1,4 @@
-From fdbe12af5a5b2878ec2cfb3e2c58d750e9a1b42b Mon Sep 17 00:00:00 2001
+From a59e275491ab641fcf962b70775be5a72e7fece3 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 14:03:00 +0200
 Subject: [PATCH 91/99] configure: don't try to find feature for a certain
@@ -9,7 +9,7 @@ Subject: [PATCH 91/99] configure: don't try to find feature for a certain
  1 file changed, 2 insertions(+)
 
 diff --git a/configure.ac b/configure.ac
-index 8f3f53a..adfa806 100644
+index c49f617..73b6069 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -604,7 +604,9 @@ AC_CHECK_TYPES([struct pollfd],,,
@@ -23,5 +23,5 @@ index 8f3f53a..adfa806 100644
  #endif
  ])
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

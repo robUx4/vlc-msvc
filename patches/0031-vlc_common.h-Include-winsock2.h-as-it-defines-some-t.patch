@@ -1,4 +1,4 @@
-From 2778994380eae4fade3fda5a366cdc322769c6a5 Mon Sep 17 00:00:00 2001
+From 1751f3488c276a2ec8e3dd6fac38a9a017e66127 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:59:43 +0200
 Subject: [PATCH 31/99] vlc_common.h: Include winsock2.h as it defines some
@@ -23,5 +23,5 @@ index 5baeb45..51bf9cd 100644
  
  #ifdef __SYMBIAN32__
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

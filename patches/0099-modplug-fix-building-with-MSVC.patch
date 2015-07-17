@@ -1,12 +1,12 @@
-From d46e48a16b60375aa4937bd453b671e1ef63efb1 Mon Sep 17 00:00:00 2001
+From 81124b0480ce998a004db7980805dcc0ca6a88a7 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Fri, 26 Jun 2015 09:29:55 +0200
 Subject: [PATCH 99/99] modplug: fix building with MSVC
 
 ---
  contrib/src/modplug/msvc.patch | 57 ++++++++++++++++++++++++++++++++++++++++++
- contrib/src/modplug/rules.mak  |  3 +++
- 2 files changed, 60 insertions(+)
+ contrib/src/modplug/rules.mak  | 53 +++++++++++++++++++++------------------
+ 2 files changed, 85 insertions(+), 25 deletions(-)
  create mode 100644 contrib/src/modplug/msvc.patch
 
 diff --git a/contrib/src/modplug/msvc.patch b/contrib/src/modplug/msvc.patch
@@ -73,19 +73,64 @@ index 0000000..8ccf42b
 +
 +
 diff --git a/contrib/src/modplug/rules.mak b/contrib/src/modplug/rules.mak
-index a82a4d3..bbc38f9 100644
+index a82a4d3..0af81d6 100644
 --- a/contrib/src/modplug/rules.mak
 +++ b/contrib/src/modplug/rules.mak
-@@ -17,6 +17,9 @@ libmodplug: libmodplug-$(MODPLUG_VERSION).tar.gz .sum-modplug
- 	$(UNPACK)
- 	$(APPLY) $(SRC)/modplug/modplug-win32-static.patch
- 	$(call pkg_static,"libmodplug.pc.in")
+@@ -1,26 +1,29 @@
+-# modplug
+-
+-MODPLUG_VERSION := 0.8.8.5
+-MODPLUG_URL := $(SF)/modplug-xmms/libmodplug-$(MODPLUG_VERSION).tar.gz
+-
+-PKGS += modplug
+-ifeq ($(call need_pkg,"libmodplug >= 0.8.8.5"),)
+-PKGS_FOUND += modplug
++# modplug
++
++MODPLUG_VERSION := 0.8.8.5
++MODPLUG_URL := $(SF)/modplug-xmms/libmodplug-$(MODPLUG_VERSION).tar.gz
++
++PKGS += modplug
++ifeq ($(call need_pkg,"libmodplug >= 0.8.8.5"),)
++PKGS_FOUND += modplug
++endif
++
++$(TARBALLS)/libmodplug-$(MODPLUG_VERSION).tar.gz:
++	$(call download,$(MODPLUG_URL))
++
++.sum-modplug: libmodplug-$(MODPLUG_VERSION).tar.gz
++
++libmodplug: libmodplug-$(MODPLUG_VERSION).tar.gz .sum-modplug
++	$(UNPACK)
++	$(APPLY) $(SRC)/modplug/modplug-win32-static.patch
++	$(call pkg_static,"libmodplug.pc.in")
 +ifdef HAVE_VISUALSTUDIO
 +	$(APPLY) $(SRC)/modplug/msvc.patch
-+endif
- 	$(MOVE)
- 
- .modplug: libmodplug
+ endif
+-
+-$(TARBALLS)/libmodplug-$(MODPLUG_VERSION).tar.gz:
+-	$(call download,$(MODPLUG_URL))
+-
+-.sum-modplug: libmodplug-$(MODPLUG_VERSION).tar.gz
+-
+-libmodplug: libmodplug-$(MODPLUG_VERSION).tar.gz .sum-modplug
+-	$(UNPACK)
+-	$(APPLY) $(SRC)/modplug/modplug-win32-static.patch
+-	$(call pkg_static,"libmodplug.pc.in")
+-	$(MOVE)
+-
+-.modplug: libmodplug
+-	$(RECONF)
+-	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
+-	cd $< && $(MAKE) install
+-	touch $@
++	$(MOVE)
++
++.modplug: libmodplug
++	$(RECONF)
++	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
++	cd $< && $(MAKE) install
++	touch $@
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

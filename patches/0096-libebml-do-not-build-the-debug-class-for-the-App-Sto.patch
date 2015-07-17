@@ -1,4 +1,4 @@
-From 51e2bc35078e58cd707d133a4edc51491a0d0015 Mon Sep 17 00:00:00 2001
+From 15487f97fd2b8df37efc89a26bf54042bd753d0b Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 16:10:16 +0200
 Subject: [PATCH 96/99] libebml: do not build the debug class for the App Store
@@ -47,5 +47,5 @@ index 0154809..2110742 100644
  
  # libebml requires exceptions
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

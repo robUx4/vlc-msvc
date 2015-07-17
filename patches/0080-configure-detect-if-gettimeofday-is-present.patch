@@ -1,4 +1,4 @@
-From 281f002fc833c5cd89ab1065c88c01af6b417a72 Mon Sep 17 00:00:00 2001
+From 94fbc354a4980d5479b3541e0902189d2be8fb0d Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 17:26:41 +0200
 Subject: [PATCH 80/99] configure: detect if gettimeofday is present
@@ -8,7 +8,7 @@ Subject: [PATCH 80/99] configure: detect if gettimeofday is present
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index e50e5f7..da37a53 100644
+index 3b59efb..f1d9f32 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -553,7 +553,7 @@ need_libc=false
@@ -21,5 +21,5 @@ index e50e5f7..da37a53 100644
    [AC_DEFINE(fdatasync, fsync, [Alias fdatasync() to fsync() if missing.])
  ])
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

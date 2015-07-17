@@ -1,4 +1,4 @@
-From 0118424f38957f8a1020c82931683e474822cd99 Mon Sep 17 00:00:00 2001
+From 7de935d0ba0926fccb028981971ec3f8b9a2d204 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Thu, 20 Nov 2014 13:12:05 +0100
 Subject: [PATCH 46/99] Fix gai_strerror on Unicode
@@ -38,5 +38,5 @@ index c66e2d1..d297ad3 100644
  # ifndef NI_NUMERICHOST
  #  define NI_NUMERICHOST 0x01
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

@@ -1,4 +1,4 @@
-From dc3f15f477e1c13c073fd2bd87c539c3ff1a13fb Mon Sep 17 00:00:00 2001
+From 9a99689e2bc4589420b41a9f756a6af17717895f Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 16:53:59 +0200
 Subject: [PATCH 76/99] aout: disable directsound output with HAVE_WINSTORE
@@ -8,10 +8,10 @@ Subject: [PATCH 76/99] aout: disable directsound output with HAVE_WINSTORE
  1 file changed, 2 insertions(+)
 
 diff --git a/modules/audio_output/Makefile.am b/modules/audio_output/Makefile.am
-index f9fbd1c..454e0b8 100644
+index 267e603..fc92ffd 100644
 --- a/modules/audio_output/Makefile.am
 +++ b/modules/audio_output/Makefile.am
-@@ -73,12 +73,14 @@ aout_LTLIBRARIES += libwinstore_plugin.la
+@@ -74,12 +74,14 @@ aout_LTLIBRARIES += libwinstore_plugin.la
  endif
  endif
  
@@ -27,5 +27,5 @@ index f9fbd1c..454e0b8 100644
  libkai_plugin_la_SOURCES = audio_output/kai.c
  libkai_plugin_la_LIBADD = $(KAI_LIBS)
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

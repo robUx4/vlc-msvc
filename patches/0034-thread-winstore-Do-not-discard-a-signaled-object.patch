@@ -1,4 +1,4 @@
-From 5a695ccb034bb03a4a2e94dbf63a260f0af6100c Mon Sep 17 00:00:00 2001
+From 21eebcc98b0671f2104744deacf976620ebe7ad1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 12:58:49 +0100
 Subject: [PATCH 34/99] thread: winstore: Do not discard a signaled object.
@@ -22,5 +22,5 @@ index 8e0319e..2479877 100644
          } while (delay && ret == WAIT_TIMEOUT);
  #else
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

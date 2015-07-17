@@ -1,4 +1,4 @@
-From bddff83cf47c0c5d1eb577b9167ceafe3ae86d9f Mon Sep 17 00:00:00 2001
+From bb7820c5a43a02c95968c7c5d7a9ef98e1ab4b9e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 17:58:21 +0100
 Subject: [PATCH 57/99] contrib: png: Remove check for memset & pow
@@ -42,5 +42,5 @@ index 4ba0aef..a350e8a 100644
  
  DEPS_png = zlib $(DEPS_zlib)
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

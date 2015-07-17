@@ -1,4 +1,4 @@
-From ba69a9eb695e4569b02c4406c649fc8b01d8867c Mon Sep 17 00:00:00 2001
+From f2638eac47dce2646ab7ecd620df5305d8298fe8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:14:23 +0200
 Subject: [PATCH 18/99] HACK: build a52 with msvc
@@ -20,5 +20,5 @@ index 1db72df..db4e79d 100644
 +endif
  	touch $@
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

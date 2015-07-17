@@ -1,4 +1,4 @@
-From 263e79ff490991027087bd470c6c7ba3b7b6cf52 Mon Sep 17 00:00:00 2001
+From 27048ff0fb33664eb2d98fe0836b99a63cfc0906 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:55:03 +0200
 Subject: [PATCH 19/99] contribs: flac: Provide NO_DLL flag when building on
@@ -24,5 +24,5 @@ index 53cf8e0..ede1bb5 100644
  
  .flac: flac
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

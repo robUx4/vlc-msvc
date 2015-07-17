@@ -1,4 +1,4 @@
-From f9caa689c6080d622ffc406c625c7338e41d4995 Mon Sep 17 00:00:00 2001
+From 72edb43744ce35ec7f47cce1dc207889b8e98d78 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:21:31 +0200
 Subject: [PATCH 13/99] vout: Fix build when using MSVC
@@ -40,5 +40,5 @@ index d3f9128..e943787 100644
  # include "config.h"
  #endif
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

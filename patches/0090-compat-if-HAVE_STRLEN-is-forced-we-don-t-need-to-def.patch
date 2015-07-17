@@ -1,4 +1,4 @@
-From 65bc9c9a2f52d5670d728fb205c693527e16cfde Mon Sep 17 00:00:00 2001
+From ff0c112221a76c5afd15bfb3e7367f32c60e8b2e Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 13:59:30 +0200
 Subject: [PATCH 90/99] compat: if HAVE_STRLEN is forced we don't need to
@@ -24,5 +24,5 @@ index d346681..1d8b628 100644
  }
 +#endif
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

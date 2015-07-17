@@ -1,4 +1,4 @@
-From 9a0eeccd5fe16a9bdd820d7bd18165b119978c46 Mon Sep 17 00:00:00 2001
+From b458c13bce5d651af5f43517512cf97a5db7c29b Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 14:35:10 +0200
 Subject: [PATCH 95/99] contrib: use the right CMake target set by the
@@ -56,5 +56,5 @@ index b0ab6c5..cdfcfa9 100644
  	cd $< && $(MAKE) install
  endif
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

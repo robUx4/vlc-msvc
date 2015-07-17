@@ -1,4 +1,4 @@
-From e10711d0364ccdc0a2492a4162214ef0ea0a2b18 Mon Sep 17 00:00:00 2001
+From 9112f58212034ada896e2e5c520f913fbf9e0de3 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 14:33:44 +0200
 Subject: [PATCH 94/99] live555: fix compilation with MSVC
@@ -61,7 +61,7 @@ index 0000000..430eba6
 +   if (liveMediaPriv == NULL && groupsockPriv == NULL) {
 +
 diff --git a/contrib/src/live555/rules.mak b/contrib/src/live555/rules.mak
-index 15fcb0b..0f4bc6a 100644
+index 7830c41..9d7dfe6 100644
 --- a/contrib/src/live555/rules.mak
 +++ b/contrib/src/live555/rules.mak
 @@ -53,6 +53,9 @@ live555: $(LIVE555_FILE) .sum-live555
@@ -75,5 +75,5 @@ index 15fcb0b..0f4bc6a 100644
  	touch $@
  
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

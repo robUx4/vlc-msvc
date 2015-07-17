@@ -1,4 +1,4 @@
-From 7d4735295f7a857c1e02bfbe8e5e8195eac37c02 Mon Sep 17 00:00:00 2001
+From b98470b6d326c56a82b6afce7945268748f46676 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 10:39:58 +0200
 Subject: [PATCH 85/99] configure: don't set defines that are already set
@@ -9,7 +9,7 @@ Subject: [PATCH 85/99] configure: don't set defines that are already set
  1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index da37a53..427991f 100644
+index f1d9f32..dd770e8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -221,12 +221,18 @@ case "${host_os}" in
@@ -38,5 +38,5 @@ index da37a53..427991f 100644
      AC_DEFINE([_ISOC11_SOURCE], [1], [Extensions to ISO C99 from ISO C11.])
      AC_DEFINE([_POSIX_SOURCE], [1], [IEEE Std 1003.1.])
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

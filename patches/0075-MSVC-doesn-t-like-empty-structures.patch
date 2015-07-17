@@ -1,4 +1,4 @@
-From 9b070340aee844fde77886088a856c627f815cbd Mon Sep 17 00:00:00 2001
+From 224c743278b8c882b59aac265d0fa4690576175d Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 16:51:46 +0200
 Subject: [PATCH 75/99] MSVC doesn't like empty structures
@@ -8,7 +8,7 @@ Subject: [PATCH 75/99] MSVC doesn't like empty structures
  1 file changed, 2 insertions(+)
 
 diff --git a/modules/video_chroma/copy.h b/modules/video_chroma/copy.h
-index d1e49f2..eef719a 100644
+index 38a3a38..4d129e8 100644
 --- a/modules/video_chroma/copy.h
 +++ b/modules/video_chroma/copy.h
 @@ -28,6 +28,8 @@ typedef struct {
@@ -21,5 +21,5 @@ index d1e49f2..eef719a 100644
  } copy_cache_t;
  
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

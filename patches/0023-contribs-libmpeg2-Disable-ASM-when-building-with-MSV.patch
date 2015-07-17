@@ -1,4 +1,4 @@
-From 18ae8bf5a29803298d9b0a4e611079903334be58 Mon Sep 17 00:00:00 2001
+From ae2cbb80088d5b9bfe8ed12080de840ff7ebf2f6 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:04:40 +0200
 Subject: [PATCH 23/99] contribs: libmpeg2: Disable ASM when building with MSVC
@@ -33,5 +33,5 @@ index 650814a..e12012f 100644
  	cd $</include && $(MAKE) && $(MAKE) install
  	touch $@
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

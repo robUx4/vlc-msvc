@@ -1,4 +1,4 @@
-From 84d6dc5e19b370868ae69055b6db71aafeb1bb06 Mon Sep 17 00:00:00 2001
+From 4c40e5d84123b45daf28d5c1b485c0d03f44f4fd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 17:13:16 +0100
 Subject: [PATCH 44/99] Work around undetected functions
@@ -67,5 +67,5 @@ index 686faf8..042f90f 100644
 +#endif
 \ No newline at end of file
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

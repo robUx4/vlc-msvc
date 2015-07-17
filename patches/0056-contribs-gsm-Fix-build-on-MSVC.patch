@@ -1,4 +1,4 @@
-From b62b6f570b2db6799c131605e7422823d0a85f5b Mon Sep 17 00:00:00 2001
+From f62aba7fe7e4f24eef922e929944e1448317da09 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 6 Feb 2015 18:22:28 +0100
 Subject: [PATCH 56/99] contribs: gsm: Fix build on MSVC
@@ -48,5 +48,5 @@ index 38553d3..5fc7e36 100644
 +endif
  	touch $@
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

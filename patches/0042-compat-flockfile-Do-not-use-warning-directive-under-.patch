@@ -1,4 +1,4 @@
-From d5dd9619ee8005a927a6cf88bab01adc762f32a0 Mon Sep 17 00:00:00 2001
+From 90c859aca3750c551ab9541c0323b8ba272bcea4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:26:13 +0100
 Subject: [PATCH 42/99] compat: flockfile: Do not use warning directive under
@@ -24,5 +24,5 @@ index d01fd1f..97b8d89 100644
  #  define _unlock_file(s) ((void)(s))
  #  undef _getc_nolock
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

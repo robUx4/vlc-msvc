@@ -1,4 +1,4 @@
-From 1717409e7a8f9f9e8a77f212b27d83728ece4963 Mon Sep 17 00:00:00 2001
+From 4026ca995bc687433f5e4bb08bf4b9cceb0d4f8e Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 18:50:34 +0200
 Subject: [PATCH 83/99] adaptive: fix StreamType namespace missing
@@ -132,5 +132,5 @@ index 64b6d03..6c8951c 100644
  namespace adaptative
  {
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

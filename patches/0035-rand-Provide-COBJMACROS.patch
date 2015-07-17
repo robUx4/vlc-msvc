@@ -1,4 +1,4 @@
-From 7ab2fc2cfea55f0e691ddf581f19a272264364c3 Mon Sep 17 00:00:00 2001
+From 91cb31121f75baa56c385adc1765176996141e18 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:44:46 +0100
 Subject: [PATCH 35/99] rand: Provide COBJMACROS
@@ -30,5 +30,5 @@ index 948daea..3367416 100644
  # include <wincrypt.h>
  #endif
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

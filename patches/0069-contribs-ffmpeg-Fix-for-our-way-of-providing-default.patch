@@ -1,4 +1,4 @@
-From a758415b1c82168e2aba913523efaece8ee5a794 Mon Sep 17 00:00:00 2001
+From 1c311f9c7b01f88e0b056fb21b423131ab61da20 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 16:51:11 +0100
 Subject: [PATCH 69/99] contribs: ffmpeg: Fix for our way of providing default
@@ -53,5 +53,5 @@ index 0969147..65cf723 100644
  
  .ffmpeg: ffmpeg
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

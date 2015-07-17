@@ -1,4 +1,4 @@
-From 5ceadcdb1acee060110efdc6e62886da690c046b Mon Sep 17 00:00:00 2001
+From 4d343684f8198a54bdd0ee13eb6104972d8694e4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:19:30 +0100
 Subject: [PATCH 38/99] contribs: ffmpeg: Enable native msvc build & tweak
@@ -45,5 +45,5 @@ index 30e51d6..0969147 100644
  else # !Windows
  FFMPEGCONF += --enable-pthreads
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

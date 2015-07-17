@@ -1,4 +1,4 @@
-From 9d5e719c154d750867a074ed47d3cbf59a57110d Mon Sep 17 00:00:00 2001
+From 45929805500033e4406d9a4aec1936817b34d51b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:06:49 +0200
 Subject: [PATCH 03/99] core: Disable warning cpp directives when building with
@@ -112,5 +112,5 @@ index accdddf..00fbb8a 100644
          if( psz_proxy != NULL )
          {
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

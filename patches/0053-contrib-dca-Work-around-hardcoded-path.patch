@@ -1,4 +1,4 @@
-From bd303be194e250aafd5775ca1aa01e0fabe9b350 Mon Sep 17 00:00:00 2001
+From 75b1209fd8f3034c49f0696be20ad60af32b3814 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 8 Jan 2015 17:31:32 +0100
 Subject: [PATCH 53/99] contrib: dca: Work around hardcoded path
@@ -45,5 +45,5 @@ index 5a5a8a6..f7d3024 100644
  	cd $< && $(MAKE) -C include install
  	cd $< && $(MAKE) -C libdca install
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

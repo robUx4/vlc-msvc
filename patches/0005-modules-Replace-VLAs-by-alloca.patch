@@ -1,4 +1,4 @@
-From 391a8f8dfe756f6a20c746b891bce2a682549d43 Mon Sep 17 00:00:00 2001
+From 0850c058cd2f59c4340448c40086569bcb1b5efe Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:46:08 +0200
 Subject: [PATCH 05/99] modules: Replace VLAs by alloca()
@@ -218,5 +218,5 @@ index 3f117da..cc2e4b3 100644
      for (unsigned i = 0; i < count; i++) {
          picture_sys_t *picsys = malloc(sizeof (*picsys));
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

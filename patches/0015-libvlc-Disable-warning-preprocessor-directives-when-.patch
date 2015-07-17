@@ -1,4 +1,4 @@
-From 1ad04ca10222f115ed35d388265c2155e339462d Mon Sep 17 00:00:00 2001
+From 1e0b2d017470c74084b9be39764902f5fa5c0c5e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:26:48 +0200
 Subject: [PATCH 15/99] libvlc: Disable warning preprocessor directives when
@@ -23,5 +23,5 @@ index d4dae1a..480e86e 100644
          return -1;
      }
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

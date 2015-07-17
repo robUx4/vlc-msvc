@@ -1,4 +1,4 @@
-From dc1d11f386d417ed18dbadc044d79fca339246ad Mon Sep 17 00:00:00 2001
+From a72120123e02af1ebf7d6fc099750b8e55dd7457 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Fri, 26 Jun 2015 09:21:27 +0200
 Subject: [PATCH 98/99] flac: fix building with MSVC for a Winstore app
@@ -121,5 +121,5 @@ index ede1bb5..9f59d67 100644
  
  DEPS_flac = ogg $(DEPS_ogg)
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

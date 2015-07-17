@@ -1,4 +1,4 @@
-From 2cdf94b01c41268cd93e4dbc7a66b900982cc494 Mon Sep 17 00:00:00 2001
+From bf2954ab63a746d1baf42de619bbd056b3649704 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 26 Jan 2015 12:07:35 +0100
 Subject: [PATCH 61/99] threads: Ugly hack to avoid waking up our wait
@@ -321,5 +321,5 @@ index 2479877..5a7abc8 100644
              vlc_threadvar_delete (&thread_key);
              vlc_cond_destroy (&super_variable);
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

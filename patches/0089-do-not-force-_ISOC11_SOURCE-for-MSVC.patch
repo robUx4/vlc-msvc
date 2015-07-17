@@ -1,4 +1,4 @@
-From deb7742588c89ef297f911591059183ab8336263 Mon Sep 17 00:00:00 2001
+From d18fcb8163235ffbd0d1b2e08c7bf46da874cbc4 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@gmail.com>
 Date: Thu, 25 Jun 2015 13:56:35 +0200
 Subject: [PATCH 89/99] do not force _ISOC11_SOURCE for MSVC
@@ -8,7 +8,7 @@ Subject: [PATCH 89/99] do not force _ISOC11_SOURCE for MSVC
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index 427991f..8f3f53a 100644
+index dd770e8..c49f617 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -234,7 +234,9 @@ case "${host_os}" in
@@ -23,5 +23,5 @@ index 427991f..8f3f53a 100644
      AC_DEFINE([_POSIX_C_SOURCE], [200809L], [IEEE Std 1003.1.])
      AC_DEFINE([_XOPEN_SOURCE], [700], [POSIX and XPG 7th edition])
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

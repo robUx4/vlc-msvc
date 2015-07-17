@@ -1,4 +1,4 @@
-From a4fb0f1e541d4e628f06613508d922987b4d6c3d Mon Sep 17 00:00:00 2001
+From 1201019ac1f0d05fc75164b78935b06f24455eea Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:16:41 +0100
 Subject: [PATCH 51/99] HACK HACK HACK: Work around zip plugin build issue
@@ -21,5 +21,5 @@ index 5ded5f5..95a418c 100644
  libzip_plugin_la_LIBADD = $(MINIZIP_LIBS)
  libunzip_la_SOURCES = access/zip/unzip/unzip.c access/zip/unzip/unzip.h access/zip/unzip/crypt.h \
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

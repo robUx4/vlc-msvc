@@ -1,4 +1,4 @@
-From 545d521afd5dd93d8d4b2908eac1d2577da94fb2 Mon Sep 17 00:00:00 2001
+From 973f55770e9a65dcbf231f9d83bf5f84da89e531 Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 17:50:36 +0200
 Subject: [PATCH 82/99] demux: fix incorrect ifdef
@@ -24,5 +24,5 @@ index c14dfdb..2f64513 100644
              fmt.video.i_frame_rate = cc->time_base.den;
              fmt.video.i_frame_rate_base = cc->time_base.num * __MAX( cc->ticks_per_frame, 1 );
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

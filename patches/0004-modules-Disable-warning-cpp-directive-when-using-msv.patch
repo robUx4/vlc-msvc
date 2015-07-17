@@ -1,4 +1,4 @@
-From 3ef6b5cbf32fb5be60a1ce92391c62a91a2352e1 Mon Sep 17 00:00:00 2001
+From abfd975130633061a0bfc0c0a1112256b499f880 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
 Subject: [PATCH 04/99] modules: Disable warning cpp directive when using msvc
@@ -97,5 +97,5 @@ index 1159262..5b59ad9 100644
      return 1;
  }
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

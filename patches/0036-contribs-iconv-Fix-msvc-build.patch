@@ -1,4 +1,4 @@
-From da7211d51df87aa08911ba64e4fc1e8f21bd435b Mon Sep 17 00:00:00 2001
+From 3a9fce904377f82b3810a1dfbe834870db526a73 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:42:35 +0100
 Subject: [PATCH 36/99] contribs: iconv: Fix msvc build
@@ -64,5 +64,5 @@ index 3596463..2163473 100644
 +endif
  	touch $@
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

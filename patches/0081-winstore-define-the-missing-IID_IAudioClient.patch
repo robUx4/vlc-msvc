@@ -1,4 +1,4 @@
-From d4005e2b9d5bb41b83f75d830481e3bf4a319ccc Mon Sep 17 00:00:00 2001
+From 33e4d8118a2b93d57bb52b27597ac85624c7881d Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 17:37:50 +0200
 Subject: [PATCH 81/99] winstore: define the missing IID_IAudioClient
@@ -20,5 +20,5 @@ index 4734f39..b5a9233 100644
     0xad, 0xb2, 0xc6, 0x8b, 0x50, 0x1a, 0x66, 0x55);
  
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

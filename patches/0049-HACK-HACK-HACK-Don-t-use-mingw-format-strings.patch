@@ -1,4 +1,4 @@
-From d03b6ae69b59beea85e77a778a61b6ede77c2f64 Mon Sep 17 00:00:00 2001
+From 1c3ce5fb6a8c65c4ecc781af988ff6b4dd2e1eea Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Mon, 5 Jan 2015 14:10:42 +0100
 Subject: [PATCH 49/99] HACK HACK HACK: Don't use mingw format strings
@@ -22,5 +22,5 @@ index 51bf9cd..0c00ec8 100644
   #define PRId64 "lld"
   #undef PRIi64
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

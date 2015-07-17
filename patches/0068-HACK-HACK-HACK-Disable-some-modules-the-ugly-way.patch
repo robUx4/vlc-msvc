@@ -1,4 +1,4 @@
-From b85db2266b2c73ae37f7696d001594b02cf179e5 Mon Sep 17 00:00:00 2001
+From 70da602b2dcc9d51bd411d4173484f7473179813 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:29:17 +0200
 Subject: [PATCH 68/99] HACK HACK HACK: Disable some modules the ugly way
@@ -30,10 +30,10 @@ index 95a418c..a6080e9 100644
  libdsm_plugin_la_SOURCES = access/dsm/access.c access/dsm/sd.c
  libdsm_plugin_la_CFLAGS = $(AM_CFLAGS) $(DSM_CFLAGS)
 diff --git a/modules/audio_output/Makefile.am b/modules/audio_output/Makefile.am
-index c48590c..f9fbd1c 100644
+index ef795b6..267e603 100644
 --- a/modules/audio_output/Makefile.am
 +++ b/modules/audio_output/Makefile.am
-@@ -96,7 +96,7 @@ libwaveout_plugin_la_SOURCES = audio_output/waveout.c \
+@@ -97,7 +97,7 @@ libwaveout_plugin_la_SOURCES = audio_output/waveout.c \
  	audio_output/windows_audio_common.h
  libwaveout_plugin_la_LIBADD = -lwinmm
  if HAVE_WIN32
@@ -205,5 +205,5 @@ index f0e023c..3a8afa6 100644
  if HAVE_XCB_RANDR
  libpanoramix_plugin_la_CFLAGS += $(XCB_RANDR_CFLAGS)
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

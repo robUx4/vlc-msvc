@@ -1,4 +1,4 @@
-From 6748755612a5ced06d8f308e2b2b58e2770c7a57 Mon Sep 17 00:00:00 2001
+From c8d21a042c620b11204f012a339a7c736ae052a0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 28 Apr 2015 14:23:31 +0200
 Subject: [PATCH 72/99] contrib: taglib: Use an IOstream to read the file
@@ -160,5 +160,5 @@ index a24369a..b0ab6c5 100644
  
  .taglib: taglib toolchain.cmake
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

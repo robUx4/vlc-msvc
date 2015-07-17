@@ -1,4 +1,4 @@
-From ab0d9fb1a15fe89c7a53689ef3a8e7e170d10f88 Mon Sep 17 00:00:00 2001
+From da2c2a4b8caeccf333828bde74b1edd5208c67b1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 4 Feb 2015 12:23:02 +0100
 Subject: [PATCH 62/99] Revert "configure: stop forcing struct pollfd detection
@@ -12,7 +12,7 @@ This is an ugly work around
  1 file changed, 1 insertion(+)
 
 diff --git a/configure.ac b/configure.ac
-index 3f6589c..e50e5f7 100644
+index e7fc001..3b59efb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -596,6 +596,7 @@ AC_CHECK_TYPES([struct pollfd],,,
@@ -24,5 +24,5 @@ index 3f6589c..e50e5f7 100644
  #endif
  ])
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

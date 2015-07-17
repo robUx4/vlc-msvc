@@ -1,4 +1,4 @@
-From 09a4e78f613915ac0f95cc8be248bbb0725e546b Mon Sep 17 00:00:00 2001
+From ad7a9d625eba4e5d9097591e92a0075200d72d45 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:09:04 +0200
 Subject: [PATCH 06/99] modules: Work around MSVC broken preprocessor
@@ -80,5 +80,5 @@ index 38c71d0..6f8cb19 100644
                  msg_Dbg( p_demux, "Apple QuickTime file" );
                  break;
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

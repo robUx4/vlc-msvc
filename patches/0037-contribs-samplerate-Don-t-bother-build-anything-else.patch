@@ -1,4 +1,4 @@
-From e82ec68862c5d16ffdda3cc59e7d37ae28a7b901 Mon Sep 17 00:00:00 2001
+From 9c74efe24b2c4bf49a86350805eeda072026bfa8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:43:14 +0100
 Subject: [PATCH 37/99] contribs: samplerate: Don't bother build anything else
@@ -20,5 +20,5 @@ index c3548ba..c330009 100644
 +	cd $< && $(MAKE) -C src install
  	touch $@
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

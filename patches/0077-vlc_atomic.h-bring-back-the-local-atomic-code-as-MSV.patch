@@ -1,4 +1,4 @@
-From 9a34efb026f5c9d5364445aa4480903ace9c6087 Mon Sep 17 00:00:00 2001
+From 31faaff32ee745c06c59cc13addcf51105d05cad Mon Sep 17 00:00:00 2001
 From: Steve Lhomme <robux4@videolabs.io>
 Date: Wed, 24 Jun 2015 17:17:35 +0200
 Subject: [PATCH 77/99] vlc_atomic.h: bring back the local atomic code as MSVC
@@ -9,13 +9,13 @@ Subject: [PATCH 77/99] vlc_atomic.h: bring back the local atomic code as MSVC
  1 file changed, 147 insertions(+)
 
 diff --git a/include/vlc_atomic.h b/include/vlc_atomic.h
-index 72590c8..68ea0c7 100644
+index 920d9ca..b642405 100644
 --- a/include/vlc_atomic.h
 +++ b/include/vlc_atomic.h
-@@ -30,8 +30,155 @@
- #  if (__STDC_VERSION__ >= 201112L) && defined(__STDC_NO_ATOMICS__)
- #   error Atomic operations required!
- #  endif
+@@ -28,8 +28,155 @@
+ 
+ # ifndef __cplusplus
+ #  if (__STDC_VERSION__ >= 201112L) && !defined (__STDC_NO_ATOMICS__)
 +#  if defined(_MSC_VER)
 +
 +#  define ATOMIC_FLAG_INIT false
@@ -163,11 +163,11 @@ index 72590c8..68ea0c7 100644
 +
 +#  else /* _MSC_VER */
  /*** Native C11 atomics ***/
- #  include <stdatomic.h>
+ #   include <stdatomic.h>
 +#  endif /* _MSC_VER */
  
- # else /* C++ */
- /*** Native C++11 atomics ***/
+ #  else
+ /*** Intel/GCC atomics ***/
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

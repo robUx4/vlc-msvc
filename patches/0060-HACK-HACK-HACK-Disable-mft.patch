@@ -1,4 +1,4 @@
-From fce5ce9acab08fa7ded9751b92b421ff74587b45 Mon Sep 17 00:00:00 2001
+From 1c8f6fdc5d03a0e38ae4c807e020262a444e64d4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 5 Feb 2015 11:18:25 +0100
 Subject: [PATCH 60/99] HACK HACK HACK: Disable mft
@@ -8,10 +8,10 @@ Subject: [PATCH 60/99] HACK HACK HACK: Disable mft
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/modules/codec/Makefile.am b/modules/codec/Makefile.am
-index d4476fb..ff74e4f 100644
+index 918d6ac..a937c9c 100644
 --- a/modules/codec/Makefile.am
 +++ b/modules/codec/Makefile.am
-@@ -514,7 +514,7 @@ endif
+@@ -518,7 +518,7 @@ endif
  libmft_plugin_la_SOURCES = codec/mft.c packetizer/h264_nal.c packetizer/h264_nal.h
  if HAVE_WIN32
  libmft_plugin_la_LIBADD = -lole32 -luuid -lmfuuid -lmfplat
@@ -21,5 +21,5 @@ index d4476fb..ff74e4f 100644
  
  libquicktime_plugin_la_SOURCES = codec/quicktime.c
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 

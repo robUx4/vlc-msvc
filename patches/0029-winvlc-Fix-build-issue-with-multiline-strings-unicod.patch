@@ -1,4 +1,4 @@
-From aa9bc48b5243d13dfe37a5411c1d36478861f26e Mon Sep 17 00:00:00 2001
+From 361f250fd00f3971ba8ae626146623171932f778 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:43:53 +0200
 Subject: [PATCH 29/99] winvlc: Fix build issue with multiline strings &
@@ -114,5 +114,5 @@ index ecf296a..4b84593 100644
                          pContext->Edx,pContext->Ecx,pContext->Eax,
                          pContext->Ebp,pContext->Eip,pContext->Esp );
 -- 
-1.9.5.msysgit.0
+1.9.5.msysgit.1
 
