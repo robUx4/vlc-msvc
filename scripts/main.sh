@@ -113,7 +113,7 @@ fi
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
 export CC="$ROOT_FOLDER/wrappers/clwrap"
 export CXX="$ROOT_FOLDER/wrappers/clwrap"
-export BUILDCC="`which gcc` -std=c99"
+export BUILDCC="`command -v gcc` -std=c99"
 export cc=$CC
 export cxx=$CXX
 export AR="$ROOT_FOLDER/wrappers/ar"

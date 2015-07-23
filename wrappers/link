@@ -5,7 +5,7 @@
 # link as part of MS toolchain.
 # This wrapper scripts removes link from the path before running it
 
-SED=`which sed`
+SED=`command -v sed`
 # We know the first element in $PATH is our wrapper script, 
 # so /usr/bin & /bin won't be the first item
 export PATH="`echo $PATH | $SED 's/\:\/usr\/bin//'`"

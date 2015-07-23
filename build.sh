@@ -43,12 +43,12 @@ test_package()
 	else
 		pkg=$1
 	fi
-	which $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || exit 1
+	command -v $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || exit 1
 }
 
 test_gcc()
 {
-    which gcc | grep /mingw || pacman -S --noconfirm mingw-w64-`uname -m`-gcc
+    command -v gcc | grep /mingw || pacman -S --noconfirm mingw-w64-`uname -m`-gcc
 }
 
 test_package make
