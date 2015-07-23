@@ -43,7 +43,7 @@ esac
 
 if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/configure.ac ] ; then
     echo "Running configure..."
-    export PKG_CONFIG_PATH=$ROOT_FOLDER/vlc/contrib/${BUILD_HOST}/lib/pkgconfig
+    export PKG_CONFIG_PATH=$ROOT_FOLDER/vlc/contrib/${BUILD_HOST}_${VLC_CONFIGURATION}/lib/pkgconfig
     #Lua is compiled fine, but configure.ac tries to run luac while checking for it... since it's an arm binary...
     $SCRIPTPATH/../vlc/configure \
         --host=$BUILD_HOST \

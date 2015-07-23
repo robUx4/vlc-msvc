@@ -19,13 +19,14 @@ if [ "$VLC_CONFIGURATION" = "" ] ; then
     exit 1
 fi
 
-BUILD_FOLDER=$ROOT_FOLDER/vlc/contrib/${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}/
+BUILD_FOLDER=${ROOT_FOLDER}vlc/contrib/${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
 fi
 cd $BUILD_FOLDER
 
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
+	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_HOST}_${VLC_CONFIGURATION}" \
 	--disable-gpl \
 	--disable-sout \
 	--enable-ffmpeg \
