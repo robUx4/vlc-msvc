@@ -248,14 +248,18 @@ fi
 if [ "$STATIC_RUNTIME" != "" ]; then
   if [ "$VLC_CONFIGURATION" == "Debug" ]; then
     ARGS="$ARGS -MTd"
+    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
   else
     ARGS="$ARGS -MT"
+    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
   fi
 else
   if [ "$VLC_CONFIGURATION" == "Debug" ]; then
     ARGS="$ARGS -MDd"
+    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
   else
     ARGS="$ARGS -MD"
+    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
   fi
 fi
 

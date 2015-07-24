@@ -14,6 +14,12 @@ case $VLC_PLATFORM in
 		exit 1
 esac
 
+if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
+else
+  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
+fi
+
 while [ $# -gt 0 ]; do
 	case $1 in
 	-o)
