@@ -8,6 +8,16 @@ if [ "$VLC_PLATFORM" = "" ] ; then
     exit 1
 fi
 
+if [ "$VLC_ABI" = "" ] ; then
+    echo "\$VLC_ABI is unset"
+    exit 1
+fi
+
+if [ "$VLC_ARCH" = "" ] ; then
+    echo "\$VLC_ARCH is unset"
+    exit 1
+fi
+
 if [ "$VLC_CONFIGURATION" = "" ] ; then
     echo "\$VLC_CONFIGURATION is unset"
     exit 1
