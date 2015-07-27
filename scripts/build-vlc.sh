@@ -48,6 +48,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
     $SCRIPTPATH/../vlc/configure \
         --host=$BUILD_HOST \
         --build=x86-w64-mingw32 \
+        --with-contrib="${SRC_FOLDER}contrib/${BUILD_HOST}_${VLC_CONFIGURATION}" \
         --enable-winstore-app \
         $DEBUG_MODE \
         --disable-sout \
