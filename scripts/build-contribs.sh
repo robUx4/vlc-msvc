@@ -21,7 +21,7 @@ cd $VLC_PLATFORM
 	--enable-fribidi \
 	--enable-gsm \
 	--enable-iconv \
-	--disable-ass \
+	--enable-ass \
 	--enable-dca \
 	--enable-dvbpsi \
 	--enable-ebml \
