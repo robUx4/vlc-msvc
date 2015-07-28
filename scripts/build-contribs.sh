@@ -36,7 +36,7 @@ cd $BUILD_FOLDER
 	--enable-fribidi \
 	--enable-gsm \
 	--enable-iconv \
-	--disable-ass \
+	--enable-ass \
 	--enable-dca \
 	--enable-dvbpsi \
 	--enable-ebml \
