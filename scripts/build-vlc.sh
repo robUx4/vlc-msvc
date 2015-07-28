@@ -55,7 +55,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --enable-flac \
         --disable-lua \
         --disable-flac \
-        --disable-theora \
         --enable-avcodec \
         --enable-merge-ffmpeg \
         --enable-dca \
@@ -78,7 +77,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --enable-nls \
         --disable-mad \
         --disable-schroedinger \
-        --disable-theora \
+        --enable-theora \
         --disable-goom \
         --disable-libgcrypt \
         --disable-dbus \

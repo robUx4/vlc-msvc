@@ -68,7 +68,7 @@ cd $BUILD_FOLDER
 	--disable-pthreads \
 	--disable-qt \
 	--disable-schroedinger \
-	--disable-theora \
+	--enable-theora \
 	--disable-vncserver \
 	--disable-zvbi \
 	--disable-sdl \
