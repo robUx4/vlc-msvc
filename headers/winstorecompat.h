@@ -4,13 +4,12 @@
 #pragma warning(push)
 #pragma warning(disable:4255)    /* no function prototype given */
 #include <Windows.h>
-//#include <stdio.h>
 #pragma warning(pop)
 
 /* not detected properly by autoconf due to early forced include */
-#define HAVE_STRNLEN
-#define HAVE_WCSCPY
-#define HAVE_WCSLEN
+#define HAVE_STRNLEN 1
+#define HAVE_WCSCPY 1
+#define HAVE_WCSLEN 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,21 +20,22 @@ __forceinline int getpid(void)
 {
     return GetCurrentProcessId();
 }
-#define HAVE_GETPID
+#define HAVE_GETPID 1
+typedef int pid_t;
 
 __forceinline char *getenv(const char *name)
 {
     UNREFERENCED_PARAMETER(name);
     return NULL;
 }
-#define HAVE_GETENV
+#define HAVE_GETENV 1
 
 __forceinline char *putenv(const char *name)
 {
     UNREFERENCED_PARAMETER(name);
     return NULL;
 }
-#define HAVE_PUTENV
+#define HAVE_PUTENV 1
 #endif
 
 __forceinline HRESULT SHGetFolderPathW(HWND hwnd,int csidl,HANDLE hToken,DWORD dwFlags,LPWSTR pszPath)
