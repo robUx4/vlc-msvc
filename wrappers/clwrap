@@ -44,7 +44,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -c"
 		compile=1
 		;;
-	*.c|*.cc)
+	*.c)
 		file=`cygpath -w $1`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
@@ -53,7 +53,7 @@ while [ $# -gt 0 ]; do
 		fi
 		ARGS="$ARGS -Tc$file"
 		;;
-	*.cpp|*.cxx)
+	*.cpp|*.cxx|*.cc)
 		file=`cygpath -w $1`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
