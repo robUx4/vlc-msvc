@@ -1,6 +1,8 @@
 #ifdef _MSC_VER /* help visual studio compile vlc headers */
 
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif /* WIN32_LEAN_AND_MEAN */
 
 #ifndef WIN32
 #define WIN32
