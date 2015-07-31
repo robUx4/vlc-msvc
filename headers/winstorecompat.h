@@ -87,7 +87,8 @@ __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
     return CreateSemaphoreW(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpwName );
 }
 
-#define CreateSemaphore CreateSemaphoreW
+#define CreateSemaphore    CreateSemaphoreW
+#define GetModuleFileName  GetModuleFileNameW
 
 #define GetModuleHandleA(x)        (NULL)
 #define GetModuleHandleW(x)        (NULL)
