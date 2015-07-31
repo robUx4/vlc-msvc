@@ -95,7 +95,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --disable-screen \
         --disable-libcddb \
         --disable-bluray \
-        --disable-atmo \
         --disable-vlc \
         --disable-vcd \
         --disable-smbclient || exit 1
