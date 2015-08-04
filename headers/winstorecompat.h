@@ -89,11 +89,17 @@ __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
 
 #define CreateSemaphore    CreateSemaphoreW
 #define GetModuleFileName  GetModuleFileNameW
+#define CreateFile         CreateFileW
+#define GetFileSize        GetFileSizeW
 
-#define GetModuleHandleA(x)        (NULL)
-#define GetModuleHandleW(x)        (NULL)
-#define GetModuleFileNameA(h,f,s)     (0)
-#define GetModuleFileNameW(h,f,s)     (0)
+#define GetModuleHandleA(x)                             (NULL)
+#define GetModuleHandleW(x)                             (NULL)
+#define GetModuleFileNameA(h,f,s)                          (0)
+#define GetModuleFileNameW(h,f,s)                          (0)
+#define CreateFileW(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
+#define CreateFileA(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
+#define GetFileSizeW(h,s)                  (INVALID_FILE_SIZE)
+#define GetFileSizeA(h,s)                  (INVALID_FILE_SIZE)
 
 __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
 {
@@ -152,6 +158,16 @@ __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSectio
     int flags = 0;
     /* flags = CRITICAL_SECTION_NO_DEBUG_INFO */
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
+}
+
+__forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
+{
+    LARGE_INTEGER  liDistanceToMove, newFilePointer;
+    liDistanceToMove.QuadPart = lDistanceToMove;
+    BOOL res = SetFilePointerEx(hFile, liDistanceToMove, &newFilePointer, dwMoveMethod);
+    if (lpDistanceToMoveHigh != NULL)
+        *lpDistanceToMoveHigh = (LONG) newFilePointer.QuadPart;
+    return res;
 }
 
 #if _MSC_VER < 1900
