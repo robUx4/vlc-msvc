@@ -38,16 +38,6 @@ __forceinline char *putenv(const char *name)
 #define HAVE_PUTENV 1
 #endif
 
-__forceinline HRESULT SHGetFolderPathW(HWND hwnd,int csidl,HANDLE hToken,DWORD dwFlags,LPWSTR pszPath)
-{
-    UNREFERENCED_PARAMETER(hwnd);
-    UNREFERENCED_PARAMETER(csidl);
-    UNREFERENCED_PARAMETER(hToken);
-    UNREFERENCED_PARAMETER(dwFlags);
-    UNREFERENCED_PARAMETER(pszPath);
-    return S_FALSE;
-}
-
 __forceinline HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCWSTR lpName)
 {
     int flags = 0;
