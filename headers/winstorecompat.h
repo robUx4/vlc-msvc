@@ -47,7 +47,6 @@ __forceinline HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL 
         flags |= CREATE_EVENT_INITIAL_SET;
     return CreateEventExW(lpEventAttributes, lpName, flags, EVENT_ALL_ACCESS);
 }
-
 #define CreateEvent CreateEventW
 
 __forceinline HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,
@@ -56,6 +55,23 @@ __forceinline HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
                                LPCWSTR lpName)
 {
     return CreateSemaphoreExW(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName, 0, EVENT_ALL_ACCESS);
+}
+
+__forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
+{
+    DWORD dwRet = 0;
+    FILE_STANDARD_INFO fStdInfo;
+
+    if (GetFileInformationByHandleEx(hFile, FileStandardInfo, (LPVOID)&fStdInfo, sizeof(FILE_STANDARD_INFO)))
+    {
+        dwRet = fStdInfo.EndOfFile.LowPart;
+        if (lpFileSizeHigh != NULL)
+            *lpFileSizeHigh = fStdInfo.EndOfFile.HighPart;
+    }
+    else
+        dwRet = INVALID_FILE_SIZE;
+
+    return dwRet;
 }
 
 /*
@@ -76,20 +92,29 @@ __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
     }
     return CreateSemaphoreW(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpwName );
 }
-
 #define CreateSemaphore    CreateSemaphoreW
-#define GetModuleFileName  GetModuleFileNameW
-#define CreateFile         CreateFileW
-#define GetFileSize        GetFileSizeW
 
-#define GetModuleHandleA(x)                             (NULL)
-#define GetModuleHandleW(x)                             (NULL)
+#define GetModuleFileName  GetModuleFileNameW
 #define GetModuleFileNameA(h,f,s)                          (0)
 #define GetModuleFileNameW(h,f,s)                          (0)
-#define CreateFileW(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
+#define GetModuleHandleA(x)                             (NULL)
+#define GetModuleHandleW(x)                             (NULL)
+
+__forceinline HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode,
+    LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition,
+    DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
+{
+    CREATEFILE2_EXTENDED_PARAMETERS createExParams;
+    createExParams.dwSize               = sizeof(CREATEFILE2_EXTENDED_PARAMETERS);
+    createExParams.dwFileAttributes     = dwFlagsAndAttributes & 0xFFFF;
+    createExParams.dwFileFlags          = dwFlagsAndAttributes & 0xFFF00000;
+    createExParams.dwSecurityQosFlags   = dwFlagsAndAttributes & 0x000F00000;
+    createExParams.lpSecurityAttributes = lpSecurityAttributes;
+    createExParams.hTemplateFile        = hTemplateFile;
+    return CreateFile2(lpFileName, dwDesiredAccess, dwShareMode, dwCreationDisposition, &createExParams);
+}
+#define CreateFile                      CreateFileW
 #define CreateFileA(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
-#define GetFileSizeW(h,s)                  (INVALID_FILE_SIZE)
-#define GetFileSizeA(h,s)                  (INVALID_FILE_SIZE)
 
 __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
 {
