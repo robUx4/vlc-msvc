@@ -133,6 +133,11 @@ while [ $# -gt 0 ]; do
 	-O)
 		ARGS="$ARGS -O2"
 		;;
+	-O0)
+		# this may cause unneeded code generation ARGS="$ARGS -Od"
+		# testing
+		ARGS="$ARGS -O1"
+		;;
 	-O3)
 		ARGS="$ARGS -Ox"
 		;;
