@@ -10,6 +10,7 @@
 #define HAVE_STRNLEN 1
 #define HAVE_WCSCPY 1
 #define HAVE_WCSLEN 1
+#define HAVE_STRERROR 1
 
 #ifdef __cplusplus
 extern "C" {
