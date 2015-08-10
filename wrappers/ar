@@ -5,7 +5,9 @@ echo "AR Wrapping $@"
 while [ $# -gt 0 ]; do
 	case $1 in
 	*.lib|*.a)
-		LINK_TARGET=`cygpath -w $1`
+		if [ "$LINK_TARGET" = "" ]; then
+			LINK_TARGET=`cygpath -w $1`
+		fi
 		;;
 	*obj|*.o)
 		OBJS="$OBJS `cygpath -w $1`"
