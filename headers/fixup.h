@@ -140,6 +140,10 @@ typedef unsigned int mode_t;
 
 #define PATH_MAX MAX_PATH
 
+#ifndef __cplusplus
+#define restrict
+#endif
+
 #include <winapifamily.h>
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
