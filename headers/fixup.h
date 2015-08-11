@@ -38,9 +38,11 @@ typedef unsigned int mode_t;
 # define bcopy memcpy
 # define bcmp memcmp
 
+//#ifndef __cplusplus
 //# ifndef restrict
 //#  define restrict __restrict
 //# endif
+//#endif
 
 // Stats part
 
@@ -139,10 +141,6 @@ typedef unsigned int mode_t;
 #endif /* _UNICODE */
 
 #define PATH_MAX MAX_PATH
-
-#ifndef __cplusplus
-#define restrict
-#endif
 
 #include <winapifamily.h>
 
