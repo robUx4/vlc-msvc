@@ -106,11 +106,15 @@ while [ $# -gt 0 ]; do
             "shlwapi" | "ole32" )
                 # Ignore those for windows phone
                 ;;
-            "ws2_32" | "winmm" | "shlwapi" | "ole32" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" )
-                ARGS="$ARGS $libname.lib"
-                ;;
             "stdc++" | "pthreadGC2" )
                 # Ignore those
+                ;;
+	    *.lib)
+		ARGS="$ARGS $libname"
+echo "using plain MSVC lib for $1"
+		;;
+            "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" )
+                ARGS="$ARGS $libname.lib"
                 ;;
             *)
                 ARGS="$ARGS lib$libname.a"
