@@ -72,6 +72,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --enable-sse \
         --enable-mmx \
         --enable-libcddb \
+        --enable-realrtsp \
         --disable-zvbi \
         --disable-telx \
         --enable-nls \
@@ -83,7 +84,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/c
         --disable-dbus \
         --disable-archive \
         --disable-crystalhd \
-        --disable-aribsub \
         --disable-x265 \
         --disable-x264 \
         --disable-vpx \

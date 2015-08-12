@@ -73,7 +73,6 @@ cd $BUILD_FOLDER
     --disable-upnp \
 	--disable-nettle \
 	--disable-goom \
-	--disable-mad \
 	--disable-projectM \
 	--disable-pthreads \
 	--disable-qt \
@@ -82,7 +81,6 @@ cd $BUILD_FOLDER
 	--disable-vncserver \
 	--disable-zvbi \
 	--disable-sdl \
-	--disable-aribb24 \
     --disable-aribb25 \
 	--enable-a52 \
     --enable-samplerate \
@@ -94,7 +92,6 @@ cd $BUILD_FOLDER
     --disable-disc \
     --disable-lua \
     --disable-protobuf \
-    --disable-mpg123 \
 	--disable-d3d11 \
 	--disable-dshow \
 	--disable-libarchive \
