@@ -128,6 +128,9 @@ __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL 
 
 __forceinline UINT GetACP(void)
 {
+    DWORD acp;
+    if (GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_RETURN_NUMBER | LOCALE_IDEFAULTANSICODEPAGE, (LPWSTR) &acp, sizeof(acp) / sizeof(WCHAR)))
+        return acp;
     return CP_UTF8; /* utf-8 */
 }
 
