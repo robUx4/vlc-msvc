@@ -1,25 +1,25 @@
-From b24af8ca7c9a00ccf032441400bc907c03fcc9ca Mon Sep 17 00:00:00 2001
+From 6785bf6707cc5ee7d4006165f1496219dc6d9371 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:30:36 +0200
-Subject: [PATCH 28/74] winvlc: Use alloca rather than VLA
+Subject: [PATCH 028/129] winvlc: Use alloca rather than VLA
 
 ---
  bin/winvlc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/bin/winvlc.c b/bin/winvlc.c
-index 7caab51..bd64488 100644
+index 33784e2..ecf296a 100644
 --- a/bin/winvlc.c
 +++ b/bin/winvlc.c
 @@ -109,7 +109,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
      if (wargv == NULL)
          return 1;
  
--    char *argv[argc + 4];
-+    char **argv = alloca((argc + 4) * sizeof(*argv));
+-    char *argv[argc + 3];
++    char **argv = alloca((argc + 3) * sizeof(*argv));
      BOOL crash_handling = TRUE;
      int j = 0;
      char *lang = NULL;
 -- 
-2.2.0
+1.9.5.msysgit.1
 

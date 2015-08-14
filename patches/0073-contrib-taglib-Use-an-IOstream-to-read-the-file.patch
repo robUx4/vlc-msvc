@@ -1,38 +1,36 @@
-From b75bd2aa62a509541f55376950a252370923ac7c Mon Sep 17 00:00:00 2001
+From c806eafa67709e0ad0ae98438891bb21cfaebaef Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 28 Apr 2015 14:23:31 +0200
-Subject: [PATCH 73/74] contrib: taglib: Use an IOstream to read the file
+Subject: [PATCH 073/129] contrib: taglib: Use an IOstream to read the file
 
 ---
- contrib/src/taglib/iostream.patch | 132 ++++++++++++++++++++++++++++++++++++++
+ contrib/src/taglib/iostream.patch | 130 ++++++++++++++++++++++++++++++++++++++
  contrib/src/taglib/rules.mak      |   1 +
- 2 files changed, 133 insertions(+)
+ 2 files changed, 131 insertions(+)
  create mode 100644 contrib/src/taglib/iostream.patch
 
 diff --git a/contrib/src/taglib/iostream.patch b/contrib/src/taglib/iostream.patch
 new file mode 100644
-index 0000000..f4fca2b
+index 0000000..7a2dc4f
 --- /dev/null
 +++ b/contrib/src/taglib/iostream.patch
-@@ -0,0 +1,132 @@
+@@ -0,0 +1,130 @@
 +diff --git a/taglib/fileref.cpp b/taglib/fileref.cpp
 +index 2b5d5f2..04d9a56 100644
 +--- a/taglib/fileref.cpp
 ++++ b/taglib/fileref.cpp
-+@@ -80,7 +80,12 @@ FileRef::FileRef()
-+ FileRef::FileRef(FileName fileName, bool readAudioProperties,
-+                  AudioProperties::ReadStyle audioPropertiesStyle)
-+ {
-+-  d = new FileRefPrivate(create(fileName, readAudioProperties, audioPropertiesStyle));
-++    d = new FileRefPrivate(create(fileName, readAudioProperties, audioPropertiesStyle));
-++}
-++
++@@ -83,6 +83,11 @@ FileRef::FileRef()
++   d = new FileRefPrivate(create(fileName, readAudioProperties, audioPropertiesStyle));
++ }
++
 ++FileRef::FileRef(IOStream* stream, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle)
 ++{
-++    d = new FileRefPrivate(create(stream, readAudioProperties, audioPropertiesStyle));
-+ }
-+ 
+++  d = new FileRefPrivate(create(stream, readAudioProperties, audioPropertiesStyle));
+++}
+++
 + FileRef::FileRef(File *file)
++ {
++   d = new FileRefPrivate(file);
 +@@ -284,3 +289,77 @@ File *FileRef::create(FileName fileName, bool readAudioProperties,
 + 
 +   return 0;
@@ -111,6 +109,7 @@ index 0000000..f4fca2b
 ++
 ++    return 0;
 ++}
++
 +diff --git a/taglib/fileref.h b/taglib/fileref.h
 +index 0f0c21a..3ba03af 100644
 +--- a/taglib/fileref.h
@@ -136,22 +135,21 @@ index 0000000..f4fca2b
 +      * Contruct a FileRef using \a file.  The FileRef now takes ownership of the
 +      * pointer and will delete the File when it passes out of scope.
 +      */
-+@@ -252,6 +266,10 @@ namespace TagLib {
++@@ -252,6 +266,9 @@ namespace TagLib {
 +                         bool readAudioProperties = true,
 +                         AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 + 
 ++    static File *create(IOStream* ioStream,
 ++                        bool readAudioProperties = true,
 ++                        AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
-++
 + 
 +   private:
 +     class FileRefPrivate;
 diff --git a/contrib/src/taglib/rules.mak b/contrib/src/taglib/rules.mak
-index a24369a..b0ab6c5 100644
+index 19bc3a8..6737db7 100644
 --- a/contrib/src/taglib/rules.mak
 +++ b/contrib/src/taglib/rules.mak
-@@ -21,6 +21,7 @@ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
+@@ -17,6 +17,7 @@ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
  	$(UNPACK)
  	$(APPLY) $(SRC)/taglib/taglib-pc.patch
  	$(APPLY) $(SRC)/taglib/0002-Rewrote-ByteVector-replace-simpler.patch
@@ -160,5 +158,5 @@ index a24369a..b0ab6c5 100644
  
  .taglib: taglib toolchain.cmake
 -- 
-2.2.0
+1.9.5.msysgit.1
 

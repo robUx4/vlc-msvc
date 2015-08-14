@@ -1,13 +1,14 @@
-From dbf97858a7f7d84209350e1e7a07822eaa36793f Mon Sep 17 00:00:00 2001
+From b2763367198882740435cd2fed27ed18c47277ca Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:13:22 +0200
-Subject: [PATCH 09/74] modules: Remove empty braces initializer to keep MSVC
+Subject: [PATCH 009/129] modules: Remove empty braces initializer to keep MSVC
  happy
 
 ---
  modules/codec/flac.c           | 2 +-
  modules/demux/avformat/demux.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ modules/video_chroma/copy.h    | 2 ++
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/modules/codec/flac.c b/modules/codec/flac.c
 index eaf8175..82b592a 100644
@@ -23,7 +24,7 @@ index eaf8175..82b592a 100644
          { 0, 1 },
          { 0, 1, 2 },
 diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
-index 7ce3407..412da4c 100644
+index 0f44e7d..2f64513 100644
 --- a/modules/demux/avformat/demux.c
 +++ b/modules/demux/avformat/demux.c
 @@ -157,7 +157,7 @@ int OpenDemux( vlc_object_t *p_this )
@@ -35,6 +36,19 @@ index 7ce3407..412da4c 100644
      AVInputFormat *fmt = NULL;
      unsigned int  i;
      int64_t       i_start_time = -1;
+diff --git a/modules/video_chroma/copy.h b/modules/video_chroma/copy.h
+index 38a3a38..4d129e8 100644
+--- a/modules/video_chroma/copy.h
++++ b/modules/video_chroma/copy.h
+@@ -28,6 +28,8 @@ typedef struct {
+ # ifdef CAN_COMPILE_SSE2
+     uint8_t *buffer;
+     size_t  size;
++# elif defined(_MSC_VER)
++    char dummy;
+ # endif
+ } copy_cache_t;
+ 
 -- 
-2.2.0
+1.9.5.msysgit.1
 
