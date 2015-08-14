@@ -1,0 +1,25 @@
+From b566f17e4e99f860db25d0352f935b9cd84eb65f Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Tue, 4 Aug 2015 11:08:20 +0200
+Subject: [PATCH 059/128] contribs: taglib Use visual studio when available
+
+---
+ contrib/src/taglib/rules.mak | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/src/taglib/rules.mak b/contrib/src/taglib/rules.mak
+index ad8b909..19bc3a8 100644
+--- a/contrib/src/taglib/rules.mak
++++ b/contrib/src/taglib/rules.mak
+@@ -20,7 +20,7 @@ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
+ 	$(MOVE)
+ 
+ .taglib: taglib toolchain.cmake
+-	cd $< && $(HOSTVARS_PIC) $(CMAKE) \
++	cd $< && $(HOSTVARS_CMAKE) $(CMAKE) \
+ 		-DENABLE_STATIC:BOOL=ON \
+ 		-DWITH_ASF:BOOL=ON \
+ 		-DWITH_MP4:BOOL=ON .
+-- 
+1.9.5.msysgit.1
+

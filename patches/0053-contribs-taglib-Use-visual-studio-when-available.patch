@@ -1,41 +1,27 @@
-From 5f6d4f27bc89f06f93f7893fd8ab2a6b121bec3b Mon Sep 17 00:00:00 2001
+From b09046e261b9e1aaed9030fbcadccf2fcb116d1b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 7 Jan 2015 11:27:53 +0100
-Subject: [PATCH 53/74] contribs: taglib: Use visual studio when available
+Subject: [PATCH 053/128] contribs: taglib: Use visual studio when available
 
 ---
- contrib/src/taglib/rules.mak | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ contrib/src/taglib/rules.mak | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/contrib/src/taglib/rules.mak b/contrib/src/taglib/rules.mak
-index 055b6cf..a24369a 100644
+index 055b6cf..ad8b909 100644
 --- a/contrib/src/taglib/rules.mak
 +++ b/contrib/src/taglib/rules.mak
-@@ -8,6 +8,10 @@ ifeq ($(call need_pkg,"taglib >= 1.9"),)
- PKGS_FOUND += taglib
- endif
- 
-+ifdef HAVE_VISUALSTUDIO
-+BUILD_TARGET=-G "Visual Studio 12 2013 ARM"
-+endif
-+
- $(TARBALLS)/taglib-$(TAGLIB_VERSION).tar.gz:
- 	$(call download,$(TAGLIB_URL))
- 
-@@ -23,6 +27,12 @@ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
- 	cd $< && $(HOSTVARS_PIC) $(CMAKE) \
+@@ -24,5 +24,10 @@ taglib: taglib-$(TAGLIB_VERSION).tar.gz .sum-taglib
  		-DENABLE_STATIC:BOOL=ON \
  		-DWITH_ASF:BOOL=ON \
--		-DWITH_MP4:BOOL=ON .
-+		-DWITH_MP4:BOOL=ON \
-+		$(BUILD_TARGET) .
+ 		-DWITH_MP4:BOOL=ON .
 +ifdef HAVE_VISUALSTUDIO
-+	cd $< && msbuild.exe -p:Configuration=Release -p:Platform=ARM INSTALL.vcxproj
-+	cd $< && cp taglib/Release/tag.lib "$(PREFIX)/lib/libtag.a"
++	cd $< && msbuild.exe -p:Configuration=$(VLC_CONFIGURATION) -m -nologo INSTALL.vcxproj
++	cd $< && cp taglib/$(VLC_CONFIGURATION)/tag.lib "$(PREFIX)/lib/libtag.a"
 +else
  	cd $< && $(MAKE) install
 +endif
  	touch $@
 -- 
-2.2.0
+1.9.5.msysgit.1
 
