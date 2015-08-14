@@ -1,0 +1,96 @@
+From 12a5c98f64023c1a71afacbc9d6cf0d5973d0d5b Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 6 Aug 2015 16:12:22 +0200
+Subject: [PATCH 068/128] yadif doesn't build on MSVC
+
+---
+ modules/video_filter/Makefile.am               | 7 +++++--
+ modules/video_filter/deinterlace/deinterlace.c | 9 ++++++++-
+ modules/video_filter/deinterlace/deinterlace.h | 2 ++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/modules/video_filter/Makefile.am b/modules/video_filter/Makefile.am
+index ea0b72c..79c3897 100644
+--- a/modules/video_filter/Makefile.am
++++ b/modules/video_filter/Makefile.am
+@@ -113,10 +113,13 @@ libdeinterlace_plugin_la_SOURCES = \
+ 	video_filter/deinterlace/helpers.c video_filter/deinterlace/helpers.h \
+ 	video_filter/deinterlace/algo_basic.c video_filter/deinterlace/algo_basic.h \
+ 	video_filter/deinterlace/algo_x.c video_filter/deinterlace/algo_x.h \
+-	video_filter/deinterlace/algo_yadif.c video_filter/deinterlace/algo_yadif.h \
+-	video_filter/deinterlace/yadif.h video_filter/deinterlace/yadif_template.h \
+ 	video_filter/deinterlace/algo_phosphor.c video_filter/deinterlace/algo_phosphor.h \
+ 	video_filter/deinterlace/algo_ivtc.c video_filter/deinterlace/algo_ivtc.h
++if !HAVE_WINSTORE
++libdeinterlace_plugin_la_SOURCES += \
++	video_filter/deinterlace/algo_yadif.c video_filter/deinterlace/algo_yadif.h \
++	video_filter/deinterlace/yadif.h video_filter/deinterlace/yadif_template.h
++endif
+ # inline ASM doesn't build with -O0
+ libdeinterlace_plugin_la_CFLAGS = $(AM_CFLAGS) -O2
+ if HAVE_NEON
+diff --git a/modules/video_filter/deinterlace/deinterlace.c b/modules/video_filter/deinterlace/deinterlace.c
+index e6a0b0f..6f5643d 100644
+--- a/modules/video_filter/deinterlace/deinterlace.c
++++ b/modules/video_filter/deinterlace/deinterlace.c
+@@ -184,6 +184,7 @@ static void SetFilterMethod( filter_t *p_filter, const char *mode, bool pack )
+                  " for packed format", mode );
+         mode = "blend";
+     }
++#ifndef _MSC_VER
+     else if( !strcmp( mode, "yadif" ) )
+     {
+         p_sys->i_mode = DEINTERLACE_YADIF;
+@@ -195,6 +196,7 @@ static void SetFilterMethod( filter_t *p_filter, const char *mode, bool pack )
+         p_sys->b_double_rate = true;
+         p_sys->b_use_frame_history = true;
+     }
++#endif
+     else if( p_sys->chroma->pixel_size > 1 )
+     {
+         msg_Err( p_filter, "unknown or incompatible deinterlace mode \"%s\""
+@@ -472,6 +474,7 @@ picture_t *Deinterlace( filter_t *p_filter, picture_t *p_pic )
+             RenderX( p_dst[0], p_pic );
+             break;
+ 
++#ifndef _MSC_VER
+         case DEINTERLACE_YADIF:
+             if( RenderYadif( p_filter, p_dst[0], p_pic, 0, 0 ) )
+                 goto drop;
+@@ -485,7 +488,7 @@ picture_t *Deinterlace( filter_t *p_filter, picture_t *p_pic )
+             if( p_dst[2] )
+                 RenderYadif( p_filter, p_dst[2], p_pic, 2, !b_top_field_first );
+             break;
+-
++#endif
+         case DEINTERLACE_PHOSPHOR:
+             if( RenderPhosphor( p_filter, p_dst[0], 0,
+                                 !b_top_field_first ) )
+@@ -504,6 +507,10 @@ picture_t *Deinterlace( filter_t *p_filter, picture_t *p_pic )
+             if( RenderIVTC( p_filter, p_dst[0] ) )
+                 goto drop;
+             break;
++#ifdef _MSC_VER
++        default:
++            vlc_assert_unreachable();
++#endif
+     }
+ 
+     /* Set output timestamps, if the algorithm didn't request CUSTOM_PTS
+diff --git a/modules/video_filter/deinterlace/deinterlace.h b/modules/video_filter/deinterlace/deinterlace.h
+index 7fc036d..73416fd 100644
+--- a/modules/video_filter/deinterlace/deinterlace.h
++++ b/modules/video_filter/deinterlace/deinterlace.h
+@@ -39,7 +39,9 @@ struct vlc_object_t;
+ /* Local algorithm headers */
+ #include "algo_basic.h"
+ #include "algo_x.h"
++#ifndef _MSC_VER
+ #include "algo_yadif.h"
++#endif
+ #include "algo_phosphor.h"
+ #include "algo_ivtc.h"
+ 
+-- 
+1.9.5.msysgit.1
+
