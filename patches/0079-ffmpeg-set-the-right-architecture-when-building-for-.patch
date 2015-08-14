@@ -1,0 +1,28 @@
+From 32d6f1b12351230a58f4b7649b4a748ed2c489ed Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 16 Jul 2015 09:35:39 +0200
+Subject: [PATCH 079/128] ffmpeg: set the right architecture when building for
+ Metro x86
+
+---
+ contrib/src/ffmpeg/rules.mak | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index 9dae4cf..932389b 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -104,6 +104,10 @@ FFMPEGCONF += --arch=x86
+ endif
+ endif
+ 
++ifeq ($(ARCH),x86)
++FFMPEGCONF+= --cpu=i686 --arch=x86
++endif
++
+ # x86_64 stuff
+ ifeq ($(ARCH),x86_64)
+ ifndef HAVE_DARWIN_OS
+-- 
+1.9.5.msysgit.1
+

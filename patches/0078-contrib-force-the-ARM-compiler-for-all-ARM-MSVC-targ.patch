@@ -1,0 +1,27 @@
+From b10da3a50346802e3924fabc156a54bbbfcfc59f Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 11:41:58 +0200
+Subject: [PATCH 078/128] contrib: force the ARM compiler for all ARM MSVC
+ targets
+
+---
+ contrib/src/ffmpeg/rules.mak | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index 14b99f6..9dae4cf 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -82,6 +82,9 @@ endif
+ ifdef HAVE_ARMV6
+ FFMPEGCONF += --cpu=armv6 --disable-neon
+ endif
++ifdef HAVE_VISUALSTUDIO
++FFMPEGCONF += --cpu=armv7-a --extra-cflags=' -D__ARM_PCS_VFP' --as=armasm
++endif
+ endif
+ 
+ # ARM64 stuff
+-- 
+1.9.5.msysgit.1
+
