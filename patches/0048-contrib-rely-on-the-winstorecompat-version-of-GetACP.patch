@@ -1,0 +1,44 @@
+From e2e865d7992643141b9fdd9551e1f9deef0f4b41 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 13 Aug 2015 10:33:14 +0200
+Subject: [PATCH 048/128] contrib: rely on the winstorecompat version of GetACP
+ for iconv
+
+---
+ contrib/src/iconv/libiconv-winrt.patch | 11 -----------
+ contrib/src/iconv/rules.mak            |  1 -
+ 2 files changed, 12 deletions(-)
+ delete mode 100644 contrib/src/iconv/libiconv-winrt.patch
+
+diff --git a/contrib/src/iconv/libiconv-winrt.patch b/contrib/src/iconv/libiconv-winrt.patch
+deleted file mode 100644
+index c40495d..0000000
+--- a/contrib/src/iconv/libiconv-winrt.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- iconv/libcharset/lib/localcharset.c	2014-03-10 20:39:14.105914067 +0100
+-+++ iconv/libcharset/lib/localcharset.c.new	2014-03-10 20:38:25.601822680 +0100
+-@@ -465,7 +465,7 @@
+-      GetConsoleOutputCP() encoding if it is using a TrueType font.
+-      But in GUI programs and for output sent to files and pipes, GetACP()
+-      encoding is the best bet.  */
+--  sprintf (buf, "CP%u", GetACP ());
+-+  sprintf (buf, "CP%u", 65001);
+-   codeset = buf;
+- 
+- #elif defined OS2
+diff --git a/contrib/src/iconv/rules.mak b/contrib/src/iconv/rules.mak
+index 9826915..4ffb5db 100644
+--- a/contrib/src/iconv/rules.mak
++++ b/contrib/src/iconv/rules.mak
+@@ -29,7 +29,6 @@ ifdef HAVE_IOS
+ endif
+ ifdef HAVE_WINRT
+ 	$(APPLY) $(SRC)/iconv/libiconv-android-ios.patch
+-	$(APPLY) $(SRC)/iconv/libiconv-winrt.patch
+ endif
+ 	$(UPDATE_AUTOCONFIG) && cd $(UNPACK_DIR) && mv config.guess config.sub build-aux
+ 	$(UPDATE_AUTOCONFIG) && cd $(UNPACK_DIR) && mv config.guess config.sub libcharset/build-aux
+-- 
+1.9.5.msysgit.1
+

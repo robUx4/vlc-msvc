@@ -1,0 +1,49 @@
+From 69c73c430f11c9bc4c0a94a95c50cdb639b573c3 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 11:57:50 +0200
+Subject: [PATCH 030/128] contrib: don't force older versions of WINVER and
+ _WIN32_WINNT for WinRT builds mpg123
+
+---
+ contrib/src/mpg123/rules.mak      |  3 +++
+ contrib/src/mpg123/winstore.patch | 14 ++++++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 contrib/src/mpg123/winstore.patch
+
+diff --git a/contrib/src/mpg123/rules.mak b/contrib/src/mpg123/rules.mak
+index afe5202..0900208 100644
+--- a/contrib/src/mpg123/rules.mak
++++ b/contrib/src/mpg123/rules.mak
+@@ -15,6 +15,9 @@ $(TARBALLS)/mpg123-$(MPG123_VERSION).tar.bz2:
+ mpg123: mpg123-$(MPG123_VERSION).tar.bz2 .sum-mpg123
+ 	$(UNPACK)
+ 	$(APPLY) $(SRC)/mpg123/no-programs.patch
++ifdef HAVE_WINRT
++	$(APPLY) $(SRC)/mpg123/winstore.patch
++endif
+ 	$(MOVE)
+ 
+ .mpg123: mpg123
+diff --git a/contrib/src/mpg123/winstore.patch b/contrib/src/mpg123/winstore.patch
+new file mode 100644
+index 0000000..0b287d5
+--- /dev/null
++++ b/contrib/src/mpg123/winstore.patch
+@@ -0,0 +1,14 @@
++--- mpg123/configure.ac 2014-09-28 23:27:28.000000000 +0200
+++++ mpg123/configure.ac.winstore        2015-08-10 15:33:35.881564100 +0200
++@@ -2325,8 +2325,8 @@
++   AC_MSG_CHECKING([if WINVER and _WIN32_WINNT needs version bumps])
++   if test "x$win32_winver_bump" = "xyes"; then
++     AC_MSG_RESULT([yes])
++-    AC_DEFINE([WINVER], [0x0501], [ WinXP and above for ipv6 ])
++-    AC_DEFINE([_WIN32_WINNT], [0x0501], [ WinXP and above for ipv6 ])
+++    dnl AC_DEFINE([WINVER], [0x0501], [ WinXP and above for ipv6 ])
+++    dnl AC_DEFINE([_WIN32_WINNT], [0x0501], [ WinXP and above for ipv6 ])
++     # getaddrinfo and freeaddrinfo are available for Win2K and above
++     # Bug: MinGW.org w32api ws2tcpip.h incorrectly wants (_WIN32_WINNT >= 0x0501) for getaddrinfo and freeaddrinfo
++     # MultiByteToWideChar and WideCharToMultiByte are available for Win2K and above
++
+-- 
+1.9.5.msysgit.1
+
