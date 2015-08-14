@@ -1,0 +1,41 @@
+From e9a8006d53725217aa3d27c91c73c17bd93e3e65 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Mon, 3 Aug 2015 09:03:44 +0200
+Subject: [PATCH 126/128] cachegen: use _WIN32 instead of WIN32
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+--
+that's what we use everywhere else
+
+Signed-off-by: Rémi Denis-Courmont <remi@remlab.net>
+---
+ bin/cachegen.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/bin/cachegen.c b/bin/cachegen.c
+index 39b3f1d..397d402 100644
+--- a/bin/cachegen.c
++++ b/bin/cachegen.c
+@@ -29,7 +29,7 @@
+ #ifdef HAVE_GETOPT_H
+ # include <getopt.h>
+ #endif
+-#ifdef WIN32
++#ifdef _WIN32
+ # include <windows.h>
+ #endif
+ 
+@@ -48,7 +48,7 @@ static void usage (const char *path)
+ 
+ int main (int argc, char *argv[])
+ {
+-#ifdef WIN32
++#ifdef _WIN32
+     SetErrorMode(SEM_FAILCRITICALERRORS);
+ #endif
+ #ifdef HAVE_GETOPT_H
+-- 
+1.9.5.msysgit.1
+
