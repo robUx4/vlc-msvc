@@ -1,34 +1,33 @@
-From d3d019dff448097e86402db0e8270a5a0bf0c098 Mon Sep 17 00:00:00 2001
+From 0590cc902ed70ce5091426d1792f4f838a15d6a3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
-Subject: [PATCH 04/74] modules: Disable warning cpp directive when using msvc
+Subject: [PATCH 004/128] modules: Disable warning cpp directive when using
+ msvc
 
 ---
  modules/access/bluray.c        | 2 +-
  modules/codec/crystalhd.c      | 4 +++-
- modules/control/rc.c           | 4 +++-
  modules/control/win_msg.c      | 4 +++-
- modules/demux/avformat/demux.c | 2 +-
- modules/demux/mkv/mkv.cpp      | 2 ++
+ modules/demux/avformat/demux.c | 2 ++
  modules/demux/ogg.c            | 2 ++
  modules/lua/libs/playlist.c    | 2 ++
- 8 files changed, 17 insertions(+), 5 deletions(-)
+ 6 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/modules/access/bluray.c b/modules/access/bluray.c
-index 0d2a5ed..4480fac 100644
+index d218f91..970ff8d 100644
 --- a/modules/access/bluray.c
 +++ b/modules/access/bluray.c
-@@ -267,7 +267,7 @@ static void FindMountPoint(char **file)
+@@ -265,7 +265,7 @@ static void FindMountPoint(char **file)
                  }
          }
      }
 -#else
 +#elif !defined(_MSC_VER)
  # warning Disc device to mount point not implemented
+     VLC_UNUSED( device );
  #endif
- }
 diff --git a/modules/codec/crystalhd.c b/modules/codec/crystalhd.c
-index b8e39af..59a50bd 100644
+index d3b99ba..f12bc87 100644
 --- a/modules/codec/crystalhd.c
 +++ b/modules/codec/crystalhd.c
 @@ -62,7 +62,9 @@
@@ -38,30 +37,15 @@ index b8e39af..59a50bd 100644
 -#  warning DLL opening mode
 +#  ifndef _MSC_VER
 +#   warning DLL opening mode
-+#  #endif
++#  endif
  #  define BC_FUNC( a ) Our ## a
  #  define BC_FUNC_PSYS( a ) p_sys->Our ## a
  #else
-diff --git a/modules/control/rc.c b/modules/control/rc.c
-index ca2b4a1..0ada15c 100644
---- a/modules/control/rc.c
-+++ b/modules/control/rc.c
-@@ -522,7 +522,9 @@ static void *Run( void *data )
-                 var_AddCallback( p_sys->p_input, "intf-event", InputEvent, p_intf );
-             }
-         }
--#warning This is not reliable...
-+#ifndef _MSC_VER
-+# warning This is not reliable...
-+#endif
-         else if( p_sys->p_input->b_dead )
-         {
-             var_DelCallback( p_sys->p_input, "intf-event", InputEvent, p_intf );
 diff --git a/modules/control/win_msg.c b/modules/control/win_msg.c
-index 32c890c..85d844e 100644
+index aa18423..d433e59 100644
 --- a/modules/control/win_msg.c
 +++ b/modules/control/win_msg.c
-@@ -91,7 +91,9 @@ static LRESULT CALLBACK WMCOPYWNDPROC(HWND hwnd, UINT uMsg,
+@@ -92,7 +92,9 @@ static LRESULT CALLBACK WMCOPYWNDPROC(HWND hwnd, UINT uMsg,
                      i_options++;
                  }
  
@@ -73,37 +57,24 @@ index 32c890c..85d844e 100644
                   * started from a different working directory. */
                  char *psz_URI = NULL;
 diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
-index 826b78e..d6a271c 100644
+index b680a99..8d71c86 100644
 --- a/modules/demux/avformat/demux.c
 +++ b/modules/demux/avformat/demux.c
-@@ -392,7 +392,7 @@ int OpenDemux( vlc_object_t *p_this )
-                 fmt.video.p_palette = xmalloc( sizeof(video_palette_t) );
-                 *fmt.video.p_palette = *(video_palette_t *)cc->palctrl;
-             }
--#else
-+#elif !defined(_MSC_VER)
+@@ -386,7 +386,9 @@ int OpenDemux( vlc_object_t *p_this )
+ 
+             get_rotation(&fmt, s);
+ 
++#if !defined(_MSC_VER)
  # warning FIXME: implement palette transmission
- #endif
-             psz_type = "video";
-diff --git a/modules/demux/mkv/mkv.cpp b/modules/demux/mkv/mkv.cpp
-index 7b8abb1..8e4bce7 100644
---- a/modules/demux/mkv/mkv.cpp
-+++ b/modules/demux/mkv/mkv.cpp
-@@ -192,7 +192,9 @@ static int Open( vlc_object_t * p_this )
-                             // test whether this file belongs to our family
-                             const uint8_t *p_peek;
-                             bool          file_ok = false;
-+#ifndef _MSC_VER
- #warning Memory leak!
 +#endif
-                             std::string   s_url = vlc_path2uri( s_filename.c_str(), "file" );
-                             stream_t      *p_file_stream = stream_UrlNew(
-                                                             p_demux,
+             psz_type = "video";
+             fmt.video.i_frame_rate = cc->time_base.den;
+             fmt.video.i_frame_rate_base = cc->time_base.num * __MAX( cc->ticks_per_frame, 1 );
 diff --git a/modules/demux/ogg.c b/modules/demux/ogg.c
-index 8326b4e..a07ac60 100644
+index 905a637..384efb0 100644
 --- a/modules/demux/ogg.c
 +++ b/modules/demux/ogg.c
-@@ -1259,7 +1259,9 @@ static void Ogg_DecodePacket( demux_t *p_demux,
+@@ -1273,7 +1273,9 @@ static void Ogg_DecodePacket( demux_t *p_demux,
              }
              else
              {
@@ -128,5 +99,5 @@ index 1159262..5b59ad9 100644
      return 1;
  }
 -- 
-2.2.0
+1.9.5.msysgit.1
 
