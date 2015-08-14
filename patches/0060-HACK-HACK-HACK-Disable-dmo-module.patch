@@ -1,25 +1,27 @@
-From 1e915e78076d6edb8c4cf8a02f26745548650746 Mon Sep 17 00:00:00 2001
+From 2fdd31d96f67c795e2e184f3f25a2a1a49b0e468 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 5 Feb 2015 11:14:54 +0100
-Subject: [PATCH 60/74] HACK HACK HACK: Disable dmo module
+Subject: [PATCH 060/128] HACK HACK HACK: Disable dmo module
 
 ---
- modules/codec/Makefile.am | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ modules/codec/Makefile.am | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/modules/codec/Makefile.am b/modules/codec/Makefile.am
-index 9c31230..5b06b74 100644
+index 4ae29ac..38fb63b 100644
 --- a/modules/codec/Makefile.am
 +++ b/modules/codec/Makefile.am
-@@ -495,7 +495,7 @@ libqsv_plugin_la_CPPFLAGS = $(AM_CPPFLAGS)
+@@ -519,8 +519,10 @@ libqsv_plugin_la_CPPFLAGS = $(AM_CPPFLAGS)
  libdmo_plugin_la_LIBADD = $(LIBM)
  if HAVE_WIN32
  libdmo_plugin_la_LIBADD += -lole32 -luuid
--codec_LTLIBRARIES += libdmo_plugin.la
-+# codec_LTLIBRARIES += libdmo_plugin.la
++if !HAVE_WINSTORE
+ codec_LTLIBRARIES += libdmo_plugin.la
  endif
++endif
  
- libmft_plugin_la_SOURCES = codec/mft.c codec/h264_nal.c codec/h264_nal.h
+ libmft_plugin_la_SOURCES = codec/mft.c packetizer/h264_nal.c packetizer/h264_nal.h
+ if HAVE_WIN32
 -- 
-2.2.0
+1.9.5.msysgit.1
 

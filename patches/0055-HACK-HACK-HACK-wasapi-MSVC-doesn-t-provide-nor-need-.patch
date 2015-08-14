@@ -1,28 +1,29 @@
-From c194a52d94e635270b9532fbb9f3a9ee963469fd Mon Sep 17 00:00:00 2001
+From 840826d159e188f8dec2f59bc4ba97730781df2f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 10:40:29 +0100
-Subject: [PATCH 55/74] HACK HACK HACK: wasapi: MSVC doesn't provide nor need
+Subject: [PATCH 055/128] HACK HACK HACK: wasapi: MSVC doesn't provide nor need
  -lksuser
 
 ---
- modules/audio_output/Makefile.am | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ modules/audio_output/Makefile.am | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/modules/audio_output/Makefile.am b/modules/audio_output/Makefile.am
-index 589e5fe..c48590c 100644
+index 366193b..982e2ba 100644
 --- a/modules/audio_output/Makefile.am
 +++ b/modules/audio_output/Makefile.am
-@@ -61,7 +61,9 @@ libmmdevice_plugin_la_LIBADD = -lole32 $(LIBM)
+@@ -62,7 +62,10 @@ libmmdevice_plugin_la_LIBADD = -lole32 $(LIBM)
  libwinstore_plugin_la_SOURCES = audio_output/winstore.c audio_output/mmdevice.h
  libwinstore_plugin_la_LIBADD = -lole32
  libwasapi_plugin_la_SOURCES = audio_output/wasapi.c
 -libwasapi_plugin_la_LIBADD = -lole32 -lksuser
 +libwasapi_plugin_la_LIBADD = -lole32
-+# FIXME
-+#libwasapi_plugin_la_LIBADD += -lksuser
++if !HAVE_WINSTORE
++libwasapi_plugin_la_LIBADD += -lksuser
++endif
  if HAVE_WASAPI
  aout_LTLIBRARIES += libwasapi_plugin.la
  if !HAVE_WINSTORE
 -- 
-2.2.0
+1.9.5.msysgit.1
 
