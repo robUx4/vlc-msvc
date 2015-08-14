@@ -1,0 +1,58 @@
+From bcc12a91ec5351a79e09b97b238cd42a127ee95c Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 13 Aug 2015 18:14:28 +0200
+Subject: [PATCH 091/128] define MS_GUID as DEFINE_GUID for MSVC
+
+---
+ modules/codec/avcodec/d3d11va.c    | 5 ++++-
+ modules/codec/avcodec/directx_va.c | 3 +++
+ modules/codec/avcodec/dxva2.c      | 3 +++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/modules/codec/avcodec/d3d11va.c b/modules/codec/avcodec/d3d11va.c
+index 867e4f6..d1b15b9 100644
+--- a/modules/codec/avcodec/d3d11va.c
++++ b/modules/codec/avcodec/d3d11va.c
+@@ -77,7 +77,10 @@ vlc_module_end()
+ #  include <dxva.h>
+ # endif
+ 
+-#endif /* __MINGW32__ */
++#elif defined(_MSC_VER)
++#  undef MS_GUID
++#  define MS_GUID DEFINE_GUID
++#endif /* _MSC_VER */
+ 
+ #if !defined(NDEBUG) && defined(HAVE_DXGIDEBUG_H)
+ # include <dxgidebug.h>
+diff --git a/modules/codec/avcodec/directx_va.c b/modules/codec/avcodec/directx_va.c
+index 034a572..afec1ff 100644
+--- a/modules/codec/avcodec/directx_va.c
++++ b/modules/codec/avcodec/directx_va.c
+@@ -69,6 +69,9 @@ static const int PROF_HEVC_MAIN10[]  = { FF_PROFILE_HEVC_MAIN,
+ #  include <dxva.h>
+ # endif
+ 
++#elif _MSC_VER
++#  undef MS_GUID
++#  define MS_GUID DEFINE_GUID
+ #endif /* __MINGW32__ */
+ 
+ /* Codec capabilities GUID, sorted by codec */
+diff --git a/modules/codec/avcodec/dxva2.c b/modules/codec/avcodec/dxva2.c
+index d92384b..c78b040 100644
+--- a/modules/codec/avcodec/dxva2.c
++++ b/modules/codec/avcodec/dxva2.c
+@@ -70,6 +70,9 @@ vlc_module_end()
+ #  include <dxva.h>
+ # endif
+ 
++#elif _MSC_VER
++#  undef MS_GUID
++#  define MS_GUID DEFINE_GUID
+ #endif /* __MINGW32__ */
+ 
+ MS_GUID(IID_IDirectXVideoDecoderService, 0xfc51a551, 0xd5e7, 0x11d9, 0xaf,0x55,0x00,0x05,0x4e,0x43,0xff,0x02);
+-- 
+1.9.5.msysgit.1
+

@@ -1,0 +1,55 @@
+From 3bbccf03ad5c1b8eb638febd3f2f68572a16fd83 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Fri, 14 Aug 2015 08:48:55 +0200
+Subject: [PATCH 082/128] contrib: fix mpg123 linking with MSVC
+
+---
+ contrib/src/mpg123/msvc.patch | 21 +++++++++++++++++++++
+ contrib/src/mpg123/rules.mak  |  3 +++
+ 2 files changed, 24 insertions(+)
+ create mode 100644 contrib/src/mpg123/msvc.patch
+
+diff --git a/contrib/src/mpg123/msvc.patch b/contrib/src/mpg123/msvc.patch
+new file mode 100644
+index 0000000..8a1f167
+--- /dev/null
++++ b/contrib/src/mpg123/msvc.patch
+@@ -0,0 +1,21 @@
++--- mpg123/configure.ac 2015-08-13 11:18:04.902004500 +0200
+++++ mpg123/configure.ac.msvc    2015-08-13 11:29:05.737677800 +0200
++@@ -177,6 +177,7 @@
++ AC_SUBST(MODULE_OBJ)
++ AC_SUBST(LT_LDFLAGS)
++ AC_SUBST(EXEC_LT_LDFLAGS)
+++AC_SUBST(LIBEXT, .$libext)
++
++ dnl ############## Configurable Options
++
++
++--- mpg123/libmpg123.pc.in      2014-09-28 23:27:28.000000000 +0200
+++++ mpg123/libmpg123.pc.in.msvc 2015-08-13 11:32:39.983974800 +0200
++@@ -7,5 +7,5 @@
++ Description: An optimised MPEG Audio decoder
++ Requires:
++ Version: @PACKAGE_VERSION@
++-Libs: -L${libdir} -lmpg123
+++Libs: -L${libdir} -lmpg123@LIBEXT@
++ Cflags: -I${includedir}
++
+diff --git a/contrib/src/mpg123/rules.mak b/contrib/src/mpg123/rules.mak
+index 0900208..e353ed8 100644
+--- a/contrib/src/mpg123/rules.mak
++++ b/contrib/src/mpg123/rules.mak
+@@ -18,6 +18,9 @@ mpg123: mpg123-$(MPG123_VERSION).tar.bz2 .sum-mpg123
+ ifdef HAVE_WINRT
+ 	$(APPLY) $(SRC)/mpg123/winstore.patch
+ endif
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/mpg123/msvc.patch
++endif
+ 	$(MOVE)
+ 
+ .mpg123: mpg123
+-- 
+1.9.5.msysgit.1
+

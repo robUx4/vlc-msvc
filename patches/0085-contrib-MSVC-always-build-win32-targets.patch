@@ -1,0 +1,26 @@
+From 78170992d6580a1fed303fd9854b82b5aed5e9c5 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 11:40:21 +0200
+Subject: [PATCH 085/128] contrib: MSVC always build win32 targets
+
+---
+ contrib/src/ffmpeg/rules.mak | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index 3bb91c6..90ec15f 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -151,6 +151,9 @@ endif
+ endif
+ FFMPEGCONF += --target-os=mingw32 --enable-memalign-hack
+ FFMPEGCONF += --enable-w32threads --enable-dxva2
++ifdef HAVE_VISUALSTUDIO
++FFMPEGCONF += --target-os=win32
++endif
+ 
+ ifdef HAVE_WIN64
+ FFMPEGCONF += --cpu=athlon64 --arch=x86_64
+-- 
+1.9.5.msysgit.1
+

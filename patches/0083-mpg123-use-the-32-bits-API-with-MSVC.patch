@@ -1,0 +1,28 @@
+From 20c7568625ff790fcee04795e1d77831428660f6 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 11:54:30 +0200
+Subject: [PATCH 083/128] mpg123: use the 32 bits API with MSVC
+
+---
+ modules/codec/mpg123.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/modules/codec/mpg123.c b/modules/codec/mpg123.c
+index 3a5d07a..52e0069 100644
+--- a/modules/codec/mpg123.c
++++ b/modules/codec/mpg123.c
+@@ -28,6 +28,11 @@
+ # include "config.h"
+ #endif
+ 
++#if VLC_WINSTORE_APP && defined(_MSC_VER)
++#undef _FILE_OFFSET_BITS
++#define _FILE_OFFSET_BITS 32
++#endif
++
+ #include <mpg123.h>
+ 
+ #include <vlc_common.h>
+-- 
+1.9.5.msysgit.1
+

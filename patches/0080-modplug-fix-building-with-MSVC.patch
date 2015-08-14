@@ -1,0 +1,136 @@
+From 217fb3ab05c44033c3240122359b8399844d0628 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Fri, 26 Jun 2015 09:29:55 +0200
+Subject: [PATCH 080/128] modplug: fix building with MSVC
+
+---
+ contrib/src/modplug/msvc.patch | 57 ++++++++++++++++++++++++++++++++++++++++++
+ contrib/src/modplug/rules.mak  | 53 +++++++++++++++++++++------------------
+ 2 files changed, 85 insertions(+), 25 deletions(-)
+ create mode 100644 contrib/src/modplug/msvc.patch
+
+diff --git a/contrib/src/modplug/msvc.patch b/contrib/src/modplug/msvc.patch
+new file mode 100644
+index 0000000..8ccf42b
+--- /dev/null
++++ b/contrib/src/modplug/msvc.patch
+@@ -0,0 +1,57 @@
++--- libmodplug/src/libmodplug/stdafx.h  2014-03-10 00:52:07.000000000 +0100
+++++ libmodplug.ok/src/libmodplug/stdafx.h       2015-06-25 18:47:50.236561100 +0200
++@@ -52,6 +52,24 @@
++ #define isblank(c) ((c) == ' ' || (c) == '\t')
++ #endif
++
+++#include <winapifamily.h>
+++#if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+++#define lstrcpyn strncpy
+++#define lstrcpy strcpy
+++#define lstrcmp strcmp
+++inline int8_t * GlobalAllocPtr(unsigned int, size_t size)
+++{
+++  int8_t * p = (int8_t *) malloc(size);
+++
+++  if (p != NULL) memset(p, 0, size);
+++  return p;
+++}
+++
+++#define GlobalFreePtr(p) free((void *)(p))
+++#define wsprintf                       sprintf
+++#define WAVE_FORMAT_PCM 1
+++#endif
+++
++ #else
++
++ #include <stdlib.h>
++
++--- libmodplug/src/load_abc.cpp 2014-03-10 00:53:33.000000000 +0100
+++++ libmodplug.ok/src/load_abc.cpp      2015-06-26 07:28:23.103429900 +0200
++@@ -2251,11 +2251,11 @@
++        if( m->n ) {
++                k = m->n - m->name;
++                for( i=0; i<14; i++ ) {
++-                       char t[strlen(m->name) + 1];
+++                       char *t = (char*) alloca(strlen(m->name) + 1);
++                        strcpy(t, m->name);
++                        t[k] = "CDEFGABcdefgab"[i];
++                        l = strlen(m->subst);
++-                       char s[2 * l + 1];
+++                       char *s = (char*) alloca(2 * l + 1);
++                        char *p = s;
++                        for( j=0; j<l; j++ ) {
++                                a = m->subst[j];
++
++--- libmodplug/src/load_amf.cpp 2014-02-03 00:31:02.000000000 +0100
+++++ libmodplug.ok/src/load_amf.cpp      2015-06-26 07:22:24.448916000 +0200
++@@ -170,7 +170,7 @@
++        DWORD dwMemPos;
++
++        if ((!lpStream) || (dwMemLength < 2048)) return FALSE;
++-       if ((!strncmp((LPCTSTR)lpStream, "ASYLUM Music Format V1.0", 25)) && (dwMemLength > 4096))
+++       if ((!strncmp((const char *)lpStream, "ASYLUM Music Format V1.0", 25)) && (dwMemLength > 4096))
++        {
++                UINT numorders, numpats, numsamples;
++
++
+diff --git a/contrib/src/modplug/rules.mak b/contrib/src/modplug/rules.mak
+index a82a4d3..0af81d6 100644
+--- a/contrib/src/modplug/rules.mak
++++ b/contrib/src/modplug/rules.mak
+@@ -1,26 +1,29 @@
+-# modplug
+-
+-MODPLUG_VERSION := 0.8.8.5
+-MODPLUG_URL := $(SF)/modplug-xmms/libmodplug-$(MODPLUG_VERSION).tar.gz
+-
+-PKGS += modplug
+-ifeq ($(call need_pkg,"libmodplug >= 0.8.8.5"),)
+-PKGS_FOUND += modplug
++# modplug
++
++MODPLUG_VERSION := 0.8.8.5
++MODPLUG_URL := $(SF)/modplug-xmms/libmodplug-$(MODPLUG_VERSION).tar.gz
++
++PKGS += modplug
++ifeq ($(call need_pkg,"libmodplug >= 0.8.8.5"),)
++PKGS_FOUND += modplug
++endif
++
++$(TARBALLS)/libmodplug-$(MODPLUG_VERSION).tar.gz:
++	$(call download,$(MODPLUG_URL))
++
++.sum-modplug: libmodplug-$(MODPLUG_VERSION).tar.gz
++
++libmodplug: libmodplug-$(MODPLUG_VERSION).tar.gz .sum-modplug
++	$(UNPACK)
++	$(APPLY) $(SRC)/modplug/modplug-win32-static.patch
++	$(call pkg_static,"libmodplug.pc.in")
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/modplug/msvc.patch
+ endif
+-
+-$(TARBALLS)/libmodplug-$(MODPLUG_VERSION).tar.gz:
+-	$(call download,$(MODPLUG_URL))
+-
+-.sum-modplug: libmodplug-$(MODPLUG_VERSION).tar.gz
+-
+-libmodplug: libmodplug-$(MODPLUG_VERSION).tar.gz .sum-modplug
+-	$(UNPACK)
+-	$(APPLY) $(SRC)/modplug/modplug-win32-static.patch
+-	$(call pkg_static,"libmodplug.pc.in")
+-	$(MOVE)
+-
+-.modplug: libmodplug
+-	$(RECONF)
+-	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
+-	cd $< && $(MAKE) install
+-	touch $@
++	$(MOVE)
++
++.modplug: libmodplug
++	$(RECONF)
++	cd $< && $(HOSTVARS) ./configure $(HOSTCONF)
++	cd $< && $(MAKE) install
++	touch $@
+-- 
+1.9.5.msysgit.1
+
