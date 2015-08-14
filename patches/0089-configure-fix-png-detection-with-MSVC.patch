@@ -1,0 +1,27 @@
+From f8ef06a0e3a29658c618aceda281c774ed8bb191 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 12:11:00 +0200
+Subject: [PATCH 089/128] configure: fix png detection with MSVC
+
+---
+ configure.ac | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 800d218..9bd91e1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2739,7 +2739,9 @@ AC_CHECK_HEADERS(png.h, [
+   LDFLAGS="${LDFLAGS} -lz $LIBM"
+   AC_CHECK_LIB(png, png_set_rows, [
+     VLC_ADD_PLUGIN([png])
+-  ], [], [-lz $LIBM])
++  ], [
++    PKG_CHECK_MODULES([png], [libpng], VLC_ADD_PLUGIN([png]))
++  ], [-lz $LIBM])
+   VLC_RESTORE_FLAGS
+   ])
+ ])
+-- 
+1.9.5.msysgit.1
+
