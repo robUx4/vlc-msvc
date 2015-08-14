@@ -1,0 +1,25 @@
+From dcdc0529d814a89457ad9fa28302e1994034e15c Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Tue, 11 Aug 2015 15:30:53 +0200
+Subject: [PATCH 109/128] direct3d11: fix multiple subpicture reusing crash
+
+---
+ modules/video_output/msw/direct3d11.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/video_output/msw/direct3d11.c b/modules/video_output/msw/direct3d11.c
+index 9ea46a6..8581651 100644
+--- a/modules/video_output/msw/direct3d11.c
++++ b/modules/video_output/msw/direct3d11.c
+@@ -1648,7 +1648,7 @@ static int Direct3D11MapSubpicture(vout_display_t *vd, int *subpicture_region_co
+     for (subpicture_region_t *r = subpicture->p_region; r; r = r->p_next, i++) {
+         for (int j = 0; j < sys->d3dregion_count; j++) {
+             picture_t *cache = sys->d3dregions[j];
+-            if (((d3d_quad_t *) cache->p_sys)->pTexture) {
++            if (cache != NULL && ((d3d_quad_t *) cache->p_sys)->pTexture) {
+                 ID3D11Texture2D_GetDesc( ((d3d_quad_t *) cache->p_sys)->pTexture, &texDesc );
+                 if (texDesc.Format == sys->d3dregion_format &&
+                     texDesc.Width  == r->fmt.i_visible_width &&
+-- 
+1.9.5.msysgit.1
+
