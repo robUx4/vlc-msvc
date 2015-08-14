@@ -1,0 +1,39 @@
+From ad0e46472d633066418fe3fea55cb96be6e2a8c0 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 6 Aug 2015 16:18:55 +0200
+Subject: [PATCH 099/128] disable temp folders on Winstore for now
+
+---
+ include/vlc_fixups.h | 2 +-
+ src/text/strings.c   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
+index 5657b86..5d811b4 100644
+--- a/include/vlc_fixups.h
++++ b/include/vlc_fixups.h
+@@ -421,7 +421,7 @@ void freeaddrinfo (struct addrinfo *res);
+ #define nanf(tagp) NAN
+ #endif
+ 
+-#ifdef _WIN32
++#if defined(_WIN32) && !VLC_WINSTORE_APP
+ FILE *vlc_win32_tmpfile(void);
+ #endif
+ 
+diff --git a/src/text/strings.c b/src/text/strings.c
+index 433a0eb..606bb17 100644
+--- a/src/text/strings.c
++++ b/src/text/strings.c
+@@ -545,7 +545,7 @@ char *str_format_meta(input_thread_t *input, const char *s)
+     size_t len;
+ #ifdef HAVE_OPEN_MEMSTREAM
+     FILE *stream = open_memstream(&str, &len);
+-#elif defined( _WIN32 )
++#elif defined(_WIN32) && !VLC_WINSTORE_APP
+     FILE *stream = vlc_win32_tmpfile();
+ #else
+     FILE *stream = tmpfile();
+-- 
+1.9.5.msysgit.1
+

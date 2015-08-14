@@ -1,0 +1,29 @@
+From 39c693f3d1c32c8c2a2d9bc85990819a56124d03 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Fri, 31 Jul 2015 11:09:26 +0200
+Subject: [PATCH 116/128] contrib: add HAVE_WINRT for WinRT/WindowsPhone
+ targets
+
+---
+ contrib/bootstrap | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/contrib/bootstrap b/contrib/bootstrap
+index 6331190..cb0af1a 100755
+--- a/contrib/bootstrap
++++ b/contrib/bootstrap
+@@ -306,6 +306,11 @@ case "${OS}" in
+ 		;;
+ 	*mingw*)
+ 		add_make_enabled "HAVE_WIN32"
++		case "${HOST}" in
++			*winphone*|*windowsphone*|*winrt*)
++			add_make_enabled "HAVE_WINRT"
++			;;
++		esac
+ 		;;
+ 	*solaris*)
+ 		add_make_enabled "HAVE_SOLARIS"
+-- 
+1.9.5.msysgit.1
+

@@ -1,0 +1,25 @@
+From 44dfa4fe1e39aceb6a5bd92965fe3fbeeb7e5b73 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Fri, 31 Jul 2015 10:42:53 +0200
+Subject: [PATCH 097/128] contribs: disable harfbuzz for WinRT
+
+---
+ contrib/src/ass/rules.mak | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/src/ass/rules.mak b/contrib/src/ass/rules.mak
+index 966c9fd..a71c0ed 100644
+--- a/contrib/src/ass/rules.mak
++++ b/contrib/src/ass/rules.mak
+@@ -21,7 +21,7 @@ WITH_HARFBUZZ = 1
+ else
+ ifdef HAVE_WINRT
+ WITH_FONTCONFIG = 0
+-WITH_HARFBUZZ = 1
++WITH_HARFBUZZ = 0
+ else
+ WITH_FONTCONFIG = 1
+ WITH_HARFBUZZ = 1
+-- 
+1.9.5.msysgit.1
+

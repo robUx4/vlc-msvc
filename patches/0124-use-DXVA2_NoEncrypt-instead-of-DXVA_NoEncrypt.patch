@@ -1,0 +1,57 @@
+From 710c3e368c40a7136a36cd1360477d509328693f Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 6 Aug 2015 16:21:36 +0200
+Subject: [PATCH 124/128] use DXVA2_NoEncrypt instead of DXVA_NoEncrypt
+
+---
+ modules/codec/avcodec/d3d11va.c | 4 +++-
+ modules/codec/avcodec/dxva2.c   | 4 ++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/modules/codec/avcodec/d3d11va.c b/modules/codec/avcodec/d3d11va.c
+index f1e3e27..f86be8e 100644
+--- a/modules/codec/avcodec/d3d11va.c
++++ b/modules/codec/avcodec/d3d11va.c
+@@ -103,6 +103,8 @@ DEFINE_GUID(IID_ID3D10Multithread,   0x9b7e4e00, 0x342c, 0x4106, 0xa1, 0x9f, 0x4
+ 
+ DEFINE_GUID(DXVA_Intel_H264_NoFGT_ClearVideo,       0x604F8E68, 0x4951, 0x4c54, 0x88, 0xFE, 0xAB, 0xD2, 0x5C, 0x15, 0xB3, 0xD6);
+ 
++DEFINE_GUID(DXVA2_NoEncrypt,                        0x1b81bed0, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5);
++
+ struct vlc_va_sys_t
+ {
+     directx_sys_t                dx_sys;
+@@ -957,7 +959,7 @@ static int DxCreateDecoderSurfaces(vlc_va_t *va, int codec_id, const video_forma
+             score = 2;
+         else
+             continue;
+-        if (IsEqualGUID(&cfg->guidConfigBitstreamEncryption, &DXVA_NoEncrypt))
++        if (IsEqualGUID(&cfg->guidConfigBitstreamEncryption, &DXVA2_NoEncrypt))
+             score += 16;
+ 
+         if (cfg_score < score) {
+diff --git a/modules/codec/avcodec/dxva2.c b/modules/codec/avcodec/dxva2.c
+index 6316a51..ea29edc 100644
+--- a/modules/codec/avcodec/dxva2.c
++++ b/modules/codec/avcodec/dxva2.c
+@@ -78,7 +78,7 @@ vlc_module_end()
+ MS_GUID(IID_IDirectXVideoDecoderService, 0xfc51a551, 0xd5e7, 0x11d9, 0xaf,0x55,0x00,0x05,0x4e,0x43,0xff,0x02);
+ MS_GUID(IID_IDirectXVideoAccelerationService, 0xfc51a550, 0xd5e7, 0x11d9, 0xaf,0x55,0x00,0x05,0x4e,0x43,0xff,0x02);
+ 
+-MS_GUID    (DXVA_NoEncrypt,                         0x1b81bed0, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5);
++DEFINE_GUID(DXVA2_NoEncrypt,                        0x1b81bed0, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5);
+ 
+ DEFINE_GUID(DXVA_Intel_H264_NoFGT_ClearVideo,       0x604F8E68, 0x4951, 0x4c54, 0x88, 0xFE, 0xAB, 0xD2, 0x5C, 0x15, 0xB3, 0xD6);
+ 
+@@ -748,7 +748,7 @@ static int DxCreateVideoDecoder(vlc_va_t *va, int codec_id, const video_format_t
+             score = 2;
+         else
+             continue;
+-        if (IsEqualGUID(&cfg->guidConfigBitstreamEncryption, &DXVA_NoEncrypt))
++        if (IsEqualGUID(&cfg->guidConfigBitstreamEncryption, &DXVA2_NoEncrypt))
+             score += 16;
+ 
+         if (cfg_score < score) {
+-- 
+1.9.5.msysgit.1
+

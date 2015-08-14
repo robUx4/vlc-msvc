@@ -1,0 +1,24 @@
+From e5adac551d56622b6e63f3c7ef8788b3f401bb78 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 12:05:28 +0200
+Subject: [PATCH 098/128] contrib: aribb24 needs png dependency
+
+---
+ contrib/src/aribb24/rules.mak | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/contrib/src/aribb24/rules.mak b/contrib/src/aribb24/rules.mak
+index 934fc9a..e8b3c8d 100644
+--- a/contrib/src/aribb24/rules.mak
++++ b/contrib/src/aribb24/rules.mak
+@@ -7,6 +7,7 @@ PKGS += aribb24
+ ifeq ($(call need_pkg,"aribb24"),)
+ PKGS_FOUND += aribb24
+ endif
++DEPS_ffmpeg += png
+ 
+ $(TARBALLS)/aribb24-$(ARIBB24_VERSION).tar.gz:
+ 	$(call download,$(ARIBB24_URL))
+-- 
+1.9.5.msysgit.1
+
