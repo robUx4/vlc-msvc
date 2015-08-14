@@ -1,0 +1,63 @@
+From 2a3ae2c3466b12b21654fe329ffe4174d4e06d20 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Fri, 14 Aug 2015 13:08:28 +0200
+Subject: [PATCH 013/128] contribs: add a CMAKE target to for the use of our
+ fixup.h
+
+---
+ contrib/src/main.mak | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/src/main.mak b/contrib/src/main.mak
+index 238ea42..b9c8794 100644
+--- a/contrib/src/main.mak
++++ b/contrib/src/main.mak
+@@ -165,6 +165,12 @@ EXTRA_LDFLAGS += -m32
+ endif
+ endif
+ 
++ifdef HAVE_WINRT
++ifdef HAVE_VISUALSTUDIO
++EXTRA_CMAKE_FLAGS += -FI`cygpath -w ../../../../headers/fixup.h`
++endif
++endif
++
+ cppcheck = $(shell $(CC) $(CFLAGS) -E -dM - < /dev/null | grep -E $(1))
+ 
+ EXTRA_CFLAGS += -I$(PREFIX)/include
+@@ -306,6 +312,11 @@ HOSTVARS_PIC := $(HOSTTOOLS) \
+ 	CFLAGS="$(CFLAGS) $(PIC)" \
+ 	CXXFLAGS="$(CXXFLAGS) $(PIC)" \
+ 	LDFLAGS="$(LDFLAGS)"
++HOSTVARS_CMAKE :=  $(HOSTTOOLS) \
++	CPPFLAGS="$(CPPFLAGS) $(PIC)" \
++	CFLAGS="$(CFLAGS) $(EXTRA_CMAKE_FLAGS) $(PIC)" \
++	CXXFLAGS="$(CXXFLAGS) $(EXTRA_CMAKE_FLAGS) $(PIC)" \
++	LDFLAGS="$(LDFLAGS)"
+ 
+ download_git = \
+ 	rm -Rf $(@:.tar.xz=) && \
+@@ -348,7 +359,8 @@ endif
+ RECONF = mkdir -p -- $(PREFIX)/share/aclocal && \
+ 	cd $< && $(AUTORECONF) -fiv $(ACLOCAL_AMFLAGS)
+ CMAKE = cmake . -DCMAKE_TOOLCHAIN_FILE=$(abspath toolchain.cmake) \
+-		-DCMAKE_INSTALL_PREFIX=$(PREFIX)
++		-DCMAKE_INSTALL_PREFIX=$(PREFIX) \
++		$(CMAKE_TARGET)
+ 
+ #
+ # Per-package build rules
+@@ -439,7 +451,10 @@ list:
+ toolchain.cmake:
+ 	$(RM) $@
+ ifdef HAVE_WIN32
++ifdef HAVE_WINRT
++else
+ 	echo "set(CMAKE_SYSTEM_NAME Windows)" >> $@
++endif
+ 	echo "set(CMAKE_RC_COMPILER $(HOST)-windres)" >> $@
+ endif
+ ifdef HAVE_DARWIN_OS
+-- 
+1.9.5.msysgit.1
+
