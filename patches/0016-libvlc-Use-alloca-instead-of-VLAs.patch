@@ -1,7 +1,7 @@
-From 936303ea9cce97bb97eba236d69a1d8569bbdcd4 Mon Sep 17 00:00:00 2001
+From bbfddf26da9197faf4e7cfdd22f9c97ef257ea58 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:27:19 +0200
-Subject: [PATCH 16/74] libvlc: Use alloca instead of VLAs
+Subject: [PATCH 016/128] libvlc: Use alloca instead of VLAs
 
 ---
  lib/core.c | 2 +-
@@ -21,5 +21,5 @@ index fa5c4de..4e50904 100644
      for( int i = 0; i < argc; i++ )
           my_argv[i + 1] = argv[i];
 -- 
-2.2.0
+1.9.5.msysgit.1
 

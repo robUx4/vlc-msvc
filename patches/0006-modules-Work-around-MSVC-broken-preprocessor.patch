@@ -1,7 +1,7 @@
-From 773058c07e9d2921d49cce6a0d67c8b114ea3762 Mon Sep 17 00:00:00 2001
+From 7fc074a5f18cc0f91537f9a4d4b0a3abde932329 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:09:04 +0200
-Subject: [PATCH 06/74] modules: Work around MSVC broken preprocessor
+Subject: [PATCH 006/128] modules: Work around MSVC broken preprocessor
 
 ---
  modules/access/dtv/access.c                  | 10 +++++++---
@@ -10,7 +10,7 @@ Subject: [PATCH 06/74] modules: Work around MSVC broken preprocessor
  3 files changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/modules/access/dtv/access.c b/modules/access/dtv/access.c
-index f7d3bef..cc8cd6c 100644
+index fd868ab..4813756 100644
 --- a/modules/access/dtv/access.c
 +++ b/modules/access/dtv/access.c
 @@ -245,13 +245,17 @@ vlc_module_begin ()
@@ -35,10 +35,10 @@ index f7d3bef..cc8cd6c 100644
  
  #ifdef HAVE_LINUX_DVB
 diff --git a/modules/demux/mkv/matroska_segment_parse.cpp b/modules/demux/mkv/matroska_segment_parse.cpp
-index ff47a2b5..029770f 100644
+index 185fecc6..b40bd8a 100644
 --- a/modules/demux/mkv/matroska_segment_parse.cpp
 +++ b/modules/demux/mkv/matroska_segment_parse.cpp
-@@ -991,13 +991,12 @@ void matroska_segment_c::ParseChapterAtom( int i_level, KaxChapterAtom *ca, chap
+@@ -994,13 +994,12 @@ void matroska_segment_c::ParseChapterAtom( int i_level, KaxChapterAtom *ca, chap
          else if( MKV_IS_ID( l, KaxChapterSegmentEditionUID ) )
          {
              chapters.p_segment_edition_uid = new KaxChapterSegmentEditionUID( *static_cast<KaxChapterSegmentEditionUID*>(l) );
@@ -56,10 +56,10 @@ index ff47a2b5..029770f 100644
          else if( MKV_IS_ID( l, KaxChapterTimeStart ) )
          {
 diff --git a/modules/demux/mp4/mp4.c b/modules/demux/mp4/mp4.c
-index e221024..6a0757f 100644
+index cd046d0..69f7855 100644
 --- a/modules/demux/mp4/mp4.c
 +++ b/modules/demux/mp4/mp4.c
-@@ -623,14 +623,15 @@ static int Open( vlc_object_t * p_this )
+@@ -630,14 +630,15 @@ static int Open( vlc_object_t * p_this )
              case MAJOR_3gp5:
              case MAJOR_3gp6:
              case MAJOR_3gp7:
@@ -80,5 +80,5 @@ index e221024..6a0757f 100644
                  msg_Dbg( p_demux, "Apple QuickTime file" );
                  break;
 -- 
-2.2.0
+1.9.5.msysgit.1
 

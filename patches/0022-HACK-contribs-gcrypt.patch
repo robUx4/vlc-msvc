@@ -1,7 +1,7 @@
-From df284ebdad3a744da6b91f836303e8fe008b8654 Mon Sep 17 00:00:00 2001
+From c01dd9b9e90a48be7d023e9f8ac700d88db9b2db Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:38 +0200
-Subject: [PATCH 22/74] HACK: contribs: gcrypt
+Subject: [PATCH 022/128] HACK: contribs: gcrypt
 
 AKA work around my lack of autotools skills
 ---
@@ -24,5 +24,5 @@ index 6ba2eaa..ea86759 100644
 +endif
  	touch $@
 -- 
-2.2.0
+1.9.5.msysgit.1
 
