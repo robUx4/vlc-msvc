@@ -1,34 +1,38 @@
-From 219f270722af4830ef9e5efe24b135943d7fe03f Mon Sep 17 00:00:00 2001
+From 346b8a235d9d8034f6b2efb1a12f1c9e452ea713 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 14:44:46 +0100
-Subject: [PATCH 35/74] rand: Provide COBJMACROS
+Subject: [PATCH 035/128] rand: link properly to RoGetActivationFactory, MSVC
+ can't use roapi.h from a C file
 
 ---
- src/win32/rand.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ src/win32/rand.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/src/win32/rand.c b/src/win32/rand.c
-index 948daea..3367416 100644
+index 948daea..9b0d704 100644
 --- a/src/win32/rand.c
 +++ b/src/win32/rand.c
-@@ -32,6 +32,17 @@
+@@ -30,8 +30,19 @@
+ # define COBJMACROS
+ # define INITGUID
  # include <winstring.h>
- # include <roapi.h>
+-# include <roapi.h>
  # include <windows.security.cryptography.h>
-+# ifdef _MSC_VER
-+#  ifndef __cplusplus
++# ifndef _MSC_VER /* roapi.h is a C++ include file that doesn't work with C files */
++#  include <roapi.h>
++# else /* _MSC_VER */
++DECLSPEC_IMPORT HRESULT WINAPI RoGetActivationFactory(_In_ HSTRING activatableClassId, _In_ REFIID iid,  _COM_Outptr_ void ** factory);
 +typedef __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics ICryptographicBufferStatics;
 +typedef __x_ABI_CWindows_CStorage_CStreams_CIBuffer IBuffer;
 +#   define ICryptographicBufferStatics_Release __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics_Release
 +#   define ICryptographicBufferStatics_CopyToByteArray __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics_CopyToByteArray
 +#   define IBuffer_Release __x_ABI_CWindows_CStorage_CStreams_CIBuffer_Release
 +#   define ICryptographicBufferStatics_GenerateRandom __x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics_GenerateRandom
-+#  endif
 +DEFINE_GUID(IID_ICryptographicBufferStatics, 0x320b7e22, 0x3cb0, 0x4cdf, 0x86,0x63, 0x1d,0x28,0x91,0x00,0x65,0xeb);
-+# endif
++# endif /* _MSC_VER */
  #else
  # include <wincrypt.h>
  #endif
 -- 
-2.2.0
+1.9.5.msysgit.1
 
