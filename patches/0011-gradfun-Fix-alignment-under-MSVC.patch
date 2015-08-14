@@ -1,7 +1,7 @@
-From 7df57a94a18b23cbdc69b28c709299465fae5c03 Mon Sep 17 00:00:00 2001
+From 317badb392898dfe60f5c5be379ae1367d89b802 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 09:56:13 +0200
-Subject: [PATCH 11/74] gradfun: Fix alignment under MSVC
+Subject: [PATCH 011/129] gradfun: Fix alignment under MSVC
 
 ---
  modules/video_filter/gradfun.h | 15 +++++++++++++++
@@ -41,5 +41,5 @@ index 7094c6d..9f3e355 100644
  static void filter_line_c(uint8_t *dst, uint8_t *src, uint16_t *dc,
                            int width, int thresh, const uint16_t *dithers)
 -- 
-2.2.0
+1.9.5.msysgit.1
 

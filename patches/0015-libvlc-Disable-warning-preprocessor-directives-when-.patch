@@ -1,7 +1,7 @@
-From e9ac7d01cc44271574bb9891e7e90a2b18fb67d7 Mon Sep 17 00:00:00 2001
+From cd019e01e541f5f27821e7c91d8dd1d0cc83afa7 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:26:48 +0200
-Subject: [PATCH 15/74] libvlc: Disable warning preprocessor directives when
+Subject: [PATCH 015/129] libvlc: Disable warning preprocessor directives when
  building with MSVC
 
 ---
@@ -23,5 +23,5 @@ index d4dae1a..480e86e 100644
          return -1;
      }
 -- 
-2.2.0
+1.9.5.msysgit.1
 

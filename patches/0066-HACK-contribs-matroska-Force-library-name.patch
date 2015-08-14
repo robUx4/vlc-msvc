@@ -1,7 +1,7 @@
-From d717cb1dba6ad28d60ae63a41968b4dc3344c220 Mon Sep 17 00:00:00 2001
+From 235f7f1c0ef1d7b51833fd71d65b1cbe45992117 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 12 Feb 2015 15:56:05 +0100
-Subject: [PATCH 66/74] HACK: contribs: matroska: Force library name
+Subject: [PATCH 066/129] HACK: contribs: matroska: Force library name
 
 ---
  contrib/src/matroska/rules.mak | 3 +++
@@ -20,5 +20,5 @@ index c71ee83..c29b093 100644
 +endif
  	touch $@
 -- 
-2.2.0
+1.9.5.msysgit.1
 

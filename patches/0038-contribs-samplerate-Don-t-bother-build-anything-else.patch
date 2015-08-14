@@ -1,8 +1,8 @@
-From f33c02b8ab7e68643a5d3361d9ef4a7f2d979341 Mon Sep 17 00:00:00 2001
+From cf10c651e62c7c10e958f8fcc5290e0b57b4b220 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 15:43:14 +0100
-Subject: [PATCH 38/74] contribs: samplerate: Don't bother build anything else
- than the lib
+Subject: [PATCH 038/129] contribs: samplerate: Don't bother build anything
+ else than the lib
 
 ---
  contrib/src/samplerate/rules.mak | 2 +-
@@ -20,5 +20,5 @@ index c3548ba..c330009 100644
 +	cd $< && $(MAKE) -C src install
  	touch $@
 -- 
-2.2.0
+1.9.5.msysgit.1
 
