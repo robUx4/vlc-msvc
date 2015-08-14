@@ -1,0 +1,80 @@
+From c0a530548076c2064b73dc2a36187cb66e7160f2 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Fri, 31 Jul 2015 10:41:53 +0200
+Subject: [PATCH 121/128] contribs: only include strings.h if it's available
+
+---
+ contrib/src/ass/rules.mak     |  1 +
+ contrib/src/ass/strings.patch | 48 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 contrib/src/ass/strings.patch
+
+diff --git a/contrib/src/ass/rules.mak b/contrib/src/ass/rules.mak
+index be528a9..aa84ff7 100644
+--- a/contrib/src/ass/rules.mak
++++ b/contrib/src/ass/rules.mak
+@@ -39,6 +39,7 @@ libass: libass-$(ASS_VERSION).tar.gz .sum-ass
+ 	$(UNPACK)
+ 	$(APPLY) $(SRC)/ass/ass-macosx.patch
+ 	$(APPLY) $(SRC)/ass/ass-solaris.patch
++	$(APPLY) $(SRC)/ass/strings.patch
+ 	$(UPDATE_AUTOCONFIG)
+ 	$(MOVE)
+ 
+diff --git a/contrib/src/ass/strings.patch b/contrib/src/ass/strings.patch
+new file mode 100644
+index 0000000..7e028b2
+--- /dev/null
++++ b/contrib/src/ass/strings.patch
+@@ -0,0 +1,48 @@
++--- libass/libass/ass.c.orig	2015-07-10 18:30:35.165007300 +0200
+++++ libass/libass/ass.c	2015-07-10 18:35:00.583091000 +0200
++@@ -21,7 +21,9 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
+++#ifdef HAVE_STRINGS_H
++ #include <strings.h>
+++#endif
++ #include <assert.h>
++ #include <errno.h>
++ #include <sys/types.h>
++--- libass/libass/ass_font.c.orig	2015-07-10 18:30:37.924973400 +0200
+++++ libass/libass/ass_font.c	2015-07-10 18:35:03.696308800 +0200
++@@ -25,7 +25,9 @@
++ #include FT_GLYPH_H
++ #include FT_TRUETYPE_TABLES_H
++ #include FT_OUTLINE_H
+++#ifdef HAVE_STRINGS_H
++ #include <strings.h>
+++#endif
++ #include <limits.h>
++ 
++ #include "ass.h"
++--- libass/libass/ass_fontconfig.c.orig	2015-07-10 18:30:40.017464100 +0200
+++++ libass/libass/ass_fontconfig.c	2015-07-10 18:35:06.568353600 +0200
++@@ -22,7 +22,9 @@
++ #include <stdio.h>
++ #include <assert.h>
++ #include <string.h>
+++#ifdef HAVE_STRINGS_H
++ #include <strings.h>
+++#endif
++ #include <sys/types.h>
++ #include <sys/stat.h>
++ #include <inttypes.h>
++--- libass/libass/ass_utils.c.orig	2015-07-10 18:30:41.897803700 +0200
+++++ libass/libass/ass_utils.c	2015-07-10 18:35:09.705589800 +0200
++@@ -23,7 +23,9 @@
++ #include <stdio.h>
++ #include <stdint.h>
++ #include <inttypes.h>
+++#ifdef HAVE_STRINGS_H
++ #include <strings.h>
+++#endif
++ #include <limits.h>
++ 
++ #include "ass_library.h"
+-- 
+1.9.5.msysgit.1
+

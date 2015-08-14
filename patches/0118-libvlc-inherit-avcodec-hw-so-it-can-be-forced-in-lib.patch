@@ -1,0 +1,26 @@
+From d3df925ef43856928f231619da36fa903c43d495 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Mon, 3 Aug 2015 11:31:02 +0200
+Subject: [PATCH 118/128] libvlc: inherit avcodec-hw so it can be forced in
+ libvlc_new()
+
+---
+ lib/media_player.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/media_player.c b/lib/media_player.c
+index ba7158e..5c6a8c9 100644
+--- a/lib/media_player.c
++++ b/lib/media_player.c
+@@ -578,7 +578,7 @@ libvlc_media_player_new( libvlc_instance_t *instance )
+     var_Create (mp, "vmem-width", VLC_VAR_INTEGER | VLC_VAR_DOINHERIT);
+     var_Create (mp, "vmem-height", VLC_VAR_INTEGER | VLC_VAR_DOINHERIT);
+     var_Create (mp, "vmem-pitch", VLC_VAR_INTEGER | VLC_VAR_DOINHERIT);
+-    var_Create (mp, "avcodec-hw", VLC_VAR_STRING);
++    var_Create (mp, "avcodec-hw", VLC_VAR_STRING | VLC_VAR_DOINHERIT);
+     var_Create (mp, "drawable-xid", VLC_VAR_INTEGER);
+ #if defined (_WIN32) || defined (__OS2__)
+     var_Create (mp, "drawable-hwnd", VLC_VAR_INTEGER);
+-- 
+1.9.5.msysgit.1
+

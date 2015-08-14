@@ -1,0 +1,52 @@
+From b326a888556ca6f5ee8532a164bc9ff559fe0309 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Fri, 10 Jul 2015 18:22:56 +0200
+Subject: [PATCH 096/128] do not need ragel for harfbuzz
+
+---
+ contrib/src/harfbuzz/no-ragel.patch | 20 ++++++++++++++++++++
+ contrib/src/harfbuzz/rules.mak      |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 contrib/src/harfbuzz/no-ragel.patch
+
+diff --git a/contrib/src/harfbuzz/no-ragel.patch b/contrib/src/harfbuzz/no-ragel.patch
+new file mode 100644
+index 0000000..f9946d7
+--- /dev/null
++++ b/contrib/src/harfbuzz/no-ragel.patch
+@@ -0,0 +1,20 @@
++--- harfbuzz/autogen.sh.orig    2015-07-10 18:20:03.399104000 +0200
+++++ harfbuzz/autogen.sh 2015-07-10 18:20:26.183657700 +0200
++@@ -7,11 +7,11 @@
++ olddir=`pwd`
++ cd $srcdir
++
++-echo -n "checking for ragel... "
++-which ragel || {
++-       echo "You need to install ragel... See http://www.complang.org/ragel/"
++-       exit 1
++-}
+++#echo -n "checking for ragel... "
+++#which ragel || {
+++#      echo "You need to install ragel... See http://www.complang.org/ragel/"
+++#      exit 1
+++#}
++
++ echo -n "checking for pkg-config... "
++ which pkg-config || {
++
+diff --git a/contrib/src/harfbuzz/rules.mak b/contrib/src/harfbuzz/rules.mak
+index a7ad2ed..0004e20 100644
+--- a/contrib/src/harfbuzz/rules.mak
++++ b/contrib/src/harfbuzz/rules.mak
+@@ -18,6 +18,7 @@ harfbuzz: harfbuzz-$(HARFBUZZ_VERSION).tar.bz2 .sum-harfbuzz
+ 	$(APPLY) $(SRC)/harfbuzz/harfbuzz-aarch64.patch
+ 	$(APPLY) $(SRC)/harfbuzz/harfbuzz-clang.patch
+ 	$(APPLY) $(SRC)/harfbuzz/disable-backends.patch
++	$(APPLY) $(SRC)/harfbuzz/no-ragel.patch
+ 	$(MOVE)
+ 
+ DEPS_harfbuzz = freetype2 $(DEPS_freetype2)
+-- 
+1.9.5.msysgit.1
+
