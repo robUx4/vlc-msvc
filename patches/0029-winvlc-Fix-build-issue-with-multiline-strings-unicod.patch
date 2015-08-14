@@ -1,7 +1,7 @@
-From 32e47d0881146faa1f96b66016b17f35fc840024 Mon Sep 17 00:00:00 2001
+From ae518554d47b6e938419de414dec498671635d09 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:43:53 +0200
-Subject: [PATCH 29/74] winvlc: Fix build issue with multiline strings &
+Subject: [PATCH 029/128] winvlc: Fix build issue with multiline strings &
  unicode macros/prefixes
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 29/74] winvlc: Fix build issue with multiline strings &
  1 file changed, 23 insertions(+), 23 deletions(-)
 
 diff --git a/bin/winvlc.c b/bin/winvlc.c
-index bd64488..c37f2b1 100644
+index ecf296a..378d378 100644
 --- a/bin/winvlc.c
 +++ b/bin/winvlc.c
-@@ -191,8 +191,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
+@@ -190,8 +190,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
          libvlc_release (vlc);
      }
      else
@@ -23,7 +23,7 @@ index bd64488..c37f2b1 100644
                      TEXT("VLC media player"),
                      MB_OK|MB_ICONERROR);
  
-@@ -219,8 +219,8 @@ static void check_crashdump(void)
+@@ -218,8 +218,8 @@ static void check_crashdump(void)
          return;
      fclose( fd );
  
@@ -34,7 +34,7 @@ index bd64488..c37f2b1 100644
      L"VLC crash reporting", MB_YESNO);
  
      if(answer == IDYES)
-@@ -244,20 +244,20 @@ static void check_crashdump(void)
+@@ -243,20 +243,20 @@ static void check_crashdump(void)
  
                  if( FtpPutFile( ftp, mv_crashdump_path, remote_file,
                              FTP_TRANSFER_TYPE_BINARY, 0) )
@@ -63,7 +63,7 @@ index bd64488..c37f2b1 100644
                                  L"Report sending failed", MB_OK);
                  fprintf(stderr,"Can't connect to FTP server 0x%08lu\n",
                          (unsigned long)GetLastError());
-@@ -266,8 +266,8 @@ static void check_crashdump(void)
+@@ -265,8 +265,8 @@ static void check_crashdump(void)
          }
          else
          {
@@ -74,7 +74,7 @@ index bd64488..c37f2b1 100644
                                  L"Report sending failed", MB_OK);
          }
      }
-@@ -303,7 +303,7 @@ LONG WINAPI vlc_exception_filter(struct _EXCEPTION_POINTERS *lpExceptionInfo)
+@@ -302,7 +302,7 @@ LONG WINAPI vlc_exception_filter(struct _EXCEPTION_POINTERS *lpExceptionInfo)
          osvi.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
          GetVersionEx( &osvi );
  
@@ -83,7 +83,7 @@ index bd64488..c37f2b1 100644
                  osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber,
                  osvi.dwPlatformId, osvi.szCSDVersion);
  
-@@ -319,11 +319,11 @@ LONG WINAPI vlc_exception_filter(struct _EXCEPTION_POINTERS *lpExceptionInfo)
+@@ -318,11 +318,11 @@ LONG WINAPI vlc_exception_filter(struct _EXCEPTION_POINTERS *lpExceptionInfo)
              fwprintf( fd, L" | %p", pException->ExceptionInformation[i] );
  
  #ifdef _WIN64
@@ -100,7 +100,7 @@ index bd64488..c37f2b1 100644
                          pContext->Rdi,pContext->Rsi,pContext->Rbx,
                          pContext->Rdx,pContext->Rcx,pContext->Rax,
                          pContext->Rbp,pContext->Rip,pContext->Rsp,
-@@ -331,9 +331,9 @@ LONG WINAPI vlc_exception_filter(struct _EXCEPTION_POINTERS *lpExceptionInfo)
+@@ -330,9 +330,9 @@ LONG WINAPI vlc_exception_filter(struct _EXCEPTION_POINTERS *lpExceptionInfo)
                          pContext->R11,pContext->R12,pContext->R13,
                          pContext->R14,pContext->R15 );
  #else
@@ -114,5 +114,5 @@ index bd64488..c37f2b1 100644
                          pContext->Edx,pContext->Ecx,pContext->Eax,
                          pContext->Ebp,pContext->Eip,pContext->Esp );
 -- 
-2.2.0
+1.9.5.msysgit.1
 

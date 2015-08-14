@@ -1,8 +1,8 @@
-From 02da67555f0e050b3431d81fff02d327305e7a19 Mon Sep 17 00:00:00 2001
+From 3b2a0cf6e775d2b216c722e26c5a8cba759b9d79 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:29:17 +0200
-Subject: [PATCH 27/74] contribs: zvbi: Do not depend on pthread when building
- with MSVC
+Subject: [PATCH 027/128] contribs: zvbi: Do not depend on pthread when
+ building with MSVC
 
 ---
  contrib/src/zvbi/rules.mak | 7 ++++++-
@@ -27,5 +27,5 @@ index 85a54ab..7ff67bf 100644
  ZVBI_CFLAGS := $(CFLAGS)
  ZVBICONF := \
 -- 
-2.2.0
+1.9.5.msysgit.1
 

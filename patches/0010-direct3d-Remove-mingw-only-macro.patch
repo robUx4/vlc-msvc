@@ -1,17 +1,17 @@
-From dc993da7b4b0eab545e752324efbad4bef416d01 Mon Sep 17 00:00:00 2001
+From 8de6a2b5450336e83fa428d7304495f30f9b1c82 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 16:26:23 +0200
-Subject: [PATCH 10/74] direct3d: Remove mingw only macro
+Subject: [PATCH 010/128] direct3d: Remove mingw only macro
 
 ---
  modules/video_output/msw/direct3d9.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/modules/video_output/msw/direct3d9.c b/modules/video_output/msw/direct3d9.c
-index f333471..fb96fcc 100644
+index 779b078..be42c8b 100644
 --- a/modules/video_output/msw/direct3d9.c
 +++ b/modules/video_output/msw/direct3d9.c
-@@ -1214,14 +1214,14 @@ static int Direct3D9CompileShader(vout_display_t *vd, const char *shader_source,
+@@ -1295,14 +1295,14 @@ static int Direct3D9CompileShader(vout_display_t *vd, const char *shader_source,
      if (FAILED(hr)) {
          msg_Warn(vd, "D3DXCompileShader Error (hr=0x%0lx)", hr);
          if (error_msgs) {
@@ -29,5 +29,5 @@ index f333471..fb96fcc 100644
  
      if (compiled_shader)
 -- 
-2.2.0
+1.9.5.msysgit.1
 

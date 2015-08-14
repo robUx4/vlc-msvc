@@ -1,7 +1,7 @@
-From ccc8d4766b9449509751850660347672ed636241 Mon Sep 17 00:00:00 2001
+From 8dccd370dc4ae1a38ed71c4ee27d951ae809096f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:22:43 +0100
-Subject: [PATCH 42/74] contribs: png: Disable asm on visual studio
+Subject: [PATCH 042/128] contribs: png: Disable asm on visual studio
 
 ---
  contrib/src/png/rules.mak | 6 +++++-
@@ -26,5 +26,5 @@ index c5a3fba..4ba0aef 100644
  	cd $< && $(MAKE) install
  	touch $@
 -- 
-2.2.0
+1.9.5.msysgit.1
 

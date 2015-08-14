@@ -1,7 +1,7 @@
-From 98f25aa9040aa719e654e837a1426ec3f3e6e8a0 Mon Sep 17 00:00:00 2001
+From 0cadc2f9d4cf1855f2b76a48f66af8143353004c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 9 Jan 2015 17:58:21 +0100
-Subject: [PATCH 58/74] contrib: png: Remove check for memset & pow
+Subject: [PATCH 058/128] contrib: png: Remove check for memset & pow
 
 We provide those functions, though as a wrapper, which configure fails to detect
 ---
@@ -42,5 +42,5 @@ index 4ba0aef..a350e8a 100644
  
  DEPS_png = zlib $(DEPS_zlib)
 -- 
-2.2.0
+1.9.5.msysgit.1
 

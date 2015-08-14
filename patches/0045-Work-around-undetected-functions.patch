@@ -1,7 +1,7 @@
-From e36785611c9faff8f1ef2d8b5037ad0ca48384c0 Mon Sep 17 00:00:00 2001
+From c570ee786209c23899f408b3a09190ae465b15a8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 17:13:16 +0100
-Subject: [PATCH 45/74] Work around undetected functions
+Subject: [PATCH 045/128] Work around undetected functions
 
 ---
  compat/getpid.c | 4 ++++
@@ -67,5 +67,5 @@ index 686faf8..042f90f 100644
 +#endif
 \ No newline at end of file
 -- 
-2.2.0
+1.9.5.msysgit.1
 

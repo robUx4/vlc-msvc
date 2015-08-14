@@ -1,7 +1,7 @@
-From 502485263ded5df0fba072ba1477a2732864e66a Mon Sep 17 00:00:00 2001
+From ae16bd9c5c3518982ac2e02137038d66afe59952 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 15:31:38 +0200
-Subject: [PATCH 07/74] modules: Work around lack of MSVC support for C99
+Subject: [PATCH 007/128] modules: Work around lack of MSVC support for C99
  hexadecimal floating point numbers
 
 ---
@@ -92,5 +92,5 @@ index 3ce8158..4ad4348 100644
      vlc_mutex_lock(&p_aout->sys->lock);
      if( !p_aout->sys->b_mute && volume != p_aout->sys->f_volume )
 -- 
-2.2.0
+1.9.5.msysgit.1
 

@@ -1,7 +1,7 @@
-From 07c0192e5c56548b5ead7f518b8d53a6da8738f9 Mon Sep 17 00:00:00 2001
+From 762fbf561c0ce9928a067204d08348641f427cd9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 20 Nov 2014 16:26:13 +0100
-Subject: [PATCH 43/74] compat: flockfile: Do not use warning directive under
+Subject: [PATCH 043/128] compat: flockfile: Do not use warning directive under
  msvc
 
 ---
@@ -24,5 +24,5 @@ index d01fd1f..97b8d89 100644
  #  define _unlock_file(s) ((void)(s))
  #  undef _getc_nolock
 -- 
-2.2.0
+1.9.5.msysgit.1
 
