@@ -1,0 +1,43 @@
+From d6aa0f6df07c83a1fadccef6020335f67670761a Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Mon, 3 Aug 2015 15:34:07 +0200
+Subject: [PATCH 031/128] timeval is officially defined in winsock2.h on
+ Windows
+
+see https://msdn.microsoft.com/en-us/library/windows/desktop/ms740560%28v=vs.85%29.aspx
+---
+ src/misc/mtime.c            | 3 +++
+ src/video_output/snapshot.c | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/src/misc/mtime.c b/src/misc/mtime.c
+index 46939dc..db2e350 100644
+--- a/src/misc/mtime.c
++++ b/src/misc/mtime.c
+@@ -44,6 +44,9 @@
+ # include <time.h> /* clock_gettime() */
+ #else
+ # include <sys/time.h>
++# ifdef _WIN32
++#  include <winsock2.h>
++# endif
+ #endif
+ 
+ /**
+diff --git a/src/video_output/snapshot.c b/src/video_output/snapshot.c
+index 7c8b527..d12f16c 100644
+--- a/src/video_output/snapshot.c
++++ b/src/video_output/snapshot.c
+@@ -30,6 +30,9 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <sys/time.h>
++#ifdef _WIN32
++#include <winsock2.h>
++#endif
+ #include <dirent.h>
+ #include <time.h>
+ 
+-- 
+1.9.5.msysgit.1
+
