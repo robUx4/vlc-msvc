@@ -1,0 +1,29 @@
+From f839c9277de0afd3c9617379cd6df2800ce2fd09 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Fri, 31 Jul 2015 15:32:21 +0200
+Subject: [PATCH 104/128] d3d11va: we need to link to d3d11 directly for
+ Winstore
+
+--
+we can't load it dynamically
+---
+ modules/codec/Makefile.am | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/modules/codec/Makefile.am b/modules/codec/Makefile.am
+index ff4511d..a564a36 100644
+--- a/modules/codec/Makefile.am
++++ b/modules/codec/Makefile.am
+@@ -362,6 +362,9 @@ libd3d11va_plugin_la_SOURCES = \
+ 	video_chroma/dxgi_fmt.c video_chroma/dxgi_fmt.h \
+ 	packetizer/h264_nal.c packetizer/h264_nal.h
+ libd3d11va_plugin_la_LIBADD = -lole32 -luuid
++if HAVE_WINSTORE
++libd3d11va_plugin_la_LIBADD += -ld3d11
++endif
+ if HAVE_AVCODEC_D3D11VA
+ codec_LTLIBRARIES += libd3d11va_plugin.la
+ endif
+-- 
+1.9.5.msysgit.1
+

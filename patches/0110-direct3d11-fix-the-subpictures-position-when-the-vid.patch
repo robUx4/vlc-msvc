@@ -1,0 +1,33 @@
+From 2c54e54e90141cf096ffd15e468de602defd75eb Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Thu, 6 Aug 2015 14:06:31 +0200
+Subject: [PATCH 110/128] direct3d11: fix the subpictures position when the
+ video is zoomed
+
+---
+ modules/video_output/msw/direct3d11.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/modules/video_output/msw/direct3d11.c b/modules/video_output/msw/direct3d11.c
+index a366870..fe701a8 100644
+--- a/modules/video_output/msw/direct3d11.c
++++ b/modules/video_output/msw/direct3d11.c
+@@ -1726,8 +1726,14 @@ static int Direct3D11MapSubpicture(vout_display_t *vd, int *subpicture_region_co
+ 
+         float opacity = (float)r->i_alpha / 255.0f;
+ 
++#if VLC_WINSTORE_APP
++        UpdateQuadPosition(vd, (d3d_quad_t *)quad_picture->p_sys, &dst,
++                           sys->rect_display.right - sys->rect_display.left,
++                           sys->rect_display.bottom - sys->rect_display.top, opacity);
++#else
+         UpdateQuadPosition(vd, (d3d_quad_t *)quad_picture->p_sys, &dst,
+-                           i_original_width, i_original_height, opacity);
++                           video.right - video.left, video.bottom - video.top, opacity);
++#endif
+     }
+     return VLC_SUCCESS;
+ }
+-- 
+1.9.5.msysgit.1
+
