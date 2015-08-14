@@ -1,17 +1,17 @@
-From 48b3291d2e60e2c39506b785544a8370b84a2cb4 Mon Sep 17 00:00:00 2001
+From 743f55c69977af85a83dcc555de227e7b5ebc5db Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:06:49 +0200
-Subject: [PATCH 03/74] core: Disable warning cpp directives when building with
- MSVC
+Subject: [PATCH 003/128] core: Disable warning cpp directives when building
+ with MSVC
 
 ---
  src/input/clock.c        | 2 ++
- src/playlist/thread.c    | 4 +++-
+ src/input/input.c        | 2 ++
  src/text/url.c           | 2 ++
  src/video_output/event.h | 8 ++++++--
  src/win32/dirs.c         | 4 +++-
  src/win32/netconf.c      | 4 +++-
- 6 files changed, 19 insertions(+), 5 deletions(-)
+ 6 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/src/input/clock.c b/src/input/clock.c
 index e1cc0fc..731a431 100644
@@ -27,23 +27,22 @@ index e1cc0fc..731a431 100644
  void input_clock_SetJitter( input_clock_t *cl,
                              mtime_t i_pts_delay, int i_cr_average )
  {
-diff --git a/src/playlist/thread.c b/src/playlist/thread.c
-index 12a452d..a0ca323 100644
---- a/src/playlist/thread.c
-+++ b/src/playlist/thread.c
-@@ -444,7 +444,9 @@ static void LoopInput( playlist_t *p_playlist )
-         input_Stop( p_input );
-     }
+diff --git a/src/input/input.c b/src/input/input.c
+index a822df7..e9f5b64 100644
+--- a/src/input/input.c
++++ b/src/input/input.c
+@@ -2298,7 +2298,9 @@ static int InputSourceInit( input_thread_t *p_input,
+         }
  
--#warning Unsynchronized access to *p_input flags...
+         /* Access-forced demuxer (PARENTAL ADVISORY: EXPLICIT HACK) */
 +#ifndef _MSC_VER
-+# warning Unsynchronized access to *p_input flags...
+ #warning FIXME: parse content type
 +#endif
-     /* This input is dead. Remove it ! */
-     if( p_input->b_dead )
-     {
+ 
+         /* Create the stream_t */
+         stream_t *p_stream = stream_AccessNew( p_access );
 diff --git a/src/text/url.c b/src/text/url.c
-index cd7e488..0eff5b4 100644
+index f2d7fb9..276e677 100644
 --- a/src/text/url.c
 +++ b/src/text/url.c
 @@ -182,7 +182,9 @@ char *vlc_path2uri (const char *path, const char *scheme)
@@ -83,10 +82,10 @@ index c3c2ddf..be291c4 100644
  extern void vout_InstallDeprecatedPostProcessing(vout_thread_t *);
  extern void vout_UninstallDeprecatedPostProcessing(vout_thread_t *);
 diff --git a/src/win32/dirs.c b/src/win32/dirs.c
-index fbb48b6..d5c8714 100644
+index 7a62bfc..a12eff2 100644
 --- a/src/win32/dirs.c
 +++ b/src/win32/dirs.c
-@@ -97,7 +97,9 @@ static char *config_GetAppDir (void)
+@@ -112,7 +112,9 @@ static char *config_GetAppDir (void)
      return psz_dir;
  }
  
@@ -113,5 +112,5 @@ index accdddf..00fbb8a 100644
          if( psz_proxy != NULL )
          {
 -- 
-2.2.0
+1.9.5.msysgit.1
 
