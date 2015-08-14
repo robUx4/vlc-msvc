@@ -1,0 +1,29 @@
+From ce8ba2e30f0c70acbbfd2176a8dc34150c6f61b5 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robUx4@gmail.com>
+Date: Wed, 12 Aug 2015 11:39:18 +0200
+Subject: [PATCH 084/128] contrib: ffmpeg needs to tweak d3d11 headers
+
+---
+ contrib/src/ffmpeg/rules.mak | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index 932389b..3bb91c6 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -143,9 +143,12 @@ endif
+ 
+ # Windows
+ ifdef HAVE_WIN32
++ifndef HAVE_VISUALSTUDIO
++DEPS_ffmpeg += d3d11
+ ifndef HAVE_MINGW_W64
+ DEPS_ffmpeg += directx
+ endif
++endif
+ FFMPEGCONF += --target-os=mingw32 --enable-memalign-hack
+ FFMPEGCONF += --enable-w32threads --enable-dxva2
+ 
+-- 
+1.9.5.msysgit.1
+
