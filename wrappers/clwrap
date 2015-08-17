@@ -116,8 +116,11 @@ echo "using plain MSVC lib for $1"
             "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" )
                 ARGS="$ARGS $libname.lib"
                 ;;
-            *)
+            *.a)
                 ARGS="$ARGS lib$libname.a"
+                ;;
+            *)
+                ARGS="$ARGS $libname.lib"
                 ;;
         esac
 		;;
