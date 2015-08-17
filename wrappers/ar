@@ -4,6 +4,18 @@ echo "AR Wrapping $@"
 
 while [ $# -gt 0 ]; do
 	case $1 in
+	-olib*.lib)
+		libname=${1#-olib}
+		if [ "$LINK_TARGET" = "" ]; then
+			LINK_TARGET=$libname
+		fi
+		;;
+	-olib*.a)
+		libname=${1#-olib}
+		if [ "$LINK_TARGET" = "" ]; then
+			LINK_TARGET=$(basename $libname)
+		fi
+		;;
 	*.lib|*.a)
 		if [ "$LINK_TARGET" = "" ]; then
 			LINK_TARGET=`cygpath -w $1`
