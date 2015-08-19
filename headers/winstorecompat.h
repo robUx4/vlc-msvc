@@ -117,6 +117,13 @@ __forceinline HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWOR
 #define CreateFile                      CreateFileW
 #define CreateFileA(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
 
+__forceinline DWORD GetFileType(HANDLE hFile)
+{
+    if (hFile != INVALID_HANDLE_VALUE)
+        return FILE_TYPE_DISK;
+    return FILE_TYPE_UNKNOWN;
+}
+
 __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
 {
     int flags = 0;
