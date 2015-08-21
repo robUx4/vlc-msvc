@@ -62,6 +62,16 @@ while [ $# -gt 0 ]; do
 		fi
 		ARGS="$ARGS -Tp$file"
 		;;
+	*.s|*.asm)
+		file=`cygpath -w $1`
+		inputfile=$file
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+			exefile=${file%.*}.exe
+		fi
+		compile_asm=yes
+		ARGS="$AS $file"
+		;;
 	*.dll)
 		EXTRALIBS="$EXTRALIBS $1"
 		;;
@@ -251,36 +261,37 @@ echo "using plain MSVC lib for $1"
 	shift
 done
 
-if [ "$HAVE_DEBUG" != "" ]; then
-    ARGS="$ARGS $ARGS_DEBUG"
-else
-    ARGS="$ARGS $ARGS_RELEASE"
-fi
+if [ "$compile_asm" == "" ]; then
+	if [ "$HAVE_DEBUG" != "" ]; then
+	    ARGS="$ARGS $ARGS_DEBUG"
+	else
+	    ARGS="$ARGS $ARGS_RELEASE"
+	fi
 
-if [ "$STATIC_RUNTIME" != "" ]; then
-  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
-    ARGS="$ARGS -MTd"
-    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
-  else
-    ARGS="$ARGS -MT"
-    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
-  fi
-else
-  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
-    ARGS="$ARGS -MDd"
-    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
-  else
-    ARGS="$ARGS -MD"
-    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
-  fi
-fi
+	if [ "$STATIC_RUNTIME" != "" ]; then
+	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	    ARGS="$ARGS -MTd"
+	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
+	  else
+	    ARGS="$ARGS -MT"
+	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
+	  fi
+	else
+	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	    ARGS="$ARGS -MDd"
+	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
+	  else
+	    ARGS="$ARGS -MD"
+	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
+	  fi
+	fi
 
+	ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350"
+	ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
+	# Hotfix some contribs:
+	ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
+fi
 ARGS="$ARGS -$NO_LOGO"
-#ARGS="$ARGS -D_WIN32_WINNT=0x603"
-ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350"
-ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
-# Hotfix some contribs:
-ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
 
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one
@@ -297,8 +308,12 @@ else
 	if [ "$outfile" != "" ]; then
 		if [ "$compile" != "" ]; then
 			if [ "$inputfile" != "" -a "$outfile" != "${inputfile%.*}.exe" ]; then
-				# avoid LNK1149 error
-				ARGS="$ARGS -Fo$outfile"
+				if [ "$compile_asm" != "" ]; then
+					ARGS="$ARGS -o $outfile"
+				else
+					# avoid LNK1149 error
+					ARGS="$ARGS -Fo$outfile"
+				fi
 			fi
 		else
 			ARGS="$ARGS -Fe$exefile"
@@ -312,12 +327,18 @@ if [ "$deps" != "" ]; then
 	exit $?
 fi
 
-if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
-    ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
-    if [ "$BUILD_LIB" != "" ]; then
-        # Ensure all our libraries are called "libXXX"
-        ARGS="$ARGS -out:$outfile -APPCONTAINER"
-    fi
+if [ "$compile_asm" == "" ]; then
+	if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
+	    ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
+	    if [ "$BUILD_LIB" != "" ]; then
+		# Ensure all our libraries are called "libXXX"
+		ARGS="$ARGS -out:$outfile -APPCONTAINER"
+	    fi
+	fi
+fi
+
+if [ "$compile_asm" != "" ]; then
+	echo compile ASM: $ARGS
 fi
 
 #echo $ARGS
