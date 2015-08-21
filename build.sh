@@ -65,6 +65,7 @@ test_package svn subversion
 test_package tar
 test_package patch
 test_package cvs
+test_package autogen
 test_gcc #required by ffmpeg for gaspp
 
 $COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
