@@ -67,7 +67,7 @@ cd $BUILD_FOLDER
 	--disable-gme \
 	--disable-gmp \
 	--disable-libgpg-error \
-	--disable-gnutls \
+	--enable-gnutls \
     --disable-gcrypt \
     --disable-ssh2 \
     --disable-upnp \
