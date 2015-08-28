@@ -1,10 +1,14 @@
 #ifndef WINSTORECOMPAT_H__
 # define WINSTORECOMPAT_H__
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable:4255)    /* no function prototype given */
+#endif /* _MSV_VER */
 #include <Windows.h>
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif /* _MSV_VER */
 
 /* not detected properly by autoconf due to early forced include */
 #define HAVE_STRNLEN 1
