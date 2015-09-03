@@ -286,7 +286,7 @@ if [ "$compile_asm" == "" ]; then
 	  fi
 	fi
 
-	ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4721"
+	ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711"
 	ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 	# Hotfix some contribs:
 	ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
