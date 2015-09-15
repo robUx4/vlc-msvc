@@ -140,6 +140,14 @@ typedef unsigned int mode_t;
 #define _UNICODE
 #endif /* _UNICODE */
 
+#ifndef SSIZE_MAX
+#ifdef _WIN64
+#define SSIZE_MAX _I64_MAX
+#else
+#define SSIZE_MAX INT_MAX
+#endif
+#endif
+
 #define PATH_MAX MAX_PATH
 
 #include <winapifamily.h>
