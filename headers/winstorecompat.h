@@ -240,6 +240,11 @@ __forceinline char* _getcwd(char *buffer, int maxlen)
     return NULL;
 }
 
+__forceinline void GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
+{
+    GetNativeSystemInfo(lpSystemInfo);
+}
+
 __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 {
     return WaitForSingleObjectEx(hHandle, dwMilliseconds, FALSE);
