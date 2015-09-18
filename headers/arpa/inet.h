@@ -1,9 +1,7 @@
 #ifndef _WINSTORE_ARPA_INET_H
 #define _WINSTORE_ARPA_INET_H
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#define net_errno (WSAGetLastError())
+#include <sys/socket.h>
 
 #define inet_pton(f,s,d) inet_ptonW(f,s,d)
 
