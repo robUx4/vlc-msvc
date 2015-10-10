@@ -43,6 +43,7 @@ __forceinline char *putenv(const char *name)
 #define HAVE_PUTENV 1
 #endif
 
+#if _MSC_VER < 1900
 __forceinline HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCWSTR lpName)
 {
     int flags = 0;
@@ -61,6 +62,7 @@ __forceinline HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
 {
     return CreateSemaphoreExW(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName, 0, EVENT_ALL_ACCESS);
 }
+#endif /* _MSC_VER */
 
 __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
 {
@@ -79,6 +81,7 @@ __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
     return dwRet;
 }
 
+#if _MSC_VER < 1900
 /*
  This is not really a proper implementation, but it is needed by gcc/libstdc++
  */
@@ -97,6 +100,7 @@ __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttribute
     }
     return CreateSemaphoreW(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpwName );
 }
+#endif
 #define CreateSemaphore    CreateSemaphoreW
 
 #define GetModuleFileName  GetModuleFileNameW
@@ -121,6 +125,7 @@ __forceinline HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWOR
 #define CreateFile                      CreateFileW
 #define CreateFileA(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
 
+#if _MSC_VER < 1900
 __forceinline DWORD GetFileType(HANDLE hFile)
 {
     if (hFile != INVALID_HANDLE_VALUE)
@@ -136,6 +141,7 @@ __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL 
     return CreateMutexExW(lpMutexAttributes, lpName, flags, EVENT_ALL_ACCESS);
 }
 #define CreateMutex CreateMutexW
+#endif
 
 __forceinline UINT GetACP(void)
 {
@@ -183,12 +189,14 @@ __forceinline BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer, HANDL
     return 0;
 }
 
+#if _MSC_VER < 1900
 __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSection)
 {
     int flags = 0;
     /* flags = CRITICAL_SECTION_NO_DEBUG_INFO */
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
 }
+#endif
 
 __forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
 {
@@ -224,13 +232,13 @@ __forceinline BeginThreadEx(
 }*/
 #endif
 
+#if _MSC_VER < 1900
 __forceinline wchar_t* _wgetcwd(wchar_t *buffer, int maxlen)
 {
     (void)buffer;
     (void)maxlen;
     return NULL;
 }
-
 #define getcwd _getcwd
 
 __forceinline char* _getcwd(char *buffer, int maxlen)
@@ -249,6 +257,7 @@ __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 {
     return WaitForSingleObjectEx(hHandle, dwMilliseconds, FALSE);
 }
+#endif
 
 #define GetFileAttributes GetFileAttributesW
 
