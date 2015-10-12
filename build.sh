@@ -43,7 +43,7 @@ test_package()
 	else
 		pkg=$1
 	fi
-	command -v $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || exit 1
+	command -v $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || echo "you may need to run autorebase.bat" || exit 1
 }
 
 test_gcc()
