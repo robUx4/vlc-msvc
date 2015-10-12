@@ -11,11 +11,11 @@ INCLUDES_FOLDER=$SCRIPTPATH/../headers
 case $VLC_PLATFORM in
 	Windows|Metrox86)
 		WINAPI_FAMILY=WINAPI_FAMILY_APP
-		FORCED_LIBS="\"user32.lib\" \"kernel32.lib\" \"Advapi32.lib\" \"Ole32.lib\" \"RuntimeObject.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
+		FORCED_LIBS="\"user32.lib\" \"kernel32.lib\" \"Advapi32.lib\" \"Ole32.lib\" \"RuntimeObject.lib\""
 		;;
 	WindowsPhone)
 		WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP
-		FORCED_LIBS="\"WindowsPhoneCore.lib\" \"RuntimeObject.lib\" \"PhoneAppModelHost.lib\" -NODEFAULTLIB:\"ole32.lib\" -NODEFAULTLIB:\"kernel32.lib\" -NODEFAULTLIB:\"ws2_32.lib\""
+		FORCED_LIBS="\"WindowsPhoneCore.lib\" \"RuntimeObject.lib\" \"PhoneAppModelHost.lib\""
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
