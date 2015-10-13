@@ -28,13 +28,24 @@ NO_LOGO="nologo"
 
 while [ $# -gt 0 ]; do
     case $1 in
+        /[a-z]/*|/usr/*)
+            param=`cygpath -w $1`
+            ;;
+        /*)
+            param=-"${1#/}"
+            ;;
+        *)
+            param=$1
+            ;;
+    esac
+    case $param in
 	-o)
 		outfile=`cygpath -w $2`
 		compile=1
 		shift
 		;;
 	-Fo*)
-		outfile=${1#-Fo}
+		outfile=${param#-Fo}
 		compile=1
 		;;
 	-E)
@@ -45,7 +56,7 @@ while [ $# -gt 0 ]; do
 		compile=1
 		;;
 	*.c)
-		file=`cygpath -w $1`
+		file=`cygpath -w $param`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
 			outfile=${file%.*}.o
@@ -54,7 +65,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -Tc$file"
 		;;
 	*.cpp|*.cxx|*.cc)
-		file=`cygpath -w $1`
+		file=`cygpath -w $param`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
 			outfile=${file%.*}.o
@@ -63,7 +74,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -Tp$file"
 		;;
 	*.s|*.asm)
-		file=`cygpath -w $1`
+		file=`cygpath -w $param`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
 			outfile=${file%.*}.o
@@ -73,13 +84,13 @@ while [ $# -gt 0 ]; do
 		ARGS="$AS $file"
 		;;
 	*.dll)
-		EXTRALIBS="$EXTRALIBS $1"
+		EXTRALIBS="$EXTRALIBS $param"
 		;;
 	-M)
 		deps=1
 		;;
 	-D*)
-		def=$(echo $1 | sed 's/ /_/')
+		def=$(echo $param | sed 's/ /_/')
 		# Added to handle -Dsome_include=<somefile.h>
 		# That doesn't work unless the bracket part is quoted
 		case $def in
@@ -99,16 +110,19 @@ while [ $# -gt 0 ]; do
 		;;
 	-I*)
 		# Handles -I<path> (without space)
-		ARGS="$ARGS -I`cygpath -w ${1#-I}`"
+		ARGS="$ARGS -I`cygpath -w ${param#-I}`"
 		;;
 	-include)
 		ARGS="$ARGS -FI`cygpath -w $2`"
 		shift
 		;;
+	-FI*)
+		ARGS="$ARGS -FI`cygpath -w ${param#-FI}`"
+		;;
 	-lm)
 		;;
 	-l*)
-		libname=${1#-l}
+		libname=${param#-l}
 		# All libraries are expected to be in unix format since we act as kind of gcc.
 		# However, when it comes to system libraries, there's no choice but to use the 
 		# windows naming convention.
@@ -121,7 +135,6 @@ while [ $# -gt 0 ]; do
                 ;;
 	    *.lib)
 		ARGS="$ARGS $libname"
-echo "using plain MSVC lib for $1"
 		;;
             "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" )
                 ARGS="$ARGS $libname.lib"
@@ -159,7 +172,7 @@ echo "using plain MSVC lib for $1"
 		ARGS="$ARGS -Ox"
 		;;
 	-L*)
-        libpath=${1#-L}
+        libpath=${param#-L}
         if [ "$libpath" != "/mingw32/lib" ]; then
             LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
         fi
@@ -177,7 +190,7 @@ echo "using plain MSVC lib for $1"
 		WARNINGS="-WX"
 		;;
 	-Wl*)
-		params=${1#-Wl,}
+		params=${param#-Wl,}
         for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
             case $p in
                 -DLL)
@@ -193,20 +206,17 @@ echo "using plain MSVC lib for $1"
 		;;
 	*.a|*.obj|*.lib)
 		# Keep this a low priority match
-		ARGS="$ARGS `cygpath -w $1`"
+		ARGS="$ARGS `cygpath -w $param`"
 		;;
 	-nologo*)
-		NO_LOGO=${1#-}
+		NO_LOGO=${param#-}
 		;;
-	/nologo*)
-		NO_LOGO=${1#/}
-		;;
-	/*)
-		#libav's configure step uses absolute path in msys format, we need to convert
-		# them manually to native windows path.
-		ARGS="$ARGS `cygpath -w $1`"
-		
-		;;
+#	/*)
+#		#libav's configure step uses absolute path in msys format, we need to convert
+#		# them manually to native windows path.
+#		ARGS="$ARGS `cygpath -w $param`"
+#		
+#		;;
 	-ffast-math)
 		ARGS="$ARGS -fp:fast"
 		;;
@@ -220,7 +230,7 @@ echo "using plain MSVC lib for $1"
 		ARGS="$ARGS -sdl"
 		;;
 	-std=*)
-		C_STD_VARIANT=${1#--std=}
+		C_STD_VARIANT=${param#--std=}
 		if [ "$C_STD_VARIANT" == "gnu99" ]; then
 			echo "Unsupported C standard $C_STD_VARIANT"
 			exit 1
@@ -230,16 +240,16 @@ echo "using plain MSVC lib for $1"
 		# silently ignore known flags
 		;;
 	-march=*)
-		ARCH=${1#-march=}
+		ARCH=${param#-march=}
 		if [ "$VLC_ARCH" == "x86" ]; then
 			if [ "$ARCH" != "i686" ]; then
-				echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
+				echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
 				exit 1
 			fi
 		else
 			if [ "$VLC_ARCH" == "arm" ]; then
 				if [ "$ARCH" != "arm" ]; then
-					echo "Invalid $1 with VLC_ARCH=$VLC_ARCH"
+					echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
 					exit 1
 				fi
 			else
@@ -248,14 +258,14 @@ echo "using plain MSVC lib for $1"
 			fi
 		fi
 		;;
-	-cpu=*)
+	-cpu=*|-FS)
 		# silently ignore for now
 		;;
 	-Ze|-Za)
 		# deprecated and incompatible with latest WDK
 		;;
 	*)
-		ARGS="$ARGS $1"
+		ARGS="$ARGS $param"
 		;;
 	esac
 	shift
@@ -307,12 +317,16 @@ if [ "$preproc" != "" ]; then
 else
 	if [ "$outfile" != "" ]; then
 		if [ "$compile" != "" ]; then
-			if [ "$inputfile" != "" -a "$outfile" != "${inputfile%.*}.exe" ]; then
-				if [ "$compile_asm" != "" ]; then
-					ARGS="$ARGS -o $outfile"
-				else
-					# avoid LNK1149 error
-					ARGS="$ARGS -Fo$outfile"
+			if [ "$inputfile" == "" ]; then
+				ARGS="$ARGS -o $outfile"
+			else
+				if [ "$outfile" != "${inputfile%.*}.exe" ]; then
+					if [ "$compile_asm" != "" ]; then
+						ARGS="$ARGS -o $outfile"
+					else
+						# avoid LNK1149 error
+						ARGS="$ARGS -Fo$outfile"
+					fi
 				fi
 			fi
 		else

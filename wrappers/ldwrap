@@ -21,37 +21,65 @@ else
 fi
 
 while [ $# -gt 0 ]; do
-	case $1 in
+    case $1 in
+        /[a-z]/*)
+            param=`cygpath -w $1`
+            ;;
+        /*)
+            param=-"${1#/}"
+            ;;
+        *)
+            param=$1
+            ;;
+    esac
+	case $param in
+	-out:*)
+		LINK_TARGET=${param#-out:}
+		shift
+		;;
 	-o)
 		LINK_TARGET=`cygpath -w $2`
 		shift
 		;;
 	*.o)
-		if [ -f $1 ]; then
-			OBJS="$OBJS `cygpath -w $1`"
+		if [ -f $param ]; then
+			OBJS="$OBJS `cygpath -w $param`"
 		else
 			# Manually fix the extension if the object file doesn't exist
-			OBJS="$OBJS `cygpath -w $1`"bj
+			OBJS="$OBJS `cygpath -w $param`"bj
 		fi
 		
 		;;
 	*.obj)
-		OBJS="$OBJS `cygpath -w $1`"
+		OBJS="$OBJS `cygpath -w $param`"
+		;;
+	-implib:*)
+		ARGS="$ARGS $param"
 		;;
 	-l*)
-		OBJS="$OBJS ${1#-l}.lib"
+		OBJS="$OBJS ${param#-l}.lib"
+		;;
+	*.lib)
+		OBJS="$OBJS $param"
 		;;
 	-L*)
-		libpath=${1#-L}
+		libpath=${param#-L}
 		if [ "$libpath" != "/mingw32/lib" ]; then
 			LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
 		fi
 		;;
+	-pdb:*)
+		#TODO ARGS="$ARGS -pdb:`cygpath -w $param`"
+		;;
+	-MANIFEST*)
+		# not working yet
+		;;
 	-*)
-		ARGS="$ARGS $1"
+		ARGS="$ARGS $param"
 		;;
 	*)
-		echo "Ignoring AR flag: $1"
+#		echo "Ignoring AR flag: $param"
+		ARGS="$ARGS $param"
 		;;
 	esac
 	shift

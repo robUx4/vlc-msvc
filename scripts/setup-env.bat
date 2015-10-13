@@ -6,13 +6,14 @@
 :vs2015
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=store
-@set CMAKE_VS=Visual Studio 14 2015
+@set CMAKE_VS=Unix Makefiles
 @goto setupenv
 
 :vs2013
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=
-@set CMAKE_VS=Visual Studio 12 2013
+@set CMAKE_VS=Unix Makefiles
+@rem set CMAKE_VS=Visual Studio 14 2015
 @goto setupenv
 
 :setupenv
