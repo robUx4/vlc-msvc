@@ -111,19 +111,19 @@ fi
 
 # Set required environment variables:
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
-export CC="$ROOT_FOLDER/wrappers/clwrap"
-export CXX="$ROOT_FOLDER/wrappers/clwrap"
+export CC="clwrap"
+export CXX="clwrap"
 export BUILDCC="`command -v gcc` -std=c99"
 export cc=$CC
 export cxx=$CXX
-export AR="$ROOT_FOLDER/wrappers/ar"
+export AR="ar"
 export NM="dumpbin.exe -symbols"
-export LD="$ROOT_FOLDER/wrappers/ldwrap"
+export LD="ldwrap"
 export CCLD="$LD"
 export CXXLD="$CCLD"
 export RANLIB=true
 #export RC=rc.exe
-export WINDRES="$ROOT_FOLDER/wrappers/windres"
+export WINDRES="windres"
 export PATH="$ROOT_FOLDER/wrappers:$PATH"
 export HAVE_ARMV7A=true
 export HAVE_VISUALSTUDIO=true
