@@ -109,6 +109,10 @@ EOF
     fi
 fi
 
+# Run this before playing with our environment, except for the path,
+# since we want the tools we already built to be detected
+sh $SCRIPTPATH/build-tools.sh || terminate 1
+
 # Set required environment variables:
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
 export CC="clwrap"
