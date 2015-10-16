@@ -193,7 +193,9 @@ __forceinline BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer, HANDL
 __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSection)
 {
     int flags = 0;
-    /* flags = CRITICAL_SECTION_NO_DEBUG_INFO */
+#ifdef NDEBUG
+    flags = CRITICAL_SECTION_NO_DEBUG_INFO;
+#endif
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
 }
 #endif
