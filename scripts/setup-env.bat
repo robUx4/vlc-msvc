@@ -51,6 +51,7 @@ call %VSVARS% %STORE_VARIANT%
 
 :setup_WindowsPhone
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+@rem we may use amd64_arm with VS15 for better speed ?
 @call :GetWindowsPhoneKitDir
 @set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
@@ -61,6 +62,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 
 :setup_Windows
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+@rem we may use amd64_arm with VS15 for better speed ?
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set CMAKE_TARGET=-G "%CMAKE_VS% ARM" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=8.1 -DCMAKE_VS_PLATFORM_TOOLSET=vs120
@@ -70,6 +72,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 
 :setup_Metrox86
 call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
+@rem we may use amd64_x86 with VS15 for better speed ?
 @set LIB=%VCINSTALLDIR%lib\store;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
 @set CMAKE_TARGET=-G "%CMAKE_VS%" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=8.1 -DCMAKE_VS_PLATFORM_TOOLSET=vs120
