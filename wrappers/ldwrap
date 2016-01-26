@@ -2,6 +2,7 @@
 
 echo "LD Wrapping $@"
 
+LD_CMD=mslink
 case $VLC_PLATFORM in
 	Windows|Metrox86)
 		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
@@ -74,6 +75,10 @@ while [ $# -gt 0 ]; do
 	-MANIFEST*)
 		# not working yet
 		;;
+	-r)
+		LD_CMD=lib
+		#FORCED_LIBS=
+		;;
 	-*)
 		ARGS="$ARGS $param"
 		;;
@@ -90,11 +95,12 @@ if [ "$LINK_TARGET" = "" ]; then
 	exit 1
 fi
 
+echo "LD: $LD_CMD"
 echo "Args: $ARGS"
 echo "Objs: $OBJS"
 
 #MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-#echo mslink -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS
-mslink -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+#echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS
+$LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
 exit $?
 
