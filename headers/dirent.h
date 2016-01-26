@@ -43,6 +43,10 @@
 #define _ttelldir _wtelldir
 #define _tseekdir _wseekdir
 
+#define opendir(x)  NULL
+#define readdir(x)  NULL
+#define closedir(x)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
