@@ -36,12 +36,14 @@ case $1 in
         export VLC_ARCH=arm
         export AS=armasm
         export HAVE_WINDOWSRT=true
+        export HAVE_WINSTORE=true
         ;;
     Metrox86)
         export VLC_PLATFORM=Windows
         export VLC_ABI=winrt
         export VLC_ARCH=x86
         export HAVE_WINDOWSRT=true
+        export HAVE_WINSTORE=true
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
@@ -49,6 +51,7 @@ case $1 in
         export VLC_ARCH=arm
         export AS=armasm
         export HAVE_WINPHONE=true
+        export HAVE_WINSTORE=true
         ;;
     *)
         usage
