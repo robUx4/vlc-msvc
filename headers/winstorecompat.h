@@ -261,6 +261,11 @@ __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 }
 #endif
 
+__forceinline HANDLE CreateFileMapping(HANDLE hFile, LPSECURITY_ATTRIBUTES lpAttributes, DWORD flProtect, DWORD dwMaximumSizeHigh, DWORD dwMaximumSizeLow, LPCTSTR lpName)
+{
+    return CreateFileMappingFromApp(hFile, lpAttributes, flProtect, (((ULONG64) dwMaximumSizeHigh) << 32) + (ULONG64) dwMaximumSizeLow, lpName);
+}
+
 #define GetFileAttributes GetFileAttributesW
 
 // End of function declarations, now let's just hardcode all the values...
