@@ -236,7 +236,7 @@ while [ $# -gt 0 ]; do
 			exit 1
 		fi
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-fno-signed-zeros)
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-fno-signed-zeros|-fgnu89-inline)
 		# silently ignore known flags
 		;;
 	-march=*)
