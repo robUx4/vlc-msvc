@@ -52,7 +52,7 @@ cd $BUILD_FOLDER
 	--enable-ebml \
 	--enable-matroska \
 	--enable-ogg \
-    --disable-harfbuzz \
+	--enable-harfbuzz \
 	--enable-vorbis \
 	--enable-libxml2 \
 	--enable-openjpeg \
@@ -70,8 +70,7 @@ cd $BUILD_FOLDER
 	--enable-gnutls \
     --disable-gcrypt \
     --disable-ssh2 \
-    --disable-upnp \
-	--disable-nettle \
+	--enable-nettle \
 	--disable-goom \
 	--disable-projectM \
 	--disable-pthreads \
