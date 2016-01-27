@@ -46,14 +46,23 @@ test_package()
 	command -v $1 > /dev/null 2>&1 || pacman -S --noconfirm $pkg || echo "you may need to run autorebase.bat" || exit 1
 }
 
+case $MSYSTEM in
+    MINGW32)
+        UNAME=i686
+        ;;
+    MINGW64)
+        UNAME=x86_64
+        ;;
+esac
+
 test_gcc()
 {
-    command -v gcc | grep /mingw || pacman -S --noconfirm mingw-w64-`uname -m`-gcc
+    command -v gcc | grep /mingw || pacman -S --noconfirm mingw-w64-$UNAME-gcc
 }
 
 test_package make
 test_package dos2unix
-test_package cmake mingw-w64-`uname -m`-cmake
+test_package cmake mingw-w64-$UNAME-cmake
 test_package unzip
 test_package pkg-config
 test_package autoreconf autoconf
@@ -67,7 +76,7 @@ test_package patch
 test_package cvs
 test_package autogen
 test_gcc #required by ffmpeg for gaspp
-test_package mingw-w64-`uname -m`-protobuf
-test_package mingw-w64-`uname -m`-ragel
+test_package protoc mingw-w64-$UNAME-protobuf
+test_package ragel mingw-w64-$UNAME-ragel
 
 $COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
