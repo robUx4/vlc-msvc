@@ -67,5 +67,7 @@ test_package patch
 test_package cvs
 test_package autogen
 test_gcc #required by ffmpeg for gaspp
+test_package mingw-w64-`uname -m`-protobuf
+test_package mingw-w64-`uname -m`-ragel
 
 $COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
