@@ -3,7 +3,10 @@
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|Metrox86|WindowsPhone"
+    echo "platform: WindowsPhone|Windows|Metrox86"
+    echo "   WindowsPhone: Phone on ARM"
+    echo "   Windows:      Desktop on ARM"
+    echo "   Metrox86:     Desktop on x86"
     echo "configuration: Debug|Release"
 }
 
