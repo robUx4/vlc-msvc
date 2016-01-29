@@ -40,7 +40,7 @@ cd $BUILD_FOLDER
 	--disable-gpl \
 	--disable-sout \
 	--enable-ffmpeg \
-	--disable-flac \
+	--enable-flac \
 	--disable-fontconfig \
 	--enable-freetype2 \
 	--enable-fribidi \
@@ -87,7 +87,7 @@ cd $BUILD_FOLDER
     --disable-postproc \
     --disable-sdl \
     --disable-SDL_image \
-    --disable-modplug \
+	--enable-modplug \
     --disable-disc \
     --disable-lua \
     --disable-protobuf \
