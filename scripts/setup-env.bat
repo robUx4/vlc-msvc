@@ -7,6 +7,8 @@
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=store 8.1
 @set CMAKE_VS=Visual Studio 14 2015
+@set VS_TARGET_ARM=amd64_arm
+@set VS_TARGET_X86=amd64_x86
 @set VS_TOOLSET=vs140
 @goto setupenv
 
@@ -14,6 +16,8 @@
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=
 @set CMAKE_VS=Visual Studio 12 2013
+@set VS_TARGET_ARM=x86_arm
+@set VS_TARGET_X86=x86
 @set VS_TOOLSET=vs120
 @goto setupenv
 
@@ -52,7 +56,7 @@ call %VSVARS% %STORE_VARIANT%
 @exit /B 0
 
 :setup_WindowsPhone
-call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_ARM%
 @rem we may use amd64_arm with VS15 for better speed ?
 @call :GetWindowsPhoneKitDir
 @set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
@@ -63,7 +67,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @goto run_bash
 
 :setup_Windows
-call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
+call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_ARM%
 @rem we may use amd64_arm with VS15 for better speed ?
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
@@ -73,7 +77,7 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" x86_arm
 @goto run_bash
 
 :setup_Metrox86
-call "%VSINSTALLDIR%VC\vcvarsall.bat" x86
+call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_X86%
 @rem we may use amd64_x86 with VS15 for better speed ?
 @set LIB=%VCINSTALLDIR%lib\store;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
