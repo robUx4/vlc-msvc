@@ -58,9 +58,10 @@ call %VSVARS% %STORE_VARIANT%
 :setup_WindowsPhone
 call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_ARM%
 @rem we may use amd64_arm with VS15 for better speed ?
-@call :GetWindowsPhoneKitDir
-@set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
-@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@rem call :GetWindowsPhoneKitDir
+@rem set INCLUDE=%WindowsPhoneKitDir%include;%INCLUDE%
+@rem set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@rem set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIBPATH%
 @set CMAKE_TARGET=-G "%CMAKE_VS% ARM" -DCMAKE_SYSTEM_NAME=WindowsPhone -DCMAKE_SYSTEM_VERSION=8.1 -DCMAKE_VS_PLATFORM_TOOLSET=%VS_TOOLSET%_wp81
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
@@ -69,8 +70,8 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_ARM%
 :setup_Windows
 call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_ARM%
 @rem we may use amd64_arm with VS15 for better speed ?
-@set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
-@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+@rem set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
+@rem set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIBPATH%
 @set CMAKE_TARGET=-G "%CMAKE_VS% ARM" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=8.1 -DCMAKE_VS_PLATFORM_TOOLSET=%VS_TOOLSET%
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86_arm
@@ -79,8 +80,8 @@ call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_ARM%
 :setup_Metrox86
 call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_X86%
 @rem we may use amd64_x86 with VS15 for better speed ?
-@set LIB=%VCINSTALLDIR%lib\store;%LIB%
-@set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@rem set LIB=%VCINSTALLDIR%lib\store;%LIB%
+@rem set LIBPATH=%VCINSTALLDIR%lib\store;%LIBPATH%
 @set CMAKE_TARGET=-G "%CMAKE_VS%" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=8.1 -DCMAKE_VS_PLATFORM_TOOLSET=%VS_TOOLSET%
 @rem bogus VS 2015 RC   IF NOT EXIST "%VCINSTALLDIR%vcvarsphoneall.bat" goto bad_vcvarsphoneall
 @rem bogus VS 2015 RC   call "%VCINSTALLDIR%vcvarsphoneall.bat" x86
