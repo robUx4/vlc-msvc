@@ -1,7 +1,7 @@
 #!/bin/sh
 
-ARGS="cl.exe -EHsc"
-ARGS_DEBUG="-FS -Zi"
+ARGS="cl.exe -EHsc -FS"
+ARGS_DEBUG="-Zi"
 ARGS_RELEASE="-Gw -Ot"
 
 SCRIPT=$(readlink -f "$0")
