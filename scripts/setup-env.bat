@@ -5,7 +5,7 @@
 
 :vs2015
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
-@set STORE_VARIANT=store
+@set STORE_VARIANT=store 8.1
 @set CMAKE_VS=Visual Studio 14 2015
 @goto setupenv
 
