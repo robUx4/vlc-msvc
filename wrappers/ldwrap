@@ -5,10 +5,12 @@ echo "LD Wrapping $@"
 LD_CMD=mslink
 case $VLC_PLATFORM in
 	Windows|Metrox86)
-		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		FORCED_LIBS="mincore.lib"
+#		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
 		;;
 	WindowsPhone)
-		FORCED_LIBS="-APPCONTAINER WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		FORCED_LIBS="mincore.lib"
+#		FORCED_LIBS="-APPCONTAINER WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
@@ -16,9 +18,9 @@ case $VLC_PLATFORM in
 esac
 
 if [ "$VLC_CONFIGURATION" == "Debug" ]; then
-  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
+#  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
 else
-  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
+#  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
 fi
 
 while [ $# -gt 0 ]; do
