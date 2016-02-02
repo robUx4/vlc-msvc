@@ -26,6 +26,13 @@ ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
 
 NO_LOGO="nologo"
 
+#echo VS_RUNTIME = $VS_RUNTIME
+if [ "$VS_RUNTIME" == "static" ]; then
+  STATIC_RUNTIME=1
+else
+  STATIC_RUNTIME=0
+fi
+
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*)
@@ -155,10 +162,16 @@ while [ $# -gt 0 ]; do
 		BUILD_LIB=
 		;;
 	-shared-libgcc)
-		STATIC_RUNTIME=
+		if [ "$STATIC_RUNTIME" == "1" ]; then
+			echo "ERROR: Trying to use a dynamic linking while using static linking"
+			exit 1
+		fi
 		;;
 	-static-libgcc)
-		STATIC_RUNTIME=1
+		if [ "$STATIC_RUNTIME" == "0" ]; then
+			echo "WARNING: Trying to use a static linking while using dynamic linking"
+			#exit 1
+		fi
 		;;
 	-O)
 		ARGS="$ARGS -O2"
@@ -278,7 +291,8 @@ if [ "$compile_asm" == "" ]; then
 	    ARGS="$ARGS $ARGS_RELEASE"
 	fi
 
-	if [ "$STATIC_RUNTIME" != "" ]; then
+	# Don't mix debug with non debug libraries
+	if [ "$STATIC_RUNTIME" == "1" ]; then
 	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
 	    ARGS="$ARGS -MTd"
 	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"

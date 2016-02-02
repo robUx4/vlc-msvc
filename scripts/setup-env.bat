@@ -7,6 +7,7 @@
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=store 8.1
 @set CMAKE_VS=Visual Studio 14 2015
+@set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=amd64_arm
 @set VS_TARGET_X86=amd64_x86
 @set VS_TOOLSET=vs140
@@ -16,6 +17,7 @@
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
 @set STORE_VARIANT=
 @set CMAKE_VS=Visual Studio 12 2013
+@set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=x86_arm
 @set VS_TARGET_X86=x86
 @set VS_TOOLSET=vs120
