@@ -156,6 +156,8 @@ typedef unsigned int mode_t;
 #include "winstorecompat.h"
 #endif /* WINAPI_FAMILY_PC_APP || WINAPI_FAMILY_PHONE_APP */
 
+#if _MSC_VER < 1900
 #pragma warning(disable:4201) /* nameless structs */
+#endif /* _MSC_VER */
 
 #endif
