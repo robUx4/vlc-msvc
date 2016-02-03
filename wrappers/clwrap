@@ -375,7 +375,10 @@ if [ "$compile_asm" != "" ]; then
 	echo compile ASM: $ARGS
 fi
 
-#echo $ARGS
+#echo INCLUDE: $INCLUDE
+#echo LIB: $LIB
+#echo LIBPATH: $LIBPATH
+#echo ARGS: $ARGS
 cmd /C "$ARGS"
 exit $?
 
