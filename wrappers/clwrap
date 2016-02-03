@@ -95,7 +95,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$AS $file"
 		;;
 	*.dll)
-		EXTRALIBS="$EXTRALIBS $param"
+		LINK_FLAGS="$LINK_FLAGS $param"
 		;;
 	-M)
 		deps=1
@@ -215,7 +215,7 @@ while [ $# -gt 0 ]; do
                     ARGS="$ARGS -LD"
                     ;;
                 -IMPLIB*)
-                    EXTRALIBS="$EXTRALIBS $p"
+                    LINK_FLAGS="$LINK_FLAGS $p"
             esac
         done
 		;;
@@ -354,7 +354,7 @@ else
 		fi
 	fi
 fi
-EXTRALIBS="$EXTRALIBS $FORCED_LIBS"
+LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
 
 if [ "$deps" != "" ]; then
 	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
@@ -362,12 +362,12 @@ if [ "$deps" != "" ]; then
 fi
 
 if [ "$compile_asm" == "" ]; then
-	if [ "$LIBDIR" != "" -o "$EXTRALIBS" != "" -o "$BUILD_LIB" != "" ]; then
-	    ARGS="$ARGS -link $EXTRALIBS $LIBDIR"
-	    if [ "$BUILD_LIB" != "" ]; then
-		# Ensure all our libraries are called "libXXX"
-		ARGS="$ARGS -out:$outfile -APPCONTAINER"
-	    fi
+	if [ "$LINK_FLAGS" != "" ]; then
+	    ARGS="$ARGS -link $LINK_FLAGS"
+	fi
+	if [ "$BUILD_LIB" != "" ]; then
+	    #ARGS="$ARGS -out:$outfile -APPCONTAINER"
+	    ARGS="$ARGS -out:$outfile"
 	fi
 fi
 
