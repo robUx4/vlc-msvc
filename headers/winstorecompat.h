@@ -11,7 +11,6 @@
 #endif /* _MSV_VER */
 
 /* not detected properly by autoconf due to early forced include */
-#define HAVE_STRNLEN 1
 #define HAVE_WCSCPY 1
 #define HAVE_WCSLEN 1
 #define HAVE_STRERROR 1
@@ -25,7 +24,6 @@ __forceinline int getpid(void)
 {
     return GetCurrentProcessId();
 }
-#define HAVE_GETPID 1
 typedef int pid_t;
 
 __forceinline char *getenv(const char *name)
@@ -33,14 +31,12 @@ __forceinline char *getenv(const char *name)
     UNREFERENCED_PARAMETER(name);
     return NULL;
 }
-#define HAVE_GETENV 1
 
 __forceinline char *putenv(const char *name)
 {
     UNREFERENCED_PARAMETER(name);
     return NULL;
 }
-#define HAVE_PUTENV 1
 #endif
 
 #if _MSC_VER < 1900
