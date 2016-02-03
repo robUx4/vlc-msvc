@@ -17,10 +17,11 @@ case $VLC_PLATFORM in
 		exit 1
 esac
 
+# Do not use debug runtime in release and vice versa
 if [ "$VLC_CONFIGURATION" == "Debug" ]; then
-#  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib"
+  LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
 else
-#  FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib"
+  LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
 fi
 
 while [ $# -gt 0 ]; do
@@ -102,7 +103,7 @@ echo "Args: $ARGS"
 echo "Objs: $OBJS"
 
 #MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-#echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS
-$LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+#echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
+$LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
 exit $?
 

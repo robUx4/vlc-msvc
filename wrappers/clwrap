@@ -299,19 +299,21 @@ if [ "$compile_asm" == "" ]; then
 	if [ "$STATIC_RUNTIME" == "1" ]; then
 	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
 	    ARGS="$ARGS -MTd"
-#	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
 	  else
 	    ARGS="$ARGS -MT"
-#	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
 	  fi
 	else
 	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
 	    ARGS="$ARGS -MDd"
-#	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
 	  else
 	    ARGS="$ARGS -MD"
-#	    FORCED_LIBS="$FORCED_LIBS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
 	  fi
+	fi
+	# Do not use debug runtime in release and vice versa
+	if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	  LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
+	else
+	  LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
 	fi
 
 	ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711"
