@@ -6,11 +6,11 @@ LD_CMD=mslink
 case $VLC_PLATFORM in
 	Windows|Metrox86)
 		FORCED_LIBS="mincore.lib"
-#		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+# VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		;;
 	WindowsPhone)
 		FORCED_LIBS="mincore.lib"
-#		FORCED_LIBS="-APPCONTAINER WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+# VS2013 SDK		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
