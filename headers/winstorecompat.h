@@ -1,12 +1,12 @@
 #ifndef WINSTORECOMPAT_H__
 # define WINSTORECOMPAT_H__
 
-#ifdef _MSC_VER
+#if _MSC_VER < 1900
 #pragma warning(push)
 #pragma warning(disable:4255)    /* no function prototype given */
 #endif /* _MSV_VER */
 #include <Windows.h>
-#ifdef _MSC_VER
+#if _MSC_VER < 1900
 #pragma warning(pop)
 #endif /* _MSV_VER */
 
