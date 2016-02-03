@@ -337,9 +337,7 @@ if [ "$preproc" != "" ]; then
 else
 	if [ "$outfile" != "" ]; then
 		if [ "$compile" != "" ]; then
-			if [ "$inputfile" == "" ]; then
-				ARGS="$ARGS -o $outfile"
-			else
+			if [ "$inputfile" != "" ]; then
 				if [ "$outfile" != "${inputfile%.*}.exe" ]; then
 					if [ "$compile_asm" != "" ]; then
 						ARGS="$ARGS -o $outfile"
