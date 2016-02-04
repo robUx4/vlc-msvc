@@ -19,17 +19,17 @@ if [ "$VLC_CONFIGURATION" = "" ] ; then
     exit 1
 fi
 
-SRC_FOLDER=$ROOT_FOLDER/vlc/
-BUILD_FOLDER=$ROOT_FOLDER/vlc/${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}/
+SRC_FOLDER=${ROOT_FOLDER}vlc/
+BUILD_FOLDER=${ROOT_FOLDER}vlc/${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
 fi
 cd $BUILD_FOLDER
 
-if [ ! -f $SRC_FOLDER/configure ] || [ "$SRC_FOLDER/configure" -ot "$SRC_FOLDER/configure.ac" ] ; then
+if [ ! -f ${SRC_FOLDER}configure ] || [ "${SRC_FOLDER}configure" -ot "${SRC_FOLDER}configure.ac" ] ; then
     echo "Bootstraping..."
-    dos2unix $SRC_FOLDER/configure.ac
-    $SRC_FOLDER/bootstrap || exit 1
+    dos2unix ${SRC_FOLDER}configure.ac
+    ${SRC_FOLDER}bootstrap || exit 1
 fi
 
 case $VLC_CONFIGURATION in
@@ -41,9 +41,9 @@ case $VLC_CONFIGURATION in
         ;;
 esac
 
-if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot $SRC_FOLDER/configure.ac ] ; then
+if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}configure.ac ] ; then
     echo "Running configure..."
-    export PKG_CONFIG_PATH=$ROOT_FOLDER/vlc/contrib/${BUILD_HOST}_${VLC_CONFIGURATION}/lib/pkgconfig
+    export PKG_CONFIG_PATH=${SRC_FOLDER}contrib/${BUILD_HOST}_${VLC_CONFIGURATION}/lib/pkgconfig
     export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
     #Lua is compiled fine, but configure.ac tries to run luac while checking for it... since it's an arm binary...
     ac_cv_func_getenv=yes ac_cv_func_putenv=yes ac_cv_func_getpid=yes ac_cv_have_decl_strdup=yes \
