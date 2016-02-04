@@ -101,15 +101,15 @@ if [ ! -d $"vlc" ]; then
 else
     echo "VLC source found"
     cd vlc
-    if ! git cat-file -e ${TESTED_HASH}; then
-        cat << EOF
-***
-*** Error: Your vlc checkout does not contain the latest tested commit ***
-***
-
-EOF
-        terminate 1
-    fi
+#    if ! git cat-file -e ${TESTED_HASH}; then
+#        cat << EOF
+#***
+#*** Error: Your vlc checkout does not contain the latest tested commit ***
+#***
+#
+#EOF
+#        terminate 1
+#    fi
 fi
 
 # Run this before playing with our environment, except for the path,
