@@ -4,9 +4,9 @@ usage()
 {
     echo "./build.sh <platform> <configuration>"
     echo "platform: WindowsPhone|Windows|Metrox86"
-    echo "   WindowsPhone: Phone on ARM"
-    echo "   Windows:      Desktop on ARM"
-    echo "   Metrox86:     Desktop on x86"
+    echo "   WindowsPhone: Phone 8.1 on ARM"
+    echo "   Windows:      Desktop 8.1 on ARM"
+    echo "   Metrox86:     Desktop 8.1 on x86"
     echo "configuration: Debug|Release"
 }
 
