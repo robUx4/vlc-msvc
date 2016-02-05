@@ -52,6 +52,10 @@ case $1 in
         export AS=armasm
         export HAVE_WINPHONE=true
         export HAVE_WINSTORE=true
+	echo "Make sure you install the Windows SDK for Windows 8.1 from"
+	echo "  https://dev.windows.com/en-us/downloads/windows-8-1-sdk"
+	echo "And the Windows Driver Kit for Windows 8.1 from"
+	echo " https://msdn.microsoft.com/library/windows/hardware/dn249725%28v=vs.85%29.aspx"
         ;;
     *)
         usage
