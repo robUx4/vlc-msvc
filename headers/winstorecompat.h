@@ -252,10 +252,7 @@ static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseco
     return WaitForSingleObjectEx(hHandle, dwMilliseconds, FALSE);
 }
 
-static __forceinline HANDLE CreateFileMapping(HANDLE hFile, LPSECURITY_ATTRIBUTES lpAttributes, DWORD flProtect, DWORD dwMaximumSizeHigh, DWORD dwMaximumSizeLow, LPCTSTR lpName)
-{
-    return CreateFileMappingFromApp(hFile, lpAttributes, flProtect, (((ULONG64) dwMaximumSizeHigh) << 32) + (ULONG64) dwMaximumSizeLow, lpName);
-}
+#define CreateFileMapping(hf, lpa, flp, high, low, name)  CreateFileMappingFromApp(hf, lpa, flp, (((ULONG64) high) << 32) + (ULONG64) low, name)
 
 #define GetFileAttributes GetFileAttributesW
 
