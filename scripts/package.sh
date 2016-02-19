@@ -43,7 +43,7 @@ cp -R _win32/lib/vlc/plugins    \
         _win32/bin/libvlccore.dll  \
         tmp
 
-mkdir -p ${ROOT_FOLDER}$VLC_PLATFORM/vlc-$VLC_ARCH/
+mkdir -p ${ROOT_FOLDER}../libvlc/$VLC_PLATFORM/vlc-$VLC_ARCH/$VLC_CONFIGURATION
 PACKAGE_FOLDER=${ROOT_FOLDER}../libvlc/$VLC_PLATFORM/vlc-$VLC_ARCH/$VLC_CONFIGURATION
 
 if [ -d $PACKAGE_FOLDER ] ; then
