@@ -99,8 +99,8 @@ while [ $# -gt 0 ]; do
 		# Added to handle -Dsome_include=<somefile.h>
 		# That doesn't work unless the bracket part is quoted
 		case $def in
-            *=\<*\>)
-				def=`echo $def | sed 's/=/\"=/'`\"	
+			*=\<*\>)
+				def=`echo $def | sed 's/=/\"=/'`\"
 				;;
 			*=\"*\")
 				def=`echo $def | sed 's/\"/\\\"/g'`
