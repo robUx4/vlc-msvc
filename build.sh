@@ -3,10 +3,13 @@
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: WindowsPhone|Windows|Metrox86"
+    echo "platform: WindowsPhone|Windows|Metrox86|Universal86|Universal64|UniversalARM"
     echo "   WindowsPhone: Phone 8.1 on ARM"
     echo "   Windows:      Desktop 8.1 on ARM"
     echo "   Metrox86:     Desktop 8.1 on x86"
+    echo "   Universal86:  Universal on x86"
+    echo "   Universal64:  Universal on amd64"
+    echo "   UniversalARM: Universal on ARM"
     echo "configuration: Debug|Release"
 }
 
@@ -16,6 +19,15 @@ case $1 in
         ;;
     Metrox86)
         PLATFORM=Metrox86
+        ;;
+    Universal86)
+        PLATFORM=Universal86
+        ;;
+    Universal64)
+        PLATFORM=Universal64
+        ;;
+    UniversalARM)
+        PLATFORM=UniversalARM
         ;;
     WP|WindowsPhone)
         PLATFORM=WindowsPhone
