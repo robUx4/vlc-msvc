@@ -31,6 +31,13 @@ else
   STATIC_RUNTIME=0
 fi
 
+if [ "$WINAPI_FAMILY" != "" ]; then
+  ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
+fi
+if [ "$WIN32_WINNT" != "" ]; then
+  ARGS="$ARGS -D_WIN32_WINNT=$WIN32_WINNT"
+fi
+
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*|/home/*)
@@ -316,13 +323,6 @@ if [ "$compile_asm" == "" ]; then
 	ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
 fi
 ARGS="$ARGS -$NO_LOGO"
-
-if [ "$WINAPI_FAMILY" != "" ]; then
-  ARGS="$ARGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
-fi
-if [ "$WIN32_WINNT" != "" ]; then
-  ARGS="$ARGS -D_WIN32_WINNT=$WIN32_WINNT"
-fi
 
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one
