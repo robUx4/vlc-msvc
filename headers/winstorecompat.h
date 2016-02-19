@@ -59,6 +59,7 @@ static __forceinline HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAt
 {
     return CreateSemaphoreExW(lpSemaphoreAttributes, lInitialCount, lMaximumCount, lpName, 0, EVENT_ALL_ACCESS);
 }
+#endif /* _WIN32_WINNT */
 
 static __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
 {
@@ -76,7 +77,6 @@ static __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHi
 
     return dwRet;
 }
-#endif /* _WIN32_WINNT */
 
 #if _MSC_VER < 1900
 /*
