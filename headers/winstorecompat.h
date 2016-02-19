@@ -41,6 +41,7 @@ static __forceinline char *putenv(const char *name)
 
 #define CreateEvent CreateEventW
 
+#if _WIN32_WINNT < 0x0A00
 static __forceinline HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCWSTR lpName)
 {
     int flags = 0;
@@ -75,6 +76,7 @@ static __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHi
 
     return dwRet;
 }
+#endif /* _WIN32_WINNT */
 
 #if _MSC_VER < 1900
 /*
@@ -120,6 +122,7 @@ static __forceinline HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAcces
 #define CreateFile                      CreateFileW
 #define CreateFileA(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
 
+#if _WIN32_WINNT < 0x0A00
 static __forceinline DWORD GetFileType(HANDLE hFile)
 {
     if (hFile != INVALID_HANDLE_VALUE)
@@ -134,6 +137,7 @@ static __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes
         flags |= CREATE_MUTEX_INITIAL_OWNER;
     return CreateMutexExW(lpMutexAttributes, lpName, flags, EVENT_ALL_ACCESS);
 }
+#endif /* _WIN32_WINNT */
 #define CreateMutex CreateMutexW
 
 static __forceinline UINT GetACP(void)
@@ -182,6 +186,7 @@ static __forceinline BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer
     return 0;
 }
 
+#if _WIN32_WINNT < 0x0A00
 static __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSection)
 {
     int flags = 0;
@@ -190,6 +195,7 @@ static __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCritica
 #endif
     InitializeCriticalSectionEx(lpCriticalSection, 0, flags);
 }
+#endif /* _WIN32_WINNT */
 
 static __forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
 {
@@ -242,6 +248,7 @@ static __forceinline char* _getcwd(char *buffer, int maxlen)
 #endif
 #define getcwd _getcwd
 
+#if _WIN32_WINNT < 0x0A00
 static __forceinline void GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
 {
     GetNativeSystemInfo(lpSystemInfo);
@@ -253,6 +260,7 @@ static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseco
 }
 
 #define CreateFileMapping(hf, lpa, flp, high, low, name)  CreateFileMappingFromApp(hf, lpa, flp, (((ULONG64) high) << 32) + (ULONG64) low, name)
+#endif /* _WIN32_WINNT */
 
 #define GetFileAttributes GetFileAttributesW
 
