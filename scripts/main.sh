@@ -52,17 +52,17 @@ case $1 in
         echo " https://msdn.microsoft.com/library/windows/hardware/dn249725%28v=vs.85%29.aspx"
         ;;
     Universal86)
-        export VLC_PLATFORM=Windows
+        export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=x86
         ;;
     Universal64)
-        export VLC_PLATFORM=Windows
+        export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=amd64
         ;;
     UniversalARM)
-        export VLC_PLATFORM=Windows
+        export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=arm
         ;;

@@ -4,7 +4,7 @@ echo "LD Wrapping $@"
 
 LD_CMD=mslink
 case $VLC_PLATFORM in
-	Windows|Metrox86)
+	Windows|Metrox86|Universal)
 		FORCED_LIBS="mincore.lib"
 # VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		;;

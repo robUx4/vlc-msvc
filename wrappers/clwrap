@@ -9,7 +9,7 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 INCLUDES_FOLDER=$SCRIPTPATH/../headers
 
 case $VLC_PLATFORM in
-	Windows|Metrox86)
+	Windows|Metrox86|Universal)
 		FORCED_LIBS="mincore.lib"
 # VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		;;
