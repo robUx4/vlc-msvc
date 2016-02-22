@@ -130,6 +130,18 @@ fi
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
 sh $SCRIPTPATH/build-tools.sh || terminate 1
 
+if [ "$WIN32_WINNT" != "" ] ; then
+    CPPFLAGS="$CPPFLAGS -D_WIN32_WINNT=$WIN32_WINNT"
+    CFLAGS="$CFLAGS -D_WIN32_WINNT=$WIN32_WINNT"
+    CXXFLAGS="$CXXFLAGS -D_WIN32_WINNT=$WIN32_WINNT"
+fi
+
+if [ "$WINAPI_FAMILY" != "" ] ; then
+    CPPFLAGS="$CPPFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
+    CFLAGS="$CFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
+    CXXFLAGS="$CXXFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
+fi
+
 # Set required environment variables:
 export CC="clwrap"
 export CXX="clwrap"
@@ -145,6 +157,9 @@ export RANLIB=true
 #export RC=rc.exe
 export WINDRES="windres"
 export PATH="$ROOT_FOLDER/wrappers:$PATH"
+export CPPFLAGS="$CPPFLAGS"
+export CFLAGS="$CFLAGS"
+export CXXFLAGS="$CXXFLAGS"
 export HAVE_ARMV7A=true
 export HAVE_VISUALSTUDIO=true
 # Prevent some broken MSYS conversions
