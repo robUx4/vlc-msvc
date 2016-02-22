@@ -160,7 +160,7 @@ export PATH="$ROOT_FOLDER/wrappers:$PATH"
 export CPPFLAGS="$CPPFLAGS"
 export CFLAGS="$CFLAGS"
 export CXXFLAGS="$CXXFLAGS"
-export HAVE_ARMV7A=true
+# export HAVE_ARMV7A=true
 export HAVE_VISUALSTUDIO=true
 # Prevent some broken MSYS conversions
 # Mind that having a terminal ';' would make empty string a token
