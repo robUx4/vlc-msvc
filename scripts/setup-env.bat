@@ -89,6 +89,7 @@
 @set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=x86_arm
 @set VS_TARGET_x86=x86
+@set VS_IS_2013=VS_IS_2013
 @IF "%CMAKE_VS_PLATFORM_TOOLSET%"=="" set CMAKE_VS_PLATFORM_TOOLSET=vs120
 @goto setupenv
 
