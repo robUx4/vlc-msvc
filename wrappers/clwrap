@@ -9,13 +9,16 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 INCLUDES_FOLDER=$SCRIPTPATH/../headers
 
 case $VLC_PLATFORM in
-	Windows|Metrox86|Universal)
-		FORCED_LIBS="mincore.lib"
+	Windows|Metrox86)
+		FORCED_LIBS="mincore.lib kernel32.lib"
 # VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		;;
 	WindowsPhone)
-		FORCED_LIBS="mincore.lib"
+		FORCED_LIBS="mincore.lib kernel32.lib"
 # VS2013 SDK		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
+		;;
+	Universal)
+		FORCED_LIBS="mincore.lib"
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
