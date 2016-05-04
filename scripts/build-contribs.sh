@@ -77,7 +77,7 @@ cd $BUILD_FOLDER
 	--disable-qt \
 	--disable-schroedinger \
 	--enable-theora \
-	--disable-vncserver \
+	--disable-vncclient \
 	--disable-zvbi \
 	--disable-sdl \
     --disable-aribb25 \
