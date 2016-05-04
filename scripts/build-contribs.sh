@@ -94,6 +94,8 @@ cd $BUILD_FOLDER
 	--disable-d3d11 \
 	--disable-dshow \
 	--disable-libarchive \
+	--disable-nfs \
+	--disable-microdns \
 	|| exit 1
 
 make -j`nproc` || exit 1
