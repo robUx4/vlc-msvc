@@ -34,6 +34,10 @@ else
   STATIC_RUNTIME=0
 fi
 
+if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+  HAVE_DEBUG=1
+fi
+
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*|/home/*)
