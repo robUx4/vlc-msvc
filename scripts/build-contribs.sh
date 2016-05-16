@@ -89,7 +89,7 @@ cd $BUILD_FOLDER
     --disable-SDL_image \
 	--enable-modplug \
     --disable-disc \
-    --disable-lua \
+    --enable-lua \
     --disable-protobuf \
 	--disable-d3d11 \
 	--disable-dshow \
