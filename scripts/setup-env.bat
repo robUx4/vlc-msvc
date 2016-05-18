@@ -16,7 +16,6 @@
 @set WIN32_WINNT=0x603
 @set WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP
 @rem set CMAKE_SYSTEM_NAME=WindowsPhone
-@rem set WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP
 @goto select_vs
 
 :setup_Windows
