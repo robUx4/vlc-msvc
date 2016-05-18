@@ -106,6 +106,7 @@ __forceinline BOOL CryptGenRandom(HCRYPTPROV phProv, DWORD dwLen, BYTE *pbBuffer
     return TRUE;
 }
 
+#if !defined(_WIN32_WINNT) || _WIN32_WINNT < 0x0A00
 __forceinline HCERTSTORE CertOpenSystemStore(HCRYPTPROV_LEGACY hprov, LPCSTR szSubsystemProtocol)
 {
     static const WCHAR *className = L"Windows.Security.Cryptography.Certificates";
@@ -171,5 +172,113 @@ __forceinline PCCRL_CONTEXT CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CON
 }
 
 #define Loaded_CertEnumCRLsInStore CertEnumCRLsInStore
+#endif /* _WIN32_WINNT */
+
+// By default, when the CurrentUser "Root" store is opened, any SystemRegistry
+// roots not also on the protected root list are deleted from the cache before
+// CertOpenStore() returns. Set the following flag to return all the roots
+// in the SystemRegistry without checking the protected root list.
+#define CERT_SYSTEM_STORE_UNPROTECTED_FLAG      0x40000000
+
+#define CERT_SYSTEM_STORE_DEFER_READ_FLAG       0x20000000
+
+// Location of the system store:
+#define CERT_SYSTEM_STORE_LOCATION_MASK         0x00FF0000
+#define CERT_SYSTEM_STORE_LOCATION_SHIFT        16
+
+
+//  Registry: HKEY_CURRENT_USER or HKEY_LOCAL_MACHINE
+#define CERT_SYSTEM_STORE_CURRENT_USER_ID       1
+#define CERT_SYSTEM_STORE_LOCAL_MACHINE_ID      2
+//  Registry: HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Services
+#define CERT_SYSTEM_STORE_CURRENT_SERVICE_ID    4
+#define CERT_SYSTEM_STORE_SERVICES_ID           5
+//  Registry: HKEY_USERS
+#define CERT_SYSTEM_STORE_USERS_ID              6
+
+//  Registry: HKEY_CURRENT_USER\Software\Policies\Microsoft\SystemCertificates
+#define CERT_SYSTEM_STORE_CURRENT_USER_GROUP_POLICY_ID    7
+//  Registry: HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\SystemCertificates
+#define CERT_SYSTEM_STORE_LOCAL_MACHINE_GROUP_POLICY_ID   8
+
+//  Registry: HKEY_LOCAL_MACHINE\Software\Microsoft\EnterpriseCertificates
+#define CERT_SYSTEM_STORE_LOCAL_MACHINE_ENTERPRISE_ID     9
+
+#define CERT_SYSTEM_STORE_CURRENT_USER          \
+    (CERT_SYSTEM_STORE_CURRENT_USER_ID << CERT_SYSTEM_STORE_LOCATION_SHIFT)
+#define CERT_SYSTEM_STORE_LOCAL_MACHINE         \
+    (CERT_SYSTEM_STORE_LOCAL_MACHINE_ID << CERT_SYSTEM_STORE_LOCATION_SHIFT)
+#define CERT_SYSTEM_STORE_CURRENT_SERVICE       \
+    (CERT_SYSTEM_STORE_CURRENT_SERVICE_ID << CERT_SYSTEM_STORE_LOCATION_SHIFT)
+#define CERT_SYSTEM_STORE_SERVICES              \
+    (CERT_SYSTEM_STORE_SERVICES_ID << CERT_SYSTEM_STORE_LOCATION_SHIFT)
+#define CERT_SYSTEM_STORE_USERS                 \
+    (CERT_SYSTEM_STORE_USERS_ID << CERT_SYSTEM_STORE_LOCATION_SHIFT)
+
+#define CERT_SYSTEM_STORE_CURRENT_USER_GROUP_POLICY   \
+    (CERT_SYSTEM_STORE_CURRENT_USER_GROUP_POLICY_ID << \
+        CERT_SYSTEM_STORE_LOCATION_SHIFT)
+#define CERT_SYSTEM_STORE_LOCAL_MACHINE_GROUP_POLICY  \
+    (CERT_SYSTEM_STORE_LOCAL_MACHINE_GROUP_POLICY_ID << \
+        CERT_SYSTEM_STORE_LOCATION_SHIFT)
+
+#define CERT_SYSTEM_STORE_LOCAL_MACHINE_ENTERPRISE  \
+    (CERT_SYSTEM_STORE_LOCAL_MACHINE_ENTERPRISE_ID << \
+        CERT_SYSTEM_STORE_LOCATION_SHIFT)
+
+//+-------------------------------------------------------------------------
+//  Certificate Store Provider Types
+//--------------------------------------------------------------------------
+#define CERT_STORE_PROV_MSG                 ((LPCSTR) 1)
+#define CERT_STORE_PROV_MEMORY              ((LPCSTR) 2)
+#define CERT_STORE_PROV_FILE                ((LPCSTR) 3)
+#define CERT_STORE_PROV_REG                 ((LPCSTR) 4)
+
+#define CERT_STORE_PROV_PKCS7               ((LPCSTR) 5)
+#define CERT_STORE_PROV_SERIALIZED          ((LPCSTR) 6)
+#define CERT_STORE_PROV_FILENAME_A          ((LPCSTR) 7)
+#define CERT_STORE_PROV_FILENAME_W          ((LPCSTR) 8)
+#define CERT_STORE_PROV_FILENAME            CERT_STORE_PROV_FILENAME_W
+#define CERT_STORE_PROV_SYSTEM_A            ((LPCSTR) 9)
+#define CERT_STORE_PROV_SYSTEM_W            ((LPCSTR) 10)
+#define CERT_STORE_PROV_SYSTEM              CERT_STORE_PROV_SYSTEM_W
+
+#define CERT_STORE_PROV_COLLECTION          ((LPCSTR) 11)
+#define CERT_STORE_PROV_SYSTEM_REGISTRY_A   ((LPCSTR) 12)
+#define CERT_STORE_PROV_SYSTEM_REGISTRY_W   ((LPCSTR) 13)
+#define CERT_STORE_PROV_SYSTEM_REGISTRY     CERT_STORE_PROV_SYSTEM_REGISTRY_W
+#define CERT_STORE_PROV_PHYSICAL_W          ((LPCSTR) 14)
+#define CERT_STORE_PROV_PHYSICAL            CERT_STORE_PROV_PHYSICAL_W
+
+// SmartCard Store Provider isn't supported
+#define CERT_STORE_PROV_SMART_CARD_W        ((LPCSTR) 15)
+#define CERT_STORE_PROV_SMART_CARD          CERT_STORE_PROV_SMART_CARD_W
+
+#define CERT_STORE_PROV_LDAP_W              ((LPCSTR) 16)
+#define CERT_STORE_PROV_LDAP                CERT_STORE_PROV_LDAP_W
+#define CERT_STORE_PROV_PKCS12              ((LPCSTR) 17)
+
+#define sz_CERT_STORE_PROV_MEMORY           "Memory"
+#define sz_CERT_STORE_PROV_FILENAME_W       "File"
+#define sz_CERT_STORE_PROV_FILENAME         sz_CERT_STORE_PROV_FILENAME_W
+#define sz_CERT_STORE_PROV_SYSTEM_W         "System"
+#define sz_CERT_STORE_PROV_SYSTEM           sz_CERT_STORE_PROV_SYSTEM_W
+#define sz_CERT_STORE_PROV_PKCS7            "PKCS7"
+#define sz_CERT_STORE_PROV_PKCS12           "PKCS12"
+#define sz_CERT_STORE_PROV_SERIALIZED       "Serialized"
+
+#define sz_CERT_STORE_PROV_COLLECTION       "Collection"
+#define sz_CERT_STORE_PROV_SYSTEM_REGISTRY_W "SystemRegistry"
+#define sz_CERT_STORE_PROV_SYSTEM_REGISTRY  sz_CERT_STORE_PROV_SYSTEM_REGISTRY_W
+#define sz_CERT_STORE_PROV_PHYSICAL_W       "Physical"
+#define sz_CERT_STORE_PROV_PHYSICAL         sz_CERT_STORE_PROV_PHYSICAL_W
+
+// SmartCard Store Provider isn't supported
+#define sz_CERT_STORE_PROV_SMART_CARD_W     "SmartCard"
+#define sz_CERT_STORE_PROV_SMART_CARD       sz_CERT_STORE_PROV_SMART_CARD_W
+
+#define sz_CERT_STORE_PROV_LDAP_W           "Ldap"
+#define sz_CERT_STORE_PROV_LDAP             sz_CERT_STORE_PROV_LDAP_W
+
 
 #endif /* WINAPI_FAMILY */
