@@ -58,7 +58,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
         --disable-sout \
         --enable-flac \
         --disable-lua \
-        --disable-flac \
         --enable-avcodec \
         --enable-merge-ffmpeg \
         --enable-dca \
