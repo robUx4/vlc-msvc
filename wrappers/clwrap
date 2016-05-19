@@ -40,7 +40,7 @@ fi
 
 while [ $# -gt 0 ]; do
     case $1 in
-        /[a-z]/*|/usr/*|/home/*)
+        /[a-z]/*|/usr/*|/home/*|/tmp/*)
             param=`cygpath -w $1`
             ;;
         /*)
