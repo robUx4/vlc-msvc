@@ -56,6 +56,8 @@ cd $BUILD_FOLDER
 	--enable-vorbis \
 	--enable-libxml2 \
 	--enable-openjpeg \
+	--enable-vpx \
+	--enable-jpeg \
 	--enable-opus \
 	--enable-speex \
 	--enable-speexdsp \

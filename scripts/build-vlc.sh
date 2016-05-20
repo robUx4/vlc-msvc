@@ -89,7 +89,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
         --disable-crystalhd \
         --disable-x265 \
         --disable-x264 \
-        --disable-vpx \
+        --enable-vpx \
         --disable-upnp \
         --enable-gnutls \
         --disable-postproc \
