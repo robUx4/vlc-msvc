@@ -2,27 +2,29 @@
 
 echo "LD Wrapping $@"
 
-LD_CMD=mslink
-case $VLC_PLATFORM in
-	Windows|Metrox86|Universal)
-		FORCED_LIBS="mincore.lib"
-# VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
-		;;
-	WindowsPhone)
-		FORCED_LIBS="mincore.lib"
-# VS2013 SDK		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
-		;;
-	*)
-		echo "clwrap: Invalid platform: $VLC_PLATFORM"
-		exit 1
-esac
-
 # Do not use debug runtime in release and vice versa
 if [ "$VLC_CONFIGURATION" == "Debug" ]; then
   LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
 else
   LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
 fi
+
+LD_CMD=mslink
+case $VLC_PLATFORM in
+	Windows|Metrox86|Universal)
+		FORCED_LIBS="mincore.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+# VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
+		;;
+	WindowsPhone)
+		FORCED_LIBS="mincore.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+# VS2013 SDK		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
+		;;
+	*)
+		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		exit 1
+esac
 
 while [ $# -gt 0 ]; do
     case $1 in

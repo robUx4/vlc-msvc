@@ -11,14 +11,17 @@ INCLUDES_FOLDER=$SCRIPTPATH/../headers
 case $VLC_PLATFORM in
 	Windows|Metrox86)
 		FORCED_LIBS="mincore.lib kernel32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 # VS2013 SDK		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		;;
 	WindowsPhone)
 		FORCED_LIBS="mincore.lib kernel32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 # VS2013 SDK		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
 		;;
 	Universal)
 		FORCED_LIBS="mincore.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
