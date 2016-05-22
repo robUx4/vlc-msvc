@@ -65,6 +65,7 @@ case $1 in
         export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=arm
+        export AS=armasm
         ;;
     *)
         usage
