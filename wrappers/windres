@@ -7,8 +7,11 @@ echo "Wrapping windres $@"
 while [ $# -gt 0 ]; do
     case $1 in 
         --include-dir)
-            ARGS="$ARGS -I$2"
+            ARGS="$ARGS -I `cygpath -w $2`"
             shift
+            ;;
+        --include-dir=*)
+            ARGS="$ARGS -I `cygpath -w ${1#--include-dir=}`"
             ;;
         -i)
             INPUT=$2
