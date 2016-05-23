@@ -79,7 +79,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
         --disable-zvbi \
         --disable-telx \
         --enable-nls \
-        --enable-mad \
         --disable-schroedinger \
         --enable-theora \
         --disable-goom \

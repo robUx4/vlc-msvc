@@ -92,7 +92,6 @@ cd $BUILD_FOLDER
 	--enable-modplug \
     --disable-disc \
     --enable-lua \
-    --enable-mad \
     --disable-protobuf \
 	--disable-d3d11 \
 	--disable-dshow \
