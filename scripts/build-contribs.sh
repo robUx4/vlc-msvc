@@ -85,7 +85,7 @@ cd $BUILD_FOLDER
     --disable-aribb25 \
 	--enable-a52 \
     --enable-samplerate \
-    --disable-upnp \
+    --enable-upnp \
     --disable-postproc \
     --disable-sdl \
     --disable-SDL_image \
