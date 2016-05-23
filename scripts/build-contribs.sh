@@ -101,5 +101,5 @@ cd $BUILD_FOLDER
 	--disable-microdns \
 	|| exit 1
 
-make -j`nproc` || exit 1
-#make V=1 || exit 1
+USE_FFMPEG=1 make -j`nproc` || exit 1
+#USE_FFMPEG=1 make V=1 || exit 1
