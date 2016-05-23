@@ -218,6 +218,12 @@ while [ $# -gt 0 ]; do
                     BUILD_LIB=1
                     ARGS="$ARGS -LD"
                     ;;
+                --dynamicbase)
+                    ARGS="$ARGS -dynamicbase"
+                    ;;
+                --high-entropy-va)
+                    ARGS="$ARGS -highentropyva"
+                    ;;
                 -IMPLIB*)
                     LINK_FLAGS="$LINK_FLAGS $p"
             esac

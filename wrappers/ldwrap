@@ -62,6 +62,9 @@ while [ $# -gt 0 ]; do
 	-implib:*)
 		ARGS="$ARGS $param"
 		;;
+	--high-entropy-va)
+		ARGS="$ARGS -highentropyva"
+		;;
 	-l*)
 		OBJS="$OBJS ${param#-l}.lib"
 		;;
