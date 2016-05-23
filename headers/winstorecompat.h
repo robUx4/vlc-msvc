@@ -27,17 +27,8 @@ static __forceinline int getpid(void)
 typedef int pid_t;
 #endif /* _MSC_VER */
 
-static __forceinline char *getenv(const char *name)
-{
-    UNREFERENCED_PARAMETER(name);
-    return NULL;
-}
-
-static __forceinline char *putenv(const char *name)
-{
-    UNREFERENCED_PARAMETER(name);
-    return NULL;
-}
+#define getenv(x) NULL
+#define putenv(x) NULL
 
 #define CreateEvent CreateEventW
 
