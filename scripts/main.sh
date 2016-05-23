@@ -67,6 +67,11 @@ case $1 in
         export VLC_ARCH=arm
         export AS=armasm
         ;;
+    Win32)
+        export VLC_PLATFORM=Windows
+        export VLC_ABI=desktop
+        export VLC_ARCH=x86
+        ;;
     *)
         usage
         ;;

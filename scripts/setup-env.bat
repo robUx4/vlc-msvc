@@ -5,6 +5,7 @@
 @IF /I "%1" == "Universal86"  goto setup_Universal86
 @IF /I "%1" == "Universal64"  goto setup_Universal64
 @IF /I "%1" == "UniversalARM"  goto setup_UniversalARM
+@IF /I "%1" == "Win32"        goto setup_Win32
 @echo Unknown target "%1"
 @exit -1
 
@@ -57,6 +58,13 @@
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
+@goto select_vs
+
+:setup_Win32
+@set SDK_VER=10.0.10586.0
+@set CMAKE_SYSTEM_PROCESSOR=x86
+@set WIN32_WINNT=0x0A00
+@set WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
 @goto select_vs
 
 
