@@ -3,6 +3,7 @@
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <malloc.h>
 #define net_errno (WSAGetLastError())
 
 typedef ULONG nfds_t;
