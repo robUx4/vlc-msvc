@@ -98,5 +98,5 @@ cd $BUILD_FOLDER
 	--enable-microdns \
 	|| exit 1
 
-USE_FFMPEG=1 make -j`nproc` || exit 1
-#USE_FFMPEG=1 make V=1 || exit 1
+USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
+#USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
