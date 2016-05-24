@@ -82,7 +82,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
         --disable-schroedinger \
         --enable-theora \
         --disable-goom \
-        --disable-libgcrypt \
+        --enable-libgcrypt \
         --disable-dbus \
         --disable-archive \
         --disable-crystalhd \

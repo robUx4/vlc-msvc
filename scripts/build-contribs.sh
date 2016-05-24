@@ -68,10 +68,8 @@ cd $BUILD_FOLDER
 	--disable-gettext \
 	--disable-gme \
 	--disable-gmp \
-	--disable-libgpg-error \
 	--enable-gnutls \
-    --disable-gcrypt \
-    --disable-ssh2 \
+    --enable-ssh2 \
 	--enable-nettle \
 	--disable-goom \
 	--disable-projectM \
