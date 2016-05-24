@@ -97,7 +97,7 @@ cd $BUILD_FOLDER
 	--disable-dshow \
 	--disable-libarchive \
 	--disable-nfs \
-	--disable-microdns \
+	--enable-microdns \
 	|| exit 1
 
 USE_FFMPEG=1 make -j`nproc` || exit 1
