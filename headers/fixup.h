@@ -30,8 +30,8 @@
 typedef signed long int ssize_t;
 typedef signed long int off_t;
 typedef unsigned int mode_t;
-# define N_(x) x
-# define _(x) x
+//# define N_(x) x
+//# define _(x) x
 
 # define alloca _alloca
 # define bzero(a,b) memset( (a), 0, (b) )
