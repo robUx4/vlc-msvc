@@ -92,7 +92,7 @@ cd $BUILD_FOLDER
 	--disable-d3d11 \
 	--disable-dshow \
 	--disable-libarchive \
-	--disable-nfs \
+	--enable-nfs \
 	--enable-microdns \
 	|| exit 1
 
