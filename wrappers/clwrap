@@ -67,6 +67,9 @@ while [ $# -gt 0 ]; do
 		preproc=1
 		;;
 	-P)
+		if [ "$preproc" == "" ]; then
+			ARGS="$ARGS $param"
+		fi
 		# Ignore those for preprocessor
 		;;
 	-c)
