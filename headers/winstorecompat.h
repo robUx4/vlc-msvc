@@ -15,6 +15,9 @@
 #define HAVE_WCSLEN 1
 #define HAVE_STRERROR 1
 
+/* defines implied by the C runtime */
+#define _TIMESPEC_DEFINED
+
 #ifdef __cplusplus
 extern "C" {
 #endif
