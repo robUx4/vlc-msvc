@@ -256,6 +256,21 @@ static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseco
 #define GetFileAttributes GetFileAttributesW
 #define GetTickCount      GetTickCount64
 
+static __forceinline void *LocalAlloc(UINT uFlags, SIZE_T uBytes)
+{
+    DWORD dFlags = 0;
+    if (uFlags & LMEM_ZEROINIT)
+        dFlags |= HEAP_ZERO_MEMORY;
+    return HeapAlloc(GetProcessHeap(), dFlags, uBytes);
+}
+
+static __forceinline void *LocalFree(void *hMem)
+{
+    if (HeapFree(GetProcessHeap(), 0, hMem))
+        return NULL;
+    return hMem;
+}
+
 // End of function declarations, now let's just hardcode all the values...
 #define GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS 0x04;
 
