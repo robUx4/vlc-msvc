@@ -1,6 +1,10 @@
 #include <windows.h>
 #include <winapifamily.h>
 
+#ifndef WINCRYPT32API 
+#define WINCRYPT32API DECLSPEC_IMPORT
+#endif
+
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 
 # define COBJMACROS
@@ -172,6 +176,11 @@ __forceinline PCCRL_CONTEXT CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CON
 }
 
 #define Loaded_CertEnumCRLsInStore CertEnumCRLsInStore
+#else
+WINCRYPT32API HCERTSTORE WINAPI CertOpenStore(LPCSTR lpszStoreProvider, DWORD dwEncodingType, HCRYPTPROV_LEGACY hCryptProv, DWORD dwFlags, const void *pvPara);
+WINCRYPT32API BOOL WINAPI CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags);
+WINCRYPT32API PCCRL_CONTEXT WINAPI CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CONTEXT pPrevCrlContext);
+WINCRYPT32API PCCERT_CONTEXT WINAPI CertEnumCertificatesInStore(HCERTSTORE hCertStore, PCCERT_CONTEXT pPrevCertContext);
 #endif /* _WIN32_WINNT */
 
 // By default, when the CurrentUser "Root" store is opened, any SystemRegistry
