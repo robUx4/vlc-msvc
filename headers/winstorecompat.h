@@ -254,6 +254,7 @@ static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseco
 #endif /* _WIN32_WINNT */
 
 #define GetFileAttributes GetFileAttributesW
+#define GetTickCount      GetTickCount64
 
 // End of function declarations, now let's just hardcode all the values...
 #define GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS 0x04;
