@@ -67,10 +67,8 @@ while [ $# -gt 0 ]; do
 		preproc=1
 		;;
 	-P)
-		if [ "$preproc" == "" ]; then
-			ARGS="$ARGS $param"
-		fi
-		# Ignore those for preprocessor
+		HAS_P=1
+		# Ignore profile information
 		;;
 	-c)
 		ARGS="$ARGS -c"
@@ -339,16 +337,21 @@ if [ "$compile_asm" == "" ]; then
 fi
 ARGS="$ARGS -$NO_LOGO"
 
+LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
+
 # There need to be no space between all the segments of the variable
 # It still needs to be considered as 3 values and not one
 # There need to be double quotes around the path
 
 if [ "$preproc" != "" ]; then
+	# add the lines and comments
+	if [ "$HAS_P" == "" ]; then
+		ARGS="$ARGS -C"
+	fi
 	if [ "$compile" != "" ]; then
 		ARGS="$ARGS -P -Fi$outfile"
 	else
-		#ARGS=$(echo $ARGS | sed s/-P/-E/)
-		ARGS="$ARGS -EP"
+		ARGS="$ARGS -E"
 	fi
 else
 	if [ "$outfile" != "" ]; then
@@ -367,32 +370,31 @@ else
 			ARGS="$ARGS -Fe$exefile"
 		fi
 	fi
+	if [ "$compile_asm" == "" ]; then
+		if [ "$LINK_FLAGS" != "" ]; then
+		    ARGS="$ARGS -link $LINK_FLAGS"
+		fi
+		if [ "$BUILD_LIB" != "" ]; then
+		    #ARGS="$ARGS -out:$outfile -APPCONTAINER"
+		    ARGS="$ARGS -out:$outfile"
+		fi
+	else
+		echo compile ASM: $ARGS
+	fi
 fi
-LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
 
 if [ "$deps" != "" ]; then
 	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
 	exit $?
 fi
 
-if [ "$compile_asm" == "" ]; then
-	if [ "$LINK_FLAGS" != "" ]; then
-	    ARGS="$ARGS -link $LINK_FLAGS"
-	fi
-	if [ "$BUILD_LIB" != "" ]; then
-	    #ARGS="$ARGS -out:$outfile -APPCONTAINER"
-	    ARGS="$ARGS -out:$outfile"
-	fi
-fi
-
-if [ "$compile_asm" != "" ]; then
-	echo compile ASM: $ARGS
-fi
-
-#echo INCLUDE: $INCLUDE
-#echo LIB: $LIB
-#echo LIBPATH: $LIBPATH
-#echo ARGS: $ARGS
+#~ if [ "$NO_LOGO" == "nologo" ]; then
+#~ echo // SRC: $@
+#~ echo // INCLUDE: $INCLUDE
+#~ echo // LIB: $LIB
+#~ echo // LIBPATH: $LIBPATH
+#~ echo // ARGS: $ARGS
+#~ fi
 cmd /C "$ARGS"
 exit $?
 
