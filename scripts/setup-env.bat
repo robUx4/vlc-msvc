@@ -119,4 +119,58 @@ call %VSVARS% %SDK_VARIANT%
 @rem set CMAKE_SYSTEM_VERSION=%SDK_VER%
 @rem set CMAKE_TARGET=-G "%CMAKE_VS%" -DCMAKE_SYSTEM_NAME=%CMAKE_SYSTEM_NAME% -DCMAKE_SYSTEM_VERSION=%CMAKE_SYSTEM_VERSION% -DCMAKE_VS_PLATFORM_TOOLSET=%CMAKE_VS_PLATFORM_TOOLSET% -DCMAKE_SYSTEM_PROCESSOR=%CMAKE_SYSTEM_PROCESSOR%
 @set CMAKE_TARGET=-G "%CMAKE_VS%" -DCMAKE_SYSTEM_VERSION=%SDK_VER% -DCMAKE_VS_PLATFORM_TOOLSET=%CMAKE_VS_PLATFORM_TOOLSET% -DCMAKE_SYSTEM_PROCESSOR=%CMAKE_SYSTEM_PROCESSOR%
+
+@IF /I "%1" == "WindowsPhone" goto setupenv_WindowsPhone81
+@IF /I "%1" == "Windows"      goto setupenv_Windows
+@IF /I "%1" == "Metrox86"     goto setupenv_Metrox86
+@goto call_main
+
+
+:setupenv_WindowsPhone81
+@call :GetWindowsPhoneKitDir81
+@set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@goto call_main
+
+:setupenv_Windows
+@set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+@goto call_main
+
+:setupenv_Metrox86
+@set LIB=%VCINSTALLDIR%lib\store;%LIB%
+@set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@goto call_main
+
+
+:call_main
 %WD%%MSYSCON% --hold always /usr/bin/bash scripts/main.sh %*
+
+
+@REM -----------------------------------------------------------------------
+:GetWindowsPhoneKitDir81
+@set WindowsPhoneKitDir=
+@call :GetWindowsPhoneKitDirHelper32 HKLM > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper32 HKCU > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper64 HKLM > nul 2>&1
+@if errorlevel 1 call :GetWindowsPhoneKitDirHelper64 HKCU > nul 2>&1
+@exit /B 0
+
+:GetWindowsPhoneKitDirHelper32
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\Microsoft\Microsoft SDKs\WindowsPhoneApp\v8.1" /v "InstallationFolder"') DO (
+	@if "%%i"=="InstallationFolder" (
+		@SET WindowsPhoneKitDir=%%k
+	)
+)
+@if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
+:GetWindowsPhoneKitDirHelper64
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\Wow6432Node\Microsoft\Microsoft SDKs\WindowsPhoneApp\v8.1" /v "InstallationFolder"') DO (
+	@if "%%i"=="InstallationFolder" (
+		@SET WindowsPhoneKitDir=%%k
+	)
+)
+@if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
