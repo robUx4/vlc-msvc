@@ -63,6 +63,12 @@ while [ $# -gt 0 ]; do
 		outfile=${param#-Fo}
 		compile=1
 		;;
+	-Fi*)
+		preproc=1
+		compile=1
+		HAS_P=
+		outfile=`cygpath -w ${param#-Fi}`
+		;;
 	-E)
 		preproc=1
 		;;
