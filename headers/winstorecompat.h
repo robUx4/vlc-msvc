@@ -254,6 +254,8 @@ static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseco
 }
 
 #define CreateFileMapping(hf, lpa, flp, high, low, name)  CreateFileMappingFromApp(hf, lpa, flp, (((ULONG64) high) << 32) + (ULONG64) low, name)
+#define GetTempPath(x)    NULL
+
 #endif /* _WIN32_WINNT */
 
 #define GetFileAttributes GetFileAttributesW
