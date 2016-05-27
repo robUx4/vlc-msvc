@@ -16,7 +16,9 @@
 #define HAVE_STRERROR 1
 
 /* defines implied by the C runtime */
+#if _MSC_VER >= 1900
 #define _TIMESPEC_DEFINED
+#endif
 
 #ifdef __cplusplus
 extern "C" {
