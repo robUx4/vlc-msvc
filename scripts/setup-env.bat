@@ -42,7 +42,7 @@
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
-@goto select_vs
+@goto select_vs15
 
 :setup_UniversalARM
 @set SDK_VER=10.0.10586.0
@@ -50,7 +50,7 @@
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
-@goto select_vs
+@goto select_vs15
 
 :setup_Universal64
 @set SDK_VER=10.0.10586.0
@@ -58,22 +58,25 @@
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
-@goto select_vs
+@goto select_vs15
 
 :setup_Win32
 @set SDK_VER=10.0.10586.0
 @set CMAKE_SYSTEM_PROCESSOR=x86
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
-@goto select_vs
+@goto select_vs15
 
 
 :select_vs
-@REM automatically select the best available compiler
-@IF EXIST "%VS140COMNTOOLS%vsvars32.bat" goto vs2015
 @IF EXIST "%VS120COMNTOOLS%vsvars32.bat" goto vs2013
-@echo VS 2015 or VS 2013 not found
+@echo VS 2013 not found
 @exit -1
+
+:select_vs15
+@IF EXIST "%VS140COMNTOOLS%vsvars32.bat" goto vs2015
+@echo VS 2015 not found
+@goto select_vs
 
 
 :vs2015
