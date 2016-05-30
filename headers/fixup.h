@@ -1,5 +1,7 @@
 #ifdef _MSC_VER /* help visual studio compile vlc headers */
 
+#include <xkeycheck.h>
+
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif /* WIN32_LEAN_AND_MEAN */
@@ -19,9 +21,6 @@
 # ifndef snwprintf
 #  define HAVE_SNWPRINTF /* bogus autoconf detection using a define */
 #  define snwprintf _snwprintf
-# endif
-# ifndef __cplusplus
-#  define inline __inline
 # endif
 # if !defined(strdup) && _MSC_VER < 1900
 //#  define HAVE_STRDUP /* bogus autoconf detection using a define */
