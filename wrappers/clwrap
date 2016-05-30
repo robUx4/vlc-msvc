@@ -276,6 +276,9 @@ while [ $# -gt 0 ]; do
 	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-fno-signed-zeros|-fgnu89-inline)
 		# silently ignore known flags
 		;;
+	-fno-math-errno|-funsafe-math-optimizations|-fno-rounding-math|-fno-signaling-nans|-fcx-limited-range)
+		# silently ignore known flags
+		;;
 	-march=*)
 		ARCH=${param#-march=}
 		if [ "$VLC_ARCH" == "x86" ]; then
