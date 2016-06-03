@@ -84,7 +84,7 @@ while [ $# -gt 0 ]; do
 		file=`cygpath -w $param`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.o
+			outfile=${file%.*}.obj
 			exefile=${file%.*}.exe
 		fi
 		ARGS="$ARGS -Tc$file"
@@ -93,7 +93,7 @@ while [ $# -gt 0 ]; do
 		file=`cygpath -w $param`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.o
+			outfile=${file%.*}.obj
 			exefile=${file%.*}.exe
 		fi
 		ARGS="$ARGS -Tp$file"
@@ -102,7 +102,7 @@ while [ $# -gt 0 ]; do
 		file=`cygpath -w $param`
 		inputfile=$file
 		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.o
+			outfile=${file%.*}.obj
 			exefile=${file%.*}.exe
 		fi
 		compile_asm=yes
