@@ -83,7 +83,6 @@
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
 @set SDK_VARIANT=store %SDK_VER%
-@set CMAKE_VS=Visual Studio 14 2015
 @set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=amd64_arm store %SDK_VER%
 @set VS_TARGET_x86=amd64_x86 store %SDK_VER%
@@ -94,7 +93,6 @@
 :vs2013
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
 @set SDK_VARIANT=
-@set CMAKE_VS=Visual Studio 12 2013
 @set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=x86_arm
 @set VS_TARGET_x86=x86
@@ -114,11 +112,13 @@ call %VSVARS% %SDK_VARIANT%
 @IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_AMD64%
 @IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" echo call "%VSINSTALLDIR%VC\vcvarsall.bat" %VS_TARGET_AMD64%
 
+@set CMAKE_VS=Visual Studio 14 2015
 @IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" set CMAKE_VS=%CMAKE_VS% ARM
 @IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" set CMAKE_VS=%CMAKE_VS% Win64
 @rem set CMAKE_SYSTEM_VERSION=%SDK_VER%
 @rem set CMAKE_TARGET=-G "%CMAKE_VS%" -DCMAKE_SYSTEM_NAME=%CMAKE_SYSTEM_NAME% -DCMAKE_SYSTEM_VERSION=%CMAKE_SYSTEM_VERSION% -DCMAKE_VS_PLATFORM_TOOLSET=%CMAKE_VS_PLATFORM_TOOLSET% -DCMAKE_SYSTEM_PROCESSOR=%CMAKE_SYSTEM_PROCESSOR%
 @set CMAKE_TARGET=-G "%CMAKE_VS%" -DCMAKE_SYSTEM_VERSION=%SDK_VER% -DCMAKE_VS_PLATFORM_TOOLSET=%CMAKE_VS_PLATFORM_TOOLSET% -DCMAKE_SYSTEM_PROCESSOR=%CMAKE_SYSTEM_PROCESSOR%
+@set MSBUILD_COMPILER=14.0
 
 @IF /I "%1" == "WindowsPhone" goto setupenv_WindowsPhone81
 @IF /I "%1" == "Windows"      goto setupenv_Windows
@@ -130,16 +130,19 @@ call %VSVARS% %SDK_VARIANT%
 @call :GetWindowsPhoneKitDir81
 @set LIB=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%WindowsPhoneKitDir%lib\arm;%LIB%
+@call :setup_msbuild  HKLM > nul 2>&1
 @goto call_main
 
 :setupenv_Windows
 @set LIB=%VCINSTALLDIR%lib\store\arm;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store\arm;%LIB%
+@call :setup_msbuild  HKLM > nul 2>&1
 @goto call_main
 
 :setupenv_Metrox86
 @set LIB=%VCINSTALLDIR%lib\store;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@call :setup_msbuild  HKLM > nul 2>&1
 @goto call_main
 
 
@@ -172,5 +175,18 @@ call %VSVARS% %SDK_VARIANT%
 	)
 )
 @if "%WindowsPhoneKitDir%"=="" exit /B 1
+@exit /B 0
+
+:setup_msbuild
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\WOW6432Node\Microsoft\MSBuild\12.0" /v "MSBuildOverrideTasksPath"') DO (
+	@if "%%i"=="MSBuildOverrideTasksPath" (
+		@set "PATH=%%k;%PATH%"
+	)
+)
+@for /F "tokens=1,2*" %%i in ('reg query "%1\SOFTWARE\WOW6432Node\Microsoft\MSBuild\14.0" /v "MSBuildOverrideTasksPath"') DO (
+	@if "%%i"=="MSBuildOverrideTasksPath" (
+		@set "PATH=%%k;%PATH%"
+	)
+)
 @exit /B 0
 
