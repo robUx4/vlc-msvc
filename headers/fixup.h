@@ -32,6 +32,12 @@ typedef unsigned int mode_t;
 //# define N_(x) x
 # define _(x) x
 
+#if _MSC_VER < 1900
+# ifndef __cplusplus
+#  define inline __inline
+# endif
+#endif
+
 # define alloca _alloca
 # define bzero(a,b) memset( (a), 0, (b) )
 # define bcopy memcpy
