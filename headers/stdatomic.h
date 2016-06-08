@@ -29,6 +29,9 @@
 #  define atomic_compare_exchange_weak(object,expected,desired) \
     atomic_compare_exchange_strong(object, expected, desired)
 
+#  define atomic_compare_exchange_weak_explicit(object,expected,desired,order1,order2) \
+    atomic_compare_exchange_strong(object, expected, desired)
+
 #  define atomic_fetch_add(object,operand) \
     atomic_type_dispatch_32_64(InterlockedExchangeAdd, object, operand)
 
