@@ -24,8 +24,29 @@
 #  define atomic_store_explicit(object,desired,order) \
     atomic_store(object, desired)
 
+static __forceinline bool msvc_std_exchange_32(LONG *obj, LONG *expected, LONG desired)
+{
+    LONG was = InterlockedCompareExchange(obj, desired, *expected);
+    if (was == desired)
+        return true;
+    *expected = was;
+    return false;
+}
+
+static __forceinline bool msvc_std_exchange_64(LONGLONG *obj, LONG *expected, LONGLONG desired)
+{
+    LONGLONG was = InterlockedCompareExchange(obj, desired, *expected);
+    if (was == desired)
+        return true;
+    *expected = was;
+    return false;
+}
+
 #  define atomic_compare_exchange_strong(object,expected,desired) \
-    atomic_type_dispatch_32_64(InterlockedCompareExchange, object, *expected, desired) == *expected
+    (sizeof(*object) == 4 ? msvc_std_exchange_32(object,expected,desired) : \
+     sizeof(*object) == 8 ? msvc_std_exchange_64(object,expected,desired) : \
+     (abort(), 0))
+
 #  define atomic_compare_exchange_weak(object,expected,desired) \
     atomic_compare_exchange_strong(object, expected, desired)
 
@@ -62,7 +83,7 @@ typedef     uint_least32_t atomic_ushort;
 
 typedef          int       atomic_int;
 typedef unsigned int       atomic_uint;
-typedef         uintptr_t atomic_uintptr_t;
+typedef         uintptr_t  atomic_uintptr_t;
 
 typedef     uint_fast32_t atomic_uint_fast32_t;
 
