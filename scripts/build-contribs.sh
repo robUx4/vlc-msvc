@@ -94,7 +94,8 @@ cd $BUILD_FOLDER
 	--disable-libarchive \
 	--enable-nfs \
 	--enable-microdns \
+	--enable-libdsm \
 	|| exit 1
 
 USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
-#USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
+#~ USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
