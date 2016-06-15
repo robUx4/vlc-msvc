@@ -206,7 +206,7 @@ while [ $# -gt 0 ]; do
             LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
         fi
 		;;
-	-g)
+	-g*)
 		HAVE_DEBUG=1
 		;;
 	-Wall)
