@@ -195,9 +195,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -O2"
 		;;
 	-O0)
-		# this may cause unneeded code generation ARGS="$ARGS -Od"
-		# testing
-		ARGS="$ARGS -O1"
+		ARGS="$ARGS -Od"
 		;;
 	-O3)
 		ARGS="$ARGS -Ox"
