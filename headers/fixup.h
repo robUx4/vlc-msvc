@@ -6,6 +6,11 @@
 #define WIN32_LEAN_AND_MEAN
 #endif /* WIN32_LEAN_AND_MEAN */
 
+#ifndef NOUSER
+#define NOUSER /* avoid bogus pragma push/pop */
+typedef struct tagMSG MSG, *LPMSG;
+#endif /* NOUSER */
+
 #ifndef WIN32
 #define WIN32
 #endif /* WIN32 */
@@ -162,7 +167,7 @@ typedef unsigned int mode_t;
 #endif /* WINAPI_FAMILY_PC_APP || WINAPI_FAMILY_PHONE_APP */
 
 #if _MSC_VER < 1900
-#pragma warning(disable:4201) /* nameless structs */
+//#pragma warning(disable:4201) /* nameless structs */
 #endif /* _MSC_VER */
 
 #endif
