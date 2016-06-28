@@ -13,13 +13,13 @@ case $VLC_PLATFORM in
 		# VS 2015 FORCED_LIBS="mincore.lib kernel32.lib"
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		APPCONTAINER_ARGS="-ZW"
+		#~ APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
 		# VS 2015 FORCED_LIBS="mincore.lib kernel32.lib"
 		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		APPCONTAINER_ARGS="-ZW"
+		#~ APPCONTAINER_ARGS="-ZW"
 		;;
 	Universal)
 		FORCED_LIBS="mincore.lib"
