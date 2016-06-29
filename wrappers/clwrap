@@ -229,10 +229,10 @@ while [ $# -gt 0 ]; do
                     ARGS="$ARGS -LD"
                     ;;
                 --dynamicbase)
-                    ARGS="$ARGS -dynamicbase"
+                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
                     ;;
                 --high-entropy-va)
-                    ARGS="$ARGS -highentropyva"
+                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
                     ;;
                 -IMPLIB*)
                     LINK_FLAGS="$LINK_FLAGS $p"
@@ -273,11 +273,27 @@ while [ $# -gt 0 ]; do
 			exit 1
 		fi
 		;;
-	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|--no-seh|--nxcompat|--dynamicbase|-fexceptions|-fno-signed-zeros|-fgnu89-inline)
+	-pipe|-funroll-loops|-mms-bitfields|-fnative-struct|-fexceptions|-fno-signed-zeros|-fgnu89-inline)
 		# silently ignore known flags
 		;;
 	-fno-math-errno|-funsafe-math-optimizations|-fno-rounding-math|-fno-signaling-nans|-fcx-limited-range)
 		# silently ignore known flags
+		;;
+	--no-seh)
+		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+		;;
+	--nxcompat)
+		LINK_FLAGS="$LINK_FLAGS -nxcompat"
+		;;
+	--dynamicbase)
+		LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+		;;
+	--high-entropy-va)
+		LINK_FLAGS="$LINK_FLAGS -highentropyva"
+		;;
+	--image-base)
+		LINK_FLAGS="$LINK_FLAGS -base:$2"
+		shift
 		;;
 	-march=*)
 		ARCH=${param#-march=}
