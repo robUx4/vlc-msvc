@@ -255,8 +255,14 @@ static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseco
     return WaitForSingleObjectEx(hHandle, dwMilliseconds, FALSE);
 }
 
+static __forceinline DWORD WaitForMultipleObjects(WORD nCount, const HANDLE *lpHandles, BOOL bWaitAll, DWORD dwMilliseconds)
+{
+    return WaitForMultipleObjectsEx(nCount, lpHandles, bWaitAll, dwMilliseconds, FALSE);
+}
+
 #define CreateFileMapping(hf, lpa, flp, high, low, name)  CreateFileMappingFromApp(hf, lpa, flp, (((ULONG64) high) << 32) + (ULONG64) low, name)
 #define GetTempPath(x)    NULL
+#define OpenProcess(dwa, bih, dwp)   NULL
 
 #endif /* _WIN32_WINNT */
 
