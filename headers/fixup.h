@@ -31,7 +31,7 @@ typedef struct tagMSG MSG, *LPMSG;
 //#  define HAVE_STRDUP /* bogus autoconf detection using a define */
 # define strdup _strdup
 #endif
-typedef signed long int ssize_t;
+#define ssize_t  SSIZE_T
 typedef signed long int off_t;
 typedef unsigned int mode_t;
 //# define N_(x) x
