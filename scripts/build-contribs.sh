@@ -20,10 +20,10 @@ if [ "$VLC_CONFIGURATION" = "" ] ; then
 fi
 
 case $VLC_CONFIGURATION in
-    Debug)
+    Debug*)
         OPTIM_MODE=--disable-optim
         ;;
-    Release)
+    Release*)
         OPTIM_MODE=
         ;;
 esac

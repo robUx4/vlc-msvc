@@ -33,10 +33,10 @@ if [ ! -f ${SRC_FOLDER}configure ] || [ "${SRC_FOLDER}configure" -ot "${SRC_FOLD
 fi
 
 case $VLC_CONFIGURATION in
-    Debug)
+    Debug*)
         DEBUG_MODE=--enable-debug
         ;;
-    Release)
+    Release*)
         DEBUG_MODE=--disable-debug
         ;;
 esac
