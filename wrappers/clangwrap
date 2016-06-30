@@ -1,0 +1,293 @@
+#!/bin/sh
+
+ARGS="clang.exe -Wno-unused"
+ARGS_DEBUG=""
+ARGS_RELEASE=""
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+INCLUDES_FOLDER=$SCRIPTPATH/../headers
+
+case $VLC_PLATFORM in
+	Windows|Metrox86)
+		LINK_FLAGS="user32.lib Advapi32.lib RuntimeObject.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		;;
+	WindowsPhone)
+		LINK_FLAGS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		;;
+	Universal)
+		LINK_FLAGS="mincore.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		;;
+	*)
+		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		exit 1
+esac
+
+NO_LOGO="nologo"
+
+#echo VS_RUNTIME = $VS_RUNTIME
+if [ "$VS_RUNTIME" == "static" ]; then
+  STATIC_RUNTIME=1
+else
+  STATIC_RUNTIME=0
+fi
+
+if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+  HAVE_DEBUG=1
+fi
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        /[a-z]/*|/usr/*|/home/*|/tmp/*)
+            param=`cygpath -w $1`
+            ;;
+        /*)
+            param=-"${1#/}"
+            ;;
+        *)
+            param=$1
+            ;;
+    esac
+#~ echo // param:$param
+    case $param in
+	-o)
+		outfile=`cygpath -w $2`
+		compile=1
+		shift
+		;;
+	-E)
+		preproc=1
+		;;
+	-P)
+		HAS_P=1
+		;;
+	-c)
+		ARGS="$ARGS -c"
+		compile=1
+		;;
+	*.c)
+		file=`cygpath -w $param`
+		inputfile=$file
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+		fi
+		if [ "$exefile" == "" ]; then
+			exefile=${file%.*}.exe
+		fi
+		ARGS="$ARGS -x c $file"
+		;;
+	*.cpp|*.cxx|*.cc)
+		file=`cygpath -w $param`
+		inputfile=$file
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+		fi
+		if [ "$exefile" == "" ]; then
+			exefile=${file%.*}.exe
+		fi
+		ARGS="$ARGS -x c++ $file $APPCONTAINER_ARGS"
+		;;
+	*.s|*.asm)
+		file=`cygpath -w $param`
+		inputfile=$file
+		if [ "$outfile" == "" ]; then
+			outfile=${file%.*}.o
+		fi
+		if [ "$exefile" == "" ]; then
+			exefile=${file%.*}.exe
+		fi
+		compile_asm=yes
+		ARGS="$AS $file"
+		;;
+	*.dll)
+		LINK_FLAGS="$LINK_FLAGS $param"
+		;;
+	-I)
+		# Handles -I <path>
+		ARGS="$ARGS -I `cygpath -w $2`"
+		shift
+		;;
+	-I*)
+		# Handles -I<path> (without space)
+		ARGS="$ARGS -I `cygpath -w ${param#-I}`"
+		;;
+	-lm)
+		;;
+	-l*)
+		libname=${param#-l}
+		# All libraries are expected to be in unix format since we act as kind of gcc.
+		# However, when it comes to system libraries, there's no choice but to use the 
+		# windows naming convention.
+        case $libname in
+            "shlwapi" | "ole32" )
+                # Ignore those for windows phone
+                ;;
+            "stdc++" )
+                # Ignore those
+                ;;
+	    *.lib)
+		ARGS="$ARGS $libname"
+		;;
+            "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" )
+                ARGS="$ARGS $libname.lib"
+                ;;
+            *.a)
+                ARGS="$ARGS lib$libname.a"
+                ;;
+            *)
+                FORCED_LIBS="$FORCED_LIBS $libname.lib"
+                #~ ARGS="$ARGS -print-search-dirs"
+                #~ LINK_FLAGS="$LINK_FLAGS -MAP"
+                ;;
+        esac
+		;;
+	-L*)
+        libpath=${param#-L}
+        if [ "$libpath" != "/mingw32/lib" ]; then
+            #~ ARGS="$ARGS -isystem `cygpath -w $libpath`"
+            #~ LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+            #~ LIB="$LIB;`cygpath -w $libpath`"
+            #~ LIBPATH="$LIBPATH;`cygpath -w $libpath`"
+            LINK="$LINK -LIBPATH:`cygpath -w $libpath`"
+            #~ iwithsysroot="-iwithsysroot"
+        fi
+		;;
+	-Wl*)
+		params=${param#-Wl,}
+        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+            case $p in
+                -DLL)
+                    BUILD_LIB=1
+                    ARGS="$ARGS -LD"
+                    ;;
+                --dynamicbase)
+                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+                    ;;
+                --high-entropy-va)
+                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
+                    ;;
+                -IMPLIB*)
+                    LINK_FLAGS="$LINK_FLAGS $p"
+            esac
+        done
+		;;
+	*.a|*.obj|*.lib|*.o)
+		# Keep this a low priority match
+		ARGS="$ARGS `cygpath -w $param`"
+		;;
+	--no-seh)
+		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+		;;
+	--nxcompat)
+		LINK_FLAGS="$LINK_FLAGS -nxcompat"
+		;;
+	--dynamicbase)
+		LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+		;;
+	--high-entropy-va)
+		LINK_FLAGS="$LINK_FLAGS -highentropyva"
+		;;
+	--image-base)
+		LINK_FLAGS="$LINK_FLAGS -base:$2"
+		shift
+		;;
+	*)
+		ARGS="$ARGS $param"
+		;;
+	esac
+	shift
+done
+
+if [ "$compile_asm" == "" ]; then
+	if [ "$HAVE_DEBUG" != "" ]; then
+	    ARGS="$ARGS $ARGS_DEBUG"
+	else
+	    ARGS="$ARGS $ARGS_RELEASE"
+	fi
+
+	# Do not use debug runtime in release and vice versa
+	if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
+	else
+	  LINK_FLAGS="$LINK_FLAGS msvcrt.lib -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib -NODEFAULTLIB:libcmt.lib"
+	fi
+
+	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
+	ARGS="$ARGS -I `cygpath -w $INCLUDES_FOLDER`"
+	# Hotfix some contribs:
+	ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
+fi
+#ARGS="$ARGS -$NO_LOGO"
+
+#~ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
+LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
+
+#~ export LIB=$LIB
+#~ export LIBPATH=$LIBPATH
+export _LINK_=$LINK
+
+# There need to be no space between all the segments of the variable
+# It still needs to be considered as 3 values and not one
+# There need to be double quotes around the path
+
+#~ echo // preproc:$preproc - outfile:$outfile - compile:$compile - inputfile:$inputfile - LINK_FLAGS:$LINK_FLAGS
+#~ echo // LINK_FLAGS : ${LINK_FLAGS#$-Wl,}
+
+if [ "$preproc" != "" ]; then
+	# add the lines and comments
+	if [ "$HAS_P" == "" ]; then
+		ARGS="$ARGS -P"
+	fi
+	if [ "$compile" != "" ]; then
+		ARGS="$ARGS -E -o $outfile"
+	else
+		ARGS="$ARGS -E"
+	fi
+else
+	if [ "$outfile" != "" ]; then
+		if [ "$compile" != "" ]; then
+			if [ "$inputfile" != "" ]; then
+				#~ if [ "$outfile" != "${inputfile%.*}.exe" ]; then
+					ARGS="$ARGS -o $outfile"
+				#~ fi
+			fi
+		else
+			ARGS="$ARGS -o $exefile"
+		fi
+	fi
+	if [ "$compile_asm" == "" ]; then
+    #~ export _LINK_="$LINK_FLAGS -VERBOSE"
+    #~ LINK_FLAGS="$LINK_FLAGS -VERBOSE"
+		#~ if [ "$compile" != "" ]; then
+			for lflag in $LINK_FLAGS; do
+				ARGS="$ARGS -Wl,$lflag"
+			done
+		#~ fi
+		if [ "$BUILD_LIB" != "" ]; then
+		    ARGS="$ARGS -Wl,-out:$outfile"
+		fi
+	else
+		echo compile ASM: $ARGS
+	fi
+fi
+
+#if [ "$deps" != "" ]; then
+#	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
+#	exit $?
+#fi
+
+#~ if [ "$NO_LOGO" == "nologo" ]; then
+#~ echo // SRC: $@
+#~ echo // INCLUDE: $INCLUDE
+#~ echo // LIB: $LIB
+#~ echo // LIBPATH: $LIBPATH
+#~ echo // ARGS: $ARGS
+#~ fi
+#~ set
+
+cmd /C "$ARGS"
+exit $?
+
