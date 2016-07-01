@@ -15,7 +15,7 @@ typedef struct tagMSG MSG, *LPMSG;
 #define WIN32
 #endif /* WIN32 */
 
-#if _MSC_VER >= 1900
+#if _MSC_VER >= 1900 && !defined(__STDC_VERSION__)
 #define __STDC_VERSION__ 199901L
 #endif
 
