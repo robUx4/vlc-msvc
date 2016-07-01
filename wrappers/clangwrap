@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARGS="clang.exe -Wno-unused"
+ARGS="clang.exe"
 ARGS_DEBUG=""
 ARGS_RELEASE=""
 
@@ -105,14 +105,28 @@ while [ $# -gt 0 ]; do
 	*.dll)
 		LINK_FLAGS="$LINK_FLAGS $param"
 		;;
+	-D*)
+		def=$(echo $param | sed 's/ /_/')
+		# Added to handle -Dsome_include=<somefile.h>
+		# That doesn't work unless the bracket part is quoted
+		case $def in
+			*=\<*\>)
+				def=`echo $def | sed 's/=/\"=/'`\"
+				;;
+			*=\"*\")
+				def=`echo $def | sed 's/\"/\\\"/g'`
+				;;
+		esac
+		ARGS="$ARGS $def"
+		;;
 	-I)
 		# Handles -I <path>
-		ARGS="$ARGS -I `cygpath -w $2`"
+		ARGS="$ARGS -I `cygpath -aw $2`"
 		shift
 		;;
 	-I*)
 		# Handles -I<path> (without space)
-		ARGS="$ARGS -I `cygpath -w ${param#-I}`"
+		ARGS="$ARGS -I `cygpath -aw ${param#-I}`"
 		;;
 	-lm)
 		;;
