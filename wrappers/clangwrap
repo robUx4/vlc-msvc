@@ -223,9 +223,10 @@ fi
 
 if [ "$compile_asm" == "" ]; then
 	if [ "$HAVE_DEBUG" != "" ]; then
-	    ARGS="$ARGS $ARGS_DEBUG"
+	  ARGS="$ARGS $ARGS_DEBUG"
+	  LINK_FLAGS="$LINK_FLAGS -DEBUG"
 	else
-	    ARGS="$ARGS $ARGS_RELEASE"
+	  ARGS="$ARGS $ARGS_RELEASE"
 	fi
 
 	# Do not use debug runtime in release and vice versa
