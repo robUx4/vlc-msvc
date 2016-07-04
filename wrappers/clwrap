@@ -401,7 +401,7 @@ else
 		fi
 		if [ "$BUILD_LIB" != "" ]; then
 		    #ARGS="$ARGS -out:$outfile -APPCONTAINER"
-		    ARGS="$ARGS -out:$outfile"
+		    ARGS="$ARGS -out:$outfile -implib:${outfile%.dll}.lib"
 		fi
 	else
 		echo compile ASM: $ARGS
