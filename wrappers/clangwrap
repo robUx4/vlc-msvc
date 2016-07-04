@@ -54,7 +54,7 @@ while [ $# -gt 0 ]; do
 #~ echo // param:$param
     case $param in
 	-o)
-		exefile=`cygpath -w $2`
+		outfile=`cygpath -w $2`
 		compile=1
 		shift
 		;;
@@ -70,41 +70,43 @@ while [ $# -gt 0 ]; do
 		dontlink=1
 		;;
 	*.c)
-		file=`cygpath -w $param`
-		inputfile=$file
-		objfile=${file%.*}.obj
-		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.obj
-		fi
-		if [ "$exefile" == "" ]; then
-			exefile=${file%.*}.exe
-		fi
-		ARGS="$ARGS -x c $file"
+		inputfile=`cygpath -w $param`
+		#~ inputfile=$file
+		#~ objfile=${file%.*}.o
+		#~ if [ "$outfile" == "" ]; then
+			#~ outfile=${file%.*}.o
+		#~ fi
+		#~ if [ "$exefile" == "" ]; then
+			#~ exefile=${file%.*}.exe
+		#~ fi
+		ARGS="$ARGS -x c $inputfile"
+        #-std=c11 
 		;;
 	*.cpp|*.cxx|*.cc)
-		file=`cygpath -w $param`
-		inputfile=$file
-		objfile=${file%.*}.obj
-		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.obj
-		fi
-		if [ "$exefile" == "" ]; then
-			exefile=${file%.*}.exe
-		fi
-		ARGS="$ARGS -x c++ $file $APPCONTAINER_ARGS"
+		inputfile=`cygpath -w $param`
+		#~ inputfile=$file
+		#~ objfile=${file%.*}.o
+		#~ if [ "$outfile" == "" ]; then
+			#~ outfile=${file%.*}.o
+		#~ fi
+		#~ if [ "$exefile" == "" ]; then
+			#~ exefile=${file%.*}.exe
+		#~ fi
+		ARGS="$ARGS -x c++ $inputfile $APPCONTAINER_ARGS"
+        #-std=c++11 
 		;;
 	*.s|*.asm)
-		file=`cygpath -w $param`
-		inputfile=$file
-		objfile=${file%.*}.obj
-		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.obj
-		fi
-		if [ "$exefile" == "" ]; then
-			exefile=${file%.*}.exe
-		fi
+		inputfile=`cygpath -w $param`
+		#~ inputfile=$file
+		#~ objfile=${file%.*}.o
+		#~ if [ "$outfile" == "" ]; then
+			#~ outfile=${file%.*}.o
+		#~ fi
+		#~ if [ "$exefile" == "" ]; then
+			#~ exefile=${file%.*}.exe
+		#~ fi
 		compile_asm=yes
-		ARGS="$AS $file"
+		ARGS="$AS $inputfile"
 		;;
 	*.dll)
 		LINK_FLAGS="$LINK_FLAGS $param"
@@ -150,10 +152,10 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS $libname"
 		;;
             "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" )
-                ARGS="$ARGS $libname.lib"
+                LINK_FLAGS="$LINK_FLAGS $libname.lib"
                 ;;
             *.a)
-                ARGS="$ARGS lib$libname.a"
+                LINK_FLAGS="$LINK_FLAGS lib$libname.a"
                 ;;
             *)
                 FORCED_LIBS="$FORCED_LIBS $libname.lib"
@@ -169,7 +171,7 @@ while [ $# -gt 0 ]; do
             #~ LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
             #~ LIB="$LIB;`cygpath -w $libpath`"
             #~ LIBPATH="$LIBPATH;`cygpath -w $libpath`"
-            LINK="$LINK -LIBPATH:`cygpath -w $libpath`"
+            LINK_FLAGS="$LINK_FLAGS -LIBPATH:`cygpath -w $libpath`"
             #~ iwithsysroot="-iwithsysroot"
         fi
 		;;
@@ -219,6 +221,27 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
+
+#~ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
+LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
+
+#~ export LIB=$LIB
+#~ export LIBPATH=$LIBPATH
+#~ export _LINK_=$LINK
+
+# There need to be no space between all the segments of the variable
+# It still needs to be considered as 3 values and not one
+# There need to be double quotes around the path
+
+#~ echo // preproc:$preproc - outfile:$outfile - compile:$compile - inputfile:$inputfile - LINK_FLAGS:$LINK_FLAGS
+#~ echo // LINK_FLAGS : ${LINK_FLAGS#$-Wl,}
+
+if [ "$inputfile" == "" ]; then
+	# version or other flags cheking
+	cmd /C "$ARGS"
+	exit $?
+fi
+
 if [ "$compile_asm" == "" ]; then
 	if [ "$HAVE_DEBUG" != "" ]; then
 	    ARGS="$ARGS $ARGS_DEBUG"
@@ -240,26 +263,15 @@ if [ "$compile_asm" == "" ]; then
 fi
 #ARGS="$ARGS -$NO_LOGO"
 
-#~ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
-LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
-
-#~ export LIB=$LIB
-#~ export LIBPATH=$LIBPATH
-export _LINK_=$LINK
-
-# There need to be no space between all the segments of the variable
-# It still needs to be considered as 3 values and not one
-# There need to be double quotes around the path
-
-#~ echo // preproc:$preproc - outfile:$outfile - compile:$compile - inputfile:$inputfile - LINK_FLAGS:$LINK_FLAGS
-#~ echo // LINK_FLAGS : ${LINK_FLAGS#$-Wl,}
-
 if [ "$preproc" != "" ]; then
 	# add the lines and comments
 	if [ "$HAS_P" == "" ]; then
 		ARGS="$ARGS -P"
 	fi
 	if [ "$compile" != "" ]; then
+		if [ "$outfile" == "" ]; then
+			outfile=${inputfile%.*}.o
+		fi
 		ARGS="$ARGS -E -o $outfile"
 	else
 		ARGS="$ARGS -E"
@@ -268,18 +280,20 @@ if [ "$preproc" != "" ]; then
 	exit $?
 fi
 
-if [ "$outfile" != "" ]; then
-    if [ "$compile" != "" ]; then
-        if [ "$inputfile" != "" ]; then
-            #~ if [ "$outfile" != "${inputfile%.*}.exe" ]; then
-                ARGS="$ARGS -c -o $objfile"
-                LINK_FLAGS="$outfile $LINK_FLAGS"
-            #~ fi
-        fi
+if [ "$dontlink" != "" ]; then
+    if [ "$outfile" != "" ]; then
+        ARGS="$ARGS -c -o $outfile"
     else
+        objfile=${inputfile%.*}.o
         ARGS="$ARGS -c -o $objfile"
-        LINK_FLAGS="$objfile $LINK_FLAGS -out:${exefile}"
     fi
+else
+    objfile=${inputfile%.*}.o
+    ARGS="$ARGS -c -o $objfile"
+    if [ "$outfile" == "" ]; then
+        outfile=${inputfile%.*}.exe
+    fi
+    LINK_FLAGS="$objfile $LINK_FLAGS -out:$outfile"
 fi
 #~ if [ "$compile_asm" == "" ]; then
     #~ # if [ "$compile" != "" ]; then
@@ -312,13 +326,35 @@ fi
 #~ set
 
 cmd /C "$ARGS"
-if [ "$outfile" == "" ]; then
-	exit $?
-fi
+COMPILER_RESULT=$?
+#~ echo COMPILER_RESULT:$COMPILER_RESULT
 if [ "$dontlink" != "" ]; then
-	exit $?
+	exit $COMPILER_RESULT
+fi
+if [ $COMPILER_RESULT != 0 ]; then
+	exit $COMPILER_RESULT
 fi
 
-cmd /C "link.exe $LINK_FLAGS"
-exit $?
+#~ echo original ARGS: $ARGS
+#~ echo original result $?
+#~ cmd /C "$ARGS -c -o contest.obj"
+#~ echo ARG result : $?
+#~ echo LDFLAGS: $LDFLAGS
+#~ for p in $LDFLAGS; do
+    #~ case $p in
+    #~ -L*)
+        #~ libpath=${param#-L}
+        #~ echo libpath: $libpath
+        #~ if [ "$libpath" != "/mingw32/lib" ]; then
+            #~ LINK_FLAGS="$LINK_FLAGS -LIBPATH:`cygpath -w $libpath`"
+        #~ fi
+        #~ ;;
+    #~ esac
+#~ done
+
+echo LINK: link.exe $LINK_FLAGS -VERBOSE
+cmd /C "link.exe -nologo $LINK_FLAGS"
+LINKER_RESULT=$?
+echo linker result: $LINKER_RESULT
+exit $LINKER_RESULT
 
