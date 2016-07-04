@@ -190,8 +190,8 @@ fi
 #export CC="clang -target $LLVM_ARCH-w64-windows-gnu -v"
 #export CXX="clang++ -target $LLVM_ARCH-w64-windows-gnu -v -Wl,-NODEFAULTLIB:libcmt.lib"
 #x86_64-pc-windows-msvc
-export    CC="clang -target $LLVM_ARCH-pc-windows-msvc -I $SCRIPTPATH/../headers -include $SCRIPTPATH/../headers/fixup.h"
-export CXX="clang++ -target $LLVM_ARCH-pc-windows-msvc -I $SCRIPTPATH/../headers -include $SCRIPTPATH/../headers/fixup.h"
+export  CC="clangwrap"
+export CXX="clangwrap"
 export BUILDCC="`command -v gcc` -std=c99"
 export cc=$CC
 export cxx=$CXX
@@ -199,7 +199,7 @@ export AR="ar"
 export NM="dumpbin.exe -symbols"
 #export LDFLAGS="$LDFLAGS -lnormaliz -lwinstorecompat -lruntimeobject -L/mingw32/lib/gcc/i686-w64-mingw32/5.2.0 -L/opt/i686-w64-mingw32/lib"
 #export LD="lld -target ${LLVM_ARCH}-w64-windows-gnu"
-export LD="lld"
+export LD="ldwrap"
 export CCLD="$LD"
 export CXXLD="$CCLD"
 export RANLIB=true
