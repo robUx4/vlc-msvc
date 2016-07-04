@@ -54,7 +54,7 @@ while [ $# -gt 0 ]; do
 #~ echo // param:$param
     case $param in
 	-o)
-		outfile=`cygpath -w $2`
+		exefile=`cygpath -w $2`
 		compile=1
 		shift
 		;;
@@ -67,12 +67,14 @@ while [ $# -gt 0 ]; do
 	-c)
 		ARGS="$ARGS -c"
 		compile=1
+		dontlink=1
 		;;
 	*.c)
 		file=`cygpath -w $param`
 		inputfile=$file
+		objfile=${file%.*}.obj
 		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.o
+			outfile=${file%.*}.obj
 		fi
 		if [ "$exefile" == "" ]; then
 			exefile=${file%.*}.exe
@@ -82,8 +84,9 @@ while [ $# -gt 0 ]; do
 	*.cpp|*.cxx|*.cc)
 		file=`cygpath -w $param`
 		inputfile=$file
+		objfile=${file%.*}.obj
 		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.o
+			outfile=${file%.*}.obj
 		fi
 		if [ "$exefile" == "" ]; then
 			exefile=${file%.*}.exe
@@ -93,8 +96,9 @@ while [ $# -gt 0 ]; do
 	*.s|*.asm)
 		file=`cygpath -w $param`
 		inputfile=$file
+		objfile=${file%.*}.obj
 		if [ "$outfile" == "" ]; then
-			outfile=${file%.*}.o
+			outfile=${file%.*}.obj
 		fi
 		if [ "$exefile" == "" ]; then
 			exefile=${file%.*}.exe
@@ -190,7 +194,7 @@ while [ $# -gt 0 ]; do
 		;;
 	*.a|*.obj|*.lib|*.o)
 		# Keep this a low priority match
-		ARGS="$ARGS `cygpath -w $param`"
+		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
 		;;
 	--no-seh)
 		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
@@ -260,33 +264,38 @@ if [ "$preproc" != "" ]; then
 	else
 		ARGS="$ARGS -E"
 	fi
-else
-	if [ "$outfile" != "" ]; then
-		if [ "$compile" != "" ]; then
-			if [ "$inputfile" != "" ]; then
-				#~ if [ "$outfile" != "${inputfile%.*}.exe" ]; then
-					ARGS="$ARGS -o $outfile"
-				#~ fi
-			fi
-		else
-			ARGS="$ARGS -o $exefile"
-		fi
-	fi
-	if [ "$compile_asm" == "" ]; then
-    #~ export _LINK_="$LINK_FLAGS -VERBOSE"
-    #~ LINK_FLAGS="$LINK_FLAGS -VERBOSE"
-		#~ if [ "$compile" != "" ]; then
-			for lflag in $LINK_FLAGS; do
-				ARGS="$ARGS -Wl,$lflag"
-			done
-		#~ fi
-		if [ "$BUILD_LIB" != "" ]; then
-		    ARGS="$ARGS -Wl,-out:$outfile"
-		fi
-	else
-		echo compile ASM: $ARGS
-	fi
+	cmd /C "$ARGS"
+	exit $?
 fi
+
+if [ "$outfile" != "" ]; then
+    if [ "$compile" != "" ]; then
+        if [ "$inputfile" != "" ]; then
+            #~ if [ "$outfile" != "${inputfile%.*}.exe" ]; then
+                ARGS="$ARGS -c -o $objfile"
+                LINK_FLAGS="$outfile $LINK_FLAGS"
+            #~ fi
+        fi
+    else
+        ARGS="$ARGS -c -o $objfile"
+        LINK_FLAGS="$objfile $LINK_FLAGS -out:${exefile}"
+    fi
+fi
+#~ if [ "$compile_asm" == "" ]; then
+    #~ # if [ "$compile" != "" ]; then
+        #~ for lflag in $LINK_FLAGS; do
+            #~ ARGS="$ARGS -Wl,$lflag"
+        #~ done
+    #~ # fi
+    #~ if [ "$BUILD_LIB" != "" ]; then
+        #~ ARGS="$ARGS -Wl,-out:$outfile"
+    #~ fi
+#~ else
+    #~ echo compile ASM: $ARGS
+#~ fi
+
+#~ ARGS="$ARGS -Wno-typedef-redefinition"
+#-Wno-method-signatures -Wno-mismatched-parameter-types -Wno-mismatched-return-types -Wno-overriding-method-mismatch
 
 #if [ "$deps" != "" ]; then
 #	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
@@ -303,5 +312,13 @@ fi
 #~ set
 
 cmd /C "$ARGS"
+if [ "$outfile" == "" ]; then
+	exit $?
+fi
+if [ "$dontlink" != "" ]; then
+	exit $?
+fi
+
+cmd /C "link.exe $LINK_FLAGS"
 exit $?
 
