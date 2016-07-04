@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARGS="clang.exe"
+ARGS="clang.exe -Wno-error=incompatible-ms-struct"
 ARGS_DEBUG=""
 ARGS_RELEASE=""
 
@@ -124,9 +124,9 @@ while [ $# -gt 0 ]; do
             "stdc++" )
                 # Ignore those
                 ;;
-	    *.lib)
-		ARGS="$ARGS $libname"
-		;;
+            *.lib)
+                ARGS="$ARGS $libname"
+                ;;
             "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" )
                 LINK_FLAGS="$LINK_FLAGS $libname.lib"
                 ;;
@@ -157,7 +157,7 @@ while [ $# -gt 0 ]; do
             case $p in
                 -DLL)
                     BUILD_LIB=1
-                    ARGS="$ARGS -LD"
+                    LINK_FLAGS="$LINK_FLAGS -DLL"
                     ;;
                 --dynamicbase)
                     LINK_FLAGS="$LINK_FLAGS -dynamicbase"
@@ -174,8 +174,24 @@ while [ $# -gt 0 ]; do
 		# Keep this a low priority match
 		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
 		;;
-	-shared)
+	-shared|-DLL)
+		BUILD_LIB=1
 		LINK_FLAGS="$LINK_FLAGS -DLL"
+		;;
+	-static)
+		BUILD_LIB=
+		;;
+	-shared-libgcc)
+		if [ "$STATIC_RUNTIME" == "1" ]; then
+			echo "ERROR: Trying to use a dynamic linking while using static linking"
+			exit 1
+		fi
+		;;
+	-static-libgcc)
+		if [ "$STATIC_RUNTIME" == "0" ]; then
+			echo "WARNING: Trying to use a static linking while using dynamic linking"
+			#exit 1
+		fi
 		;;
 	--no-seh)
 		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
@@ -212,8 +228,7 @@ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
 # It still needs to be considered as 3 values and not one
 # There need to be double quotes around the path
 
-#~ echo // preproc:$preproc - outfile:$outfile - compile:$compile - inputfile:$inputfile - LINK_FLAGS:$LINK_FLAGS
-#~ echo // LINK_FLAGS : ${LINK_FLAGS#$-Wl,}
+#~ echo CALL: $ARGS
 
 if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" ]]; then
     # version or other flags cheking
@@ -277,7 +292,7 @@ if [ "$inputfile" != "" ]; then
         LINK_FLAGS="$objfile $LINK_FLAGS -out:$outfile"
     fi
     
-    echo COMPILE: $ARGS
+    #~ echo COMPILE: $ARGS
     cmd /C "$ARGS"
     COMPILER_RESULT=$?
     #~ echo COMPILER_RESULT:$COMPILER_RESULT
@@ -320,7 +335,7 @@ fi
     #~ esac
 #~ done
 
-echo LINK: link.exe $LINK_FLAGS
+#~ echo LINK: link.exe $LINK_FLAGS
 cmd /C "link.exe -nologo $LINK_FLAGS"
 LINKER_RESULT=$?
 #~ echo linker result: $LINKER_RESULT
