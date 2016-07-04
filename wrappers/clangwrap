@@ -71,40 +71,16 @@ while [ $# -gt 0 ]; do
 		;;
 	*.c)
 		inputfile=`cygpath -w $param`
-		#~ inputfile=$file
-		#~ objfile=${file%.*}.o
-		#~ if [ "$outfile" == "" ]; then
-			#~ outfile=${file%.*}.o
-		#~ fi
-		#~ if [ "$exefile" == "" ]; then
-			#~ exefile=${file%.*}.exe
-		#~ fi
 		ARGS="$ARGS -x c $inputfile"
         #-std=c11 
 		;;
 	*.cpp|*.cxx|*.cc)
 		inputfile=`cygpath -w $param`
-		#~ inputfile=$file
-		#~ objfile=${file%.*}.o
-		#~ if [ "$outfile" == "" ]; then
-			#~ outfile=${file%.*}.o
-		#~ fi
-		#~ if [ "$exefile" == "" ]; then
-			#~ exefile=${file%.*}.exe
-		#~ fi
 		ARGS="$ARGS -x c++ $inputfile $APPCONTAINER_ARGS"
         #-std=c++11 
 		;;
 	*.s|*.asm)
 		inputfile=`cygpath -w $param`
-		#~ inputfile=$file
-		#~ objfile=${file%.*}.o
-		#~ if [ "$outfile" == "" ]; then
-			#~ outfile=${file%.*}.o
-		#~ fi
-		#~ if [ "$exefile" == "" ]; then
-			#~ exefile=${file%.*}.exe
-		#~ fi
 		compile_asm=yes
 		ARGS="$AS $inputfile"
 		;;
@@ -236,10 +212,10 @@ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
 #~ echo // preproc:$preproc - outfile:$outfile - compile:$compile - inputfile:$inputfile - LINK_FLAGS:$LINK_FLAGS
 #~ echo // LINK_FLAGS : ${LINK_FLAGS#$-Wl,}
 
-if [ "$inputfile" == "" ]; then
-	# version or other flags cheking
-	cmd /C "$ARGS"
-	exit $?
+if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" ]]; then
+    # version or other flags cheking
+    cmd /C "$ARGS"
+    exit $?
 fi
 
 if [ "$compile_asm" == "" ]; then
@@ -264,76 +240,60 @@ fi
 #ARGS="$ARGS -$NO_LOGO"
 
 if [ "$preproc" != "" ]; then
-	# add the lines and comments
-	if [ "$HAS_P" == "" ]; then
-		ARGS="$ARGS -P"
-	fi
-	if [ "$compile" != "" ]; then
-		if [ "$outfile" == "" ]; then
-			outfile=${inputfile%.*}.o
-		fi
-		ARGS="$ARGS -E -o $outfile"
-	else
-		ARGS="$ARGS -E"
-	fi
-	cmd /C "$ARGS"
-	exit $?
+    # add the lines and comments
+    if [ "$HAS_P" == "" ]; then
+        ARGS="$ARGS -P"
+    fi
+    if [ "$compile" != "" ]; then
+        if [ "$outfile" == "" ]; then
+            outfile=${inputfile%.*}.o
+        fi
+        ARGS="$ARGS -E -o $outfile"
+    else
+        ARGS="$ARGS -E"
+    fi
+    cmd /C "$ARGS"
+    exit $?
 fi
 
-if [ "$dontlink" != "" ]; then
-    if [ "$outfile" != "" ]; then
-        ARGS="$ARGS -c -o $outfile"
+if [ "$inputfile" != "" ]; then
+    if [ "$dontlink" != "" ]; then
+        if [ "$outfile" != "" ]; then
+            ARGS="$ARGS -c -o $outfile"
+        else
+            objfile=${inputfile%.*}.o
+            ARGS="$ARGS -c -o $objfile"
+        fi
     else
         objfile=${inputfile%.*}.o
         ARGS="$ARGS -c -o $objfile"
+        if [ "$outfile" == "" ]; then
+            outfile=${inputfile%.*}.exe
+        fi
+        LINK_FLAGS="$objfile $LINK_FLAGS -out:$outfile"
     fi
-else
-    objfile=${inputfile%.*}.o
-    ARGS="$ARGS -c -o $objfile"
-    if [ "$outfile" == "" ]; then
-        outfile=${inputfile%.*}.exe
+    
+    echo COMPILE: $ARGS
+    cmd /C "$ARGS"
+    COMPILER_RESULT=$?
+    #~ echo COMPILER_RESULT:$COMPILER_RESULT
+    if [ "$dontlink" != "" ]; then
+        exit $COMPILER_RESULT
     fi
-    LINK_FLAGS="$objfile $LINK_FLAGS -out:$outfile"
+    if [ $COMPILER_RESULT != 0 ]; then
+        exit $COMPILER_RESULT
+    fi
 fi
-#~ if [ "$compile_asm" == "" ]; then
-    #~ # if [ "$compile" != "" ]; then
-        #~ for lflag in $LINK_FLAGS; do
-            #~ ARGS="$ARGS -Wl,$lflag"
-        #~ done
-    #~ # fi
-    #~ if [ "$BUILD_LIB" != "" ]; then
-        #~ ARGS="$ARGS -Wl,-out:$outfile"
-    #~ fi
-#~ else
-    #~ echo compile ASM: $ARGS
-#~ fi
-
-#~ ARGS="$ARGS -Wno-typedef-redefinition"
-#-Wno-method-signatures -Wno-mismatched-parameter-types -Wno-mismatched-return-types -Wno-overriding-method-mismatch
-
-#if [ "$deps" != "" ]; then
-#	$ARGS -Zs -showIncludes | awk '/including/ { sub(/^.*file: */, ""); gsub(/\\/, "/"); if (!match($0, / /)) print "'$inputfile':", $0 }'
-#	exit $?
-#fi
 
 #~ if [ "$NO_LOGO" == "nologo" ]; then
 #~ echo // SRC: $@
 #~ echo // INCLUDE: $INCLUDE
+#~ echo // PATH: $PATH
 #~ echo // LIB: $LIB
 #~ echo // LIBPATH: $LIBPATH
 #~ echo // ARGS: $ARGS
 #~ fi
 #~ set
-
-cmd /C "$ARGS"
-COMPILER_RESULT=$?
-#~ echo COMPILER_RESULT:$COMPILER_RESULT
-if [ "$dontlink" != "" ]; then
-	exit $COMPILER_RESULT
-fi
-if [ $COMPILER_RESULT != 0 ]; then
-	exit $COMPILER_RESULT
-fi
 
 #~ echo original ARGS: $ARGS
 #~ echo original result $?
@@ -352,9 +312,9 @@ fi
     #~ esac
 #~ done
 
-echo LINK: link.exe $LINK_FLAGS -VERBOSE
+echo LINK: link.exe $LINK_FLAGS
 cmd /C "link.exe -nologo $LINK_FLAGS"
 LINKER_RESULT=$?
-echo linker result: $LINKER_RESULT
+#~ echo linker result: $LINKER_RESULT
 exit $LINKER_RESULT
 
