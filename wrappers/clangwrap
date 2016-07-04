@@ -69,7 +69,7 @@ while [ $# -gt 0 ]; do
 		compile=1
 		dontlink=1
 		;;
-	*.c)
+	*.c|.h)
 		inputfile=`cygpath -w $param`
 		ARGS="$ARGS -x c $inputfile"
         #-std=c11 
@@ -230,7 +230,7 @@ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
 
 #~ echo CALL: $ARGS
 
-if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" ]]; then
+if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" == "" ]]; then
     # version or other flags cheking
     cmd /C "$ARGS"
     exit $?
@@ -260,7 +260,7 @@ fi
 
 if [ "$preproc" != "" ]; then
     # add the lines and comments
-    if [ "$HAS_P" == "" ]; then
+    if [ "$HAS_P" != "" ]; then
         ARGS="$ARGS -P"
     fi
     if [ "$compile" != "" ]; then
@@ -271,6 +271,7 @@ if [ "$preproc" != "" ]; then
     else
         ARGS="$ARGS -E"
     fi
+    #~ echo PREPROC: $ARGS
     cmd /C "$ARGS"
     exit $?
 fi
