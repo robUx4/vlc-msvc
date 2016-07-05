@@ -150,6 +150,8 @@ if ($as_type ne "armasm") {
     @preprocess_c_cmd = grep ! /^-W/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-Z/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-fp/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-ffast-math/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-fno/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-EHsc$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-O/, @preprocess_c_cmd;
 
@@ -157,6 +159,8 @@ if ($as_type ne "armasm") {
     @gcc_cmd = grep ! /^-W/, @gcc_cmd;
     @gcc_cmd = grep ! /^-Z/, @gcc_cmd;
     @gcc_cmd = grep ! /^-fp/, @gcc_cmd;
+    @gcc_cmd = grep ! /^-ffast-math/, @gcc_cmd;
+    @gcc_cmd = grep ! /^-fno/, @gcc_cmd;
     @gcc_cmd = grep ! /^-EHsc$/, @gcc_cmd;
     @gcc_cmd = grep ! /^-O/, @gcc_cmd;
 
