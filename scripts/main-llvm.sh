@@ -175,9 +175,11 @@ esac
 # since we want the tools we already built to be detected
 #export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/amd64:$PATH"
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/Clang 3.7/bin/amd64:$PATH"
-export LIB="$LIB;${VCINSTALLDIR}lib$CRT_PATH;$CLANG_LIBS"
+#export LIB="$LIB;${VCINSTALLDIR}lib$CRT_PATH;$CLANG_LIBS"
+export LIB="$LIB;$CLANG_LIBS"
 export LIBPATH="$LIBPATH;${VCINSTALLDIR}lib$CRT_PATH;$CLANG_LIBS"
 export INCLUDE="$CLANG_INCLUDE;$INCLUDE"
+#export _LINK_="-NODEFAULTLIB:libcmt.lib $FORCED_LIBS $LINK_FLAGS"
 
 #echo clang path $PATH
 #echo clang libs $LIB
@@ -233,7 +235,7 @@ export HAVE_VISUALSTUDIO=true
 # Prevent some broken MSYS conversions
 # Mind that having a terminal ';' would make empty string a token
 # that would be compared against, thus not translating anything
-export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
+#export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
 export BUILD_HOST=$VLC_ARCH-llvm-mingw32$VLC_ABI
 
 # We are now in ROOT_FOLDER/vlc
