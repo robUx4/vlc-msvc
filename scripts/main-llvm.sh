@@ -186,6 +186,14 @@ if [ "$WINAPI_FAMILY" != "" ] ; then
     CXXFLAGS="$CXXFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
 fi
 
+DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -mno-implicit-float -fno-builtin-pow -fno-builtin-powf"
+
+CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"
+CPPFLAGS="$CPPFLAGS $DEFAULT_CLANG_FLAGS"
+CXXFLAGS="$CXXFLAGS $DEFAULT_CLANG_FLAGS"
+
+#INCLUDES_FOLDER=$SCRIPTPATH/../headers
+
 # Set required environment variables:
 #export CC="clang -target $LLVM_ARCH-w64-windows-gnu -v"
 #export CXX="clang++ -target $LLVM_ARCH-w64-windows-gnu -v -Wl,-NODEFAULTLIB:libcmt.lib"

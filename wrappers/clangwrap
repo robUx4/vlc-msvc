@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARGS="clang.exe -Wno-error=incompatible-ms-struct"
+ARGS="clang.exe -target $LLVM_ARCH-pc-windows-msvc"
 ARGS_DEBUG=""
 ARGS_RELEASE=""
 
@@ -295,7 +295,7 @@ if [ "$inputfile" != "" ]; then
         if [ "$outfile" == "" ]; then
             outfile=${inputfile%.*}.exe
         fi
-        LINK_FLAGS="$objfile $LINK_FLAGS -out:$outfile"
+        LINK_FLAGS="$objfile $LINK_FLAGS"
     fi
     
     #~ echo COMPILE: $ARGS
@@ -308,12 +308,11 @@ if [ "$inputfile" != "" ]; then
     if [ $COMPILER_RESULT != 0 ]; then
         exit $COMPILER_RESULT
     fi
-else
-    if [ "$outfile" != "" ]; then
-        LINK_FLAGS="$LINK_FLAGS -out:$outfile"
-    fi
 fi
 
+if [ "$outfile" != "" ]; then
+    LINK_FLAGS="$LINK_FLAGS -out:$outfile"
+fi
 #~ if [ "$NO_LOGO" == "nologo" ]; then
 #~ echo // SRC: $@
 #~ echo // INCLUDE: $INCLUDE
