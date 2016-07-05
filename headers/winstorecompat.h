@@ -10,6 +10,10 @@
 #pragma warning(pop)
 #endif /* _MSV_VER */
 
+#if defined(__clang__)
+#define __PRFCHWINTRIN_H /* workaround for an SDK incompatibility when building AMD64 */
+#endif /*__clang__ */
+
 /* not detected properly by autoconf due to early forced include */
 #define HAVE_WCSCPY 1
 #define HAVE_WCSLEN 1
