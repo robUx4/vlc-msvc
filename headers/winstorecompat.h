@@ -24,7 +24,7 @@
 extern "C" {
 #endif
 
-#if _MSC_VER < 1900
+#if _MSC_VER < 1900 || defined(__clang__)
 static __forceinline int getpid(void)
 {
     return GetCurrentProcessId();
