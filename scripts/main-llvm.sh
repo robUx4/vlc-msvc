@@ -32,7 +32,6 @@ usage()
 case $1 in
     Windows)
         export VLC_PLATFORM=Windows
-        export VLC_ABI=winrt
         export VLC_ARCH=arm
         export LLVM_ARCH=arm
         export AS=armasm
@@ -40,14 +39,12 @@ case $1 in
         ;;
     Metrox86)
         export VLC_PLATFORM=Windows
-        export VLC_ABI=winrt
         export VLC_ARCH=x86
         export LLVM_ARCH=i686
         export HAVE_WINDOWSRT=true
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
-        export VLC_ABI=winphone
         export VLC_ARCH=arm
         export LLVM_ARCH=arm
         export AS=armasm
@@ -58,29 +55,25 @@ case $1 in
         ;;
     Universal86)
         export VLC_PLATFORM=Universal
-        export VLC_ABI=uwp
         export VLC_ARCH=x86
         export LLVM_ARCH=i686
         CRT_PATH="\\onecore"
         ;;
     Universal64)
         export VLC_PLATFORM=Universal
-        export VLC_ABI=uwp
         export VLC_ARCH=amd64
         export LLVM_ARCH=amd64
         CRT_PATH="\\onecore\\amd64"
         ;;
     UniversalARM)
         export VLC_PLATFORM=Universal
-        export VLC_ABI=uwp
         export VLC_ARCH=arm
         export LLVM_ARCH=arm
         export AS=armasm
         CRT_PATH="\\onecore\\arm"
         ;;
     Win32)
-        export VLC_PLATFORM=Windows
-        export VLC_ABI=desktop
+        export VLC_PLATFORM=Desktop
         export VLC_ARCH=x86
         export LLVM_ARCH=i686
         ;;
@@ -101,6 +94,24 @@ case $1 in
     *)
         usage
         ;;
+esac
+
+case $VLC_PLATFORM in
+	Windows|Metrox86)
+		#LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		export VLC_ABI=winrt
+		;;
+	WindowsPhone)
+		#LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		export VLC_ABI=winphone
+		;;
+	Universal)
+		#LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		export VLC_ABI=uwp
+		;;
+	Desktop)
+		export VLC_ABI=desktop
+		;;
 esac
 
 shift
