@@ -84,6 +84,11 @@ while [ $# -gt 0 ]; do
 		compile_asm=yes
 		ARGS="$AS $inputfile"
 		;;
+	*.S)
+		inputfile=`cygpath -w $param`
+		compile_asm=yes
+		ARGS="$ARGS $inputfile"
+		;;
 	*.dll)
 		LINK_FLAGS="$LINK_FLAGS $param"
 		;;
