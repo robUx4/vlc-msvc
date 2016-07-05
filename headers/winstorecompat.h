@@ -193,6 +193,7 @@ static __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCritica
 }
 #endif /* _WIN32_WINNT */
 
+#ifndef NTDDI_WIN10_RS1 /* now available in RS1 */
 static __forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
 {
     LARGE_INTEGER  liDistanceToMove, newFilePointer;
@@ -202,6 +203,7 @@ static __forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLO
         *lpDistanceToMoveHigh = (LONG) newFilePointer.QuadPart;
     return res;
 }
+#endif /* NTDDI_WIN10_RS1 */
 
 #if _MSC_VER < 1900
 #define _beginthreadex CreateThread
