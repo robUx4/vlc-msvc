@@ -160,6 +160,13 @@ typedef unsigned int mode_t;
 
 #define PATH_MAX MAX_PATH
 
+#if defined(__clang__)
+# define STATIC_ASSERT_CONCAT_(a, b) a##b
+# define STATIC_ASSERT_CONCAT(a, b) STATIC_ASSERT_CONCAT_(a, b)
+# define _Static_assert(x, s) extern char STATIC_ASSERT_CONCAT(static_assert_, __LINE__)[sizeof(struct { unsigned:-!(x); })]
+# define static_assert _Static_assert
+#endif /* __clang__ */
+
 #include <winapifamily.h>
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
