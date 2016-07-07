@@ -155,14 +155,14 @@ else
 #    fi
 fi
 
-CLANG_LIBS="${VCINSTALLDIR}Clang 3.7\\lib\\$VLC_ARCH"
-CLANG_INCLUDE="${VCINSTALLDIR}Clang 3.7\\include"
+export CLANG_LIBS="${VCINSTALLDIR}Clang 3.7\\lib\\$VLC_ARCH"
+export CLANG_INCLUDE="${VCINSTALLDIR}Clang 3.7\\include"
 case `uname -m` in
     x86_64)
-        CLANG_PATH="`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/amd64"
+        export CLANG_PATH="`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/amd64"
         ;;
     i686)
-        CLANG_PATH="`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/x86"
+        export CLANG_PATH="`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/x86"
         ;;
 esac
 
@@ -177,8 +177,8 @@ esac
 export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/Clang 3.7/bin/amd64:$PATH"
 #export LIB="$LIB;${VCINSTALLDIR}lib$CRT_PATH;$CLANG_LIBS"
 export LIB="$LIB;$CLANG_LIBS"
-export LIBPATH="$LIBPATH;${VCINSTALLDIR}lib$CRT_PATH;$CLANG_LIBS"
-export INCLUDE="$CLANG_INCLUDE;$INCLUDE"
+export LIBPATH="$LIBPATH;${VCINSTALLDIR}lib$CRT_PATH"
+export INCLUDE="$INCLUDE"
 #export _LINK_="-NODEFAULTLIB:libcmt.lib $FORCED_LIBS $LINK_FLAGS"
 
 #echo clang path $PATH
