@@ -10,6 +10,7 @@ usage()
     echo "   Universal86:  Universal on x86"
     echo "   Universal64:  Universal on amd64"
     echo "   UniversalARM: Universal on ARM"
+    echo "   Win32:        Desktop on x86"
     echo "configuration: Debug|Release"
 }
 
@@ -31,6 +32,9 @@ case $1 in
         ;;
     WP|WindowsPhone)
         PLATFORM=WindowsPhone
+        ;;
+    Win32)
+        PLATFORM=Win32
         ;;
     *)
         usage
