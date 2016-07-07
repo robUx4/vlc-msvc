@@ -8,12 +8,12 @@ case $VLC_PLATFORM in
 	Windows|Metrox86)
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		#~ APPCONTAINER_ARGS="-ZW"
+		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
 		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		#~ APPCONTAINER_ARGS="-ZW"
+		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	Universal)
 		FORCED_LIBS="mincore.lib"
@@ -52,6 +52,7 @@ while [ $# -gt 0 ]; do
     case $param in
 	-o)
 		outfile=`cygpath -w $2`
+		implib=`cygpath -w ${2%.dll}.lib`
 		compile=1
 		shift
 		;;
@@ -83,7 +84,7 @@ while [ $# -gt 0 ]; do
 			outfile=${file%.*}.obj
 			exefile=${file%.*}.exe
 		fi
-		ARGS="$ARGS -Tc$file"
+		ARGS="$ARGS -Tc$inputfile"
 		;;
 	*.cpp|*.cxx|*.cc)
 		file=`cygpath -w $param`
@@ -92,7 +93,7 @@ while [ $# -gt 0 ]; do
 			outfile=${file%.*}.obj
 			exefile=${file%.*}.exe
 		fi
-		ARGS="$ARGS -Tp$file $APPCONTAINER_ARGS"
+		ARGS="$ARGS -Tp$inputfile $APPCONTAINER_ARGS"
 		;;
 	*.s|*.asm)
 		file=`cygpath -w $param`
@@ -102,7 +103,7 @@ while [ $# -gt 0 ]; do
 			exefile=${file%.*}.exe
 		fi
 		compile_asm=yes
-		ARGS="$AS $file"
+		ARGS="$AS $inputfile"
 		;;
 	*.dll)
 		LINK_FLAGS="$LINK_FLAGS $param"
@@ -158,22 +159,21 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS $libname"
 		;;
             "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" )
-                ARGS="$ARGS $libname.lib"
+                LINK_FLAGS="$LINK_FLAGS $libname.lib"
                 ;;
             *.a)
-                ARGS="$ARGS lib$libname.a"
+                LINK_FLAGS="$LINK_FLAGS lib$libname.a"
                 ;;
             *)
-                ARGS="$ARGS $libname.lib"
+                FORCED_LIBS="$FORCED_LIBS $libname.lib"
                 ;;
-        esac
+            esac
 		;;
 	-shared|-DLL)
 		BUILD_LIB=1
-		ARGS="$ARGS -LD"
 		;;
 	-static)
-		BUILD_LIB=
+		BUILD_LIB=0
 		;;
 	-shared-libgcc)
 		if [ "$STATIC_RUNTIME" == "1" ]; then
@@ -191,7 +191,8 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -O2"
 		;;
 	-O0)
-		ARGS="$ARGS -Od"
+		ARGS="$ARGS -O0"
+		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
 		;;
 	-O3)
 		ARGS="$ARGS -Ox"
@@ -220,7 +221,6 @@ while [ $# -gt 0 ]; do
             case $p in
                 -DLL)
                     BUILD_LIB=1
-                    ARGS="$ARGS -LD"
                     ;;
                 --dynamicbase)
                     LINK_FLAGS="$LINK_FLAGS -dynamicbase"
@@ -229,15 +229,16 @@ while [ $# -gt 0 ]; do
                     LINK_FLAGS="$LINK_FLAGS -highentropyva"
                     ;;
                 -IMPLIB*)
-                    LINK_FLAGS="$LINK_FLAGS $p"
+                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    ;;
             esac
         done
 		;;
 	-W*)
 		;;
-	*.a|*.obj|*.lib)
+	*.a|*.obj|*.lib|*.o)
 		# Keep this a low priority match
-		ARGS="$ARGS `cygpath -w $param`"
+		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
 		;;
 	-nologo*)
 		NO_LOGO=${param#-}
@@ -321,13 +322,14 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-ARGS="cl.exe -EHsc -FS -MP1 $ARGS"
+ARGS="cl.exe -EHsc -FS -MP1 $ARGS -$NO_LOGO"
 ARGS_DEBUG="-Zi"
 ARGS_RELEASE="-Gw -Ot"
 
 if [ "$compile_asm" == "" ]; then
 	if [ "$HAVE_DEBUG" != "" ]; then
 	    ARGS="$ARGS $ARGS_DEBUG"
+	    LINK_FLAGS="$LINK_FLAGS -DEBUG"
 	else
 	    ARGS="$ARGS $ARGS_RELEASE"
 	fi
@@ -358,7 +360,6 @@ if [ "$compile_asm" == "" ]; then
 	# Hotfix some contribs:
 	ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
 fi
-ARGS="$ARGS -$NO_LOGO"
 
 LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
 
@@ -367,15 +368,15 @@ LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
 # There need to be double quotes around the path
 
 if [ "$preproc" != "" ]; then
-	# add the lines and comments
-	if [ "$HAS_P" == "" ]; then
-		ARGS="$ARGS -C"
-	fi
-	if [ "$compile" != "" ]; then
-		ARGS="$ARGS -P -Fi$outfile"
-	else
-		ARGS="$ARGS -E"
-	fi
+    # add the lines and comments
+    if [ "$HAS_P" == "" ]; then
+        ARGS="$ARGS -C"
+    fi
+    if [ "$compile" != "" ]; then
+        ARGS="$ARGS -P -Fi$outfile"
+    else
+        ARGS="$ARGS -E"
+    fi
 else
 	if [ "$outfile" != "" ]; then
 		if [ "$compile" != "" ]; then
@@ -397,7 +398,7 @@ else
 		if [ "$LINK_FLAGS" != "" ]; then
 		    ARGS="$ARGS -link $LINK_FLAGS"
 		fi
-		if [ "$BUILD_LIB" != "" ]; then
+		if [ "$BUILD_LIB" == "1" ]; then
 		    #ARGS="$ARGS -out:$outfile -APPCONTAINER"
 		    ARGS="$ARGS -out:$outfile -implib:${outfile%.dll}.lib"
 		fi
