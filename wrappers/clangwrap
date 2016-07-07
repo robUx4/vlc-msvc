@@ -8,12 +8,12 @@ case $VLC_PLATFORM in
 	Windows|Metrox86)
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		#~ APPCONTAINER_ARGS="-ZW"
+		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
 		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		#~ APPCONTAINER_ARGS="-ZW"
+		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	Universal)
 		FORCED_LIBS="mincore.lib"
@@ -62,29 +62,27 @@ while [ $# -gt 0 ]; do
 		HAS_P=1
 		;;
 	-c)
-		ARGS="$ARGS -c"
 		compile=1
 		dontlink=1
 		;;
 	*.c|.h)
 		inputfile=`cygpath -w $param`
-		ARGS="$ARGS -x c $inputfile"
-        #-std=c11 
+		LANGUAGE="c"
 		;;
 	*.cpp|*.cxx|*.cc)
 		inputfile=`cygpath -w $param`
-		ARGS="$ARGS -x c++ $inputfile $APPCONTAINER_ARGS"
-        #-std=c++11 
+		USE_MSCL=1
+		LANGUAGE="p"
 		;;
 	*.s|*.asm)
 		inputfile=`cygpath -w $param`
 		compile_asm=yes
-		ARGS="$AS $inputfile"
+		LANGUAGE="asm"
 		;;
 	*.S)
 		inputfile=`cygpath -w $param`
 		compile_asm=yes
-		ARGS="$ARGS $inputfile"
+		LANGUAGE="assembler"
 		;;
 	*.dll)
 		LINK_FLAGS="$LINK_FLAGS $param"
@@ -105,12 +103,12 @@ while [ $# -gt 0 ]; do
 		;;
 	-I)
 		# Handles -I <path>
-		ARGS="$ARGS -I `cygpath -aw $2`"
+		INCLUDES="$INCLUDES -I `cygpath -w $2`"
 		shift
 		;;
 	-I*)
 		# Handles -I<path> (without space)
-		ARGS="$ARGS -I `cygpath -aw ${param#-I}`"
+		INCLUDES="$INCLUDES -I `cygpath -w ${param#-I}`"
 		;;
 	-lm)
 		;;
@@ -137,8 +135,6 @@ while [ $# -gt 0 ]; do
                 ;;
             *)
                 FORCED_LIBS="$FORCED_LIBS $libname.lib"
-                #~ ARGS="$ARGS -print-search-dirs"
-                #~ LINK_FLAGS="$LINK_FLAGS -MAP"
                 ;;
             esac
 		;;
@@ -218,38 +214,39 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-ARGS="clang.exe -target $LLVM_ARCH-pc-windows-msvc $ARGS"
-ARGS_DEBUG=""
-ARGS_RELEASE=""
-
-
-#~ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
-LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
-
-#~ export LIB=$LIB
-#~ export LIBPATH=$LIBPATH
-#~ export _LINK_=$LINK
-
-# There need to be no space between all the segments of the variable
-# It still needs to be considered as 3 values and not one
-# There need to be double quotes around the path
-
-#~ echo CALL: $ARGS
-
-if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" == "" ]]; then
-    # version or other flags cheking
-    cmd /C "$ARGS"
-    exit $?
-fi
+#~ USE_MSCL=1
+#~ LANGUAGE="p"
 
 if [ "$compile_asm" == "" ]; then
+    if [ "$USE_MSCL" != "" ]; then
+        ARGS_DEBUG="-Zi"
+        ARGS_RELEASE="-Gw -Ot"
+    else
+        ARGS_DEBUG=""
+        ARGS_RELEASE=""
+    fi
+
 	if [ "$HAVE_DEBUG" != "" ]; then
 	    ARGS="$ARGS $ARGS_DEBUG"
-	  LINK_FLAGS="$LINK_FLAGS -DEBUG"
+	    LINK_FLAGS="$LINK_FLAGS -DEBUG"
 	else
 	    ARGS="$ARGS $ARGS_RELEASE"
 	fi
 
+	# Don't mix debug with non debug libraries
+	if [ "$STATIC_RUNTIME" == "1" ]; then
+	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	    MSCL_ARGS="$MSCL_ARGS -MTd"
+	  else
+	    MSCL_ARGS="$MSCL_ARGS -MT"
+	  fi
+	else
+	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	    MSCL_ARGS="$MSCL_ARGS -MDd"
+	  else
+	    MSCL_ARGS="$MSCL_ARGS -MD"
+	  fi
+	fi
 	# Do not use debug runtime in release and vice versa
 	if [ "$VLC_CONFIGURATION" == "Debug" ]; then
 	  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
@@ -260,23 +257,98 @@ if [ "$compile_asm" == "" ]; then
 	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
 	ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 	# Hotfix some contribs:
-	ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
 fi
-#ARGS="$ARGS -$NO_LOGO"
+
+if [ "$compile_asm" != "" ]; then
+    if [ "$LANGUAGE" == "asm" ]; then
+        ARGS="$AS $INCLUDES $ARGS"
+    else
+        ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm $ARGS"
+    fi
+else
+    if [ "$USE_MSCL" != "" ]; then
+        ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $ARGS"
+        export INCLUDE="$INCLUDE"
+    else
+        ARGS="clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $ARGS"
+        DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -mno-implicit-float -fno-builtin-pow -fno-builtin-powf"
+        #~ DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
+        export CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"
+        export CPPFLAGS="$CPPFLAGS $DEFAULT_CLANG_FLAGS"
+        export CXXFLAGS="$CXXFLAGS $DEFAULT_CLANG_FLAGS"
+        export LIBPATH="$LIBPATH;$CLANG_LIBS"
+        export INCLUDE="$INCLUDE;$CLANG_INCLUDE"
+        export PATH="/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/Clang 3.7/bin/amd64:$PATH"
+        export LIB="$LIB;$CLANG_LIBS"
+    fi
+fi
+
+if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" == "" ]]; then
+    # version or other flags cheking
+    cmd /C "$ARGS"
+    exit $?
+fi
+
+ARGS="$ARGS $INCLUDES"
+LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
+
+if [ "$inputfile" != "" ]; then
+    if [ "$USE_MSCL" != "" ]; then
+        ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
+    else
+        ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
+    fi
+    if [ "$USE_MSCL" != "" ]; then
+        if [[ "$LANGUAGE" == "c" || "$LANGUAGE" == "p" ]]; then
+            ARGS="$ARGS -c -T$LANGUAGE$inputfile"
+        else
+            ARGS="$ARGS $inputfile"
+        fi
+    else
+        if [ "$LANGUAGE" == "c" ]; then
+            ARGS="$ARGS -x c"
+            #-std=c11 
+        fi
+        if [ "$LANGUAGE" == "p" ]; then
+            ARGS="$ARGS -x c++"
+            #-std=c++11 -x c++ 
+        fi
+        if [ "$LANGUAGE" == "assembler" ]; then
+            ARGS="$ARGS `cygpath -u $inputfile`"
+        else
+            ARGS="$ARGS $inputfile"
+        fi
+    fi
+fi
 
 if [ "$preproc" != "" ]; then
-    # add the lines and comments
-    if [ "$HAS_P" != "" ]; then
-        ARGS="$ARGS -P"
-    fi
-    if [ "$compile" != "" ]; then
-        if [ "$outfile" == "" ]; then
-            outfile=${inputfile%.*}.o
-        fi
-        ARGS="$ARGS -E -o $outfile"
+    if [ "$outfile" != "" ]; then
+        objfile=$outfile
     else
-        ARGS="$ARGS -E"
+        objfile=${inputfile%.*}.obj
     fi
+
+    if [ "$USE_MSCL" != "" ]; then
+        # add the lines and comments
+        if [ "$HAS_P" == "" ]; then
+            ARGS="$ARGS -C"
+        fi
+        if [ "$compile" != "" ]; then
+            ARGS="$ARGS -P -Fi$objfile"
+        else
+            ARGS="$ARGS -E"
+        fi
+    else
+        if [ "$HAS_P" != "" ]; then
+            ARGS="$ARGS -P"
+        fi
+        if [ "$compile" != "" ]; then
+            ARGS="$ARGS -E -o $objfile"
+        else
+            ARGS="$ARGS -E"
+        fi
+    fi
+
     #~ echo PREPROC: $ARGS
     cmd /C "$ARGS"
     exit $?
@@ -285,18 +357,21 @@ fi
 if [ "$inputfile" != "" ]; then
     if [ "$dontlink" != "" ]; then
         if [ "$outfile" != "" ]; then
-            ARGS="$ARGS -c -o $outfile"
+            objfile=$outfile
         else
-            objfile=${inputfile%.*}.o
-            ARGS="$ARGS -c -o $objfile"
+            objfile=${inputfile%.*}.obj
         fi
     else
-        objfile=${inputfile%.*}.o
-        ARGS="$ARGS -c -o $objfile"
+        objfile=${inputfile%.*}.obj
         if [ "$outfile" == "" ]; then
             outfile=${inputfile%.*}.exe
         fi
         LINK_FLAGS="$objfile $LINK_FLAGS"
+    fi
+    if [ "$USE_MSCL" != "" ]; then
+        ARGS="$ARGS -Fo$objfile"
+    else
+        ARGS="$ARGS -c -o $objfile"
     fi
     
     #~ echo COMPILE: $ARGS
@@ -324,7 +399,7 @@ fi
 #~ echo // ARGS: $ARGS
 #~ fi
 
-#~ echo LINK: link.exe $LINK_FLAGS
+echo LINK: link.exe -nologo $LINK_FLAGS
 cmd /C "link.exe -nologo $LINK_FLAGS"
 LINKER_RESULT=$?
 #~ echo linker result: $LINKER_RESULT
