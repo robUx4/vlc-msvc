@@ -37,10 +37,6 @@ if [ "$VLC_CONFIGURATION" == "Debug" ]; then
   HAVE_DEBUG=1
 fi
 
-ARGS="cl.exe -EHsc -FS -MP1"
-ARGS_DEBUG="-Zi"
-ARGS_RELEASE="-Gw -Ot"
-
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*|/home/*|/tmp/*)
@@ -324,6 +320,10 @@ while [ $# -gt 0 ]; do
 	esac
 	shift
 done
+
+ARGS="cl.exe -EHsc -FS -MP1 $ARGS"
+ARGS_DEBUG="-Zi"
+ARGS_RELEASE="-Gw -Ot"
 
 if [ "$compile_asm" == "" ]; then
 	if [ "$HAVE_DEBUG" != "" ]; then

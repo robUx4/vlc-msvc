@@ -37,10 +37,6 @@ if [ "$VLC_CONFIGURATION" == "Debug" ]; then
   HAVE_DEBUG=1
 fi
 
-ARGS="clang.exe -target $LLVM_ARCH-pc-windows-msvc"
-ARGS_DEBUG=""
-ARGS_RELEASE=""
-
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*|/home/*|/tmp/*)
@@ -144,7 +140,7 @@ while [ $# -gt 0 ]; do
                 #~ ARGS="$ARGS -print-search-dirs"
                 #~ LINK_FLAGS="$LINK_FLAGS -MAP"
                 ;;
-        esac
+            esac
 		;;
 	-L*)
         libpath=${param#-L}
@@ -221,6 +217,10 @@ while [ $# -gt 0 ]; do
 	esac
 	shift
 done
+
+ARGS="clang.exe -target $LLVM_ARCH-pc-windows-msvc $ARGS"
+ARGS_DEBUG=""
+ARGS_RELEASE=""
 
 
 #~ LINK_FLAGS="$LINK_FLAGS $LIBDIR $FORCED_LIBS"
