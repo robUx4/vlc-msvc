@@ -161,7 +161,7 @@ while [ $# -gt 0 ]; do
 		fi
 		;;
 	-O0)
-		#~ CLANG_ARGS="$CLANG_ARGS $param"
+		CLANG_ARGS="$CLANG_ARGS $param"
 		MSCL_ARGS="$MSCL_ARGS -Od"
 		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
 		;;
@@ -264,8 +264,8 @@ if [ "$compile_asm" == "" ]; then
         ARGS_DEBUG="-Zi"
         ARGS_RELEASE="-Gw -Ot"
     else
-        ARGS_DEBUG=""
-        ARGS_RELEASE=""
+        ARGS_DEBUG="-g2 -dwarf-2"
+        ARGS_RELEASE="-g0"
     fi
 
 	if [ "$HAVE_DEBUG" != "" ]; then
