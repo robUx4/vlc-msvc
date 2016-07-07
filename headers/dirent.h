@@ -22,10 +22,7 @@
 #endif
 
 #include <stdlib.h>
-#include <errno.h>
-#include <string.h>
 #include <io.h>
-#include <direct.h>
 
 #include <windows.h> /* for GetFileAttributes */
 
