@@ -70,7 +70,7 @@ static __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHi
     {
         dwRet = fStdInfo.EndOfFile.LowPart;
         if (lpFileSizeHigh != NULL)
-            *lpFileSizeHigh = fStdInfo.EndOfFile.HighPart;
+            *lpFileSizeHigh = (DWORD) fStdInfo.EndOfFile.HighPart;
     }
     else
         dwRet = INVALID_FILE_SIZE;
