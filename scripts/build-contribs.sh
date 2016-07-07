@@ -28,14 +28,14 @@ case $VLC_CONFIGURATION in
         ;;
 esac
 
-BUILD_FOLDER=${ROOT_FOLDER}vlc/contrib/${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}/
+BUILD_FOLDER=${ROOT_FOLDER}vlc/contrib/${ABI_VARIANT}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
 fi
 cd $BUILD_FOLDER
 
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
-	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_HOST}_${VLC_CONFIGURATION}" \
+	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE \
 	--disable-gpl \
 	--disable-sout \
