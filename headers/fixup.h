@@ -48,11 +48,9 @@ typedef unsigned int mode_t;
 # define bcopy memcpy
 # define bcmp memcmp
 
-//#ifndef __cplusplus
-//# ifndef restrict
-//#  define restrict __restrict
-//# endif
-//#endif
+#if defined(__clang__) /* && !defined(__cplusplus) */
+# define restrict __restrict
+#endif
 
 // Stats part
 
