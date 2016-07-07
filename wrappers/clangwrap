@@ -37,7 +37,8 @@ if [ "$VLC_CONFIGURATION" == "Debug" ]; then
   HAVE_DEBUG=1
 fi
 
-CLANG_ARGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
+CLANG_ARGS="-Wno-error=incompatible-ms-struct -fstack-protector -fno-ms-compatibility -fms-extensions -fno-short-enums -fno-strict-aliasing -fdata-sections"
+CLANG_ARGS="-ffast-math -fno-builtin-pow -fno-builtin-powf"
 #-mno-implicit-float
 
 while [ $# -gt 0 ]; do
@@ -264,7 +265,8 @@ if [ "$compile_asm" == "" ]; then
         ARGS_DEBUG="-Zi"
         ARGS_RELEASE="-Gw -Ot"
     else
-        ARGS_DEBUG="-g2 -dwarf-2"
+        ARGS_DEBUG="-g2 -fstandalone-debug -gcodeview -gmodules"
+        #-dwarf-2 
         ARGS_RELEASE="-g0"
     fi
 
