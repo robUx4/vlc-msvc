@@ -52,6 +52,7 @@ while [ $# -gt 0 ]; do
     case $param in
 	-o)
 		outfile=`cygpath -w $2`
+		implib=`cygpath -w ${2%.dll}.lib`
 		compile=1
 		shift
 		;;
@@ -138,46 +139,11 @@ while [ $# -gt 0 ]; do
                 ;;
             esac
 		;;
-	-L*)
-        libpath=${param#-L}
-        if [ "$libpath" != "/mingw32/lib" ]; then
-            #~ ARGS="$ARGS -isystem `cygpath -w $libpath`"
-            #~ LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
-            #~ LIB="$LIB;`cygpath -w $libpath`"
-            #~ LIBPATH="$LIBPATH;`cygpath -w $libpath`"
-            LINK_FLAGS="$LINK_FLAGS -LIBPATH:`cygpath -w $libpath`"
-            #~ iwithsysroot="-iwithsysroot"
-        fi
-		;;
-	-Wl*)
-		params=${param#-Wl,}
-        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
-            case $p in
-                -DLL)
-                    BUILD_LIB=1
-                    LINK_FLAGS="$LINK_FLAGS -DLL"
-                    ;;
-                --dynamicbase)
-                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
-                    ;;
-                --high-entropy-va)
-                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
-                    ;;
-                -IMPLIB*)
-                    LINK_FLAGS="$LINK_FLAGS $p"
-            esac
-        done
-		;;
-	*.a|*.obj|*.lib|*.o)
-		# Keep this a low priority match
-		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
-		;;
 	-shared|-DLL)
 		BUILD_LIB=1
-		LINK_FLAGS="$LINK_FLAGS -DLL"
 		;;
 	-static)
-		BUILD_LIB=
+		BUILD_LIB=0
 		;;
 	-shared-libgcc)
 		if [ "$STATIC_RUNTIME" == "1" ]; then
@@ -190,6 +156,77 @@ while [ $# -gt 0 ]; do
 			echo "WARNING: Trying to use a static linking while using dynamic linking"
 			#exit 1
 		fi
+		;;
+	-O0)
+		#~ CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -Od"
+		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
+		;;
+	-L*)
+        libpath=${param#-L}
+        if [ "$libpath" != "/mingw32/lib" ]; then
+            LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+        fi
+		;;
+	-g*)
+		HAVE_DEBUG=1
+		;;
+	-Wall)
+		MSCL_ARGS="$MSCL_ARGS -W4"
+		;;
+	-Wextra)
+		MSCL_ARGS="$MSCL_ARGS -Wall"
+		;;
+	-Werror)
+		MSCL_ARGS="$MSCL_ARGS -WX"
+		;;
+	-Wl*)
+		params=${param#-Wl,}
+        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+            case $p in
+                -DLL)
+                    BUILD_LIB=1
+                    ;;
+                --dynamicbase)
+                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+                    ;;
+                --high-entropy-va)
+                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
+                    ;;
+                -IMPLIB*)
+                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    ;;
+            esac
+        done
+		;;
+	-W*)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		;;
+	*.a|*.obj|*.lib|*.o)
+		# Keep this a low priority match
+		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
+		;;
+	-nologo*)
+		NO_LOGO=${param#-}
+		;;
+	-ffast-math)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -fp:fast"
+		;;
+	-fomit-frame-pointer)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -Oy"
+		;;
+	-fno-math-errno)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -fp:except-"
+		;;
+	-fno-rounding-math|-fno-signaling-nans)
+		echo "option $param not supported!"
+		exit 1
+		;;
+	-f*|-m*)
+		CLANG_ARGS="$CLANG_ARGS $param"
 		;;
 	--no-seh)
 		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
@@ -255,7 +292,7 @@ if [ "$compile_asm" == "" ]; then
 	fi
 
 	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
-	ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
+	INCLUDES="$INCLUDES -I `cygpath -w $INCLUDES_FOLDER`"
 	# Hotfix some contribs:
 fi
 
@@ -388,6 +425,12 @@ fi
 
 if [ "$outfile" != "" ]; then
     LINK_FLAGS="$LINK_FLAGS -out:$outfile"
+fi
+if [ "$BUILD_LIB" == "1" ]; then
+    LINK_FLAGS="$LINK_FLAGS -DLL"
+    if [ "$implib" != "" ]; then
+        LINK_FLAGS="$LINK_FLAGS -IMPLIB:$implib"
+    fi
 fi
 
 #~ if [ "$NO_LOGO" == "nologo" ]; then
