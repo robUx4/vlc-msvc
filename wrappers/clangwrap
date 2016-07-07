@@ -37,6 +37,9 @@ if [ "$VLC_CONFIGURATION" == "Debug" ]; then
   HAVE_DEBUG=1
 fi
 
+CLANG_ARGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
+#-mno-implicit-float
+
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*|/home/*|/tmp/*)
@@ -210,8 +213,10 @@ while [ $# -gt 0 ]; do
 		NO_LOGO=${param#-}
 		;;
 	-ffast-math)
-		CLANG_ARGS="$CLANG_ARGS $param"
 		MSCL_ARGS="$MSCL_ARGS -fp:fast"
+		;;
+	-Wno-error=incompatible-ms-struct|-fno-builtin-pow|-fno-builtin-powf)
+		# already set
 		;;
 	-fomit-frame-pointer)
 		CLANG_ARGS="$CLANG_ARGS $param"
@@ -308,11 +313,10 @@ else
         export INCLUDE="$INCLUDE"
     else
         ARGS="clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $ARGS"
-        DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -mno-implicit-float -fno-builtin-pow -fno-builtin-powf"
         #~ DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
-        export CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"
-        export CPPFLAGS="$CPPFLAGS $DEFAULT_CLANG_FLAGS"
-        export CXXFLAGS="$CXXFLAGS $DEFAULT_CLANG_FLAGS"
+        #~ export CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"
+        #~ export CPPFLAGS="$CPPFLAGS $DEFAULT_CLANG_FLAGS"
+        #~ export CXXFLAGS="$CXXFLAGS $DEFAULT_CLANG_FLAGS"
         export LIBPATH="$LIBPATH;$CLANG_LIBS"
         export INCLUDE="$INCLUDE;$CLANG_INCLUDE"
         export PATH="/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/Clang 3.7/bin/amd64:$PATH"
