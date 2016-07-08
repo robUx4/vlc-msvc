@@ -236,6 +236,9 @@ while [ $# -gt 0 ]; do
 	-f*|-m*)
 		CLANG_ARGS="$CLANG_ARGS $param"
 		;;
+	-std=*)
+		STD_VARIANT=${param#--std=}
+		;;
 	--no-seh)
 		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
 		;;
@@ -344,6 +347,10 @@ if [ "$inputfile" != "" ]; then
         ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
     fi
     if [ "$USE_MSCL" != "" ]; then
+        if [ "$STD_VARIANT" == "gnu99" ]; then
+            echo "Unsupported C standard $STD_VARIANT"
+            exit 1
+        fi
         if [[ "$LANGUAGE" == "c" || "$LANGUAGE" == "p" ]]; then
             ARGS="$ARGS -c -T$LANGUAGE$inputfile"
         else
@@ -351,12 +358,16 @@ if [ "$inputfile" != "" ]; then
         fi
     else
         if [ "$LANGUAGE" == "c" ]; then
+            if [ "$STD_VARIANT" != "" ]; then
+                ARGS="$ARGS -std=$STD_VARIANT"
+            fi
             ARGS="$ARGS -x c"
-            #-std=c11 
         fi
         if [ "$LANGUAGE" == "p" ]; then
+            if [ "$STD_VARIANT" != "" ]; then
+                ARGS="$ARGS -std=$STD_VARIANT"
+            fi
             ARGS="$ARGS -x c++"
-            #-std=c++11 -x c++ 
         fi
         if [ "$LANGUAGE" == "assembler" ]; then
             ARGS="$ARGS `cygpath -u $inputfile`"
