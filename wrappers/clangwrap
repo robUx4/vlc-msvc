@@ -62,6 +62,16 @@ while [ $# -gt 0 ]; do
 		compile=1
 		shift
 		;;
+	-Fo*)
+		outfile=${param#-Fo}
+		compile=1
+		;;
+	-Fi*)
+		preproc=1
+		compile=1
+		HAS_P=
+		outfile=`cygpath -w ${param#-Fi}`
+		;;
 	-E)
 		preproc=1
 		;;
@@ -179,12 +189,15 @@ while [ $# -gt 0 ]; do
 		;;
 	-Wall)
 		MSCL_ARGS="$MSCL_ARGS -W4"
+		CLANG_ARGS="$CLANG_ARGS $param"
 		;;
 	-Wextra)
 		MSCL_ARGS="$MSCL_ARGS -Wall"
+		CLANG_ARGS="$CLANG_ARGS $param"
 		;;
 	-Werror)
 		MSCL_ARGS="$MSCL_ARGS -WX"
+		CLANG_ARGS="$CLANG_ARGS $param"
 		;;
 	-Wl*)
 		params=${param#-Wl,}

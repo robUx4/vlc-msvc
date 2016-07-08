@@ -149,8 +149,9 @@ if [ "$WINAPI_FAMILY" != "" ] ; then
 fi
 
 # Set required environment variables:
-export CC="clwrap"
-export CXX="clwrap"
+export USE_MSCL="1"
+export CC="clangwrap"
+export CXX="clangwrap"
 export BUILDCC="`command -v gcc` -std=c99"
 export cc=$CC
 export cxx=$CXX
