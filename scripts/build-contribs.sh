@@ -97,5 +97,9 @@ cd $BUILD_FOLDER
 	--enable-libdsm \
 	|| exit 1
 
+# clang
+# --disable-flac \
+# --disable-vpx \
+
 USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
 #~ USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1

@@ -112,6 +112,11 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
     sed -i 's/$libname.dll.lib/$library_names_spec/g' libtool
 fi
 
+# clang
+# --disable-vpx \
+# --disable-flac \
+# --disable-neon \
+
 echo "Lauching build"
 make -j`nproc` || exit 1
 #~ make V=1 || exit 1
