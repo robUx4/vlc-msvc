@@ -286,6 +286,7 @@ if [ "$compile_asm" == "" ]; then
     if [ "$USE_MSCL" != "" ]; then
         ARGS_DEBUG="-Zi"
         ARGS_RELEASE="-Gw -Ot"
+	MSCL_ARGS="$MSCL_ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464 -wd4201"
     else
         ARGS_DEBUG="-g2 -fstandalone-debug -gcodeview -gmodules"
         #-dwarf-2 
