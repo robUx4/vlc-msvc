@@ -275,6 +275,25 @@ while [ $# -gt 0 ]; do
 		LINK_FLAGS="$LINK_FLAGS -base:$2"
 		shift
 		;;
+	-march=*)
+		ARCH=${param#-march=}
+		if [ "$VLC_ARCH" == "x86" ]; then
+			if [ "$ARCH" != "i686" ]; then
+				echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
+				exit 1
+			fi
+		else
+			if [ "$VLC_ARCH" == "arm" ]; then
+				if [ "$ARCH" != "arm" ]; then
+					echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
+					exit 1
+				fi
+			else
+				echo "VLC_ARCH no supported $VLC_ARCH"
+				exit 1
+			fi
+		fi
+		;;
 	*)
 		ARGS="$ARGS $param"
 		;;
