@@ -1,5 +1,9 @@
 #!/bin/sh
 
+ARGS="cl.exe -EHsc -FS"
+ARGS_DEBUG="-Zi"
+ARGS_RELEASE="-Gw -Ot"
+
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 INCLUDES_FOLDER=$SCRIPTPATH/../headers
@@ -23,6 +27,8 @@ case $VLC_PLATFORM in
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
 		exit 1
 esac
+
+#~ echo $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20} ${21} ${22} ${23} ${24} ${25} ${26} ${27} ${28} ${29} ${30} ${31} ${32} ${33} ${34} ${35} ${36} ${37} ${38} ${39} ${40} ${41} ${42} ${43} ${44} ${45} ${46} ${47} ${48} ${49} ${50} ${51} ${52} ${53} ${54} ${55} ${56} ${57} ${58} ${59} 
 
 NO_LOGO="nologo"
 
@@ -159,21 +165,22 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS $libname"
 		;;
             "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" )
-                LINK_FLAGS="$LINK_FLAGS $libname.lib"
+                ARGS="$ARGS $libname.lib"
                 ;;
             *.a)
-                LINK_FLAGS="$LINK_FLAGS lib$libname.a"
+                ARGS="$ARGS lib$libname.a"
                 ;;
             *)
-                FORCED_LIBS="$FORCED_LIBS $libname.lib"
+                ARGS="$ARGS $libname.lib"
                 ;;
-            esac
+        esac
 		;;
 	-shared|-DLL)
 		BUILD_LIB=1
+		ARGS="$ARGS -LD"
 		;;
 	-static)
-		BUILD_LIB=0
+		BUILD_LIB=
 		;;
 	-shared-libgcc)
 		if [ "$STATIC_RUNTIME" == "1" ]; then
@@ -191,7 +198,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -O2"
 		;;
 	-O0)
-		ARGS="$ARGS -O0"
+		ARGS="$ARGS -Od"
 		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
 		;;
 	-O3)
@@ -221,6 +228,7 @@ while [ $# -gt 0 ]; do
             case $p in
                 -DLL)
                     BUILD_LIB=1
+                    ARGS="$ARGS -LD"
                     ;;
                 --dynamicbase)
                     LINK_FLAGS="$LINK_FLAGS -dynamicbase"
@@ -229,8 +237,7 @@ while [ $# -gt 0 ]; do
                     LINK_FLAGS="$LINK_FLAGS -highentropyva"
                     ;;
                 -IMPLIB*)
-                    implib=`cygpath -w ${p#-IMPLIB:}`
-                    ;;
+                    LINK_FLAGS="$LINK_FLAGS $p"
             esac
         done
 		;;
@@ -238,7 +245,7 @@ while [ $# -gt 0 ]; do
 		;;
 	*.a|*.obj|*.lib|*.o)
 		# Keep this a low priority match
-		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
+		ARGS="$ARGS `cygpath -w $param`"
 		;;
 	-nologo*)
 		NO_LOGO=${param#-}
@@ -322,10 +329,6 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-ARGS="cl.exe -EHsc -FS -MP1 $ARGS -$NO_LOGO"
-ARGS_DEBUG="-Zi"
-ARGS_RELEASE="-Gw -Ot"
-
 if [ "$compile_asm" == "" ]; then
 	if [ "$HAVE_DEBUG" != "" ]; then
 	    ARGS="$ARGS $ARGS_DEBUG"
@@ -355,11 +358,12 @@ if [ "$compile_asm" == "" ]; then
 	  LINK_FLAGS="$LINK_FLAGS -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
 	fi
 
-	ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
+	ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464 -wd4201"
 	ARGS="$ARGS -I`cygpath -w $INCLUDES_FOLDER`"
 	# Hotfix some contribs:
 	ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
 fi
+ARGS="$ARGS -$NO_LOGO"
 
 LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
 
@@ -398,9 +402,9 @@ else
 		if [ "$LINK_FLAGS" != "" ]; then
 		    ARGS="$ARGS -link $LINK_FLAGS"
 		fi
-		if [ "$BUILD_LIB" == "1" ]; then
+		if [ "$BUILD_LIB" != "" ]; then
 		    #ARGS="$ARGS -out:$outfile -APPCONTAINER"
-		    ARGS="$ARGS -out:$outfile -implib:${outfile%.dll}.lib"
+		    ARGS="$ARGS -out:$outfile"
 		fi
 	else
 		echo compile ASM: $ARGS
