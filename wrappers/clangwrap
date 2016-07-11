@@ -249,6 +249,10 @@ while [ $# -gt 0 ]; do
 	-f*|-m*|-pipe)
 		CLANG_ARGS="$CLANG_ARGS $param"
 		;;
+	-pedantic)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -sdl"
+		;;
 	-std=*)
 		STD_VARIANT=${param#--std=}
 		;;
