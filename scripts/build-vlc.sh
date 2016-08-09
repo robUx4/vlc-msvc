@@ -53,7 +53,7 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
     export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
     #Lua is compiled fine, but configure.ac tries to run luac while checking for it... since it's an arm binary...
     ac_cv_func_getenv=yes ac_cv_func_putenv=yes ac_cv_func_getpid=yes ac_cv_func_strdup=yes ac_cv_have_decl_strdup=yes \
-    ac_cv_func_strnlen=yes ac_cv_have_decl_strnlen=yes ac_cv_func_timespec_get=$HAS_TIMESPEC ac_cv_func_if_nametoindex=no ac_cv_c_restrict=restrict \
+    ac_cv_func_strnlen=yes ac_cv_have_decl_strnlen=yes ac_cv_func_timespec_get=$HAS_TIMESPEC ac_cv_func_if_nametoindex=no ac_cv_c_restrict=restrict ac_cv_host=$BUILD_HOST \
     $SCRIPTPATH/../vlc/configure \
         --host=$BUILD_HOST \
         --build=x86-w64-mingw32 \
