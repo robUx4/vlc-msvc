@@ -111,6 +111,10 @@ while [ $# -gt 0 ]; do
 		compile_asm=yes
 		ARGS="$AS $inputfile"
 		;;
+	*.obj)
+		file=`cygpath -w $param`
+		ARGS="$ARGS $file"
+		;;
 	*.dll)
 		LINK_FLAGS="$LINK_FLAGS $param"
 		;;
@@ -393,6 +397,8 @@ else
 						ARGS="$ARGS -Fo$outfile"
 					fi
 				fi
+			else
+				ARGS="$ARGS -Fe$outfile"
 			fi
 		else
 			ARGS="$ARGS -Fe$exefile"
