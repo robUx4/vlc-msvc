@@ -202,7 +202,7 @@ while [ $# -gt 0 ]; do
 		ARGS="$ARGS -O2"
 		;;
 	-O0)
-		ARGS="$ARGS -Od"
+		ARGS="$ARGS -O1" # this may cause unneeded code generation "$MSCL_ARGS -Od"
 		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
 		;;
 	-O3)
