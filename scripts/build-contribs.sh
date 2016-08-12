@@ -95,6 +95,7 @@ cd $BUILD_FOLDER
 	--enable-nfs \
 	--enable-microdns \
 	--enable-libdsm \
+	--disable-mfx \
 	|| exit 1
 
 # clang
