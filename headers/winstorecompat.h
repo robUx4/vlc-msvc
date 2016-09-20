@@ -162,6 +162,11 @@ static __forceinline HMODULE LoadLibraryW(LPCWSTR lpFileName)
     return LoadPackagedLibrary(lpFileName, 0);
 }
 
+static __forceinline HMODULE LoadLibraryExW(LPCWSTR lpFileName, HANDLE hFile, DWORD dwFlags)
+{
+    return LoadPackagedLibrary(lpFileName, 0);
+}
+
 #define LoadLibrary LoadLibraryW
 
 static __forceinline BOOL CreateTimerQueueTimer (PHANDLE phNewTimer, HANDLE TimerQueue, WAITORTIMERCALLBACK Callback, PVOID Parameter, DWORD DueTime, DWORD Period, ULONG Flags)
@@ -288,6 +293,11 @@ static __forceinline void *LocalFree(void *hMem)
     if (HeapFree(GetProcessHeap(), 0, hMem))
         return NULL;
     return hMem;
+}
+
+static __forceinline UINT GetConsoleOutputCP()
+{
+    return CP_UTF8;
 }
 
 // End of function declarations, now let's just hardcode all the values...
