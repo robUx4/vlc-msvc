@@ -366,7 +366,7 @@ else
         #~ export CXXFLAGS="$CXXFLAGS $DEFAULT_CLANG_FLAGS"
         export LIBPATH="$LIBPATH;$CLANG_LIBS"
         export INCLUDE="$INCLUDE;$CLANG_INCLUDE"
-        export PATH="/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/Clang 3.7/bin/amd64:$PATH"
+        export PATH="/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/ClangC2/bin/amd64:$PATH"
         export LIB="$LIB;$CLANG_LIBS"
     fi
 fi
