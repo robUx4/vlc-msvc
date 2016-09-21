@@ -215,8 +215,28 @@ while [ $# -gt 0 ]; do
                 --high-entropy-va)
                     LINK_FLAGS="$LINK_FLAGS -highentropyva"
                     ;;
+                --nxcompat)
+                    LINK_FLAGS="$LINK_FLAGS -nxcompat"
+                    ;;
+                --no-seh)
+                    LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+                    ;;
+                --image-base)
+                    case $2 in
+                        -Wl,0x*)
+                            LINK_FLAGS="$LINK_FLAGS -base:${2#-Wl,}"
+                            shift
+                            ;;
+                        *)
+                            LINK_FLAGS="$LINK_FLAGS -base:${params#--image-base,}"
+                            ;;
+                    esac
+                    ;;
                 -IMPLIB*)
                     implib=`cygpath -w ${p#-IMPLIB:}`
+                    ;;
+                *.a|*.obj|*.lib|*.o)
+                    LINK_FLAGS="$LINK_FLAGS `cygpath -w $p`"
                     ;;
             esac
         done
