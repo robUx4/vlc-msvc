@@ -164,6 +164,8 @@ static __forceinline HMODULE LoadLibraryW(LPCWSTR lpFileName)
 
 static __forceinline HMODULE LoadLibraryExW(LPCWSTR lpFileName, HANDLE hFile, DWORD dwFlags)
 {
+    (void) hFile;
+    (void) dwFlags;
     return LoadPackagedLibrary(lpFileName, 0);
 }
 
