@@ -153,26 +153,26 @@ else
 #    fi
 fi
 
-export CLANG_LIBS="${VCINSTALLDIR}Clang 3.7\\lib\\$VLC_ARCH"
-export CLANG_INCLUDE="${VCINSTALLDIR}Clang 3.7\\include"
+export CLANG_LIBS="${VCINSTALLDIR}ClangC2\\lib\\$VLC_ARCH"
+export CLANG_INCLUDE="${VCINSTALLDIR}ClangC2\\include"
 case `uname -m` in
     x86_64)
-        export CLANG_PATH="`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/amd64"
+        export CLANG_PATH="`cygpath -u $VCINSTALLDIR`ClangC2/bin/amd64"
         ;;
     i686)
-        export CLANG_PATH="`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/x86"
+        export CLANG_PATH="`cygpath -u $VCINSTALLDIR`ClangC2/bin/x86"
         ;;
 esac
 
 #echo clang path $CLANG_PATH
 #echo clang libs $CLANG_LIBS
 #echo clang incs $CLANG_INCLUDE
-#echo `cygpath -u $VCINSTALLDIR`/Clang 3.7/lib;$LIBPATH
+#echo `cygpath -u $VCINSTALLDIR`/ClangC2/lib;$LIBPATH
 
 # Run this before playing with our environment, except for the path,
 # since we want the tools we already built to be detected
-#export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:`cygpath -u $VCINSTALLDIR`Clang 3.7/bin/amd64:$PATH"
-export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/Clang 3.7/bin/amd64:$PATH"
+#export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:`cygpath -u $VCINSTALLDIR`ClangC2/bin/amd64:$PATH"
+export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/ClangC2/bin/amd64:$PATH"
 #export LIB="$LIB;${VCINSTALLDIR}lib$CRT_PATH;$CLANG_LIBS"
 export LIB="$LIB;$CLANG_LIBS"
 export LIBPATH="$LIBPATH;${VCINSTALLDIR}lib$CRT_PATH"
