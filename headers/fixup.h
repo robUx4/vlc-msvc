@@ -85,6 +85,12 @@ typedef unsigned int mode_t;
 #define	S_IRUSR		_S_IRUSR
 #define	_S_IRUSR	_S_IREAD
 
+#define O_RDONLY  _O_RDONLY
+#define O_WRONLY  _O_WRONLY
+#define O_CREAT   _O_CREAT
+#define O_TRUNC   _O_TRUNC
+#define O_BINARY  _O_BINARY
+
 # ifndef S_ISREG
 #  define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
 # endif
