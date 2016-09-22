@@ -174,7 +174,7 @@ if ($as_type ne "armasm") {
     @gcc_cmd = grep ! /^-m/, @gcc_cmd;
     @gcc_cmd = grep ! /^-M/, @gcc_cmd;
     @gcc_cmd = grep ! /^-c$/, @gcc_cmd;
-    @gcc_cmd = grep ! /^-I/, @gcc_cmd;
+    #@gcc_cmd = grep ! /^-I/, @gcc_cmd;
     @gcc_cmd = map { /\.S$/ ? $tempfile : $_ } @gcc_cmd;
 }
 

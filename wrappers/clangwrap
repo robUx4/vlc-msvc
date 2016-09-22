@@ -401,10 +401,12 @@ ARGS="$ARGS $INCLUDES"
 LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
 
 if [ "$inputfile" != "" ]; then
-    if [ "$USE_MSCL" != "" ]; then
-        ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
-    else
-        ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
+    if [ "$LANGUAGE" != "assembler" ]; then
+        if [ "$USE_MSCL" != "" ]; then
+            ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
+        else
+            ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
+        fi
     fi
     if [ "$USE_MSCL" != "" ]; then
         if [ "$STD_VARIANT" == "gnu99" ]; then
