@@ -277,7 +277,12 @@ while [ $# -gt 0 ]; do
 		MSCL_ARGS="$MSCL_ARGS -sdl"
 		;;
 	-std=*)
-		STD_VARIANT=${param#--std=}
+		STD_VARIANT=${param#-std=}
+		case $STD_VARIANT in
+		gnu*)
+			STD_VARIANT=
+			;;
+		esac
 		;;
 	--no-seh)
 		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
