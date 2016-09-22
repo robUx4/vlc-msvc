@@ -229,7 +229,7 @@ export HAVE_VISUALSTUDIO=true
 # that would be compared against, thus not translating anything
 #export MSYS2_ARG_CONV_EXCL="/OUT:;-OUT:;-out:;-LIBPATH:;-libpath:"
 export BUILD_HOST=$VLC_ARCH-llvm-mingw32$VLC_ABI
-export BUILD_VARIANT=${BUILD_HOST}_${VLC_CONFIGURATION}_clang
+export BUILD_VARIANT=${BUILD_HOST}_${VLC_CONFIGURATION}
 export ABI_VARIANT=${VLC_ABI}_${VLC_ARCH}_${VLC_CONFIGURATION}_clang
 
 # We are now in ROOT_FOLDER/vlc
