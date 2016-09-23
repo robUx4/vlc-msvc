@@ -69,6 +69,8 @@ while [ $# -gt 0 ]; do
 	--high-entropy-va)
 		ARGS="$ARGS -highentropyva"
 		;;
+	-lm)
+		;;
 	-l*)
 		OBJS="$OBJS ${param#-l}.lib"
 		;;
@@ -80,6 +82,45 @@ while [ $# -gt 0 ]; do
 		if [ "$libpath" != "/mingw32/lib" ]; then
 			LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
 		fi
+		;;
+	-Wl*)
+		params=${param#-Wl,}
+        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+            case $p in
+                -DLL)
+                    BUILD_LIB=1
+                    ;;
+                --dynamicbase)
+                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+                    ;;
+                --high-entropy-va)
+                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
+                    ;;
+                --nxcompat)
+                    LINK_FLAGS="$LINK_FLAGS -nxcompat"
+                    ;;
+                --no-seh)
+                    LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+                    ;;
+                --image-base)
+                    case $2 in
+                        -Wl,0x*)
+                            LINK_FLAGS="$LINK_FLAGS -base:${2#-Wl,}"
+                            shift
+                            ;;
+                        *)
+                            LINK_FLAGS="$LINK_FLAGS -base:${params#--image-base,}"
+                            ;;
+                    esac
+                    ;;
+                -IMPLIB*)
+                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    ;;
+                *.a|*.obj|*.lib|*.o)
+                    LINK_FLAGS="$LINK_FLAGS `cygpath -w $p`"
+                    ;;
+            esac
+        done
 		;;
 	-pdb:*)
 		#TODO ARGS="$ARGS -pdb:`cygpath -w $param`"
