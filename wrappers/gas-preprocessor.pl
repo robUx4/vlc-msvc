@@ -144,7 +144,7 @@ if ($as_type ne "armasm") {
     @gcc_cmd = map { /\.[csS]$/ ? qw(-x assembler -) : $_ } @gcc_cmd;
 } else {
     @preprocess_c_cmd = grep ! /^-c$/, @preprocess_c_cmd;
-    @preprocess_c_cmd = grep ! /^-m/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-m$/, @preprocess_c_cmd;
 
     @preprocess_c_cmd = grep ! /^-G/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-W/, @preprocess_c_cmd;
@@ -154,6 +154,10 @@ if ($as_type ne "armasm") {
     @preprocess_c_cmd = grep ! /^-fno/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-EHsc$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-O/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-machine$/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^(ARM|THUMB)$/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^(-16|-32)$/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-oldit$/, @preprocess_c_cmd;
 
     @gcc_cmd = grep ! /^-G/, @gcc_cmd;
     @gcc_cmd = grep ! /^-W/, @gcc_cmd;
@@ -171,7 +175,7 @@ if ($as_type ne "armasm") {
     # which doesn't support any of the common compiler/preprocessor options.
     @gcc_cmd = grep ! /^-D/, @gcc_cmd;
     @gcc_cmd = grep ! /^-U/, @gcc_cmd;
-    @gcc_cmd = grep ! /^-m/, @gcc_cmd;
+    @gcc_cmd = grep ! /^-m$/, @gcc_cmd;
     @gcc_cmd = grep ! /^-M/, @gcc_cmd;
     @gcc_cmd = grep ! /^-c$/, @gcc_cmd;
     #@gcc_cmd = grep ! /^-I/, @gcc_cmd;
