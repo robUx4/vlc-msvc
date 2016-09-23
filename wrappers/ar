@@ -53,6 +53,18 @@ if [ "$LINK_APPEND" != "" ]; then
 	fi
 fi
 
+case $VLC_ARCH in
+    arm)
+        ARGS="$ARGS -machine:ARM"
+    ;;
+    x86)
+        ARGS="$ARGS -machine:X86"
+    ;;
+    amd64)
+        ARGS="$ARGS -machine:X64"
+    ;;
+esac
+
 if [ "$LINK_EXTRACTED" != "" ]; then
 	echo "Extracting objects"
 	for object in `lib -nologo -list $LINK_TARGET`; do
