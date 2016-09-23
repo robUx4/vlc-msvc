@@ -40,7 +40,7 @@ if [ "$VLC_CONFIGURATION" == "Debug" ]; then
 fi
 
 CLANG_ARGS="-Wno-error=incompatible-ms-struct -fstack-protector -fno-ms-compatibility -fms-extensions -fno-short-enums -fno-strict-aliasing -fdata-sections"
-CLANG_ARGS="-ffast-math -fno-builtin-pow -fno-builtin-powf"
+#~ CLANG_ARGS="$CLANG_ARGS -ffast-math -fno-builtin-pow -fno-builtin-powf"
 #-mno-implicit-float
 
 while [ $# -gt 0 ]; do
@@ -111,10 +111,16 @@ while [ $# -gt 0 ]; do
 		case $def in
 			*=\<*\>)
 				def=`echo $def | sed 's/=/\"=/'`\"
+				DEFINES="$DEFINES $def"
 				;;
-			#~ *=\"*\")
-				#~ def=`echo $def | sed 's/\"/\\\"/g'`
-				#~ ;;
+			*=\"*\")
+				ASM_DEFINES="$ASM_DEFINES $def"
+				def=`echo $def | sed 's/\"/\\\"/g'`
+				COMPILE_DEFINES="$COMPILE_DEFINES $def"
+				;;
+			*)
+				DEFINES="$DEFINES $def"
+				;;
 		esac
 		ARGS="$ARGS $def"
 		;;
@@ -333,7 +339,7 @@ if [ "$compile_asm" == "" ]; then
     if [ "$USE_MSCL" != "" ]; then
         ARGS_DEBUG="-Zi"
         ARGS_RELEASE="-Gw -Ot"
-	MSCL_ARGS="$MSCL_ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464 -wd4201"
+        MSCL_ARGS="$MSCL_ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464 -wd4201"
     else
         ARGS_DEBUG="-g2 -fstandalone-debug -gcodeview -gmodules"
         #-dwarf-2 
@@ -385,16 +391,16 @@ fi
 
 if [ "$compile_asm" != "" ]; then
     if [ "$LANGUAGE" == "asm" ]; then
-        ARGS="$AS $INCLUDES $ARGS"
+        ARGS="$AS $ARGS"
     else
-        ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm -32 $ARGS"
+        ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm -32 $DEFINES $ASM_DEFINES $ARGS"
     fi
 else
     if [ "$USE_MSCL" != "" ]; then
-        ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $ARGS"
+        ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
         export INCLUDE="$INCLUDE"
     else
-        ARGS="clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $ARGS"
+        ARGS="clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
         #~ DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
         #~ export CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"
         #~ export CPPFLAGS="$CPPFLAGS $DEFAULT_CLANG_FLAGS"
