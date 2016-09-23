@@ -373,6 +373,16 @@ if [ "$compile_asm" == "" ]; then
 	# Hotfix some contribs:
 fi
 
+if [ "$dontlink" != "" ]; then
+    if [ "$outfile" != "" ]; then
+        objfile=$outfile
+    else
+        objfile=${inputfile%.*}.obj
+    fi
+else
+    objfile=${inputfile%.*}.obj
+fi
+
 if [ "$compile_asm" != "" ]; then
     if [ "$LANGUAGE" == "asm" ]; then
         ARGS="$AS $INCLUDES $ARGS"
@@ -412,6 +422,9 @@ if [ "$inputfile" != "" ]; then
         else
             ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
         fi
+    fi
+    if [ "$compile_asm" != "" ]; then
+        ARGS="$ARGS -c -o $objfile"
     fi
     if [ "$USE_MSCL" != "" ]; then
         if [ "$STD_VARIANT" == "gnu99" ]; then
@@ -478,23 +491,18 @@ if [ "$preproc" != "" ]; then
 fi
 
 if [ "$inputfile" != "" ]; then
-    if [ "$dontlink" != "" ]; then
-        if [ "$outfile" != "" ]; then
-            objfile=$outfile
-        else
-            objfile=${inputfile%.*}.obj
-        fi
-    else
-        objfile=${inputfile%.*}.obj
+    if [ "$dontlink" == "" ]; then
         if [ "$outfile" == "" ]; then
             outfile=${inputfile%.*}.exe
         fi
         LINK_FLAGS="$objfile $LINK_FLAGS"
     fi
-    if [ "$USE_MSCL" != "" ]; then
-        ARGS="$ARGS -Fo$objfile"
-    else
-        ARGS="$ARGS -c -o $objfile"
+    if [[ "$LANGUAGE" != "assembler" && "$LANGUAGE" != "assembler" ]]; then
+        if [ "$USE_MSCL" != "" ]; then
+            ARGS="$ARGS -Fo$objfile"
+        else
+            ARGS="$ARGS -c -o $objfile"
+        fi
     fi
     
     #~ echo COMPILE: $ARGS
