@@ -158,6 +158,7 @@ if ($as_type ne "armasm") {
     @preprocess_c_cmd = grep ! /^(ARM|THUMB)$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^(-16|-32)$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-oldit$/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-showIncludes$/, @preprocess_c_cmd;
 
     @gcc_cmd = grep ! /^-G/, @gcc_cmd;
     @gcc_cmd = grep ! /^-W/, @gcc_cmd;
