@@ -377,7 +377,7 @@ if [ "$compile_asm" != "" ]; then
     if [ "$LANGUAGE" == "asm" ]; then
         ARGS="$AS $INCLUDES $ARGS"
     else
-        ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm $ARGS"
+        ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm -32 $ARGS"
     fi
 else
     if [ "$USE_MSCL" != "" ]; then
