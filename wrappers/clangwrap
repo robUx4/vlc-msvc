@@ -112,9 +112,9 @@ while [ $# -gt 0 ]; do
 			*=\<*\>)
 				def=`echo $def | sed 's/=/\"=/'`\"
 				;;
-			*=\"*\")
-				def=`echo $def | sed 's/\"/\\\"/g'`
-				;;
+			#~ *=\"*\")
+				#~ def=`echo $def | sed 's/\"/\\\"/g'`
+				#~ ;;
 		esac
 		ARGS="$ARGS $def"
 		;;
