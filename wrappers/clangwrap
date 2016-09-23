@@ -517,6 +517,18 @@ if [ "$inputfile" != "" ]; then
     fi
 fi
 
+case $VLC_ARCH in
+    arm)
+        LINK_FLAGS="$LINK_FLAGS -machine:ARM"
+    ;;
+    x86)
+        LINK_FLAGS="$LINK_FLAGS -machine:X86"
+    ;;
+    amd64)
+        LINK_FLAGS="$LINK_FLAGS -machine:X64"
+    ;;
+esac
+
 if [ "$outfile" != "" ]; then
     LINK_FLAGS="$LINK_FLAGS -out:$outfile"
 fi
