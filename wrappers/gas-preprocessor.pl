@@ -155,6 +155,7 @@ if ($as_type ne "armasm") {
     @preprocess_c_cmd = grep ! /^-EHsc$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-O/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-machine$/, @preprocess_c_cmd;
+    @preprocess_c_cmd = grep ! /^-march/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^(ARM|THUMB)$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^(-16|-32)$/, @preprocess_c_cmd;
     @preprocess_c_cmd = grep ! /^-oldit$/, @preprocess_c_cmd;
@@ -167,6 +168,7 @@ if ($as_type ne "armasm") {
     @gcc_cmd = grep ! /^-ffast-math/, @gcc_cmd;
     @gcc_cmd = grep ! /^-fno/, @gcc_cmd;
     @gcc_cmd = grep ! /^-EHsc$/, @gcc_cmd;
+    @gcc_cmd = grep ! /^-showIncludes$/, @gcc_cmd;
     @gcc_cmd = grep ! /^-O/, @gcc_cmd;
 
     my @outfiles = grep /\.(o|obj)$/, @gcc_cmd;
@@ -177,9 +179,10 @@ if ($as_type ne "armasm") {
     @gcc_cmd = grep ! /^-D/, @gcc_cmd;
     @gcc_cmd = grep ! /^-U/, @gcc_cmd;
     @gcc_cmd = grep ! /^-m$/, @gcc_cmd;
+    @gcc_cmd = grep ! /^-march/, @gcc_cmd;
     @gcc_cmd = grep ! /^-M/, @gcc_cmd;
     @gcc_cmd = grep ! /^-c$/, @gcc_cmd;
-    #@gcc_cmd = grep ! /^-I/, @gcc_cmd;
+    @gcc_cmd = grep ! /^-I/, @gcc_cmd;
     @gcc_cmd = map { /\.S$/ ? $tempfile : $_ } @gcc_cmd;
 }
 
