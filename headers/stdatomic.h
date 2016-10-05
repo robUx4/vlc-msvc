@@ -13,6 +13,8 @@
 
 #  define atomic_exchange(object,desired) \
     atomic_type_dispatch_32_64(InterlockedExchange, object, desired)
+#  define atomic_exchange_explicit(object,desired,order) \
+    atomic_exchange(object,desired)
 
 #  define atomic_load(object) \
     atomic_type_dispatch_32_64(InterlockedCompareExchange, object, 0, 0)
@@ -55,6 +57,8 @@ static __forceinline bool msvc_std_exchange_64(LONGLONG *obj, LONGLONG *expected
 
 #  define atomic_fetch_add(object,operand) \
     atomic_type_dispatch_32_64(InterlockedExchangeAdd, object, operand)
+#  define atomic_fetch_add_explicit(object,operand,order) \
+    atomic_fetch_add(object, operand)
 
 #  define atomic_fetch_sub(object,operand) \
     atomic_type_dispatch_32_64(InterlockedExchangeAdd, object, -(LONGLONG)operand)
