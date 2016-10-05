@@ -126,12 +126,12 @@ while [ $# -gt 0 ]; do
 		;;
 	-I)
 		# Handles -I <path>
-		INCLUDES="$INCLUDES -I `cygpath -w $2`"
+		INCLUDES="$INCLUDES -I`cygpath -w $2`"
 		shift
 		;;
 	-I*)
 		# Handles -I<path> (without space)
-		INCLUDES="$INCLUDES -I `cygpath -w ${param#-I}`"
+		INCLUDES="$INCLUDES -I`cygpath -w ${param#-I}`"
 		;;
 	-lm)
 		;;
@@ -375,7 +375,7 @@ if [ "$compile_asm" == "" ]; then
 	fi
 
 	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
-	INCLUDES="$INCLUDES -I `cygpath -w $INCLUDES_FOLDER`"
+	INCLUDES="$INCLUDES -I`cygpath -w $INCLUDES_FOLDER`"
 	# Hotfix some contribs:
 fi
 
