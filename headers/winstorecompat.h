@@ -28,8 +28,21 @@
 extern "C" {
 #endif
 
+#ifndef __has_attribute
+#define __has_attribute(x) 0
+#endif
+
+#if __has_attribute(always_inline)
+#define COMPAT_INLINE __attribute__((always_inline))
+#elif defined(_MSC_VER)
+#define COMPAT_INLINE __forceinline
+#else
+#define COMPAT_INLINE inline
+#endif
+
+
 #if _MSC_VER < 1900 || defined(__clang__)
-static __forceinline int getpid(void)
+static COMPAT_INLINE int getpid(void)
 {
     return GetCurrentProcessId();
 }
@@ -42,7 +55,7 @@ typedef int pid_t;
 #define CreateEvent CreateEventW
 
 #if _WIN32_WINNT < 0x0A00
-static __forceinline HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCWSTR lpName)
+static COMPAT_INLINE HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes, BOOL bManualReset, BOOL bInitialState, LPCWSTR lpName)
 {
     int flags = 0;
     if (bManualReset)
@@ -52,7 +65,7 @@ static __forceinline HANDLE CreateEventW(LPSECURITY_ATTRIBUTES lpEventAttributes
     return CreateEventExW(lpEventAttributes, lpName, flags, EVENT_ALL_ACCESS);
 }
 
-static __forceinline HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,
+static COMPAT_INLINE HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,
                                LONG lInitialCount,
                                LONG lMaximumCount,
                                LPCWSTR lpName)
@@ -61,7 +74,7 @@ static __forceinline HANDLE CreateSemaphoreW(LPSECURITY_ATTRIBUTES lpSemaphoreAt
 }
 #endif /* _WIN32_WINNT */
 
-static __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
+static COMPAT_INLINE DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
 {
     DWORD dwRet = 0;
     FILE_STANDARD_INFO fStdInfo;
@@ -82,7 +95,7 @@ static __forceinline DWORD WINAPI GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHi
 /*
  This is not really a proper implementation, but it is needed by gcc/libstdc++
  */
-static __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,
+static COMPAT_INLINE HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,
                                LONG lInitialCount,
                                LONG lMaximumCount,
                                LPCSTR lpName)
@@ -106,7 +119,7 @@ static __forceinline HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAt
 #define GetModuleHandleA(x)                             (NULL)
 #define GetModuleHandleW(x)                             (NULL)
 
-static __forceinline HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode,
+static COMPAT_INLINE HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode,
     LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition,
     DWORD dwFlagsAndAttributes, HANDLE hTemplateFile)
 {
@@ -123,14 +136,14 @@ static __forceinline HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAcces
 #define CreateFileA(f,a,sh,sc,cr,fl,h)  (INVALID_HANDLE_VALUE)
 
 #if _WIN32_WINNT < 0x0A00
-static __forceinline DWORD GetFileType(HANDLE hFile)
+static COMPAT_INLINE DWORD GetFileType(HANDLE hFile)
 {
     if (hFile != INVALID_HANDLE_VALUE)
         return FILE_TYPE_DISK;
     return FILE_TYPE_UNKNOWN;
 }
 
-static __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
+static COMPAT_INLINE HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCWSTR lpName)
 {
     int flags = 0;
     if (bInitialOwner)
@@ -140,7 +153,7 @@ static __forceinline HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes
 #endif /* _WIN32_WINNT */
 #define CreateMutex CreateMutexW
 
-static __forceinline UINT GetACP(void)
+static COMPAT_INLINE UINT GetACP(void)
 {
     DWORD acp;
     if (GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_RETURN_NUMBER | LOCALE_IDEFAULTANSICODEPAGE, (LPWSTR) &acp, sizeof(acp) / sizeof(WCHAR)))
@@ -148,7 +161,7 @@ static __forceinline UINT GetACP(void)
     return CP_UTF8; /* utf-8 */
 }
 
-static __forceinline DWORD GetFileAttributesW(LPCWSTR lpFileName)
+static COMPAT_INLINE DWORD GetFileAttributesW(LPCWSTR lpFileName)
 {
     WIN32_FILE_ATTRIBUTE_DATA fileInformation;
     if( GetFileAttributesExW(lpFileName, GetFileExInfoStandard, &fileInformation) != 0)
@@ -157,12 +170,12 @@ static __forceinline DWORD GetFileAttributesW(LPCWSTR lpFileName)
         return INVALID_FILE_ATTRIBUTES;
 }
 
-static __forceinline HMODULE LoadLibraryW(LPCWSTR lpFileName)
+static COMPAT_INLINE HMODULE LoadLibraryW(LPCWSTR lpFileName)
 {
     return LoadPackagedLibrary(lpFileName, 0);
 }
 
-static __forceinline HMODULE LoadLibraryExW(LPCWSTR lpFileName, HANDLE hFile, DWORD dwFlags)
+static COMPAT_INLINE HMODULE LoadLibraryExW(LPCWSTR lpFileName, HANDLE hFile, DWORD dwFlags)
 {
     (void) hFile;
     (void) dwFlags;
@@ -171,7 +184,7 @@ static __forceinline HMODULE LoadLibraryExW(LPCWSTR lpFileName, HANDLE hFile, DW
 
 #define LoadLibrary LoadLibraryW
 
-static __forceinline BOOL CreateTimerQueueTimer (PHANDLE phNewTimer, HANDLE TimerQueue, WAITORTIMERCALLBACK Callback, PVOID Parameter, DWORD DueTime, DWORD Period, ULONG Flags)
+static COMPAT_INLINE BOOL CreateTimerQueueTimer (PHANDLE phNewTimer, HANDLE TimerQueue, WAITORTIMERCALLBACK Callback, PVOID Parameter, DWORD DueTime, DWORD Period, ULONG Flags)
 {
     UNREFERENCED_PARAMETER(phNewTimer);
     UNREFERENCED_PARAMETER(TimerQueue);
@@ -184,7 +197,7 @@ static __forceinline BOOL CreateTimerQueueTimer (PHANDLE phNewTimer, HANDLE Time
     return 0;
 }
 
-static __forceinline BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer, HANDLE CompletionEvent)
+static COMPAT_INLINE BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer, HANDLE CompletionEvent)
 {
     UNREFERENCED_PARAMETER(TimerQueue);
     UNREFERENCED_PARAMETER(Timer);
@@ -194,7 +207,7 @@ static __forceinline BOOL DeleteTimerQueueTimer (HANDLE TimerQueue, HANDLE Timer
 }
 
 #if _WIN32_WINNT < 0x0A00
-static __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSection)
+static COMPAT_INLINE void InitializeCriticalSection(LPCRITICAL_SECTION lpCriticalSection)
 {
     int flags = 0;
 #ifdef NDEBUG
@@ -205,7 +218,7 @@ static __forceinline void InitializeCriticalSection(LPCRITICAL_SECTION lpCritica
 #endif /* _WIN32_WINNT */
 
 #ifndef NTDDI_WIN10_RS1 /* now available in RS1 */
-static __forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
+static COMPAT_INLINE BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLONG lpDistanceToMoveHigh, DWORD dwMoveMethod)
 {
     LARGE_INTEGER  liDistanceToMove, newFilePointer;
     liDistanceToMove.QuadPart = lDistanceToMove;
@@ -221,7 +234,7 @@ static __forceinline BOOL SetFilePointer(HANDLE hFile, LONG lDistanceToMove, PLO
 #define _endthreadex ExitThread
 
 /*
-static __forceinline BeginThreadEx(
+static COMPAT_INLINE BeginThreadEx(
    void *security,
    unsigned stack_size,
    unsigned ( __stdcall *start_address )( void * ),
@@ -241,14 +254,14 @@ static __forceinline BeginThreadEx(
 #endif
 
 #if _MSC_VER < 1900
-static __forceinline wchar_t* _wgetcwd(wchar_t *buffer, int maxlen)
+static COMPAT_INLINE wchar_t* _wgetcwd(wchar_t *buffer, int maxlen)
 {
     (void)buffer;
     (void)maxlen;
     return NULL;
 }
 
-static __forceinline char* _getcwd(char *buffer, int maxlen)
+static COMPAT_INLINE char* _getcwd(char *buffer, int maxlen)
 {
     (void)buffer;
     (void)maxlen;
@@ -258,17 +271,17 @@ static __forceinline char* _getcwd(char *buffer, int maxlen)
 #define getcwd _getcwd
 
 #if _WIN32_WINNT < 0x0A00
-static __forceinline void GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
+static COMPAT_INLINE void GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
 {
     GetNativeSystemInfo(lpSystemInfo);
 }
 
-static __forceinline DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
+static COMPAT_INLINE DWORD WaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds)
 {
     return WaitForSingleObjectEx(hHandle, dwMilliseconds, FALSE);
 }
 
-static __forceinline DWORD WaitForMultipleObjects(WORD nCount, const HANDLE *lpHandles, BOOL bWaitAll, DWORD dwMilliseconds)
+static COMPAT_INLINE DWORD WaitForMultipleObjects(WORD nCount, const HANDLE *lpHandles, BOOL bWaitAll, DWORD dwMilliseconds)
 {
     return WaitForMultipleObjectsEx(nCount, lpHandles, bWaitAll, dwMilliseconds, FALSE);
 }
@@ -282,7 +295,7 @@ static __forceinline DWORD WaitForMultipleObjects(WORD nCount, const HANDLE *lpH
 #define GetFileAttributes GetFileAttributesW
 #define GetTickCount      GetTickCount64
 
-static __forceinline void *LocalAlloc(UINT uFlags, SIZE_T uBytes)
+static COMPAT_INLINE void *LocalAlloc(UINT uFlags, SIZE_T uBytes)
 {
     DWORD dFlags = 0;
     if (uFlags & LMEM_ZEROINIT)
@@ -290,14 +303,14 @@ static __forceinline void *LocalAlloc(UINT uFlags, SIZE_T uBytes)
     return HeapAlloc(GetProcessHeap(), dFlags, uBytes);
 }
 
-static __forceinline void *LocalFree(void *hMem)
+static COMPAT_INLINE void *LocalFree(void *hMem)
 {
     if (HeapFree(GetProcessHeap(), 0, hMem))
         return NULL;
     return hMem;
 }
 
-static __forceinline UINT GetConsoleOutputCP()
+static COMPAT_INLINE UINT GetConsoleOutputCP()
 {
     return CP_UTF8;
 }
