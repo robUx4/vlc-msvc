@@ -92,7 +92,7 @@ if (grep /\.c$/, @gcc_cmd) {
     # the compiler fails.
     exec(@gcc_cmd);
 } else {
-    die "Unrecognized input filetype";
+    die "Unrecognized input filetype in @gcc_cmd";
 }
 if ($as_type eq "armasm") {
 
