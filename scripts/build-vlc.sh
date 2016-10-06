@@ -80,7 +80,6 @@ if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}
         --disable-skins2 \
         --enable-sse \
         --enable-mmx \
---disable-neon \
         --enable-libcddb \
         --enable-realrtsp \
         --disable-zvbi \
