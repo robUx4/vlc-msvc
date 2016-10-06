@@ -166,6 +166,7 @@ static COMPAT_INLINE UINT GetACP(void)
     return CP_UTF8; /* utf-8 */
 }
 
+#if _WIN32_WINNT < 0x0A00 || !defined(__clang__)
 static COMPAT_INLINE DWORD GetFileAttributesW(LPCWSTR lpFileName)
 {
     WIN32_FILE_ATTRIBUTE_DATA fileInformation;
@@ -174,6 +175,8 @@ static COMPAT_INLINE DWORD GetFileAttributesW(LPCWSTR lpFileName)
     else
         return INVALID_FILE_ATTRIBUTES;
 }
+#define GetFileAttributes GetFileAttributesW
+#endif
 
 static COMPAT_INLINE HMODULE LoadLibraryW(LPCWSTR lpFileName)
 {
@@ -297,9 +300,9 @@ static COMPAT_INLINE DWORD WaitForMultipleObjects(WORD nCount, const HANDLE *lpH
 
 #endif /* _WIN32_WINNT */
 
-#define GetFileAttributes GetFileAttributesW
 #define GetTickCount      GetTickCount64
 
+#if _WIN32_WINNT < 0x0A00
 static COMPAT_INLINE void *LocalAlloc(UINT uFlags, SIZE_T uBytes)
 {
     DWORD dFlags = 0;
@@ -314,6 +317,7 @@ static COMPAT_INLINE void *LocalFree(void *hMem)
         return NULL;
     return hMem;
 }
+#endif
 
 static COMPAT_INLINE UINT GetConsoleOutputCP()
 {
