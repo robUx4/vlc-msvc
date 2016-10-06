@@ -28,6 +28,11 @@
 extern "C" {
 #endif
 
+#ifdef __clang__
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunused-function"
+#endif
+
 #ifndef __has_attribute
 #define __has_attribute(x) 0
 #endif
@@ -331,6 +336,10 @@ static COMPAT_INLINE UINT GetConsoleOutputCP()
 #define CSIDL_MYPICTURES 0x0027
 #define CSIDL_FLAG_CREATE 0x8000
 #define CSIDL_COMMON_APPDATA 0x0023
+
+#ifdef __clang__
+# pragma clang diagnostic pop
+#endif
 
 #ifdef __cplusplus
 } //extern "C"
