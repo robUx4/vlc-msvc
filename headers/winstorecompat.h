@@ -37,7 +37,7 @@ typedef int pid_t;
 #endif /* _MSC_VER */
 
 #define getenv(x) NULL
-#define putenv(x) NULL
+#define putenv(x) -1
 
 #define CreateEvent CreateEventW
 
