@@ -38,7 +38,7 @@
 
 
 :setup_Universal86
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @set CMAKE_VS_PLATFORM_TOOLSET=v140_clang_3_7
 @set CMAKE_SYSTEM_PROCESSOR=x86
 @set CMAKE_VS_PLATFORM_TOOLSET=vs120
@@ -48,7 +48,7 @@
 @goto select_vs15
 
 :setup_UniversalARM
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @set CMAKE_VS_PLATFORM_TOOLSET=v140_clang_3_7
 @set CMAKE_SYSTEM_PROCESSOR=ARM
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
@@ -57,7 +57,7 @@
 @goto select_vs15
 
 :setup_Universal64
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @set CMAKE_VS_PLATFORM_TOOLSET=v140_clang_3_7
 @set CMAKE_SYSTEM_PROCESSOR=amd64
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
@@ -66,7 +66,7 @@
 @goto select_vs15
 
 :setup_Win32
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @set CMAKE_VS_PLATFORM_TOOLSET=v140_clang_3_7
 @set CMAKE_SYSTEM_PROCESSOR=x86
 @set WIN32_WINNT=0x0A00
