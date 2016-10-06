@@ -19,6 +19,10 @@ typedef struct tagMSG MSG, *LPMSG;
 #define __STDC_VERSION__ 199901L
 #endif
 
+#if defined(__clang__)
+#define _CRT_DECLARE_NONSTDC_NAMES 1
+#endif
+
 # if !defined(snprintf) && _MSC_VER < 1900
 #  define HAVE_SNPRINTF /* bogus autoconf detection using a define */
 #  define snprintf _snprintf
@@ -27,7 +31,7 @@ typedef struct tagMSG MSG, *LPMSG;
 #  define HAVE_SNWPRINTF /* bogus autoconf detection using a define */
 #  define snwprintf _snwprintf
 # endif
-# if !defined(strdup) && _MSC_VER < 1900
+# if !defined(strdup) && (_MSC_VER < 1900 || defined(__clang__))
 //#  define HAVE_STRDUP /* bogus autoconf detection using a define */
 # define strdup _strdup
 #endif
@@ -95,6 +99,21 @@ typedef unsigned int mode_t;
 #define O_RDWR    _O_RDWR
 #define O_TEXT    _O_TEXT
 #define O_NOINHERIT _O_NOINHERIT
+
+#if defined(__clang__)
+//#define stat _stat64
+//#define fstat(fd,out) _fstat64(fd,out)
+/* NO extern int stricmp(char const * s1, char const * s2); */
+//extern void* fdopen(int fd, char const* fmt);
+extern int read(int fd, void * buf, unsigned int bufcount);
+extern int write(int fd, void const * buf, unsigned int bufcount);
+extern int close(int fd);
+extern int setmode(int fd, int mode);
+extern int dup(int fd);
+/* NO extern void swab(char * b1, char * b2, int size); */
+extern long lseek(int fd, long offset, int origin);
+//extern int fileno(void* FILE);
+#endif
 
 # ifndef S_ISREG
 #  define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
