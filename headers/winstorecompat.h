@@ -57,6 +57,8 @@ typedef int pid_t;
 #define getenv(x) NULL
 #define putenv(x) -1
 
+#define SetThreadErrorMode(x,y) 
+
 #define CreateEvent CreateEventW
 
 #if _WIN32_WINNT < 0x0A00
