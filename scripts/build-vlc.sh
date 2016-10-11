@@ -58,6 +58,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --host=$BUILD_HOST \
         --build=x86-w64-mingw32 \
         --with-contrib="${SRC_FOLDER}contrib/${BUILD_VARIANT}" \
+        --prefix="${BUILD_FOLDER}_win32" \
         --enable-winstore-app \
         --enable-optimize-memory \
         $DEBUG_MODE \
