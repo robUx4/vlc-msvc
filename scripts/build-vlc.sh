@@ -47,7 +47,7 @@ else
     HAS_TIMESPEC=no
 fi
 
-if [ ! -f $BUILD_FOLDER/Makefile ] || [ $BUILD_FOLDER/Makefile -ot ${SRC_FOLDER}configure.ac ] ; then
+if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDER}configure.ac ] ; then
     echo "Running configure..."
     export PKG_CONFIG_PATH=${SRC_FOLDER}contrib/${BUILD_VARIANT}/lib/pkgconfig
     export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
