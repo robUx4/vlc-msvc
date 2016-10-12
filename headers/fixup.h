@@ -36,7 +36,12 @@ typedef struct tagMSG MSG, *LPMSG;
 # define strdup _strdup
 #endif
 #define ssize_t  SSIZE_T
-typedef signed long int off_t;
+
+/* force _FILE_OFFSET_BITS */
+#define _OFF_T_DEFINED
+typedef __int64 _off_t;
+typedef _off_t off_t;
+
 typedef unsigned int mode_t;
 //# define N_(x) x
 # define _(x) x
