@@ -51,6 +51,7 @@ typedef unsigned int mode_t;
 #  define inline __inline
 # endif
 #endif
+#define __inline__ __inline
 
 # define alloca _alloca
 # define bzero(a,b) memset( (a), 0, (b) )
