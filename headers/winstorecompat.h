@@ -278,7 +278,9 @@ static COMPAT_INLINE char* _getcwd(char *buffer, int maxlen)
     return NULL;
 }
 #endif
+#ifndef getcwd
 #define getcwd _getcwd
+#endif
 
 #if _WIN32_WINNT < 0x0A00
 static COMPAT_INLINE void GetSystemInfo(LPSYSTEM_INFO lpSystemInfo)
