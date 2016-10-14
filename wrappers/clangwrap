@@ -419,7 +419,7 @@ if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" =
 fi
 
 ARGS="$ARGS $INCLUDES"
-LINK_FLAGS="$LINK_FLAGS $FORCED_LIBS $LIBDIR"
+LINK_FLAGS="$LINK_FLAGS -INCREMENTAL:NO $FORCED_LIBS $LIBDIR"
 
 if [ "$inputfile" != "" ]; then
     if [ "$LANGUAGE" != "assembler" ]; then
