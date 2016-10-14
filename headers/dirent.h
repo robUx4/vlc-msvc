@@ -172,10 +172,10 @@ _topendir (const _TCHAR *szPath)
 
   /* Allocate enough space to store DIR structure and the complete
    * directory path given. */
-  nd = (_TDIR *) malloc (sizeof (_TDIR) + (_tcslen (szFullPath)
+  const size_t ddname_size = (_tcslen (szFullPath)
 					   + _tcslen (SLASH)
-					   + _tcslen (SUFFIX) + 1)
-					  * sizeof (_TCHAR));
+					   + _tcslen (SUFFIX) + 1);
+  nd = (_TDIR *) malloc (sizeof (_TDIR) + ddname_size * sizeof (_TCHAR));
 
   if (!nd)
     {
@@ -185,18 +185,18 @@ _topendir (const _TCHAR *szPath)
     }
 
   /* Create the search expression. */
-  _tcscpy (nd->dd_name, szFullPath);
+  _tcscpy_s (nd->dd_name, ddname_size, szFullPath);
 
   /* Add on a slash if the path does not end with one. */
   if (nd->dd_name[0] != _T('\0') &&
       nd->dd_name[_tcslen (nd->dd_name) - 1] != _T('/') &&
       nd->dd_name[_tcslen (nd->dd_name) - 1] != _T('\\'))
     {
-      _tcscat (nd->dd_name, SLASH);
+      _tcscat_s (nd->dd_name, ddname_size, SLASH);
     }
 
   /* Add on the search pattern */
-  _tcscat (nd->dd_name, SUFFIX);
+  _tcscat_s (nd->dd_name, ddname_size, SUFFIX);
 
   /* Initialize handle to -1 so that a premature closedir doesn't try
    * to call _findclose on it. */
