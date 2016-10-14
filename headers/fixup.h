@@ -201,6 +201,7 @@ extern long lseek(int fd, long offset, int origin);
 # define static_assert _Static_assert
 #endif /* __clang__ */
 
+#include <stdlib.h>
 #include <winapifamily.h>
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
