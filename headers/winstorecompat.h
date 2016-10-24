@@ -323,7 +323,7 @@ static COMPAT_INLINE void *LocalFree(void *hMem)
 }
 #endif
 
-static COMPAT_INLINE UINT GetConsoleOutputCP()
+static COMPAT_INLINE UINT GetConsoleOutputCP(void)
 {
     return CP_UTF8;
 }
