@@ -1,4 +1,6 @@
 @REM adjust the SDK depending on the target
+@set CALL_DIR=%cd%
+
 @IF /I "%1" == "WindowsPhone" goto setup_WindowsPhone
 @IF /I "%1" == "Windows"      goto setup_Windows
 @IF /I "%1" == "Metrox86"     goto setup_Metrox86
@@ -142,6 +144,7 @@ call %VSVARS% %SDK_VARIANT%
 
 
 :call_main
+@cd %CALL_DIR%
 %WD%%MSYSCON% --hold always /usr/bin/bash scripts/main.sh %*
 
 
