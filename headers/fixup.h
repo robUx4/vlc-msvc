@@ -201,6 +201,9 @@ extern long lseek(int fd, long offset, int origin);
 # define static_assert _Static_assert
 #endif /* __clang__ */
 
+/* avoid compilation issues in ARM */
+#define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
+
 #include <stdlib.h>
 #include <winapifamily.h>
 
