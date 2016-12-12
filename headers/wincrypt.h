@@ -1,3 +1,5 @@
+#ifndef _WINSTORE_WINCRYPT_H
+#define _WINSTORE_WINCRYPT_H
 #include <windows.h>
 #include <winapifamily.h>
 
@@ -441,3 +443,5 @@ CryptUnprotectData(
     );
 
 #endif /* WINAPI_FAMILY */
+
+#endif /* _WINSTORE_WINCRYPT_H */
