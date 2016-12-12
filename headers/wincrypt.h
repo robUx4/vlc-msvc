@@ -406,4 +406,38 @@ WINCRYPT32API HCERTSTORE WINAPI PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWST
 #define sz_CERT_STORE_PROV_LDAP             sz_CERT_STORE_PROV_LDAP_W
 
 
+typedef struct  _CRYPTPROTECT_PROMPTSTRUCT
+{
+    DWORD cbSize;
+    DWORD dwPromptFlags;
+    HWND  hwndApp;
+    LPCWSTR szPrompt;
+} CRYPTPROTECT_PROMPTSTRUCT, *PCRYPTPROTECT_PROMPTSTRUCT;
+
+#define CRYPTPROTECT_UI_FORBIDDEN        0x1
+
+BOOL
+WINAPI
+CryptProtectData(
+    DATA_BLOB*      pDataIn,
+    LPCWSTR         szDataDescr,
+    DATA_BLOB*      pOptionalEntropy,
+    PVOID           pvReserved,
+    CRYPTPROTECT_PROMPTSTRUCT*  pPromptStruct,
+    DWORD           dwFlags,
+    DATA_BLOB*      pDataOut            // out encr blob
+    );
+
+BOOL
+WINAPI
+CryptUnprotectData(
+    DATA_BLOB*      pDataIn,             // in encr blob
+    LPWSTR*     ppszDataDescr,       // out
+    DATA_BLOB*      pOptionalEntropy,
+    PVOID           pvReserved,
+    CRYPTPROTECT_PROMPTSTRUCT*  pPromptStruct,
+    DWORD           dwFlags,
+    DATA_BLOB*      pDataOut
+    );
+
 #endif /* WINAPI_FAMILY */
