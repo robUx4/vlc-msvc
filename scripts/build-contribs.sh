@@ -90,6 +90,7 @@ cd $BUILD_FOLDER
     --enable-lua \
     --enable-luac \
     --disable-protobuf \
+    --disable-protoc \
 	--disable-d3d11 \
 	--disable-dshow \
 	--disable-libarchive \
