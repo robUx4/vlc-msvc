@@ -204,7 +204,16 @@ extern long lseek(int fd, long offset, int origin);
 /* avoid compilation issues in ARM */
 #define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
 
+#if defined(_DEBUG) && 0
+#define _CRTDBG_MAP_ALLOC
+#endif
 #include <stdlib.h>
+#if defined(_DEBUG) && 0
+#include <crtdbg.h>
+//#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+//#define new DEBUG_NEW
+#endif
+
 #include <winapifamily.h>
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
