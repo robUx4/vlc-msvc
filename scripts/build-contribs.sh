@@ -66,7 +66,7 @@ cd $BUILD_FOLDER
 	--disable-directx \
 	--disable-chromaprint \
 	--disable-gettext \
-	--disable-gme \
+	--enable-gme \
 	--enable-gnutls \
     --enable-ssh2 \
 	--enable-nettle \
@@ -98,6 +98,7 @@ cd $BUILD_FOLDER
 	--enable-microdns \
 	--enable-libdsm \
 	--disable-mfx \
+    --enable-sidplay2 \
 	|| exit 1
 
 # clang
