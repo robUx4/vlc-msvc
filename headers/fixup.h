@@ -214,6 +214,10 @@ extern long lseek(int fd, long offset, int origin);
 //#define new DEBUG_NEW
 #endif
 
+#define STDIN_FILENO  _fileno(stdin)
+#define STDOUT_FILENO _fileno(stdout)
+#define STDERR_FILENO _fileno(stderr)
+
 #include <winapifamily.h>
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
