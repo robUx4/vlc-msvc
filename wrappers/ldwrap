@@ -26,7 +26,7 @@ case $VLC_PLATFORM in
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	*)
-		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		echo "ldwrap: Invalid platform: $VLC_PLATFORM"
 		exit 1
 esac
 
