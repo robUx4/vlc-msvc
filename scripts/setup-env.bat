@@ -41,7 +41,7 @@
 
 
 :setup_Universal86
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set CMAKE_SYSTEM_PROCESSOR=x86
@@ -51,7 +51,7 @@
 @goto select_vs15
 
 :setup_UniversalARM
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set CMAKE_SYSTEM_PROCESSOR=ARM
@@ -61,7 +61,7 @@
 @goto select_vs15
 
 :setup_Universal64
-@set SDK_VER=10.0.10586.0
+@set SDK_VER=10.0.14393.0
 @rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set CMAKE_SYSTEM_PROCESSOR=amd64
