@@ -1,11 +1,10 @@
-#ifndef _MSVC_SDTNORETURN_H
-#define _MSVC_SDTNORETURN_H
+#ifndef __cplusplus
 
-#if defined(__clang__)
-#error Clang has its own stdreturn.h, use it!
+#if defined(__clang__) && __has_include_next(<stdnoreturn.h>)
+#  include_next <stdnoreturn.h>
+#else
+# include <process.h>
+# define noreturn __declspec(noreturn)
 #endif
 
-#include <process.h>
-#define noreturn __declspec(noreturn)
-
-#endif /* _MSVC_SDTNORETURN_H */
+#endif /* __cplusplus */

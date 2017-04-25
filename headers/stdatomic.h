@@ -88,6 +88,7 @@ typedef     uint_least32_t atomic_ushort;
 typedef          int       atomic_int;
 typedef unsigned int       atomic_uint;
 typedef         uintptr_t  atomic_uintptr_t;
+typedef          long long atomic_llong;
 
 typedef     uint_fast32_t atomic_uint_fast32_t;
 
