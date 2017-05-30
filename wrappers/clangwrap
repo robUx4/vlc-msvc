@@ -424,9 +424,9 @@ LINK_FLAGS="$LINK_FLAGS -INCREMENTAL:NO $FORCED_LIBS $LIBDIR"
 if [ "$inputfile" != "" ]; then
     if [ "$LANGUAGE" != "assembler" ]; then
         if [ "$USE_MSCL" != "" ]; then
-            ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/fixup.h`"
+            ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/msvc_fixup.h`"
         else
-            ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/fixup.h`"
+            ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/clang_fixup.h`"
         fi
     fi
     if [ "$compile_asm" != "" ]; then
