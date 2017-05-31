@@ -1,8 +1,12 @@
 #ifndef _WINSTORE_WINCRYPT_H
 #define _WINSTORE_WINCRYPT_H
 
-#if 0 && defined(__clang__) && __has_include_next(<wincrypt.h>)
-#  include_next <wincrypt.h>
+#if defined(__clang__) && __has_include_next(<wincrypt.h>)
+# ifndef WINAPI_PARTITION_PHONE_RESTRICTED
+#  define WINAPI_PARTITION_PHONE_RESTRICTED  WINAPI_PARTITION_APP
+# endif
+# include_next <wincrypt.h>
+# pragma comment(lib, "advapi32.lib")
 #else /* no wincrypt.h */
 
 #include <windows.h>
