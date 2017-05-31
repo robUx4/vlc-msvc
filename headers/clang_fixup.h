@@ -16,11 +16,18 @@
 #define restrict
 #define NOMINMAX
 #else /* __cplusplus */
+#if !__has_feature(c_static_assert)
 #define STATIC_ASSERT_CONCAT_(a, b) a##b
 #define STATIC_ASSERT_CONCAT(a, b) STATIC_ASSERT_CONCAT_(a, b)
 #define _Static_assert(x, s) extern char STATIC_ASSERT_CONCAT(static_assert_, __LINE__)[sizeof(struct { unsigned:-!(x); })]
+#endif
 #define static_assert _Static_assert
 #endif /* __cplusplus */
+
+#define __declspec(noreturn)  __attribute__ ((noreturn))
+#define DECLSPEC_NORETURN     __attribute__ ((noreturn))
+#define DECLSPEC_SELECTANY    __attribute__((weak))
+//#define DECLSPEC_ALIGN(x)     __attribute__((weak))
 
 #if 0 /* TODO */
 
