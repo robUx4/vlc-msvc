@@ -23,7 +23,9 @@
 #endif /* __cplusplus */
 
 #define __declspec(noreturn)  __attribute__ ((noreturn))
+#undef DECLSPEC_NORETURN
 #define DECLSPEC_NORETURN     __attribute__ ((noreturn))
+#undef DECLSPEC_SELECTANY
 #define DECLSPEC_SELECTANY    __attribute__((weak))
 //#define DECLSPEC_ALIGN(x)     __attribute__((weak))
 
