@@ -24,7 +24,7 @@ exit $1
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|Metrox86|WindowsPhone|Universal86|Universal64|UniversalARM"
+    echo "platform: Windows|Metrox86|WindowsPhone|Universal86|Universal64|UniversalARM|Win32|Win64"
     echo "configuration: Debug|Release"
     terminate 1
 }
@@ -68,9 +68,14 @@ case $1 in
         export AS=armasm
         ;;
     Win32)
-        export VLC_PLATFORM=Windows
+        export VLC_PLATFORM=Desktop
         export VLC_ABI=desktop
         export VLC_ARCH=x86
+        ;;
+    Win64)
+        export VLC_PLATFORM=Desktop
+        export VLC_ABI=desktop
+        export VLC_ARCH=amd64
         ;;
     *)
         usage

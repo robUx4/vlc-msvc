@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "LD Wrapping $@"
+echo "LD Wrapping $@ platform: $VLC_PLATFORM"
 
 # Do not use debug runtime in release and vice versa
 if [ "$VLC_CONFIGURATION" == "Debug" ]; then
@@ -24,6 +24,9 @@ case $VLC_PLATFORM in
 	Universal)
 		FORCED_LIBS="mincore.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		;;
+	Desktop)
+		FORCED_LIBS="mincore.lib"
 		;;
 	*)
 		echo "ldwrap: Invalid platform: $VLC_PLATFORM"

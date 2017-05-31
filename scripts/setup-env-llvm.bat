@@ -8,6 +8,7 @@
 @IF /I "%1" == "Universal64"  goto setup_Universal64
 @IF /I "%1" == "UniversalARM" goto setup_UniversalARM
 @IF /I "%1" == "Win32"        goto setup_Win32
+@IF /I "%1" == "Win64"        goto setup_Win64
 @echo Unknown target "%1"
 @exit -1
 
@@ -70,6 +71,13 @@
 :setup_Win32
 @set SDK_VER=10.0.15063.0
 @set CMAKE_SYSTEM_PROCESSOR=x86
+@set WIN32_WINNT=0x0A00
+@set WINAPI_FAMILY=WINAPI_PARTITION_PC_APP
+@goto select_vs15
+
+:setup_Win64
+@set SDK_VER=10.0.15063.0
+@set CMAKE_SYSTEM_PROCESSOR=amd64
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_PARTITION_PC_APP
 @goto select_vs15
