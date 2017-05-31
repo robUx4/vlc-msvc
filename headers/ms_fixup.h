@@ -98,6 +98,14 @@ typedef unsigned int mode_t;
 #endif
 
 /* make sure math.h defines the values we want */
+#ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
+#endif
+
+#include <winapifamily.h>
+
+#if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+#include "winstorecompat.h"
+#endif /* WINAPI_FAMILY_PC_APP || WINAPI_FAMILY_PHONE_APP */
 
 #endif /* _MSC_VER */

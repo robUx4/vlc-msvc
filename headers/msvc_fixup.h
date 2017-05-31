@@ -69,14 +69,6 @@ typedef struct tagMSG MSG, *LPMSG;
 #define _USE_MATH_DEFINES
 #endif /* _USE_MATH_DEFINES */
 
-#ifndef UNICODE
-#define UNICODE
-#endif /* UNICODE */
-
-#ifndef _UNICODE
-#define _UNICODE
-#endif /* _UNICODE */
-
 #define PATH_MAX MAX_PATH
 
 /* avoid compilation issues in ARM */
@@ -95,12 +87,6 @@ typedef struct tagMSG MSG, *LPMSG;
 #define STDIN_FILENO  _fileno(stdin)
 #define STDOUT_FILENO _fileno(stdout)
 #define STDERR_FILENO _fileno(stderr)
-
-#include <winapifamily.h>
-
-#if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-#include "winstorecompat.h"
-#endif /* WINAPI_FAMILY_PC_APP || WINAPI_FAMILY_PHONE_APP */
 
 #if _MSC_VER < 1900
 #pragma warning(disable:4201) /* nameless structs */
