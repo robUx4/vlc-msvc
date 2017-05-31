@@ -1,4 +1,5 @@
 #ifdef _MSC_VER /* help visual studio compile vlc headers */
+/* common header for cl.exe and clang.exe */
 
 #include <basetsd.h>
 typedef SSIZE_T ssize_t;
@@ -59,6 +60,20 @@ typedef unsigned int mode_t;
 
 #ifndef S_ISDIR
 # define S_ISDIR(mode)  (((mode) & S_IFMT) == S_IFDIR)
+#endif
+
+/* Values for the second argument to access.
+   These may be OR'd together.  */
+#ifndef R_OK
+# define R_OK    4       /* Test for read permission.  */
+#endif
+
+#ifndef W_OK
+# define W_OK    2       /* Test for write permission.  */
+#endif
+
+#ifndef F_OK
+# define F_OK    0       /* Test for existence.  */
 #endif
 
 #ifndef strcasecmp

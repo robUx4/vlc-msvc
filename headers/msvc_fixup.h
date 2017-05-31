@@ -57,20 +57,6 @@ typedef struct tagMSG MSG, *LPMSG;
 
 #define NOMINMAX
 
-/* Values for the second argument to access.
-   These may be OR'd together.  */
-#ifndef R_OK
-# define R_OK    4       /* Test for read permission.  */
-#endif
-
-#ifndef W_OK
-# define W_OK    2       /* Test for write permission.  */
-#endif
-
-#ifndef F_OK
-# define F_OK    0       /* Test for existence.  */
-#endif
-
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif /* _CRT_SECURE_NO_WARNINGS */
