@@ -4,8 +4,6 @@
 #error Clang compatibility header
 #endif
 
-#include "mscver_fixup.h"
-
 #define _CRT_DECLARE_NONSTDC_NAMES 1
 #include <corecrt.h>
 
@@ -28,6 +26,8 @@
 #define DECLSPEC_NORETURN     __attribute__ ((noreturn))
 #define DECLSPEC_SELECTANY    __attribute__((weak))
 //#define DECLSPEC_ALIGN(x)     __attribute__((weak))
+
+#include "ms_fixup.h"
 
 #if 0 /* TODO */
 
