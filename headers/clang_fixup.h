@@ -10,7 +10,7 @@
 #ifdef __cplusplus
 //#undef _NO_CRT_STDIO_INLINE
 //#define _CRT_STDIO_INLINE
-#define _NO_CRT_STDIO_INLINE
+//#define _NO_CRT_STDIO_INLINE
 #define restrict
 #define NOMINMAX
 #else /* __cplusplus */
