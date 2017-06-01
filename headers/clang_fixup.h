@@ -5,6 +5,12 @@
 #endif
 
 #define _CRT_DECLARE_NONSTDC_NAMES 1
+
+#ifndef WINAPI_FAMILY
+/* allow build for ARM UWP, autotools doesn't pass it sometimes */
+#define _CRT_BUILD_DESKTOP_APP 0
+#endif
+
 #include <corecrt.h>
 
 #ifdef __cplusplus
