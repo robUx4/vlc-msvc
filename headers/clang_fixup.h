@@ -29,6 +29,9 @@
 #define DECLSPEC_SELECTANY    __attribute__((weak))
 //#define DECLSPEC_ALIGN(x)     __attribute__((weak))
 
+#undef __builtin_expect /* not implemented yet in release builds */
+#define __builtin_expect(p,v)  (p)
+
 #include "ms_fixup.h"
 
 #if 0 /* TODO */
