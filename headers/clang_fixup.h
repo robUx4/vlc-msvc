@@ -40,6 +40,11 @@
 #undef __builtin_expect /* not implemented yet in release builds */
 #define __builtin_expect(p,v)  (p)
 
+#if defined(__cplusplus) && defined(_M_ARM)
+/* avoid crashing the C++ compiler with ARM */
+#define __ARM_NEON_H
+#endif
+
 #include "ms_fixup.h"
 
 #if 0 /* TODO */
