@@ -13,6 +13,9 @@
 #pragma warning(push)
 #pragma warning(disable:4255)    /* no function prototype given */
 #endif /* _MSV_VER */
+#ifdef __cplusplus
+#define NOMINMAX /* messes with std::min/max */
+#endif
 #include <Windows.h>
 #if _MSC_VER < 1900
 #pragma warning(pop)
