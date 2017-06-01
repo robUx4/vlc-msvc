@@ -93,7 +93,7 @@ while [ $# -gt 0 ]; do
 		;;
 	*.cpp|*.cxx|*.cc)
 		inputfile=`cygpath -w $param`
-		USE_MSCL=1
+		#~ USE_MSCL=1
 		LANGUAGE="p"
 		;;
 	*.s|*.asm)
