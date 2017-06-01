@@ -27,6 +27,8 @@
 #define DECLSPEC_NORETURN     __attribute__ ((noreturn))
 #undef DECLSPEC_SELECTANY
 #define DECLSPEC_SELECTANY    __attribute__((weak))
+#undef DECLSPEC_DEPRECATED
+#define DECLSPEC_DEPRECATED   __attribute__((deprecated))
 //#define DECLSPEC_ALIGN(x)     __attribute__((weak))
 
 #undef __builtin_expect /* not implemented yet in release builds */
