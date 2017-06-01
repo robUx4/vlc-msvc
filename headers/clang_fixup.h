@@ -22,7 +22,7 @@
 #define static_assert _Static_assert
 #endif /* __cplusplus */
 
-#define __declspec(noreturn)  __attribute__ ((noreturn))
+//#define __declspec(noreturn)  __attribute__ ((noreturn))
 #undef DECLSPEC_NORETURN
 #define DECLSPEC_NORETURN     __attribute__ ((noreturn))
 #undef DECLSPEC_SELECTANY
