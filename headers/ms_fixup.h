@@ -76,6 +76,10 @@ typedef unsigned int mode_t;
 # define F_OK    0       /* Test for existence.  */
 #endif
 
+#define STDIN_FILENO  _fileno(stdin)
+#define STDOUT_FILENO _fileno(stdout)
+#define STDERR_FILENO _fileno(stderr)
+
 #ifndef strcasecmp
 # define HAVE_STRCASECMP  /* bogus autoconf detection using a define */
 # define strcasecmp _stricmp

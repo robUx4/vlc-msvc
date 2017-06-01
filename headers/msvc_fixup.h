@@ -84,10 +84,6 @@ typedef struct tagMSG MSG, *LPMSG;
 //#define new DEBUG_NEW
 #endif
 
-#define STDIN_FILENO  _fileno(stdin)
-#define STDOUT_FILENO _fileno(stdout)
-#define STDERR_FILENO _fileno(stderr)
-
 #if _MSC_VER < 1900
 #pragma warning(disable:4201) /* nameless structs */
 #endif /* _MSC_VER */
