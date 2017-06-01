@@ -16,11 +16,11 @@ case $VLC_PLATFORM in
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	Universal)
-		FORCED_LIBS="mincore.lib"
+		FORCED_LIBS="mincore.lib Advapi32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	Desktop)
-		FORCED_LIBS="mincore.lib"
+		FORCED_LIBS="mincore.lib Advapi32.lib"
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
@@ -155,7 +155,7 @@ while [ $# -gt 0 ]; do
 	    *.lib)
 		ARGS="$ARGS $libname"
 		;;
-            "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" )
+            "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" | "advapi32" )
                 LINK_FLAGS="$LINK_FLAGS $libname.lib"
                 ;;
             *.a)

@@ -6,7 +6,7 @@
 #  define WINAPI_PARTITION_PHONE_RESTRICTED  WINAPI_PARTITION_APP
 # endif
 # include_next <wincrypt.h>
-# pragma comment(lib, "advapi32.lib")
+/* don't force include on all files # pragma comment(lib, "advapi32.lib")*/
 #else /* no wincrypt.h */
 
 #include <windows.h>
