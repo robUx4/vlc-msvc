@@ -41,6 +41,9 @@ typedef struct tagMSG MSG, *LPMSG;
 # endif
 #endif
 #define __inline__ __inline
+#ifndef __cplusplus
+# define _Thread_local __declspec( thread )
+#endif
 
 # define alloca _alloca
 # define bzero(a,b) memset( (a), 0, (b) )
