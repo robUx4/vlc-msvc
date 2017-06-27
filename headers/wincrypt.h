@@ -1,6 +1,9 @@
 #ifndef _WINSTORE_WINCRYPT_H
 #define _WINSTORE_WINCRYPT_H
 
+#pragma warning(push)
+#pragma warning(disable:4067)    /* newline for __has_include_next */
+
 #if defined(__clang__) && __has_include_next(<wincrypt.h>)
 # ifndef WINAPI_PARTITION_PHONE_RESTRICTED
 #  define WINAPI_PARTITION_PHONE_RESTRICTED  WINAPI_PARTITION_APP
@@ -454,5 +457,7 @@ CryptUnprotectData(
 #endif /* WINAPI_FAMILY */
 
 #endif /* no wincrypt */
+
+#pragma warning(pop)
 
 #endif /* _WINSTORE_WINCRYPT_H */

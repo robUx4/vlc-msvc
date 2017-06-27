@@ -1,6 +1,12 @@
+#ifndef MSCVER_STDATOMIC_H__
+#define MSCVER_STDATOMIC_H__
+
 #if !defined(__cplusplus) && defined(_MSC_VER)
 
-#if 0 && defined(__clang__) && __has_include_next(<stdatomic.h>)
+#pragma warning(push)
+#pragma warning(disable:4067)    /* newline for __has_include_next */
+
+#if defined(__clang__) && __has_include_next(<stdatomic.h>)
 #  include_next <stdatomic.h>
 #else /* no stdatomic.h */
 
@@ -105,4 +111,8 @@ typedef     uint_least32_t atomic_uint_least32_t;
     
 #endif /* no stdatomic.h */
 
+#pragma warning(pop)
+
 #endif /* __cplusplus */
+
+#endif /* MSCVER_STDATOMIC_H__ */
