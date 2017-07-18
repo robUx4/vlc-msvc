@@ -454,6 +454,8 @@ CryptUnprotectData(
     DATA_BLOB*      pDataOut
     );
 
+#define CRYPT_NEWKEYSET 0x08
+
 #endif /* WINAPI_FAMILY */
 
 #endif /* no wincrypt */
