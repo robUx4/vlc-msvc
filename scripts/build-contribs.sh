@@ -93,7 +93,7 @@ cd $BUILD_FOLDER
     --disable-protoc \
 	--disable-d3d11 \
 	--disable-dshow \
-	--disable-libarchive \
+	--enable-libarchive \
 	--enable-nfs \
 	--enable-microdns \
 	--enable-libdsm \

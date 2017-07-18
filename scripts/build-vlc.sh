@@ -93,7 +93,6 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-goom \
         --enable-libgcrypt \
         --disable-dbus \
-        --disable-archive \
         --disable-crystalhd \
         --disable-x265 \
         --disable-x264 \
