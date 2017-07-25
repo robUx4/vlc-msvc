@@ -55,8 +55,8 @@ static __forceinline bool msvc_std_exchange_64(LONGLONG *obj, LONGLONG *expected
 }
 
 #  define atomic_compare_exchange_strong(object,expected,desired) \
-    (sizeof(*object) == 4 ? msvc_std_exchange_32(object,expected,desired) : \
-     sizeof(*object) == 8 ? msvc_std_exchange_64(object,expected,desired) : \
+    (sizeof(*object) == 4 ? msvc_std_exchange_32((LONG*)object,(LONG*)expected,desired) : \
+     sizeof(*object) == 8 ? msvc_std_exchange_64((LONGLONG*)object,(LONGLONG*)expected,desired) : \
      (abort(), 0))
 
 #  define atomic_compare_exchange_weak(object,expected,desired) \
@@ -87,22 +87,26 @@ static __forceinline bool msvc_std_exchange_64(LONGLONG *obj, LONGLONG *expected
 /* Some atomic operations of the Interlocked API are only
    available for desktop apps. Thus we define the atomic types to
    be at least 32 bits wide. */
-typedef      int_least32_t atomic_flag;
-typedef      int_least32_t atomic_bool;
-typedef      int_least32_t atomic_char;
-typedef      int_least32_t atomic_schar;
-typedef     uint_least32_t atomic_uchar;
-typedef      int_least32_t atomic_short;
-typedef     uint_least32_t atomic_ushort;
+typedef __declspec(align(32))  LONG  atomic_flag;
+typedef __declspec(align(32))  LONG  atomic_bool;
+typedef __declspec(align(32))  LONG  atomic_char;
+typedef __declspec(align(32))  LONG  atomic_schar;
+typedef __declspec(align(32))  ULONG atomic_uchar;
+typedef __declspec(align(32))  LONG  atomic_short;
+typedef __declspec(align(32))  ULONG atomic_ushort;
 
-typedef          int       atomic_int;
-typedef unsigned int       atomic_uint;
-typedef         uintptr_t  atomic_uintptr_t;
-typedef          long long atomic_llong;
+typedef __declspec(align(32))  LONG       atomic_int;
+typedef __declspec(align(32))  ULONG      atomic_uint;
+#if defined(_M_X64) || defined(__amd64__)
+typedef __declspec(align(64))  LONG      atomic_uintptr_t;
+#else
+typedef __declspec(align(32))  LONGLONG  atomic_uintptr_t;
+#endif
+typedef __declspec(align(32))  ULONG    atomic_ulong;
+typedef __declspec(align(64))  LONGLONG atomic_llong;
 
-typedef     uint_fast32_t atomic_uint_fast32_t;
-
-typedef     uint_least32_t atomic_uint_least32_t;
+typedef __declspec(align(32))  ULONG atomic_uint_fast32_t;
+typedef __declspec(align(32))  ULONG atomic_uint_least32_t;
 
 #  define ATOMIC_VAR_INIT(value) (value)
 
