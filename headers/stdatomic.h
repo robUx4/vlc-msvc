@@ -39,7 +39,7 @@
 static __forceinline bool msvc_std_exchange_32(LONG *obj, LONG *expected, LONG desired)
 {
     LONG was = InterlockedCompareExchange(obj, desired, *expected);
-    if (was == desired)
+    if (*expected == was)
         return true;
     *expected = was;
     return false;
@@ -48,7 +48,7 @@ static __forceinline bool msvc_std_exchange_32(LONG *obj, LONG *expected, LONG d
 static __forceinline bool msvc_std_exchange_64(LONGLONG *obj, LONGLONG *expected, LONGLONG desired)
 {
     LONGLONG was = InterlockedCompareExchange64(obj, desired, *expected);
-    if (was == desired)
+    if (*expected == was)
         return true;
     *expected = was;
     return false;
