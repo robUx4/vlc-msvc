@@ -87,26 +87,34 @@ static __forceinline bool msvc_std_exchange_64(LONGLONG *obj, LONGLONG *expected
 /* Some atomic operations of the Interlocked API are only
    available for desktop apps. Thus we define the atomic types to
    be at least 32 bits wide. */
-typedef __declspec(align(32))  LONG  atomic_flag;
-typedef __declspec(align(32))  LONG  atomic_bool;
-typedef __declspec(align(32))  LONG  atomic_char;
-typedef __declspec(align(32))  LONG  atomic_schar;
-typedef __declspec(align(32))  ULONG atomic_uchar;
-typedef __declspec(align(32))  LONG  atomic_short;
-typedef __declspec(align(32))  ULONG atomic_ushort;
-
-typedef __declspec(align(32))  LONG       atomic_int;
-typedef __declspec(align(32))  ULONG      atomic_uint;
-#if defined(_M_X64) || defined(__amd64__)
-typedef __declspec(align(64))  LONG      atomic_uintptr_t;
+#if 1
+#define ATOMIC_ALIGN32 __declspec(align(32))
+#define ATOMIC_ALIGN64 __declspec(align(64))
 #else
-typedef __declspec(align(32))  LONGLONG  atomic_uintptr_t;
+#define ATOMIC_ALIGN32
+#define ATOMIC_ALIGN64
 #endif
-typedef __declspec(align(32))  ULONG    atomic_ulong;
-typedef __declspec(align(64))  LONGLONG atomic_llong;
 
-typedef __declspec(align(32))  ULONG atomic_uint_fast32_t;
-typedef __declspec(align(32))  ULONG atomic_uint_least32_t;
+typedef ATOMIC_ALIGN32  LONG  atomic_flag;
+typedef ATOMIC_ALIGN32  LONG  atomic_bool;
+typedef ATOMIC_ALIGN32  LONG  atomic_char;
+typedef ATOMIC_ALIGN32  LONG  atomic_schar;
+typedef ATOMIC_ALIGN32  ULONG atomic_uchar;
+typedef ATOMIC_ALIGN32  LONG  atomic_short;
+typedef ATOMIC_ALIGN32  ULONG atomic_ushort;
+
+typedef ATOMIC_ALIGN32  LONG       atomic_int;
+typedef ATOMIC_ALIGN32  ULONG      atomic_uint;
+#if defined(_M_X64) || defined(__amd64__)
+typedef ATOMIC_ALIGN64  LONG      atomic_uintptr_t;
+#else
+typedef ATOMIC_ALIGN32  LONGLONG  atomic_uintptr_t;
+#endif
+typedef ATOMIC_ALIGN32  ULONG    atomic_ulong;
+typedef ATOMIC_ALIGN64  LONGLONG atomic_llong;
+
+typedef ATOMIC_ALIGN32  ULONG atomic_uint_fast32_t;
+typedef ATOMIC_ALIGN32  ULONG atomic_uint_least32_t;
 
 #  define ATOMIC_VAR_INIT(value) (value)
 
