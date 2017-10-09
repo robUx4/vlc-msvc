@@ -77,7 +77,6 @@ cd $BUILD_FOLDER
 	--enable-theora \
 	--disable-vncclient \
 	--disable-zvbi \
-	--disable-sdl \
     --disable-aribb25 \
 	--disable-a52 \
     --enable-samplerate \
