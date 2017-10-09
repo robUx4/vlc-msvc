@@ -23,6 +23,7 @@
 
 #include <stdlib.h>
 #include <io.h>
+#include <errno.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,7 +39,9 @@ typedef unsigned long DIRENT_DWORD;
 #define DIRENT_WINAPI                    __stdcall
 extern DIRENT_WINBASEAPI DIRENT_DWORD DIRENT_WINAPI GetLastError(void);
 #ifdef UNICODE
+#if !(_WIN32_WINNT < 0x0A00 || !defined(__clang__)) /* defined inline */
 extern DIRENT_WINBASEAPI DIRENT_DWORD DIRENT_WINAPI GetFileAttributesW(const wchar_t *lpFileName);
+#endif
 #define dirent_GetFileAttributes  GetFileAttributesW
 #else
 extern DIRENT_WINBASEAPI DIRENT_DWORD DIRENT_WINAPI GetFileAttributesA(const char *lpFileName);
