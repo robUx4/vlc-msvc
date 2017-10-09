@@ -24,11 +24,11 @@ typedef struct tagMSG MSG, *LPMSG;
 #endif
 
 # if !defined(snprintf) && _MSC_VER < 1900
-#  define HAVE_SNPRINTF /* bogus autoconf detection using a define */
+#  define HAVE_SNPRINTF 1 /* bogus autoconf detection using a define */
 #  define snprintf _snprintf
 # endif
 # if !defined(strdup) && _MSC_VER < 1900
-#  define HAVE_STRDUP /* bogus autoconf detection using a define */
+#  define HAVE_STRDUP 1 /* bogus autoconf detection using a define */
 # define strdup _strdup
 #endif
 
@@ -54,7 +54,7 @@ typedef struct tagMSG MSG, *LPMSG;
 
 #define __func__ __FUNCDNAME__
 # if !defined(vsnprintf) && !defined(__cplusplus) && _MSC_VER < 1900
-#  define HAVE_VSNPRINTF /* bogus autoconf detection using a define */
+#  define HAVE_VSNPRINTF 1 /* bogus autoconf detection using a define */
 #  define vsnprintf _vsnprintf
 # endif
 
