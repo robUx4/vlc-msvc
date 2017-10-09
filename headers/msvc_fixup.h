@@ -89,6 +89,8 @@ typedef struct tagMSG MSG, *LPMSG;
 //#define new DEBUG_NEW
 #endif
 
+typedef unsigned int u_int;
+
 #if _MSC_VER < 1900
 #pragma warning(disable:4201) /* nameless structs */
 #endif /* _MSC_VER */
