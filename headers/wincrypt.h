@@ -49,6 +49,7 @@ DEFINE_GUID(IID_ICertificateStoresStatics,   0xFBECC739, 0xC6FE, 0x4DE7, 0x99, 0
 #define HCRYPTPROV_DEFINED
 typedef void *HCRYPTPROV_LEGACY;
 typedef ICertificateStore *HCERTSTORE;
+typedef ULONG_PTR HCRYPTKEY;
 
 typedef struct {
     DWORD dwCertEncodingType;
