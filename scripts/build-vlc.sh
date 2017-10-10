@@ -78,7 +78,6 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-shout \
         --enable-goom \
         --disable-caca \
-        --disable-sdl \
         --disable-qt \
         --disable-skins2 \
         --enable-sse \
@@ -107,7 +106,6 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-bluray \
         --disable-vlc \
         --disable-vcd \
-        --disable-dmo \
         --disable-a52 \
         --disable-smbclient || exit 1
     # Force libtool to generate what we want
