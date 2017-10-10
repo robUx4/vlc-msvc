@@ -102,37 +102,47 @@
 :vs2015
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
-@set SDK_VARIANT=store %SDK_VER%
+@set VCINSTALLDIR=%VS140COMNTOOLS%..\..\VC\
+@set SDK_VARIANT=%RUNTIME_VER% %SDK_VER%
 @set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=amd64_arm
 @set VS_TARGET_x86=amd64_x86
 @set VS_TARGET_AMD64=amd64
+@echo call %VSVARS% %SDK_VARIANT%
+@call %VSVARS% %SDK_VARIANT%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM% %RUNTIME_VER% %SDK_VER%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM% %RUNTIME_VER% %SDK_VER%
+
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86% %RUNTIME_VER% %SDK_VER%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86% %RUNTIME_VER% %SDK_VER%
+
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64% %RUNTIME_VER% %SDK_VER%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64% %RUNTIME_VER% %SDK_VER%
 @goto setupenv
 
 :vs2013
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
-@set SDK_VARIANT=
+@set VCINSTALLDIR=%VS120COMNTOOLS%..\..\VC\
+@set SDK_VARIANT=%RUNTIME_VER% %SDK_VER%
 @set VS_RUNTIME=dynamic
 @set VS_TARGET_ARM=x86_arm
 @set VS_TARGET_x86=x86
 @set VS_IS_2013=VS_IS_2013
 @IF "%CMAKE_VS_PLATFORM_TOOLSET%"=="" set CMAKE_VS_PLATFORM_TOOLSET=vs120
+@echo call %VSVARS% %SDK_VARIANT%
+@call %VSVARS% %SDK_VARIANT%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM%
+
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86%
+
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64%
 @goto setupenv
 
 
 :setupenv
-@set VCINSTALLDIR=%VS140COMNTOOLS%..\..\VC\
-
-call %VSVARS% %SDK_VARIANT%
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM% %RUNTIME_VER% %SDK_VER%
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM% %RUNTIME_VER% %SDK_VER%
-
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86% %RUNTIME_VER% %SDK_VER%
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86% %RUNTIME_VER% %SDK_VER%
-
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64% %RUNTIME_VER% %SDK_VER%
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64% %RUNTIME_VER% %SDK_VER%
-
 @IF /I "%1" == "WindowsPhone" goto setupenv_WindowsPhone81
 @IF /I "%1" == "Windows"      goto setupenv_Windows
 @IF /I "%1" == "Metrox86"     goto setupenv_Metrox86
