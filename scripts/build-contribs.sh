@@ -90,7 +90,6 @@ cd $BUILD_FOLDER
     --enable-luac \
     --disable-protobuf \
     --disable-protoc \
-	--disable-d3d11 \
 	--disable-dshow \
 	--enable-libarchive \
 	--enable-nfs \
@@ -104,5 +103,5 @@ cd $BUILD_FOLDER
 # --disable-flac \
 # --disable-vpx \
 
-USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
+WIDL="/mingw32/bin/widl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
 #~ USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
