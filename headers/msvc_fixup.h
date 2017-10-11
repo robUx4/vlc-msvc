@@ -45,6 +45,12 @@ typedef struct tagMSG MSG, *LPMSG;
 # define _Thread_local __declspec( thread )
 #endif
 
+#if _MSC_VER < 1900 && defined(__cplusplus)
+/* C++ 11 compatibility tricks */
+# define constexpr const
+# define alignof(x) __alignof(x)
+#endif
+
 # define alloca _alloca
 # define bzero(a,b) memset( (a), 0, (b) )
 # define bcopy memcpy
