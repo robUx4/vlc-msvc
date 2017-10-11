@@ -175,7 +175,7 @@ static COMPAT_INLINE HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes
 #define CreateMutex CreateMutexW
 #endif
 
-#if 0 /* supported in SDK 15063 */
+#if _WIN32_WINNT <= 0x603
 static COMPAT_INLINE UINT GetACP(void)
 {
     DWORD acp;
