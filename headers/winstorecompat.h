@@ -363,6 +363,7 @@ static COMPAT_INLINE UINT GetConsoleOutputCP(void)
 #define CSIDL_MYPICTURES 0x0027
 #define CSIDL_FLAG_CREATE 0x8000
 #define CSIDL_COMMON_APPDATA 0x0023
+#define CSIDL_LOCAL_APPDATA 0x001c
 
 #ifdef __clang__
 # pragma clang diagnostic pop
