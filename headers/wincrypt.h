@@ -308,11 +308,11 @@ WINCRYPT32API HCERTSTORE WINAPI CertOpenSystemStoreW(HCRYPTPROV_LEGACY hProv, LP
 WINCRYPT32API BOOL WINAPI CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags);
 WINCRYPT32API PCCRL_CONTEXT WINAPI CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CONTEXT pPrevCrlContext);
 WINCRYPT32API PCCERT_CONTEXT WINAPI CertEnumCertificatesInStore(HCERTSTORE hCertStore, PCCERT_CONTEXT pPrevCertContext);
-WINCRYPT32API PCCERT_CONTEXT WINAPI CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext);
 WINCRYPT32API BOOL WINAPI CertGetCertificateContextProperty(PCCERT_CONTEXT pCertContext, DWORD dwPropId, void *pvData, DWORD *pcbData);
 WINCRYPT32API BOOL WINAPI CertDeleteCertificateFromStore(PCCERT_CONTEXT pCertContext);
 WINCRYPT32API HCERTSTORE WINAPI PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPassword, DWORD dwFlags);
 #endif /* _WIN32_WINNT */
+WINCRYPT32API PCCERT_CONTEXT WINAPI CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext);
 
 // By default, when the CurrentUser "Root" store is opened, any SystemRegistry
 // roots not also on the protected root list are deleted from the cache before
