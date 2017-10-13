@@ -38,6 +38,7 @@ cd $BUILD_FOLDER
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE \
 	--disable-gpl \
+	--enable-ad-clauses \
 	--disable-sout \
 	--enable-ffmpeg \
 	--enable-flac \
