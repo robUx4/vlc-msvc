@@ -52,9 +52,6 @@ typedef struct tagMSG MSG, *LPMSG;
 #endif
 
 # define alloca _alloca
-# define bzero(a,b) memset( (a), 0, (b) )
-# define bcopy memcpy
-# define bcmp memcmp
 
 #define restrict 
 

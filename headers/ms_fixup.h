@@ -80,6 +80,10 @@ typedef unsigned int mode_t;
 #define STDOUT_FILENO _fileno(stdout)
 #define STDERR_FILENO _fileno(stderr)
 
+# define bzero(a,b) memset( (a), 0, (b) )
+# define bcopy memcpy
+# define bcmp memcmp
+
 #ifndef strcasecmp
 # define HAVE_STRCASECMP  /* bogus autoconf detection using a define */
 # define strcasecmp _stricmp
