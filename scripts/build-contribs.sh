@@ -98,6 +98,8 @@ cd $BUILD_FOLDER
 	--enable-libdsm \
 	--disable-mfx \
     --enable-sidplay2 \
+--disable-mpg123 \
+--disable-libdvbpsi \
 	|| exit 1
 
 # clang
