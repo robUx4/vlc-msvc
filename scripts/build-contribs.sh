@@ -98,6 +98,7 @@ cd $BUILD_FOLDER
 	--disable-mfx \
     --enable-sidplay2 \
 --disable-mpg123 \
+--disable-libmpeg2 \
 	|| exit 1
 
 # clang
@@ -105,4 +106,4 @@ cd $BUILD_FOLDER
 # --disable-vpx \
 
 WIDL="/mingw32/bin/widl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
-#~ USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
+#~ WIDL="/mingw32/bin/widl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
