@@ -37,7 +37,6 @@ cd $BUILD_FOLDER
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE \
-	--enable-gpl \
 	--disable-gnuv3 \
 	--disable-sout \
 	--enable-ffmpeg \
@@ -49,7 +48,7 @@ cd $BUILD_FOLDER
 	--enable-iconv \
 	--enable-ass \
 	--enable-dca \
-	--enable-dvbpsi \
+	--disable-dvbpsi \
 	--enable-ebml \
 	--enable-matroska \
 	--enable-ogg \
@@ -99,7 +98,6 @@ cd $BUILD_FOLDER
 	--disable-mfx \
     --enable-sidplay2 \
 --disable-mpg123 \
---disable-libdvbpsi \
 	|| exit 1
 
 # clang
