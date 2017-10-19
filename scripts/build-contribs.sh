@@ -37,8 +37,8 @@ cd $BUILD_FOLDER
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE \
-	--disable-gpl \
-	--enable-ad-clauses \
+	--enable-gpl \
+	--disable-gnuv3 \
 	--disable-sout \
 	--enable-ffmpeg \
 	--enable-flac \
