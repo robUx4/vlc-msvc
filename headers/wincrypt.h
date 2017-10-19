@@ -301,6 +301,11 @@ __forceinline HCERTSTORE PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPas
 {
     return NULL;
 }
+
+__forceinline PCCERT_CONTEXT CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext)
+{
+    return NULL;
+}
 #else
 WINCRYPT32API HCERTSTORE WINAPI CertOpenStore(LPCSTR lpszStoreProvider, DWORD dwEncodingType, HCRYPTPROV_LEGACY hCryptProv, DWORD dwFlags, const void *pvPara);
 WINCRYPT32API HCERTSTORE WINAPI CertOpenSystemStoreW(HCRYPTPROV_LEGACY hProv, LPCWSTR szSubsystemProtocol);
@@ -311,8 +316,8 @@ WINCRYPT32API PCCERT_CONTEXT WINAPI CertEnumCertificatesInStore(HCERTSTORE hCert
 WINCRYPT32API BOOL WINAPI CertGetCertificateContextProperty(PCCERT_CONTEXT pCertContext, DWORD dwPropId, void *pvData, DWORD *pcbData);
 WINCRYPT32API BOOL WINAPI CertDeleteCertificateFromStore(PCCERT_CONTEXT pCertContext);
 WINCRYPT32API HCERTSTORE WINAPI PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPassword, DWORD dwFlags);
-#endif /* _WIN32_WINNT */
 WINCRYPT32API PCCERT_CONTEXT WINAPI CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext);
+#endif /* _WIN32_WINNT */
 
 // By default, when the CurrentUser "Root" store is opened, any SystemRegistry
 // roots not also on the protected root list are deleted from the cache before
