@@ -3,12 +3,13 @@
 echo "Wrapping midl $@"
 
 #windres --include-dir ../../share --include-dir ../../extras/package/win32 -i libvlc_win32_rc.rc -o libvlc_win32_rc.obj
-ARGS=-notlb
-
 while [ $# -gt 0 ]; do
     case $1 in 
         -o)
-            ARGS="$ARGS -h `cygpath -w -a $2`"
+            FILE_=`cygpath -w -a $2`
+            FOLDER=`dirname $FILE_`
+            FILENAME=`basename $FILE_`
+            ARGS="$ARGS -out $FOLDER -h $FILENAME -iid ${FILENAME}_i.c"
             shift
             ;;
         -I*)
@@ -29,5 +30,6 @@ done
 echo "Args: $ARGS"
 echo "Input: $INPUT"
 
-midl.exe $INPUT $ARGS 
+midl.exe -nologo -notlb $INPUT $ARGS 
+#echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
 exit $?
