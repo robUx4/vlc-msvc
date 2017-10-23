@@ -9,6 +9,8 @@
 #define _UNICODE
 #endif /* _UNICODE */
 
+#define MOFCOMP_PASS /* allow overriding the windows API family per file */
+
 #if _MSC_VER < 1900
 #pragma warning(push)
 #pragma warning(disable:4255)    /* no function prototype given */
