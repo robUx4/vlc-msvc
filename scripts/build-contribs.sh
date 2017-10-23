@@ -105,5 +105,5 @@ cd $BUILD_FOLDER
 # --disable-flac \
 # --disable-vpx \
 
-WIDL="/mingw32/bin/widl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
-#~ WIDL="/mingw32/bin/widl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
+WIDL="wmidl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
+#~ WIDL="wmidl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+echo "Wrapping midl $@"
+
+#windres --include-dir ../../share --include-dir ../../extras/package/win32 -i libvlc_win32_rc.rc -o libvlc_win32_rc.obj
+ARGS=-notlb
+
+while [ $# -gt 0 ]; do
+    case $1 in 
+        -o)
+            ARGS="$ARGS -h `cygpath -w -a $2`"
+            shift
+            ;;
+        -I*)
+            ARGS="$ARGS -I `cygpath -w -a ${1#-I}`"
+            ;;
+        -D*)
+            ARGS="$ARGS -D${1#-D}"
+            ;;
+        -h)
+            ;;
+        *)
+            INPUT=$1
+            ;;
+    esac
+    shift
+done
+
+echo "Args: $ARGS"
+echo "Input: $INPUT"
+
+midl.exe $INPUT $ARGS 
+exit $?
