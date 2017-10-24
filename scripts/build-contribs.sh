@@ -73,6 +73,7 @@ cd $BUILD_FOLDER
 	--disable-goom \
 	--disable-projectM \
 	--disable-qt \
+	--disable-qtsvg \
 	--disable-schroedinger \
 	--enable-theora \
 	--disable-vncclient \
