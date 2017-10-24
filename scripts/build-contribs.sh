@@ -40,67 +40,68 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE \
+	--disable-sdl \
+	--disable-schroedinger \
+	--disable-vncserver \
+	--disable-chromaprint \
+	--enable-modplug \
+	--disable-SDL_image \
+	--disable-fontconfig \
+	--disable-zvbi \
+	--disable-caca \
+	--disable-gettext \
+	--enable-gme \
+	--enable-vorbis \
+	--enable-sidplay2 \
+	--enable-samplerate \
+	--enable-iconv \
+	--disable-goom \
+	--enable-dca \
+	--disable-projectM \
+	--enable-ass \
+	--disable-qt \
+	--disable-qtsvg \
+	--disable-protobuf \
+	--disable-aribb25 \
 	--disable-gnuv3 \
+	--enable-ssh2 \
+	--disable-vncclient \
+	--enable-jpeg \
+	--disable-postproc \
+	--enable-vpx \
+	--enable-libdsm \
+	--disable-mfx \
+	--enable-freetype2 \
 	--disable-sout \
 	--enable-ffmpeg \
 	--enable-flac \
-	--disable-fontconfig \
-	--enable-freetype2 \
 	--enable-fribidi \
 	--enable-gsm \
-	--enable-iconv \
-	--enable-ass \
-	--enable-dca \
 	--disable-dvbpsi \
 	--enable-ebml \
 	--enable-matroska \
 	--enable-ogg \
 	--enable-harfbuzz \
-	--enable-vorbis \
 	--enable-libxml2 \
 	--enable-openjpeg \
-	--enable-vpx \
-	--enable-jpeg \
 	--enable-opus \
 	--enable-speex \
 	--enable-speexdsp \
 	--enable-zlib \
-	--disable-caca \
 	--disable-directx \
-	--disable-chromaprint \
-	--disable-gettext \
-	--enable-gme \
 	--enable-gnutls \
-    --enable-ssh2 \
 	--enable-nettle \
-	--disable-goom \
-	--disable-projectM \
-	--disable-qt \
-	--disable-qtsvg \
-	--disable-schroedinger \
 	--enable-theora \
-	--disable-vncclient \
-	--disable-zvbi \
-    --disable-aribb25 \
 	--disable-a52 \
-    --enable-samplerate \
     --enable-upnp \
-    --disable-postproc \
-    --disable-sdl \
-    --disable-SDL_image \
-	--enable-modplug \
     --disable-disc \
     --enable-lua \
     --enable-luac \
-    --disable-protobuf \
     --disable-protoc \
 	--disable-dshow \
 	--enable-libarchive \
 	--enable-nfs \
 	--enable-microdns \
-	--enable-libdsm \
-	--disable-mfx \
-    --enable-sidplay2 \
 --disable-mpg123 \
 --disable-libmpeg2 \
 	|| exit 1
