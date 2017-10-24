@@ -30,6 +30,8 @@ done
 echo "Args: $ARGS"
 echo "Input: $INPUT"
 
-midl.exe -nologo -notlb $INPUT $ARGS 
-#echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
+midl.exe -nologo -notlb -client none $INPUT $ARGS 
+echo \#ifdef INITGUID >> "$FOLDER/$FILENAME"
+echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
+echo \#endif >> "$FOLDER/$FILENAME"
 exit $?
