@@ -61,53 +61,51 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --build=x86-w64-mingw32 \
         --with-contrib="${SRC_FOLDER}contrib/${BUILD_VARIANT}" \
         --prefix="${BUILD_FOLDER}_win32" \
-        --enable-winstore-app \
         --enable-optimize-memory \
         $DEBUG_MODE \
-        --disable-sout \
-        --enable-flac \
+        --enable-winstore-app \
+        --disable-vlc \
         --enable-lua \
-        --enable-avcodec \
-        --enable-merge-ffmpeg \
+        --disable-vlm --disable-sout \
+        --enable-theora \
+        --enable-avcodec --enable-merge-ffmpeg \
         --enable-dca \
         --enable-mpc \
         --enable-libass \
-        --enable-schroedinger \
-        --disable-dvdread \
-        --disable-dvdnav \
+        --disable-x264 \
+        --enable-realrtsp \
         --enable-shout \
-        --enable-goom \
+        --disable-goom \
         --disable-caca \
+        --disable-sdl \
         --disable-qt \
         --disable-skins2 \
-        --enable-sse \
-        --enable-mmx \
+        --enable-sse --enable-mmx \
         --enable-libcddb \
-        --enable-realrtsp \
-        --disable-zvbi \
-        --disable-telx \
-        --enable-nls \
-        --disable-schroedinger \
-        --enable-theora \
-        --disable-goom \
-        --enable-libgcrypt \
-        --disable-dbus \
+        --disable-zvbi --disable-telx \
+        --disable-a52 \
+        --disable-smbclient \
+        --disable-vcd \
         --disable-crystalhd \
-        --disable-x265 \
-        --disable-x264 \
+        --disable-dxva2 \
+        --enable-flac \
         --enable-vpx \
+        --disable-postproc \
         --enable-upnp \
         --enable-gnutls \
-        --disable-postproc \
         --disable-projectm \
-        --disable-dxva2 \
         --disable-screen \
         --disable-libcddb \
         --disable-bluray \
-        --disable-vlc \
-        --disable-vcd \
-        --disable-a52 \
-        --disable-smbclient || exit 1
+        --disable-x265 \
+        --enable-nls \
+        --disable-schroedinger \
+        --enable-libgcrypt \
+        --disable-dbus \
+        --enable-schroedinger \
+        --disable-dvdread \
+        --disable-dvdnav \
+        || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool
     sed -i 's/library_names_spec=\"\\$libname.dll.lib\"/library_names_spec=\"\\$libname.lib\"/' libtool
