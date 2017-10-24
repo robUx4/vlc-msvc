@@ -34,6 +34,9 @@ if [ ! -d $BUILD_FOLDER ]; then
 fi
 cd $BUILD_FOLDER
 
+export PKG_CONFIG_PATH=${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
+
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE \
