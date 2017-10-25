@@ -187,7 +187,7 @@ static COMPAT_INLINE UINT GetACP(void)
 }
 #endif
 
-#if _WIN32_WINNT < 0x0A00 || !defined(__clang__)
+#if _WIN32_WINNT < 0x0A00
 static COMPAT_INLINE DWORD GetFileAttributesW(LPCWSTR lpFileName)
 {
     WIN32_FILE_ATTRIBUTE_DATA fileInformation;
