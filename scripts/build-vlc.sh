@@ -89,8 +89,11 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-crystalhd \
         --disable-dxva2 \
         --enable-flac \
+        --enable-jpeg \
         --enable-vpx \
         --disable-postproc \
+        --enable-gme \
+        --enable-sidplay2 \
         --enable-upnp \
         --enable-gnutls \
         --disable-projectm \
@@ -100,7 +103,6 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-nls \
         --enable-libgcrypt \
         --disable-dbus \
-        --enable-schroedinger \
         --disable-dvdread \
         --disable-dvdnav \
         || exit 1
