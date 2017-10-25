@@ -67,6 +67,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-vlc \
         --enable-lua \
         --disable-vlm --disable-sout \
+        --disable-faad \
         --enable-theora \
         --enable-avcodec --enable-merge-ffmpeg \
         --enable-dca \
@@ -84,6 +85,8 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-libcddb \
         --disable-zvbi --disable-telx \
         --disable-a52 \
+        --disable-dirac \
+        --enable-dsm \
         --disable-smbclient \
         --disable-vcd \
         --disable-crystalhd \
@@ -94,17 +97,6 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-postproc \
         --enable-gme \
         --enable-sidplay2 \
-        --enable-upnp \
-        --enable-gnutls \
-        --disable-projectm \
-        --disable-screen \
-        --disable-bluray \
-        --disable-x265 \
-        --enable-nls \
-        --enable-libgcrypt \
-        --disable-dbus \
-        --disable-dvdread \
-        --disable-dvdnav \
         || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool
