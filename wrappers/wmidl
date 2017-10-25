@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Wrapping midl $@"
+#~ echo "Wrapping midl $@"
 
 #windres --include-dir ../../share --include-dir ../../extras/package/win32 -i libvlc_win32_rc.rc -o libvlc_win32_rc.obj
 while [ $# -gt 0 ]; do
@@ -30,7 +30,9 @@ done
 echo "Args: $ARGS"
 echo "Input: $INPUT"
 
+rm -rf $FOLDER/$FILENAME
 midl.exe -nologo -notlb -client none $INPUT $ARGS 
+#~ echo \#include \"${FILENAME}_i.c\" TO "$FOLDER/$FILENAME"
 echo \#ifdef INITGUID >> "$FOLDER/$FILENAME"
 echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
 echo \#endif >> "$FOLDER/$FILENAME"
