@@ -81,7 +81,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-qt \
         --disable-skins2 \
         --enable-sse --enable-mmx \
-        --enable-libcddb \
+        --disable-libcddb \
         --disable-zvbi --disable-telx \
         --disable-a52 \
         --disable-smbclient \
@@ -95,11 +95,9 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-gnutls \
         --disable-projectm \
         --disable-screen \
-        --disable-libcddb \
         --disable-bluray \
         --disable-x265 \
         --enable-nls \
-        --disable-schroedinger \
         --enable-libgcrypt \
         --disable-dbus \
         --enable-schroedinger \
