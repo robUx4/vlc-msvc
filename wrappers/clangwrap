@@ -149,7 +149,7 @@ while [ $# -gt 0 ]; do
             "shlwapi" | "ole32" )
                 # Ignore those for windows phone
                 ;;
-            "stdc++" )
+            "stdc++" | "ssp" )
                 # Ignore those
                 ;;
 	    *.lib)
