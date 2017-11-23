@@ -60,10 +60,10 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--disable-projectM \
 	--enable-ass \
 	--disable-qt \
-	--disable-qtsvg \
 	--disable-protobuf \
 	--disable-aribb25 \
 	--disable-gnuv3 \
+	--disable-qtsvg \
 	--enable-ssh2 \
 	--disable-vncclient \
 	--enable-jpeg \
@@ -102,6 +102,7 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--enable-libarchive \
 	--enable-nfs \
 	--enable-microdns \
+	--disable-libplacebo \
 --disable-mpg123 \
 --disable-libmpeg2 \
 	|| exit 1
