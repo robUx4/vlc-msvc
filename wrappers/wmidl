@@ -33,7 +33,10 @@ echo "Input: $INPUT"
 rm -rf $FOLDER/$FILENAME
 midl.exe -nologo -notlb -client none $INPUT $ARGS 
 #~ echo \#include \"${FILENAME}_i.c\" TO "$FOLDER/$FILENAME"
-echo \#ifdef INITGUID >> "$FOLDER/$FILENAME"
-echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
-echo \#endif >> "$FOLDER/$FILENAME"
+#include "dxgitype.h_i.c" TO C:\Users\robUx4\Documents\Programs\Videolabs\winrt-work\vlc\vlc\contrib\arm-msvc-mingw32winphone_Debug\include/dxgitype.h
+if [ -f "${FOLDER}/${FILENAME}_i.c" ]; then
+  echo \#ifdef INITGUID >> "$FOLDER/$FILENAME"
+  echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
+  echo \#endif >> "$FOLDER/$FILENAME"
+fi
 exit $?
