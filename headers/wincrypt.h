@@ -19,7 +19,7 @@
 #define WINCRYPT32API DECLSPEC_IMPORT
 #endif
 
-#if 1 /* (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) */
+#if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) 
 
 # define COBJMACROS
 # define INITGUID
@@ -220,104 +220,6 @@ __forceinline BOOL CryptGenRandom(HCRYPTPROV phProv, DWORD dwLen, BYTE *pbBuffer
     return TRUE;
 }
 
-#if !defined(_WIN32_WINNT) || _WIN32_WINNT < 0x0A00
-__forceinline HCERTSTORE CertOpenSystemStore(HCRYPTPROV_LEGACY hprov, LPCSTR szSubsystemProtocol)
-{
-    static const WCHAR *className = L"Windows.Security.Cryptography.Certificates";
-    const UINT32 clen = wcslen(className);
-
-    HSTRING hClassName = NULL;
-    HSTRING_HEADER header;
-    HRESULT hr = WindowsCreateStringReference(className, clen, &header, &hClassName);
-    if (FAILED(hr)) {
-        WindowsDeleteString(hClassName);
-        return NULL;
-    }
-
-    ICertificateStoresStatics *certStoresStatics = NULL;
-    hr = RoGetActivationFactory(hClassName, &IID_ICertificateStoresStatics, (void**)&certStoresStatics);
-    WindowsDeleteString(hClassName);
-
-    if (FAILED(hr))
-        return NULL;
-    
-    if (!strcmp(szSubsystemProtocol, "ROOT"))
-    {
-        ICertificateStore *result;
-        hr = ICertificateStoresStatics_get_TrustedRootCertificationAuthorities(certStoresStatics, &result);
-        ICertificateStoresStatics_Release(certStoresStatics);
-        if (SUCCEEDED(hr))
-        {
-            return result;
-        }
-    }
-    else if (!strcmp(szSubsystemProtocol, "CA"))
-    {
-        ICertificateStore *result;
-        hr = ICertificateStoresStatics_get_IntermediateCertificationAuthorities(certStoresStatics, &result);
-        ICertificateStoresStatics_Release(certStoresStatics);
-        if (SUCCEEDED(hr))
-        {
-            return result;
-        }
-    }
-    else
-    {
-        ICertificateStoresStatics_Release(certStoresStatics);
-    }
-
-    return NULL;
-}
-
-__forceinline BOOL WINAPI CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags)
-{
-    HRESULT hr = ICertificateStoresStatics_Release(hCertStore);
-    return SUCCEEDED(hr);
-}
-
-__forceinline PCCERT_CONTEXT CertEnumCertificatesInStore(HCERTSTORE hCertStore, PCCERT_CONTEXT pPrevCertContext)
-{
-    return NULL;
-}
-
-__forceinline PCCRL_CONTEXT CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CONTEXT pPrevCrlContext)
-{
-    return NULL;
-}
-
-#define Loaded_CertEnumCRLsInStore CertEnumCRLsInStore
-
-__forceinline BOOL CertGetCertificateContextProperty(PCCERT_CONTEXT pCertContext, DWORD dwPropId, void *pvData, DWORD *pcbData)
-{
-    return FALSE;
-}
-
-__forceinline BOOL CertDeleteCertificateFromStore(PCCERT_CONTEXT pCertContext)
-{
-    return FALSE;
-}
-
-__forceinline HCERTSTORE PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPassword, DWORD dwFlags)
-{
-    return NULL;
-}
-
-__forceinline PCCERT_CONTEXT CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext)
-{
-    return NULL;
-}
-#else
-WINCRYPT32API HCERTSTORE WINAPI CertOpenStore(LPCSTR lpszStoreProvider, DWORD dwEncodingType, HCRYPTPROV_LEGACY hCryptProv, DWORD dwFlags, const void *pvPara);
-WINCRYPT32API HCERTSTORE WINAPI CertOpenSystemStoreW(HCRYPTPROV_LEGACY hProv, LPCWSTR szSubsystemProtocol);
-#define CertOpenSystemStore  CertOpenSystemStoreW
-WINCRYPT32API BOOL WINAPI CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags);
-WINCRYPT32API PCCRL_CONTEXT WINAPI CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CONTEXT pPrevCrlContext);
-WINCRYPT32API PCCERT_CONTEXT WINAPI CertEnumCertificatesInStore(HCERTSTORE hCertStore, PCCERT_CONTEXT pPrevCertContext);
-WINCRYPT32API BOOL WINAPI CertGetCertificateContextProperty(PCCERT_CONTEXT pCertContext, DWORD dwPropId, void *pvData, DWORD *pcbData);
-WINCRYPT32API BOOL WINAPI CertDeleteCertificateFromStore(PCCERT_CONTEXT pCertContext);
-WINCRYPT32API HCERTSTORE WINAPI PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPassword, DWORD dwFlags);
-WINCRYPT32API PCCERT_CONTEXT WINAPI CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext);
-#endif /* _WIN32_WINNT */
 
 // By default, when the CurrentUser "Root" store is opened, any SystemRegistry
 // roots not also on the protected root list are deleted from the cache before
@@ -461,6 +363,108 @@ CryptUnprotectData(
     );
 
 #define CRYPT_NEWKEYSET 0x08
+
+#if !defined(_WIN32_WINNT) || _WIN32_WINNT < 0x0A00
+__forceinline HCERTSTORE CertOpenSystemStore(HCRYPTPROV_LEGACY hprov, LPCSTR szSubsystemProtocol)
+{
+    static const WCHAR *className = L"Windows.Security.Cryptography.Certificates";
+    const UINT32 clen = wcslen(className);
+
+    HSTRING hClassName = NULL;
+    HSTRING_HEADER header;
+    HRESULT hr = WindowsCreateStringReference(className, clen, &header, &hClassName);
+    if (FAILED(hr)) {
+        WindowsDeleteString(hClassName);
+        return NULL;
+    }
+
+    ICertificateStoresStatics *certStoresStatics = NULL;
+    hr = RoGetActivationFactory(hClassName, &IID_ICertificateStoresStatics, (void**)&certStoresStatics);
+    WindowsDeleteString(hClassName);
+
+    if (FAILED(hr))
+        return NULL;
+    
+    if (!strcmp(szSubsystemProtocol, "ROOT"))
+    {
+        ICertificateStore *result;
+        hr = ICertificateStoresStatics_get_TrustedRootCertificationAuthorities(certStoresStatics, &result);
+        ICertificateStoresStatics_Release(certStoresStatics);
+        if (SUCCEEDED(hr))
+        {
+            return result;
+        }
+    }
+    else if (!strcmp(szSubsystemProtocol, "CA"))
+    {
+        ICertificateStore *result;
+        hr = ICertificateStoresStatics_get_IntermediateCertificationAuthorities(certStoresStatics, &result);
+        ICertificateStoresStatics_Release(certStoresStatics);
+        if (SUCCEEDED(hr))
+        {
+            return result;
+        }
+    }
+    else
+    {
+        ICertificateStoresStatics_Release(certStoresStatics);
+    }
+
+    return NULL;
+}
+
+__forceinline BOOL WINAPI CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags)
+{
+    HRESULT hr = ICertificateStoresStatics_Release(hCertStore);
+    return SUCCEEDED(hr);
+}
+
+__forceinline PCCERT_CONTEXT CertEnumCertificatesInStore(HCERTSTORE hCertStore, PCCERT_CONTEXT pPrevCertContext)
+{
+    return NULL;
+}
+
+__forceinline PCCRL_CONTEXT CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CONTEXT pPrevCrlContext)
+{
+    return NULL;
+}
+
+#define Loaded_CertEnumCRLsInStore CertEnumCRLsInStore
+
+__forceinline BOOL CertGetCertificateContextProperty(PCCERT_CONTEXT pCertContext, DWORD dwPropId, void *pvData, DWORD *pcbData)
+{
+    return FALSE;
+}
+
+__forceinline BOOL CertDeleteCertificateFromStore(PCCERT_CONTEXT pCertContext)
+{
+    return FALSE;
+}
+
+__forceinline HCERTSTORE PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPassword, DWORD dwFlags)
+{
+    return NULL;
+}
+
+__forceinline PCCERT_CONTEXT CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext)
+{
+    return NULL;
+}
+#else /* _WIN32_WINNT >= 0x0A00 */
+WINCRYPT32API HCERTSTORE WINAPI CertOpenStore(LPCSTR lpszStoreProvider, DWORD dwEncodingType, HCRYPTPROV_LEGACY hCryptProv, DWORD dwFlags, const void *pvPara);
+/*HCERTSTORE CertOpenSystemStore( HCRYPTPROV_LEGACY hprov, LPCSTR szSubsystemProtocol )
+{
+    return CertOpenStore( CERT_STORE_PROV_SYSTEM_A, X509_ASN_ENCODING, 0,
+        CERT_SYSTEM_STORE_CURRENT_USER, szSubsystemProtocol );
+}*/
+WINCRYPT32API BOOL WINAPI CertCloseStore(HCERTSTORE hCertStore, DWORD dwFlags);
+WINCRYPT32API PCCRL_CONTEXT WINAPI CertEnumCRLsInStore(HCERTSTORE hCertStore, PCCRL_CONTEXT pPrevCrlContext);
+WINCRYPT32API PCCERT_CONTEXT WINAPI CertEnumCertificatesInStore(HCERTSTORE hCertStore, PCCERT_CONTEXT pPrevCertContext);
+WINCRYPT32API BOOL WINAPI CertGetCertificateContextProperty(PCCERT_CONTEXT pCertContext, DWORD dwPropId, void *pvData, DWORD *pcbData);
+WINCRYPT32API BOOL WINAPI CertDeleteCertificateFromStore(PCCERT_CONTEXT pCertContext);
+WINCRYPT32API HCERTSTORE WINAPI PFXImportCertStore(CRYPT_DATA_BLOB* pPFX, LPCWSTR szPassword, DWORD dwFlags);
+WINCRYPT32API PCCERT_CONTEXT WINAPI CertFindCertificateInStore(HCERTSTORE hCertStore, DWORD dwCertEncodingType, DWORD dwFindFlags, DWORD dwFindType, const void *pvFindPara, PCCERT_CONTEXT pPrevCertContext);
+#endif /* _WIN32_WINNT */
 
 #endif /* WINAPI_FAMILY */
 
