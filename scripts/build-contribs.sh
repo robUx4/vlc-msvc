@@ -77,7 +77,6 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--enable-flac \
 	--enable-fribidi \
 	--enable-gsm \
-	--disable-dvbpsi \
 	--enable-ebml \
 	--enable-matroska \
 	--enable-ogg \
