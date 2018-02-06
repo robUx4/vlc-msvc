@@ -177,6 +177,13 @@ static COMPAT_INLINE HANDLE CreateMutexW(LPSECURITY_ATTRIBUTES lpMutexAttributes
 #define CreateMutex CreateMutexW
 #endif
 
+#if _WIN32_WINNT < 0x0A00
+static COMPAT_INLINE BOOL InitializeCriticalSectionAndSpinCount(CRITICAL_SECTION *section, DWORD dwSpinCount)
+{
+    return InitializeCriticalSectionEx(section, dwSpinCount, 0);
+}
+#endif
+
 #if _WIN32_WINNT <= 0x603
 static COMPAT_INLINE UINT GetACP(void)
 {
