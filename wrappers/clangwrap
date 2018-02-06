@@ -20,7 +20,7 @@ case $VLC_PLATFORM in
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	Desktop)
-		FORCED_LIBS="mincore.lib Advapi32.lib"
+		FORCED_LIBS="Advapi32.lib"
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
