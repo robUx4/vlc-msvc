@@ -139,7 +139,10 @@ static COMPAT_INLINE HANDLE CreateSemaphoreA(LPSECURITY_ATTRIBUTES lpSemaphoreAt
 #define GetModuleFileNameA(h,f,s)                          (0)
 #define GetModuleFileNameW(h,f,s)                          (0)
 #define GetModuleHandleA(x)                             (NULL)
-#define GetModuleHandleW(x)                             (NULL)
+#define GetModuleHandleW(x)                             LoadLibraryW(x)
+#ifndef GetModuleHandle
+#define GetModuleHandle(x) GetModuleHandleW(x)
+#endif
 
 static COMPAT_INLINE HANDLE CreateFileW(LPCTSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode,
     LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition,
