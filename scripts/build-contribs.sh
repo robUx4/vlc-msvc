@@ -28,6 +28,15 @@ case $VLC_CONFIGURATION in
         ;;
 esac
 
+case $VLC_ABI in
+    winrt|winphone)
+        D3D11_HEADERS=--enable-d3d11
+        ;;
+    *)
+        D3D11_HEADERS=--disable-d3d11
+        ;;
+esac
+
 BUILD_FOLDER=${ROOT_FOLDER}vlc/contrib/${ABI_VARIANT}/
 if [ ! -d $BUILD_FOLDER ]; then
     mkdir $BUILD_FOLDER
@@ -39,7 +48,7 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
-	$OPTIM_MODE \
+	$OPTIM_MODE $D3D11_HEADERS \
 	--disable-sdl \
 	--disable-schroedinger \
 	--disable-vncserver \
