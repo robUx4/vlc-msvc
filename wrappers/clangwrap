@@ -6,12 +6,12 @@ INCLUDES_FOLDER=$SCRIPTPATH/../headers
 
 case $VLC_PLATFORM in
 	Windows|Metrox86)
-		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
+		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
-		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
+		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib mincore.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
@@ -405,6 +405,10 @@ else
         ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
         export INCLUDE="$INCLUDE"
     else
+        if [ "$LANGUAGE" == "p" ]; then
+            CLANG_ARGS="$CLANG_ARGS -fcxx-exceptions"
+        fi
+        #~ echo clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $DEFINES $COMPILE_DEFINES $ARGS
         ARGS="clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
         #~ DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
         #~ export CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"

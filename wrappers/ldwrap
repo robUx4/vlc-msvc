@@ -13,12 +13,12 @@ LD_CMD=mslink
 case $VLC_PLATFORM in
 	Windows|Metrox86)
 		# VS 2015 FORCED_LIBS="mincore.lib kernel32.lib"
-		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib"
+		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	WindowsPhone)
 		# VS 2015 FORCED_LIBS="mincore.lib kernel32.lib"
-		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib"
+		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib mincore.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	Universal)
@@ -156,7 +156,7 @@ echo "Args: $ARGS"
 echo "Objs: $OBJS"
 
 #MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-#echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
+echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
 $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
 exit $?
 
