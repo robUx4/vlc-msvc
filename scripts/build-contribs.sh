@@ -120,4 +120,4 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 # --disable-vpx \
 
 WIDL="wmidl" USE_FFMPEG=1 WANT_AUTOMAKE=latest CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
-#~ WIDL="wmidl" USE_FFMPEG=1 CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
+#~ WIDL="wmidl" USE_FFMPEG=1 WANT_AUTOMAKE=latest CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
