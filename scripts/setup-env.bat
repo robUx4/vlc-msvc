@@ -1,14 +1,15 @@
 @REM adjust the SDK depending on the target
 @set CALL_DIR=%cd%
 
-@IF /I "%1" == "WindowsPhone" goto setup_WindowsPhone
-@IF /I "%1" == "Windows"      goto setup_Windows
-@IF /I "%1" == "Metrox86"     goto setup_Metrox86
-@IF /I "%1" == "Universal86"  goto setup_Universal86
-@IF /I "%1" == "Universal64"  goto setup_Universal64
-@IF /I "%1" == "UniversalARM" goto setup_UniversalARM
-@IF /I "%1" == "Win32"        goto setup_Win32
-@IF /I "%1" == "Win64"        goto setup_Win64
+@IF /I "%1" == "WindowsPhone"   goto setup_WindowsPhone
+@IF /I "%1" == "Windows"        goto setup_Windows
+@IF /I "%1" == "Metrox86"       goto setup_Metrox86
+@IF /I "%1" == "Universal86"    goto setup_Universal86
+@IF /I "%1" == "Universal64"    goto setup_Universal64
+@IF /I "%1" == "UniversalARM"   goto setup_UniversalARM
+@IF /I "%1" == "UniversalARM64" goto setup_UniversalARM64
+@IF /I "%1" == "Win32"          goto setup_Win32
+@IF /I "%1" == "Win64"          goto setup_Win64
 @echo Unknown target "%1"
 @exit -1
 
@@ -61,6 +62,16 @@
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs15
 
+:setup_UniversalARM64
+@set SDK_VER=10.0.16299.0
+@rem set SDK_VER=10.0.14366.0
+@set RUNTIME_VER=store
+@set CMAKE_SYSTEM_PROCESSOR=ARM64
+@rem set CMAKE_SYSTEM_NAME=WindowsStore
+@set WIN32_WINNT=0x0A00
+@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
+@goto select_vs15
+
 :setup_Universal64
 @set SDK_VER=10.0.16299.0
 @rem set SDK_VER=10.0.14366.0
@@ -98,6 +109,32 @@
 @echo VS 2015 not found
 @goto select_vs
 
+:select_vs17
+@IF EXIST "%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat" goto vs2017
+@echo VS 2017 not found
+@goto select_vs15
+
+
+:vs2017
+@rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
+@set VSVARS="%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat"
+@set VCINSTALLDIR=%VS140COMNTOOLS%..\..\VC\
+@set SDK_VARIANT=%RUNTIME_VER% %SDK_VER%
+@set VS_RUNTIME=dynamic
+@set VS_TARGET_ARM=amd64_arm
+@set VS_TARGET_x86=amd64_x86
+@set VS_TARGET_AMD64=amd64
+@echo call %VSVARS% %SDK_VARIANT%
+@call %VSVARS% %SDK_VARIANT%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM% %RUNTIME_VER% %SDK_VER%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_ARM% %RUNTIME_VER% %SDK_VER%
+
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86% %RUNTIME_VER% %SDK_VER%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_x86% %RUNTIME_VER% %SDK_VER%
+
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" @echo call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64% %RUNTIME_VER% %SDK_VER%
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" call "%VCINSTALLDIR%vcvarsall.bat" %VS_TARGET_AMD64% %RUNTIME_VER% %SDK_VER%
+@goto setupenv
 
 :vs2015
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
