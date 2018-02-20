@@ -111,7 +111,8 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--enable-nfs \
 	--enable-microdns \
 	--disable-libplacebo \
---disable-mpg123 \
+	--enable-dvbpsi \
+--enable-mpg123 \
 --disable-libmpeg2 \
 	|| exit 1
 
