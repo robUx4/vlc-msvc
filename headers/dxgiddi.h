@@ -25,7 +25,11 @@
 #  endif
 #  include_next <dxgiddi.h>
 # else /* no clang or no dxgiddi.h */
-#  include <../um/dxgiddi.h>
+#  if (_WIN32_WINNT == 0x603)
+#   include <../../../8.1/include/um/dxgiddi.h>
+#  else
+#   include <../um/dxgiddi.h>
+#  endif
 # endif
 # pragma warning(pop)
 

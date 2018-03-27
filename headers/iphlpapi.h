@@ -25,7 +25,11 @@
 #  endif
 #  include_next <iphlpapi.h>
 # else /* no clang or no iphlpapi.h */
-#  include <../um/iphlpapi.h>
+#  if (_WIN32_WINNT == 0x603)
+#    include <../../../8.1/include/um/iphlpapi.h>
+#  else
+#   include <../um/iphlpapi.h>
+#  endif
 # endif
 # pragma warning(pop)
 

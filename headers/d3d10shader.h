@@ -25,7 +25,11 @@
 #  endif
 #  include_next <d3d10shader.h>
 # else /* no clang or no d3d10shader.h */
-#  include <../um/d3d10shader.h>
+#  if (_WIN32_WINNT == 0x603)
+#   include <../../../8.1/include/um/d3d10shader.h>
+#  else
+#   include <../um/d3d10shader.h>
+#  endif
 # endif
 # pragma warning(pop)
 

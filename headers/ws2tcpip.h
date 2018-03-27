@@ -25,7 +25,11 @@
 #  endif
 #  include_next <ws2tcpip.h>
 # else /* no clang or no ws2tcpip.h */
-#  include <../um/ws2tcpip.h>
+#  if (_WIN32_WINNT == 0x603)
+#   include <../../../8.1/include/um/ws2tcpip.h>
+#  else
+#   include <../um/ws2tcpip.h>
+#  endif
 # endif
 # pragma warning(pop)
 

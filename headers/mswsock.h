@@ -25,7 +25,11 @@
 #  endif
 #  include_next <mwsock.h>
 # else /* no clang or no mwsock.h */
-#  include <../um/mwsock.h>
+#  if (_WIN32_WINNT == 0x603)
+#   include <../../../8.1/include/um/mwsock.h>
+#  else
+#   include <../um/mwsock.h>
+#  endif
 # endif
 # pragma warning(pop)
 
