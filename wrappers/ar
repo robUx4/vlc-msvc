@@ -34,6 +34,10 @@ while [ $# -gt 0 ]; do
 		echo "Appending to previous lib"
 		LINK_APPEND=yes
 		;;
+	cru*)
+		echo "Appending to previous lib"
+		LINK_APPEND=yes
+		;;
 	*)
 		echo "Ignoring AR flag: $1"
 		;;
