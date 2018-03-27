@@ -78,14 +78,12 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-shout \
         --disable-goom \
         --disable-caca \
-        --disable-sdl \
         --disable-qt \
         --disable-skins2 \
         --enable-sse --enable-mmx \
         --disable-libcddb \
         --disable-zvbi --disable-telx \
         --disable-a52 \
-        --disable-dirac \
         --enable-dsm \
         --disable-smbclient \
         --disable-vcd \
@@ -97,6 +95,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-postproc \
         --enable-gme \
         --enable-sidplay2 \
+        --enable-live555 \
         || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool
