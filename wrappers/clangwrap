@@ -5,8 +5,8 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 INCLUDES_FOLDER=$SCRIPTPATH/../headers
 
 case $VLC_PLATFORM in
-	Windows|Metrox86)
-		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib"
+	Windows|Metrox86|Metrox64)
+		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib kernel32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;

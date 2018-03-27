@@ -24,7 +24,7 @@ exit $1
 usage()
 {
     echo "./build.sh <platform> <configuration>"
-    echo "platform: Windows|Metrox86|WindowsPhone|Universal86|Universal64|UniversalARM|Win32|Win64"
+    echo "platform: Windows|Metrox86|Metrox64|WindowsPhone|Universal86|Universal64|UniversalARM|Win32|Win64"
     echo "configuration: Debug|Release"
     terminate 1
 }
@@ -35,6 +35,12 @@ case $1 in
         export VLC_ARCH=arm
         export LLVM_ARCH=arm
         export AS=armasm
+        export HAVE_WINDOWSRT=true
+        ;;
+    Metrox64)
+        export VLC_PLATFORM=Windows
+        export VLC_ARCH=amd64
+        export LLVM_ARCH=amd64
         export HAVE_WINDOWSRT=true
         ;;
     Metrox86)
@@ -102,7 +108,7 @@ case $1 in
 esac
 
 case $VLC_PLATFORM in
-	Windows|Metrox86)
+	Windows|Metrox64|Metrox86)
 		#LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		export VLC_ABI=winrt
 		;;

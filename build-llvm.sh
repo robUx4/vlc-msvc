@@ -4,13 +4,16 @@ usage()
 {
     echo "./build-llvm.sh <platform> <configuration>"
     echo "platform: WindowsPhone|Windows|Metrox86|Universal86|Universal64|UniversalARM"
-    echo "   WindowsPhone: Phone 8.1 on ARM"
-    echo "   Windows:      Desktop 8.1 on ARM"
-    echo "   Metrox86:     Desktop 8.1 on x86"
-    echo "   Universal86:  Universal on x86"
-    echo "   Universal64:  Universal on amd64"
-    echo "   UniversalARM: Universal on ARM"
-    echo "   Win32:        Desktop on x86"
+    echo "   WindowsPhone:   Phone 8.1 on ARM"
+    echo "   Windows:        Desktop 8.1 on ARM"
+    echo "   Metrox86:       Desktop 8.1 on x86"
+    echo "   Metrox64:       Desktop 8.1 on amd64"
+    echo "   Universal86:    Universal on x86"
+    echo "   Universal64:    Universal on amd64"
+    echo "   UniversalARM:   Universal on ARM"
+    echo "   UniversalARM64: Universal on ARM64"
+    echo "   Win32:          Desktop on x86"
+    echo "   Win64:          Desktop on amd64"
     echo "configuration: Debug|Release"
 }
 
@@ -21,6 +24,9 @@ case $1 in
     Metrox86)
         PLATFORM=Metrox86
         ;;
+    Metrox64)
+        PLATFORM=Metrox64
+        ;;
     Universal86)
         PLATFORM=Universal86
         ;;
@@ -30,11 +36,17 @@ case $1 in
     UniversalARM)
         PLATFORM=UniversalARM
         ;;
+    UniversalARM64)
+        PLATFORM=UniversalARM64
+        ;;
     WP|WindowsPhone)
         PLATFORM=WindowsPhone
         ;;
     Win32)
         PLATFORM=Win32
+        ;;
+    Win64)
+        PLATFORM=Win64
         ;;
     *)
         usage

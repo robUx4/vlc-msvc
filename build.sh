@@ -7,11 +7,13 @@ usage()
     echo "   WindowsPhone:   Phone 8.1 on ARM"
     echo "   Windows:        Desktop 8.1 on ARM"
     echo "   Metrox86:       Desktop 8.1 on x86"
+    echo "   Metrox64:       Desktop 8.1 on amd64"
     echo "   Universal86:    Universal on x86"
     echo "   Universal64:    Universal on amd64"
     echo "   UniversalARM:   Universal on ARM"
     echo "   UniversalARM64: Universal on ARM64"
     echo "   Win32:          Desktop on x86"
+    echo "   Win64:          Desktop on amd64"
     echo "configuration: Debug|Release"
 }
 
@@ -21,6 +23,9 @@ case $1 in
         ;;
     Metrox86)
         PLATFORM=Metrox86
+        ;;
+    Metrox64)
+        PLATFORM=Metrox64
         ;;
     Universal86)
         PLATFORM=Universal86
@@ -39,6 +44,9 @@ case $1 in
         ;;
     Win32)
         PLATFORM=Win32
+        ;;
+    Win64)
+        PLATFORM=Win64
         ;;
     *)
         usage
