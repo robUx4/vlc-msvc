@@ -30,6 +30,8 @@ DEFINE_GUID(IID_ICryptographicBufferStatics, 0x320b7e22, 0x3cb0, 0x4cdf, 0x86,0x
 #else
 #define IID_ICryptographicBufferStatics             IID___x_ABI_CWindows_CSecurity_CCryptography_CICryptographicBufferStatics
 #endif
+#if (_WIN32_WINNT <= 0x603)
 typedef ICryptographicBufferStatics *HCRYPTPROV;
+#endif /* _WIN32_WINNT == 0x603 */
 
 #endif /* _WINSTORE_WIN_SEC_CRYPTO_H */

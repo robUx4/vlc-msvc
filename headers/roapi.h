@@ -11,9 +11,9 @@
 #  include_next <roapi.h>
 # else /* no clang or no roapi.h */
 #  if (_WIN32_WINNT == 0x603)
-/* not compatible #   include <../../../8.1/include/winnt/roapi.h> */
+/* not compatible #   include <../../../8.1/include/winrt/roapi.h> */
 #  else
-#   include <../winnt/roapi.h>
+#   include <../winrt/roapi.h>
 #  endif
 # endif
 # pragma warning(pop)

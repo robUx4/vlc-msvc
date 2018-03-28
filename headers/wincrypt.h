@@ -11,12 +11,13 @@
 #  include_next <wincrypt.h>
 # else /* no clang or no wincrypt.h */
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-# define HCRYPTPROV_DEFINED
+# if (_WIN32_WINNT <= 0x603)
+#  define HCRYPTPROV_DEFINED 0x603
+typedef ULONG *HCRYPTKEY;
+//typedef ULONG *HCRYPTHASH;
+# endif /* _WIN32_WINNT == 0x603 */
 # define ALGIDDEF
 typedef unsigned int ALG_ID;
-# define HCRYPTPROV_DEFINED
-typedef ULONG *HCRYPTKEY;
-typedef ULONG *HCRYPTHASH;
 #endif
 //typedef void *HCRYPTPROV_LEGACY;
 
@@ -29,6 +30,7 @@ typedef ULONG *HCRYPTHASH;
 # pragma warning(pop)
 
 #if (WINAPI_FAMILY == WINAPI_FAMILY_PC_APP || WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+# if (_WIN32_WINNT <= 0x603)
 typedef struct {
     DWORD dwCertEncodingType;
     BYTE *pbCrlEncoded;
@@ -50,13 +52,16 @@ typedef struct _CRYPT_KEY_PROV_INFO {
     PCRYPT_KEY_PROV_PARAM   rgProvParam;
     DWORD                   dwKeySpec;
 } CRYPT_KEY_PROV_INFO, *PCRYPT_KEY_PROV_INFO;
+# endif /* _WIN32_WINNT == 0x603 */
 #endif
 
-#define X509_ASN_ENCODING  1
+#if (_WIN32_WINNT <= 0x603)
+# define X509_ASN_ENCODING  1
+# define CRYPT_SILENT         0x40
+#endif /* _WIN32_WINNT == 0x603 */
 
 
 #define PROV_RSA_FULL        1
-#define CRYPT_SILENT         0x40
 #define CRYPT_VERIFYCONTEXT  0xF0000000
 
 #define CERT_KEY_PROV_HANDLE_PROP_ID        1
@@ -153,6 +158,9 @@ typedef struct _CRYPT_KEY_PROV_INFO {
 #define ALG_SID_SHA_256                 12
 #define ALG_SID_SHA_384                 13
 #define ALG_SID_SHA_512                 14
+
+#define ALG_SID_RSA_ANY                 0
+#define ALG_SID_DSS_ANY                 0
 
 #define CALG_MD2                (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_MD2)
 #define CALG_MD4                (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_MD4)
