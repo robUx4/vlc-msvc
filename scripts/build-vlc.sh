@@ -64,6 +64,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-optimize-memory \
         $DEBUG_MODE \
         --enable-winstore-app \
+        --disable-gpl \
         --disable-vlc \
         --enable-lua \
         --disable-vlm --disable-sout \
@@ -96,6 +97,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-gme \
         --enable-sidplay2 \
         --enable-live555 \
+        --disable-x265 \
         || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool
