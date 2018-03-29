@@ -67,6 +67,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-gpl \
         --disable-vlc \
         --enable-lua \
+        --enable-mad \
         --disable-vlm --disable-sout \
         --disable-faad \
         --enable-theora \
