@@ -70,7 +70,7 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--disable-projectM \
 	--enable-ass \
 	--disable-qt \
-	--disable-protobuf \
+	--enable-protobuf \
 	--disable-aribb25 \
 	--disable-gnuv3 \
 	--disable-qtsvg \
@@ -82,7 +82,6 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--enable-libdsm \
 	--disable-mfx \
 	--enable-freetype2 \
-	--disable-sout \
 	--enable-ffmpeg \
 	--enable-flac \
 	--enable-fribidi \
