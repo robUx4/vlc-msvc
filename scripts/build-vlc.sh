@@ -68,7 +68,8 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --disable-vlc \
         --enable-lua \
         --enable-mad \
-        --disable-vlm --disable-sout \
+        --enable-chromecast \
+        --disable-vlm --enable-sout \
         --disable-faad \
         --enable-theora \
         --enable-avcodec --enable-merge-ffmpeg \
