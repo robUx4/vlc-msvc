@@ -49,7 +49,6 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 ../bootstrap --host=$BUILD_HOST --build=x86-w64-mingw32 \
 	--prefix="${ROOT_FOLDER}vlc/contrib/${BUILD_VARIANT}" \
 	$OPTIM_MODE $D3D11_HEADERS \
-	--disable-gpl \
 	--disable-sdl \
 	--disable-schroedinger \
 	--disable-vncserver \
@@ -114,6 +113,9 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 	--enable-dvbpsi \
 --enable-mpg123 \
 --disable-libmpeg2 \
+--disable-faad2 \
+--disable-x264 \
+--disable-x265 \
 	|| exit 1
 
 # clang
