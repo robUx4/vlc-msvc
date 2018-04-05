@@ -64,10 +64,10 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-optimize-memory \
         $DEBUG_MODE \
         --enable-winstore-app \
-        --disable-gpl \
         --disable-vlc \
         --enable-lua \
         --enable-mad \
+        --enable-mfx \
         --enable-chromecast \
         --disable-vlm --enable-sout \
         --disable-faad \
