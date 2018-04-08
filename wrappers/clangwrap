@@ -374,9 +374,9 @@ if [ "$compile_asm" == "" ]; then
 	fi
 	# Do not use debug runtime in release and vice versa
 	if [ "$VLC_CONFIGURATION" == "Debug" ]; then
-	  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
+	  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libcpmtd.lib -NODEFAULTLIB:libcpmt.lib"
 	else
-	  LINK_FLAGS="$LINK_FLAGS msvcrt.lib -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib -NODEFAULTLIB:libcmt.lib"
+	  LINK_FLAGS="$LINK_FLAGS msvcrt.lib -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libcpmt.lib -NODEFAULTLIB:libcpmtd.lib"
 	fi
 
 	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
