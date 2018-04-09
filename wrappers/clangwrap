@@ -41,7 +41,7 @@ else
 fi
 
 if [ "$VLC_CONFIGURATION" == "Debug" ]; then
-  HAVE_DEBUG=1
+  HAVE_DEBUG_INFO=1
 fi
 
 CLANG_ARGS="-Wno-error=incompatible-ms-struct -fstack-protector -fno-ms-compatibility -fms-extensions -fno-short-enums -fno-strict-aliasing -fdata-sections"
@@ -199,7 +199,7 @@ while [ $# -gt 0 ]; do
         fi
 		;;
 	-g*)
-		HAVE_DEBUG=1
+		HAVE_DEBUG_INFO=1
 		;;
 	-Wall)
 		MSCL_ARGS="$MSCL_ARGS -W4"
@@ -342,17 +342,17 @@ done
 
 if [ "$compile_asm" == "" ]; then
     if [ "$USE_MSCL" != "" ]; then
-        ARGS_DEBUG="-Zi"
+        ARGS_DEBUG_INFO="-Zi"
         ARGS_RELEASE="-Gw -Ot"
         MSCL_ARGS="$MSCL_ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464 -wd4201"
     else
-        ARGS_DEBUG="-g2 -fstandalone-debug -gcodeview -gmodules"
+        ARGS_DEBUG_INFO="-g2 -fstandalone-debug -gcodeview -gmodules"
         #-dwarf-2 
         ARGS_RELEASE="-g0"
     fi
 
-	if [ "$HAVE_DEBUG" != "" ]; then
-	    ARGS="$ARGS $ARGS_DEBUG"
+	if [ "$HAVE_DEBUG_INFO" == "1" ]; then
+	    ARGS="$ARGS $ARGS_DEBUG_INFO"
 	    LINK_FLAGS="$LINK_FLAGS -DEBUG"
 	else
 	    ARGS="$ARGS $ARGS_RELEASE"
