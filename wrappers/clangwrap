@@ -536,7 +536,7 @@ case $VLC_ARCH in
     arm)
         LINK_FLAGS="$LINK_FLAGS -machine:ARM"
     ;;
-    armv8)
+    armv8|aarch64)
         LINK_FLAGS="$LINK_FLAGS -machine:ARM64"
     ;;
     x86)

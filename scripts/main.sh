@@ -75,7 +75,7 @@ case $1 in
     UniversalARM64)
         export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
-        export VLC_ARCH=armv8
+        export VLC_ARCH=aarch64
         export AS=armasm64
         ;;
     Win32)
