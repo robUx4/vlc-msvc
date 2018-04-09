@@ -566,7 +566,9 @@ fi
 #~ echo // ARGS: $ARGS
 #~ fi
 
+#~ if [ "$NO_LOGO" == "nologo" ]; then
 #~ echo LINK: link.exe -nologo $LINK_FLAGS
+#~ fi
 cmd /C "link.exe -nologo $LINK_FLAGS"
 LINKER_RESULT=$?
 #~ echo linker result: $LINKER_RESULT
