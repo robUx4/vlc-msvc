@@ -76,6 +76,7 @@ case $1 in
         export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=aarch64
+        export MSVC_ARCH=arm64
         export AS=armasm64
         ;;
     Win32)
@@ -109,6 +110,9 @@ esac
 
 shift
 
+if [ "$MSVC_ARCH" = "" ] ; then
+    export MSVC_ARCH=$VLC_ARCH
+fi
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
