@@ -58,29 +58,26 @@
 
 :setup_Universal86
 @set SDK_VER=10.0.16299.0
-@rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=x86
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
-@goto select_vs15
+@goto select_vs17
 
 :setup_UniversalARM
 @set SDK_VER=10.0.16299.0
-@rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=ARM
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
-@goto select_vs15
+@goto select_vs17
 
 :setup_UniversalARM64
 @set SDK_VER=10.0.16299.0
-@rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=ARM64
@@ -91,14 +88,13 @@
 
 :setup_Universal64
 @set SDK_VER=10.0.16299.0
-@rem set SDK_VER=10.0.14366.0
 @set RUNTIME_VER=store
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=amd64
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
 @set WIN32_WINNT=0x0A00
 @set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
-@goto select_vs15
+@goto select_vs17
 
 :setup_Win32
 @set SDK_VER=10.0.10586.0
@@ -128,22 +124,20 @@
 @goto select_vs
 
 :select_vs17
-@IF EXIST "%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat" goto vs2017
+@IF EXIST "%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat" goto vs2017
 @echo VS 2017 not found
 @goto select_vs15
 
 
 :vs2017
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
-@set VSVARS="%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat"
-@set VCINSTALLDIR=%VS140COMNTOOLS%..\..\VC\
-@set SDK_VARIANT=%RUNTIME_VER% %SDK_VER%
+@set VSVARS="%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat"
 @set VS_RUNTIME=dynamic
 
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM"   set VS_ARCH_TARGET=amd64_arm
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86"   set VS_ARCH_TARGET=amd64_x86
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" set VS_ARCH_TARGET=amd64
-@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM64" set VS_ARCH_TARGET=amd64_arm64
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM"   set VS_ARCH_TARGET=x86_arm
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="x86"   set VS_ARCH_TARGET=x86
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="amd64" set VS_ARCH_TARGET=x86_amd64
+@IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM64" set VS_ARCH_TARGET=x86_arm64
 
 @echo call %VSVARS% %VS_ARCH_TARGET% %RUNTIME_VER17% %SDK_VER%
 call %VSVARS% %VS_ARCH_TARGET% %RUNTIME_VER17% %SDK_VER%
