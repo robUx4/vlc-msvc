@@ -8,11 +8,9 @@ case $VLC_PLATFORM in
 	Windows|Metrox86|Metrox64)
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib kernel32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-        case $VLC_ARCH in
-            x86|amd64)
-                LINK_FLAGS="$LINK_FLAGS -safeseh"
-            ;;
-        esac
+		if [ "$VLC_ARCH" == "x86" ]; then
+			LINK_FLAGS="$LINK_FLAGS -safeseh"
+		fi
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
@@ -23,20 +21,16 @@ case $VLC_PLATFORM in
 	Universal)
 		FORCED_LIBS="mincore.lib Advapi32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-        case $VLC_ARCH in
-            x86|amd64)
-                LINK_FLAGS="$LINK_FLAGS -safeseh"
-            ;;
-        esac
+		if [ "$VLC_ARCH" == "x86" ]; then
+			LINK_FLAGS="$LINK_FLAGS -safeseh"
+		fi
 		;;
 	Desktop)
 		FORCED_LIBS="Advapi32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-        case $VLC_ARCH in
-            x86|amd64)
-                LINK_FLAGS="$LINK_FLAGS -safeseh"
-            ;;
-        esac
+		if [ "$VLC_ARCH" == "x86" ]; then
+			LINK_FLAGS="$LINK_FLAGS -safeseh"
+		fi
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
