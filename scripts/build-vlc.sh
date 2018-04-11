@@ -41,7 +41,7 @@ case $VLC_CONFIGURATION in
         ;;
 esac
 
-if [ "$VisualStudioVersion" == "14.0" ] ; then
+if [ "$VisualStudioVersion" == "14.0" -o "$VisualStudioVersion" == "15.0" ] ; then
     HAS_TIMESPEC=yes
 else
     HAS_TIMESPEC=no
