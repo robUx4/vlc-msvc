@@ -7,17 +7,17 @@ INCLUDES_FOLDER=$SCRIPTPATH/../headers
 case $VLC_PLATFORM in
 	Windows|Metrox86|Metrox64)
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib kernel32.lib"
-		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer -safeseh"
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
 		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib mincore.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib"
-		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer -safeseh"
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	Universal)
 		FORCED_LIBS="mincore.lib Advapi32.lib"
-		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer -safeseh"
 		;;
 	Desktop)
 		FORCED_LIBS="Advapi32.lib"
