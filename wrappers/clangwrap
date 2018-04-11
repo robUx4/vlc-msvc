@@ -7,20 +7,36 @@ INCLUDES_FOLDER=$SCRIPTPATH/../headers
 case $VLC_PLATFORM in
 	Windows|Metrox86|Metrox64)
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib kernel32.lib"
-		LINK_FLAGS="$LINK_FLAGS -appcontainer -safeseh"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+        case $VLC_ARCH in
+            x86|amd64)
+                LINK_FLAGS="$LINK_FLAGS -safeseh"
+            ;;
+        esac
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	WindowsPhone)
 		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib mincore.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib"
-		LINK_FLAGS="$LINK_FLAGS -appcontainer -safeseh"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
 		;;
 	Universal)
 		FORCED_LIBS="mincore.lib Advapi32.lib"
-		LINK_FLAGS="$LINK_FLAGS -appcontainer -safeseh"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+        case $VLC_ARCH in
+            x86|amd64)
+                LINK_FLAGS="$LINK_FLAGS -safeseh"
+            ;;
+        esac
 		;;
 	Desktop)
 		FORCED_LIBS="Advapi32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+        case $VLC_ARCH in
+            x86|amd64)
+                LINK_FLAGS="$LINK_FLAGS -safeseh"
+            ;;
+        esac
 		;;
 	*)
 		echo "clwrap: Invalid platform: $VLC_PLATFORM"
