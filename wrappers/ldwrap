@@ -1,51 +1,146 @@
 #!/bin/sh
 
-echo "LD Wrapping $@"
+echo "LD Wrapping $@ platform: $VLC_PLATFORM"
 
+# Do not use debug runtime in release and vice versa
+if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib"
+else
+  LINK_FLAGS="$LINK_FLAGS msvcrt.lib -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib"
+fi
+
+LD_CMD=mslink
 case $VLC_PLATFORM in
-	Windows|Metrox86)
-		FORCED_LIBS="user32.lib kernel32.lib Advapi32.lib Ole32.lib RuntimeObject.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+	Windows|Metrox64|Metrox86)
+		# VS 2015 FORCED_LIBS="mincore.lib kernel32.lib"
+		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
 		;;
 	WindowsPhone)
-		FORCED_LIBS="-APPCONTAINER WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib -NODEFAULTLIB:ws2_32.lib"
+		# VS 2015 FORCED_LIBS="mincore.lib kernel32.lib"
+		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib mincore.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		;;
+	Universal)
+		FORCED_LIBS="mincore.lib Advapi32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		;;
+	Desktop)
+		FORCED_LIBS="Advapi32.lib"
 		;;
 	*)
-		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		echo "ldwrap: Invalid platform: $VLC_PLATFORM"
 		exit 1
 esac
 
 while [ $# -gt 0 ]; do
-	case $1 in
+    case $1 in
+        /[a-z]/*)
+            param=`cygpath -w $1`
+            ;;
+        /*)
+            param=-"${1#/}"
+            ;;
+        *)
+            param=$1
+            ;;
+    esac
+	case $param in
+	-out:*)
+		LINK_TARGET=${param#-out:}
+		shift
+		;;
 	-o)
 		LINK_TARGET=`cygpath -w $2`
 		shift
 		;;
 	*.o)
-		if [ -f $1 ]; then
-			OBJS="$OBJS `cygpath -w $1`"
+		if [ -f $param ]; then
+			OBJS="$OBJS `cygpath -w $param`"
 		else
 			# Manually fix the extension if the object file doesn't exist
-			OBJS="$OBJS `cygpath -w $1`"bj
+			OBJS="$OBJS `cygpath -w $param`"bj
 		fi
 		
 		;;
 	*.obj)
-		OBJS="$OBJS `cygpath -w $1`"
+		OBJS="$OBJS `cygpath -w $param`"
+		;;
+	-implib:*)
+		ARGS="$ARGS $param"
+		;;
+	--high-entropy-va)
+		ARGS="$ARGS -highentropyva"
+		;;
+	-lm)
 		;;
 	-l*)
-		OBJS="$OBJS ${1#-l}.lib"
+		OBJS="$OBJS ${param#-l}.lib"
+		;;
+	*.lib)
+		OBJS="$OBJS $param"
 		;;
 	-L*)
-		libpath=${1#-L}
+		libpath=${param#-L}
 		if [ "$libpath" != "/mingw32/lib" ]; then
 			LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
 		fi
 		;;
+	-Wl*)
+		params=${param#-Wl,}
+        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+            case $p in
+                -DLL)
+                    BUILD_LIB=1
+                    ;;
+                --dynamicbase)
+                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+                    ;;
+                --high-entropy-va)
+                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
+                    ;;
+                --nxcompat)
+                    LINK_FLAGS="$LINK_FLAGS -nxcompat"
+                    ;;
+                --no-seh)
+                    LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+                    ;;
+                --image-base)
+                    case $2 in
+                        -Wl,0x*)
+                            LINK_FLAGS="$LINK_FLAGS -base:${2#-Wl,}"
+                            shift
+                            ;;
+                        *)
+                            LINK_FLAGS="$LINK_FLAGS -base:${params#--image-base,}"
+                            ;;
+                    esac
+                    ;;
+                -IMPLIB*)
+                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    ;;
+                *.a|*.obj|*.lib|*.o)
+                    LINK_FLAGS="$LINK_FLAGS `cygpath -w $p`"
+                    ;;
+            esac
+        done
+		;;
+	-pdb:*)
+		#TODO ARGS="$ARGS -pdb:`cygpath -w $param`"
+		;;
+	-MANIFEST*)
+		# not working yet
+		;;
+	-r)
+		LD_CMD=lib
+		#FORCED_LIBS=
+		;;
 	-*)
-		ARGS="$ARGS $1"
+		ARGS="$ARGS $param"
 		;;
 	*)
-		echo "Ignoring AR flag: $1"
+#		echo "Ignoring AR flag: $param"
+		ARGS="$ARGS $param"
 		;;
 	esac
 	shift
@@ -56,11 +151,12 @@ if [ "$LINK_TARGET" = "" ]; then
 	exit 1
 fi
 
+echo "LD: $LD_CMD"
 echo "Args: $ARGS"
 echo "Objs: $OBJS"
 
 #MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-#echo link -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS
-link -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $FORCED_LIBS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
+$LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
 exit $?
 

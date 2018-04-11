@@ -1,0 +1,35 @@
+From 74228b8404db5fbc6dcf05a071b195788b1c67e7 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@videolabs.io>
+Date: Wed, 24 Jun 2015 17:24:32 +0200
+Subject: [PATCH 78/99] dirs: do not try to read the App dir with
+ VLC_WINSTORE_APP
+
+---
+ src/win32/dirs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/win32/dirs.c b/src/win32/dirs.c
+index a12eff2..7d3b2ed 100644
+--- a/src/win32/dirs.c
++++ b/src/win32/dirs.c
+@@ -87,6 +87,9 @@ static char *config_GetShellDir (int csidl)
+ 
+ static char *config_GetAppDir (void)
+ {
++#if VLC_WINSTORE_APP
++    return NULL;
++#else
+     /* if portable directory exists, use it */
+     TCHAR path[MAX_PATH];
+     if (GetModuleFileName (NULL, path, MAX_PATH))
+@@ -110,6 +113,7 @@ static char *config_GetAppDir (void)
+         psz_dir = NULL;
+     free (psz_parent);
+     return psz_dir;
++#endif
+ }
+ 
+ #ifndef _MSC_VER
+-- 
+1.9.5.msysgit.1
+

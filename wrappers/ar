@@ -4,14 +4,39 @@ echo "AR Wrapping $@"
 
 while [ $# -gt 0 ]; do
 	case $1 in
+	-olib*.lib)
+		libname=${1#-olib}
+		if [ "$LINK_TARGET" = "" ]; then
+			LINK_TARGET=$libname
+		fi
+		;;
+	-olib*.a)
+		libname=${1#-olib}
+		if [ "$LINK_TARGET" = "" ]; then
+			LINK_TARGET=$(basename $libname)
+		fi
+		;;
 	*.lib|*.a)
-		LINK_TARGET=`cygpath -w $1`
+		if [ "$LINK_TARGET" = "" ]; then
+			LINK_TARGET=`cygpath -w $1`
+		fi
 		;;
 	*obj|*.o)
 		OBJS="$OBJS `cygpath -w $1`"
 		;;
 	-*)
 		ARGS="$ARGS $1"
+		;;
+	x*)
+		LINK_EXTRACTED=yes
+		;;
+	cq*)
+		echo "Appending to previous lib"
+		LINK_APPEND=yes
+		;;
+	cru*)
+		echo "Appending to previous lib"
+		LINK_APPEND=yes
 		;;
 	*)
 		echo "Ignoring AR flag: $1"
@@ -25,12 +50,41 @@ if [ "$LINK_TARGET" = "" ]; then
 	exit 1
 fi
 
-echo "Target: $LINK_TARGET"
-echo "Args: $ARGS"
-echo "Objs: $OBJS"
+if [ "$LINK_APPEND" != "" ]; then
+	if [ -f $LINK_TARGET ]; then
+		echo "Appending objs to previous lib $LINK_TARGET"
+		OBJS="$LINK_TARGET $OBJS"
+	fi
+fi
 
-#MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-#echo lib -nologo -OUT:$LINK_TARGET $ARGS $OBJS
-lib -nologo -OUT:$LINK_TARGET $ARGS $OBJS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+#~ case $VLC_ARCH in
+    #~ arm)
+        #~ ARGS="$ARGS -machine:ARM"
+    #~ ;;
+    #~ x86)
+        #~ ARGS="$ARGS -machine:X86"
+    #~ ;;
+    #~ amd64)
+        #~ ARGS="$ARGS -machine:X64"
+    #~ ;;
+#~ esac
+
+if [ "$LINK_EXTRACTED" != "" ]; then
+	echo "Extracting objects"
+	for object in `lib -nologo -list $LINK_TARGET`; do
+		objname=`echo -n $object | tr -d '\n'  | tr -d '\r'`
+		output=$(basename $objname)
+		#echo "Extract: $LINK_TARGET - Object: $output"
+		lib -nologo $LINK_TARGET -extract:$objname -out:$output
+	done
+else
+	echo "Target: $LINK_TARGET"
+	echo "Args: $ARGS"
+	echo "Objs: $OBJS"
+
+	#MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
+	#echo lib -nologo -OUT:$LINK_TARGET $ARGS $OBJS
+	lib -nologo -OUT:$LINK_TARGET $ARGS $OBJS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+fi
 exit $?
 

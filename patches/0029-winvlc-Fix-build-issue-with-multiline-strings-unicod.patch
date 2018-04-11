@@ -1,7 +1,7 @@
-From ae518554d47b6e938419de414dec498671635d09 Mon Sep 17 00:00:00 2001
+From 361f250fd00f3971ba8ae626146623171932f778 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:43:53 +0200
-Subject: [PATCH 029/128] winvlc: Fix build issue with multiline strings &
+Subject: [PATCH 29/99] winvlc: Fix build issue with multiline strings &
  unicode macros/prefixes
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 029/128] winvlc: Fix build issue with multiline strings &
  1 file changed, 23 insertions(+), 23 deletions(-)
 
 diff --git a/bin/winvlc.c b/bin/winvlc.c
-index ecf296a..378d378 100644
+index ecf296a..4b84593 100644
 --- a/bin/winvlc.c
 +++ b/bin/winvlc.c
 @@ -190,8 +190,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,

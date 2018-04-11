@@ -1,14 +1,14 @@
-From 474114aa5b7613c751abe0ba043d65b8d12dd36f Mon Sep 17 00:00:00 2001
+From c06ade175541fa3bd73e4b68997d3e4f22ee4e84 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 15:06:37 +0200
-Subject: [PATCH 024/128] contribs: mpcdec: Build with msvc when available
+Subject: [PATCH 24/99] contribs: mpcdec: Build with msvc when available
 
 ---
  contrib/src/mpcdec/rules.mak | 7 +++++++
  1 file changed, 7 insertions(+)
 
 diff --git a/contrib/src/mpcdec/rules.mak b/contrib/src/mpcdec/rules.mak
-index 44cab85..4d213b9 100644
+index 44cab85..2f645ce 100644
 --- a/contrib/src/mpcdec/rules.mak
 +++ b/contrib/src/mpcdec/rules.mak
 @@ -43,8 +43,15 @@ endif
@@ -16,9 +16,9 @@ index 44cab85..4d213b9 100644
  
  .mpcdec: musepack toolchain.cmake
 +ifdef HAVE_VISUALSTUDIO	
-+	cd $< && $(HOSTVARS_CMAKE) $(CMAKE) -DSHARED=OFF .
-+	cd $< && msbuild.exe -p:Configuration=$(VLC_CONFIGURATION) -m -nologo INSTALL.vcxproj
-+	cd $< && cp libmpcdec/$(VLC_CONFIGURATION)/mpcdec_static.lib "$(PREFIX)/lib/mpcdec.lib"
++	cd $< && $(HOSTVARS_PIC) $(CMAKE) -DSHARED=OFF -G "Visual Studio 12 2013 ARM" .
++	cd $< && msbuild.exe -p:Configuration=Release -p:Platform=ARM INSTALL.vcxproj
++	cd $< && cp libmpcdec/Release/mpcdec_static.lib "$(PREFIX)/lib/mpcdec.lib"
 +	cd $< && cp "$(PREFIX)/lib/mpcdec.lib" "$(PREFIX)/lib/libmpcdec.a"
 +else
  	cd $< && $(HOSTVARS_PIC) $(CMAKE) -DSHARED=OFF .

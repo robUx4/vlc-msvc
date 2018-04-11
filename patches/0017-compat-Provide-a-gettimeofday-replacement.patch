@@ -1,25 +1,23 @@
-From 4a86bfaac5a416422a0916629d083bb08e128f91 Mon Sep 17 00:00:00 2001
+From 8742aa1f656ffa5fb971851ab6e3f47e5de5d3c0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:08:53 +0200
-Subject: [PATCH 017/128] compat: Provide a gettimeofday replacement
+Subject: [PATCH 17/99] compat: Provide a gettimeofday replacement
 
 ---
- compat/gettimeofday.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.ac          |  1 +
- include/vlc_fixups.h  | 20 +++++++++++++++++
- 3 files changed, 80 insertions(+)
+ compat/gettimeofday.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
  create mode 100644 compat/gettimeofday.c
 
 diff --git a/compat/gettimeofday.c b/compat/gettimeofday.c
 new file mode 100644
-index 0000000..bb1f797
+index 0000000..408784c
 --- /dev/null
 +++ b/compat/gettimeofday.c
-@@ -0,0 +1,59 @@
+@@ -0,0 +1,60 @@
 +/*****************************************************************************
 + * gettimeofday.c: gettimeofday() replacement
 + *****************************************************************************
-+ * Copyright © 2014 VLC authors and VideoLAN
++ * Copyright Â© 2014 VLC authors and VideoLAN
 + *
 + * This program is free software; you can redistribute it and/or modify it
 + * under the terms of the GNU Lesser General Public License as published by
@@ -43,8 +41,9 @@ index 0000000..bb1f797
 +#ifdef _MSC_VER
 +
 +/* Taken from postgresql */
++
 +#include <sys/time.h>
-+#include <winsock2.h>
++#include <Winsock2.h>
 +
 +/* FILETIME of Jan 1 1970 00:00:00. */
 +static const unsigned __int64 epoch = 116444736000000000;
@@ -75,56 +74,7 @@ index 0000000..bb1f797
 +
 +
 +#endif
-diff --git a/configure.ac b/configure.ac
-index a3dc3e1..800d218 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -552,6 +552,7 @@ dnl Check for usual libc functions
- AC_CHECK_DECLS([nanosleep],,,[#include <time.h>])
- AC_CHECK_FUNCS([daemon fcntl fstatvfs fork getenv getpwuid_r isatty lstat memalign mmap open_memstream openat pread posix_fadvise posix_madvise setlocale stricmp strnicmp strptime uselocale pthread_cond_timedwait_monotonic_np pthread_condattr_setclock])
- AC_REPLACE_FUNCS([atof atoll dirfd fdopendir ffsll flockfile fsync getdelim getpid lldiv nrand48 poll posix_memalign rewind setenv strcasecmp strcasestr strdup strlcpy strndup strnlen strsep strtof strtok_r strtoll swab tdestroy strverscmp])
-+AC_REPLACE_FUNCS([gettimeofday])
- AC_CHECK_FUNCS(fdatasync,,
-   [AC_DEFINE(fdatasync, fsync, [Alias fdatasync() to fsync() if missing.])
- ])
-diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index 34adc66..aba12b3 100644
---- a/include/vlc_fixups.h
-+++ b/include/vlc_fixups.h
-@@ -44,6 +44,14 @@
- # include <time.h> /* time_t */
- #endif
- 
-+#ifndef HAVE_GETTIMEOFDAY
-+#ifdef _WIN32
-+#include <winsock2.h>
-+#else
-+#include <sys/time.h>
-+#endif
-+#endif
-+
- #ifndef HAVE_LLDIV
- typedef struct
- {
-@@ -194,6 +202,18 @@ struct tm *gmtime_r (const time_t *, struct tm *);
- struct tm *localtime_r (const time_t *, struct tm *);
- #endif
- 
-+/* sys/time.h */
-+#ifndef HAVE_GETTIMEOFDAY
-+#ifdef _MSC_VER
-+#pragma warning(push)
-+#pragma warning(disable:4115)
-+#endif
-+int gettimeofday(struct timeval *, struct timezone *);
-+#ifdef _MSC_VER
-+#pragma warning(pop)
-+#endif
-+#endif
-+
- /* unistd.h */
- #ifndef HAVE_GETPID
- pid_t getpid (void) VLC_NOTHROW;
+\ No newline at end of file
 -- 
 1.9.5.msysgit.1
 

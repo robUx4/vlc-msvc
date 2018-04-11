@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#~ echo "Wrapping midl $@"
+
+#windres --include-dir ../../share --include-dir ../../extras/package/win32 -i libvlc_win32_rc.rc -o libvlc_win32_rc.obj
+while [ $# -gt 0 ]; do
+    case $1 in 
+        -o)
+            FILE_=`cygpath -w -a $2`
+            FOLDER=`dirname $FILE_`
+            FILENAME=`basename $FILE_`
+            ARGS="$ARGS -out $FOLDER -h $FILENAME -iid ${FILENAME}_i.c"
+            shift
+            ;;
+        -I*)
+            ARGS="$ARGS -I `cygpath -w -a ${1#-I}`"
+            ;;
+        -D*)
+            ARGS="$ARGS -D${1#-D}"
+            ;;
+        -h)
+            ;;
+        *)
+            INPUT=$1
+            ;;
+    esac
+    shift
+done
+
+echo "Args: $ARGS"
+echo "Input: $INPUT"
+
+rm -rf $FOLDER/$FILENAME
+midl.exe -nologo -notlb -client none $INPUT $ARGS 
+#~ echo \#include \"${FILENAME}_i.c\" TO "$FOLDER/$FILENAME"
+#include "dxgitype.h_i.c" TO C:\Users\robUx4\Documents\Programs\Videolabs\winrt-work\vlc\vlc\contrib\arm-msvc-mingw32winphone_Debug\include/dxgitype.h
+if [ -f "${FOLDER}/${FILENAME}_i.c" ]; then
+  echo \#ifdef INITGUID >> "$FOLDER/$FILENAME"
+  echo \#include \"${FILENAME}_i.c\" >> "$FOLDER/$FILENAME"
+  echo \#endif >> "$FOLDER/$FILENAME"
+fi
+exit $?

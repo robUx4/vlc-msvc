@@ -1,7 +1,7 @@
-From d960fb73e21ad321eb6251ab6f2e3b480d208e89 Mon Sep 17 00:00:00 2001
+From 926d1cae8307a9c67d13d9a414d3f9d975c67c7c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:07 +0200
-Subject: [PATCH 021/128] contribs: gcrypt: Disable asm when building with
+Subject: [PATCH 21/99] contribs: gcrypt: Disable asm when building with
  visualstudio
 
 ---

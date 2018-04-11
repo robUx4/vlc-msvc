@@ -1,7 +1,7 @@
-From 53561d4f8f8a0ceb07ccff3902621dc45e50bffc Mon Sep 17 00:00:00 2001
+From 1e0b2d017470c74084b9be39764902f5fa5c0c5e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:26:48 +0200
-Subject: [PATCH 015/128] libvlc: Disable warning preprocessor directives when
+Subject: [PATCH 15/99] libvlc: Disable warning preprocessor directives when
  building with MSVC
 
 ---

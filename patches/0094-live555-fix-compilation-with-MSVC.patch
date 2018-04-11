@@ -1,0 +1,79 @@
+From 9112f58212034ada896e2e5c520f913fbf9e0de3 Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 14:33:44 +0200
+Subject: [PATCH 94/99] live555: fix compilation with MSVC
+
+---
+ contrib/src/live555/msvc.patch | 45 ++++++++++++++++++++++++++++++++++++++++++
+ contrib/src/live555/rules.mak  |  3 +++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 contrib/src/live555/msvc.patch
+
+diff --git a/contrib/src/live555/msvc.patch b/contrib/src/live555/msvc.patch
+new file mode 100644
+index 0000000..430eba6
+--- /dev/null
++++ b/contrib/src/live555/msvc.patch
+@@ -0,0 +1,45 @@
++diff --git a/config.mingw b/config.mingw
++index 18f0518..89aca02 100755
++--- a/config.mingw
+++++ b/config.mingw
++@@ -6,10 +6,10 @@
++ CPLUSPLUS_COMPILER =   $(CXX)
++ CPLUSPLUS_FLAGS =      $(COMPILE_OPTS) -D__MINGW32__ -Wall -Wno-deprecated
++ OBJ =                  o
++-LINK =                 $(CXX) -o 
+++LINK =                 $(LD) -o 
++ LINK_OPTS =            -L.
++ CONSOLE_LINK_OPTS =    $(LINK_OPTS)
++-LIBRARY_LINK =         $(LD) -o 
+++LIBRARY_LINK =         $(AR) -o 
++ LIBRARY_LINK_OPTS =    $(LINK_OPTS) -r -Bstatic
++ LIB_SUFFIX =                   a
++ LIBS_FOR_CONSOLE_APPLICATION = -lws2_32
++--- a/liveMedia/RTSPCommon.cpp
+++++ b/liveMedia/RTSPCommon.cpp
++@@ -25,6 +25,10 @@
++ #include <ctype.h> // for "isxdigit()
++ #include <time.h> // for "strftime()" and "gmtime()"
++
+++#if defined(_MSC_VER)
+++#include <stdlib.h>
+++#endif
+++
++ static void decodeURL(char* url) {
++   // Replace (in place) any %<hex><hex> sequences with the appropriate 8-bit character.
++   char* cursor = url;
++
++--- a/UsageEnvironment/UsageEnvironment.cpp
+++++ b/UsageEnvironment/UsageEnvironment.cpp
++@@ -19,6 +19,10 @@
++
++ #include "UsageEnvironment.hh"
++
+++#if defined(_MSC_VER)
+++#include <stdlib.h>
+++#endif
+++
++ Boolean UsageEnvironment::reclaim() {
++   // We delete ourselves only if we have no remainining state:
++   if (liveMediaPriv == NULL && groupsockPriv == NULL) {
++
+diff --git a/contrib/src/live555/rules.mak b/contrib/src/live555/rules.mak
+index 7830c41..9d7dfe6 100644
+--- a/contrib/src/live555/rules.mak
++++ b/contrib/src/live555/rules.mak
+@@ -53,6 +53,9 @@ live555: $(LIVE555_FILE) .sum-live555
+ ifdef HAVE_ANDROID
+ 	cd live && sed -e 's%-DPIC%-DPIC -DNO_SSTREAM=1 -DLOCALE_NOT_USED -I$(ANDROID_NDK)/platforms/$(ANDROID_API)/arch-$(PLATFORM_SHORT_ARCH)/usr/include%' -i.orig config.linux
+ endif
++ifdef HAVE_VISUALSTUDIO
++	cd live && patch -lfp1 < ../../src/live555/msvc.patch
++endif
+ 	mv live $@
+ 	touch $@
+ 
+-- 
+1.9.5.msysgit.1
+

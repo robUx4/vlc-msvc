@@ -1,0 +1,27 @@
+From 5c4c1708c4b8dfa012cdfafc1b0be7156a19f45b Mon Sep 17 00:00:00 2001
+From: Steve Lhomme <robux4@gmail.com>
+Date: Thu, 25 Jun 2015 13:56:35 +0200
+Subject: [PATCH 90/96] do not force _ISOC11_SOURCE for MSVC
+
+---
+ configure.ac | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 427991f..8f3f53a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -234,7 +234,9 @@ case "${host_os}" in
+ # define UNICODE 1 /* Define to 1 for Unicode (Wide Chars) APIs. */
+ #endif])
+     AC_DEFINE([_ISOC99_SOURCE], [1], [Extensions to ISO C89 from ISO C99.])
+-    AC_DEFINE([_ISOC11_SOURCE], [1], [Extensions to ISO C99 from ISO C11.])
++    if test "${host_vendor}" != "msvc"; then
++      AC_DEFINE([_ISOC11_SOURCE], [1], [Extensions to ISO C99 from ISO C11.])
++    fi
+     AC_DEFINE([_POSIX_SOURCE], [1], [IEEE Std 1003.1.])
+     AC_DEFINE([_POSIX_C_SOURCE], [200809L], [IEEE Std 1003.1.])
+     AC_DEFINE([_XOPEN_SOURCE], [700], [POSIX and XPG 7th edition])
+-- 
+2.4.2
+

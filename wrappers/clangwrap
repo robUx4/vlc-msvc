@@ -1,0 +1,586 @@
+#!/bin/sh
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+INCLUDES_FOLDER=$SCRIPTPATH/../headers
+
+case $VLC_PLATFORM in
+	Windows|Metrox86|Metrox64)
+		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib kernel32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		if [ "$VLC_ARCH" == "x86" ]; then
+			LINK_FLAGS="$LINK_FLAGS -safeseh"
+		fi
+		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
+		;;
+	WindowsPhone)
+		FORCED_LIBS="WindowsPhoneCore.lib RuntimeObject.lib PhoneAppModelHost.lib mincore.lib -NODEFAULTLIB:ole32.lib -NODEFAULTLIB:kernel32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
+		;;
+	Universal)
+		FORCED_LIBS="mincore.lib Advapi32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		if [ "$VLC_ARCH" == "x86" ]; then
+			LINK_FLAGS="$LINK_FLAGS -safeseh"
+		fi
+		;;
+	Desktop)
+		FORCED_LIBS="Advapi32.lib"
+		LINK_FLAGS="$LINK_FLAGS -appcontainer"
+		if [ "$VLC_ARCH" == "x86" ]; then
+			LINK_FLAGS="$LINK_FLAGS -safeseh"
+		fi
+		;;
+	*)
+		echo "clwrap: Invalid platform: $VLC_PLATFORM"
+		exit 1
+esac
+
+#~ echo $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20} ${21} ${22} ${23} ${24} ${25} ${26} ${27} ${28} ${29} ${30} ${31} ${32} ${33} ${34} ${35} ${36} ${37} ${38} ${39} ${40} ${41} ${42} ${43} ${44} ${45} ${46} ${47} ${48} ${49} ${50} ${51} ${52} ${53} ${54} ${55} ${56} ${57} ${58} ${59} 
+
+NO_LOGO="nologo"
+#we know POSIX code uses a lot of usafe APIs
+DEFINES="-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE"
+
+#echo VS_RUNTIME = $VS_RUNTIME
+if [ "$VS_RUNTIME" == "static" ]; then
+  STATIC_RUNTIME=1
+else
+  STATIC_RUNTIME=0
+fi
+
+if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+  HAVE_DEBUG_INFO=1
+fi
+
+CLANG_ARGS="-Wno-error=incompatible-ms-struct -fstack-protector -fno-ms-compatibility -fms-extensions -fno-short-enums -fno-strict-aliasing -fdata-sections"
+#~ CLANG_ARGS="$CLANG_ARGS -ffast-math -fno-builtin-pow -fno-builtin-powf"
+#-mno-implicit-float
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        /[a-z]/*|/usr/*|/home/*|/tmp/*)
+            param=`cygpath -w $1`
+            ;;
+        /*)
+            param=-"${1#/}"
+            ;;
+        *)
+            param=$1
+            ;;
+    esac
+    case $param in
+	-o)
+		outfile=`cygpath -w $2`
+		implib=`cygpath -w ${2%.dll}.lib`
+		compile=1
+		shift
+		;;
+	-Fo*)
+		outfile=${param#-Fo}
+		compile=1
+		;;
+	-Fi*)
+		preproc=1
+		compile=1
+		HAS_P=
+		outfile=`cygpath -w ${param#-Fi}`
+		;;
+	-E)
+		preproc=1
+		;;
+	-P)
+		HAS_P=1
+		;;
+	-c)
+		compile=1
+		dontlink=1
+		;;
+	*.c|.h)
+		inputfile=`cygpath -w $param`
+		LANGUAGE="c"
+		;;
+	*.cpp|*.cxx|*.cc)
+		inputfile=`cygpath -w $param`
+		#~ USE_MSCL=1
+		LANGUAGE="p"
+		;;
+	*.s|*.asm)
+		inputfile=`cygpath -w $param`
+		compile_asm=yes
+		LANGUAGE="asm"
+		;;
+	*.S)
+		inputfile=`cygpath -w $param`
+		compile_asm=yes
+		LANGUAGE="assembler"
+		;;
+	*.dll)
+		LINK_FLAGS="$LINK_FLAGS $param"
+		;;
+	-D*)
+		def=$(echo $param | sed 's/ /_/')
+		# Added to handle -Dsome_include=<somefile.h>
+		# That doesn't work unless the bracket part is quoted
+		case $def in
+			*=\<*\>)
+				def=`echo $def | sed 's/=/\"=/'`\"
+				DEFINES="$DEFINES $def"
+				;;
+			*=\"*\")
+				ASM_DEFINES="$ASM_DEFINES $def"
+				def=`echo $def | sed 's/\"/\\\"/g'`
+				COMPILE_DEFINES="$COMPILE_DEFINES $def"
+				;;
+			*)
+				DEFINES="$DEFINES $def"
+				;;
+		esac
+		ARGS="$ARGS $def"
+		;;
+	-I)
+		# Handles -I <path>
+		INCLUDES="$INCLUDES -I`cygpath -w $2`"
+		shift
+		;;
+	-I*)
+		# Handles -I<path> (without space)
+		INCLUDES="$INCLUDES -I`cygpath -w ${param#-I}`"
+		;;
+	-lm)
+		;;
+	-l*)
+		libname=${param#-l}
+		# All libraries are expected to be in unix format since we act as kind of gcc.
+		# However, when it comes to system libraries, there's no choice but to use the 
+		# windows naming convention.
+        case $libname in
+            "shlwapi" | "ole32" )
+                # Ignore those for windows phone
+                ;;
+            "stdc++" | "ssp" )
+                # Ignore those
+                ;;
+	    *.lib)
+		ARGS="$ARGS $libname"
+		;;
+            "ws2_32" | "winmm" | "oleaut32" | "uuid" | "strmiids" | "ksuser" | "gdi32" | "dxguid" | "wbemuuid" | "mfuuid" | "iphlpapi" | "d3dx9" | "user32" | "psapi" | "wininet" | "runtimeobject" | "mfplat" | "d3dcompiler" | "d3d11" | "mincore" | "advapi32" | "iphlpapi" )
+                LINK_FLAGS="$LINK_FLAGS $libname.lib"
+                ;;
+            *.a)
+                LINK_FLAGS="$LINK_FLAGS lib$libname.a"
+                ;;
+            *)
+                FORCED_LIBS="$FORCED_LIBS $libname.lib"
+                ;;
+            esac
+		;;
+	-shared|-DLL)
+		BUILD_LIB=1
+		;;
+	-static)
+		BUILD_LIB=0
+		;;
+	-shared-libgcc)
+		if [ "$STATIC_RUNTIME" == "1" ]; then
+			echo "ERROR: Trying to use a dynamic linking while using static linking"
+			exit 1
+		fi
+		;;
+	-static-libgcc)
+		if [ "$STATIC_RUNTIME" == "0" ]; then
+			echo "WARNING: Trying to use a static linking while using dynamic linking"
+			#exit 1
+		fi
+		;;
+	-O)
+		ARGS="$ARGS -O2"
+		;;
+	-O0)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -O1" # this may cause unneeded code generation "$MSCL_ARGS -Od"
+		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
+		;;
+	-L*)
+        libpath=${param#-L}
+        if [ "$libpath" != "/mingw32/lib" ]; then
+            LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+        fi
+		;;
+	-g*)
+		HAVE_DEBUG_INFO=1
+		;;
+	-Wall)
+		MSCL_ARGS="$MSCL_ARGS -W4"
+		CLANG_ARGS="$CLANG_ARGS $param"
+		;;
+	-Wextra)
+		MSCL_ARGS="$MSCL_ARGS -Wall"
+		CLANG_ARGS="$CLANG_ARGS $param"
+		;;
+	-Werror)
+		MSCL_ARGS="$MSCL_ARGS -WX"
+		CLANG_ARGS="$CLANG_ARGS $param"
+		;;
+	-Wl*)
+		params=${param#-Wl,}
+        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+            case $p in
+                -DLL)
+                    BUILD_LIB=1
+                    ;;
+                --dynamicbase)
+                    LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+                    ;;
+                --high-entropy-va)
+                    LINK_FLAGS="$LINK_FLAGS -highentropyva"
+                    ;;
+                --nxcompat)
+                    LINK_FLAGS="$LINK_FLAGS -nxcompat"
+                    ;;
+                --no-seh)
+                    LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+                    ;;
+                --image-base)
+                    case $2 in
+                        -Wl,0x*)
+                            LINK_FLAGS="$LINK_FLAGS -base:${2#-Wl,}"
+                            shift
+                            ;;
+                        *)
+                            LINK_FLAGS="$LINK_FLAGS -base:${params#--image-base,}"
+                            ;;
+                    esac
+                    ;;
+                -IMPLIB*)
+                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    ;;
+                *.a|*.obj|*.lib|*.o)
+                    LINK_FLAGS="$LINK_FLAGS `cygpath -w $p`"
+                    ;;
+            esac
+        done
+		;;
+	-W*)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		;;
+	*.a|*.obj|*.lib|*.o)
+		# Keep this a low priority match
+		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
+		;;
+	-nologo*)
+		NO_LOGO=${param#-}
+		;;
+	-ffast-math)
+		MSCL_ARGS="$MSCL_ARGS -fp:fast"
+		;;
+	-Wno-error=incompatible-ms-struct|-fno-builtin-pow|-fno-builtin-powf)
+		# already set
+		;;
+	-fomit-frame-pointer)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -Oy"
+		;;
+	-fno-math-errno)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -fp:except-"
+		;;
+	-fno-rounding-math|-fno-signaling-nans)
+		echo "option $param not supported!"
+		exit 1
+		;;
+	-f*|-m*|-pipe)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		;;
+	-pedantic)
+		CLANG_ARGS="$CLANG_ARGS $param"
+		MSCL_ARGS="$MSCL_ARGS -sdl"
+		;;
+	-std=*)
+		STD_VARIANT=${param#-std=}
+		case $STD_VARIANT in
+		gnu*)
+			STD_VARIANT=
+			;;
+		esac
+		;;
+	--no-seh)
+		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+		;;
+	--nxcompat)
+		LINK_FLAGS="$LINK_FLAGS -nxcompat"
+		;;
+	--dynamicbase)
+		LINK_FLAGS="$LINK_FLAGS -dynamicbase"
+		;;
+	--high-entropy-va)
+		LINK_FLAGS="$LINK_FLAGS -highentropyva"
+		;;
+	--image-base)
+		LINK_FLAGS="$LINK_FLAGS -base:$2"
+		shift
+		;;
+	-march=*)
+		ARCH=${param#-march=}
+		if [ "$VLC_ARCH" == "x86" ]; then
+			if [ "$ARCH" != "i686" ]; then
+				echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
+				exit 1
+			fi
+		else
+			if [ "$VLC_ARCH" == "arm" ]; then
+				if [ "$ARCH" != "arm" ]; then
+					echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
+					exit 1
+				fi
+			else
+				echo "VLC_ARCH no supported $VLC_ARCH"
+				exit 1
+			fi
+		fi
+		;;
+	*)
+		ARGS="$ARGS $param"
+		;;
+	esac
+	shift
+done
+
+#~ USE_MSCL=1
+#~ LANGUAGE="p"
+
+if [ "$compile_asm" == "" ]; then
+    if [ "$USE_MSCL" != "" ]; then
+        ARGS_DEBUG_INFO="-Zi"
+        ARGS_RELEASE="-Gw -Ot"
+        MSCL_ARGS="$MSCL_ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464 -wd4201"
+    else
+        ARGS_DEBUG_INFO="-g2 -fstandalone-debug -gcodeview -gmodules"
+        #-dwarf-2 
+        ARGS_RELEASE="-g0"
+    fi
+
+	if [ "$HAVE_DEBUG_INFO" == "1" ]; then
+	    ARGS="$ARGS $ARGS_DEBUG_INFO"
+	    LINK_FLAGS="$LINK_FLAGS -DEBUG"
+	else
+	    ARGS="$ARGS $ARGS_RELEASE"
+	fi
+
+	# Don't mix debug with non debug libraries
+	if [ "$STATIC_RUNTIME" == "1" ]; then
+	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	    MSCL_ARGS="$MSCL_ARGS -MTd"
+	  else
+	    MSCL_ARGS="$MSCL_ARGS -MT"
+	  fi
+	else
+	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	    MSCL_ARGS="$MSCL_ARGS -MDd"
+	  else
+	    MSCL_ARGS="$MSCL_ARGS -MD"
+	  fi
+	fi
+	# Do not use debug runtime in release and vice versa
+	if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libcpmtd.lib -NODEFAULTLIB:libcpmt.lib"
+	else
+	  LINK_FLAGS="$LINK_FLAGS msvcrt.lib -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libcpmt.lib -NODEFAULTLIB:libcpmtd.lib"
+	fi
+
+	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
+	INCLUDES="$INCLUDES -I`cygpath -w $INCLUDES_FOLDER`"
+	# Hotfix some contribs:
+fi
+
+if [ "$dontlink" != "" ]; then
+    if [ "$outfile" != "" ]; then
+        objfile=$outfile
+    else
+        objfile=${inputfile%.*}.obj
+    fi
+else
+    objfile=${inputfile%.*}.obj
+fi
+
+if [ "$compile_asm" != "" ]; then
+    if [ "$LANGUAGE" == "asm" ]; then
+        ARGS="$AS $ARGS"
+    else
+        ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm -32 $DEFINES $ASM_DEFINES $ARGS"
+    fi
+else
+    if [ "$USE_MSCL" != "" ]; then
+        ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
+        export INCLUDE="$INCLUDE"
+    else
+        if [ "$LANGUAGE" == "p" ]; then
+            CLANG_ARGS="$CLANG_ARGS -fcxx-exceptions"
+        fi
+        #~ echo clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $DEFINES $COMPILE_DEFINES $ARGS
+        ARGS="clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
+        #~ DEFAULT_CLANG_FLAGS="-Wno-error=incompatible-ms-struct -ffast-math -fno-builtin-pow -fno-builtin-powf"
+        #~ export CFLAGS="$CFLAGS $DEFAULT_CLANG_FLAGS"
+        #~ export CPPFLAGS="$CPPFLAGS $DEFAULT_CLANG_FLAGS"
+        #~ export CXXFLAGS="$CXXFLAGS $DEFAULT_CLANG_FLAGS"
+        export LIBPATH="$LIBPATH;$CLANG_LIBS"
+        export INCLUDE="$INCLUDE;$CLANG_INCLUDE"
+        export PATH="/c/Program Files (x86)/Microsoft Visual Studio 14.0/VC/ClangC2/bin/amd64:$PATH"
+        export LIB="$LIB;$CLANG_LIBS"
+    fi
+fi
+
+if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" == "" ]]; then
+    # version or other flags cheking
+    cmd /C "$ARGS"
+    exit $?
+fi
+
+ARGS="$ARGS $INCLUDES"
+LINK_FLAGS="$LINK_FLAGS -INCREMENTAL:NO $FORCED_LIBS $LIBDIR"
+
+if [ "$inputfile" != "" ]; then
+    if [ "$LANGUAGE" != "assembler" ]; then
+        if [ "$USE_MSCL" != "" ]; then
+            ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/msvc_fixup.h`"
+        else
+            ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/clang_fixup.h`"
+        fi
+    fi
+    if [ "$compile_asm" != "" ]; then
+        ARGS="$ARGS -c -o $objfile"
+    fi
+    if [ "$USE_MSCL" != "" ]; then
+        if [ "$STD_VARIANT" == "gnu99" ]; then
+            echo "Unsupported C standard $STD_VARIANT"
+            exit 1
+        fi
+        if [[ "$LANGUAGE" == "c" || "$LANGUAGE" == "p" ]]; then
+            ARGS="$ARGS -c -T$LANGUAGE$inputfile"
+        else
+            ARGS="$ARGS $inputfile"
+        fi
+    else
+        if [ "$LANGUAGE" == "c" ]; then
+            if [ "$STD_VARIANT" != "" ]; then
+                ARGS="$ARGS -std=$STD_VARIANT"
+            fi
+            ARGS="$ARGS -x c"
+        fi
+        if [ "$LANGUAGE" == "p" ]; then
+            if [ "$STD_VARIANT" != "" ]; then
+                ARGS="$ARGS -std=$STD_VARIANT"
+            fi
+            ARGS="$ARGS -x c++"
+        fi
+        if [ "$LANGUAGE" == "assembler" ]; then
+            ARGS="$ARGS `cygpath -u $inputfile`"
+        else
+            ARGS="$ARGS $inputfile"
+        fi
+    fi
+fi
+
+if [ "$preproc" != "" ]; then
+    if [ "$outfile" != "" ]; then
+        objfile=$outfile
+    else
+        objfile=${inputfile%.*}.obj
+    fi
+
+    if [ "$USE_MSCL" != "" ]; then
+        # add the lines and comments
+        if [ "$HAS_P" == "" ]; then
+            ARGS="$ARGS -C"
+        fi
+        if [ "$compile" != "" ]; then
+            ARGS="$ARGS -P -Fi$objfile"
+        else
+            ARGS="$ARGS -E"
+        fi
+    else
+        if [ "$HAS_P" != "" ]; then
+            ARGS="$ARGS -P"
+        fi
+        if [ "$compile" != "" ]; then
+            ARGS="$ARGS -E -o $objfile"
+        else
+            ARGS="$ARGS -E"
+        fi
+    fi
+
+    #~ echo PREPROC: $ARGS
+    cmd /C "$ARGS"
+    exit $?
+fi
+
+if [ "$inputfile" != "" ]; then
+    if [ "$dontlink" == "" ]; then
+        if [ "$outfile" == "" ]; then
+            outfile=${inputfile%.*}.exe
+        fi
+        LINK_FLAGS="$objfile $LINK_FLAGS"
+    fi
+    if [[ "$LANGUAGE" != "assembler" && "$LANGUAGE" != "assembler" ]]; then
+        if [ "$USE_MSCL" != "" ]; then
+            ARGS="$ARGS -Fo$objfile"
+        else
+            ARGS="$ARGS -c -o $objfile"
+        fi
+    fi
+    
+    #~ echo COMPILE: $ARGS
+    cmd /C "$ARGS"
+    COMPILER_RESULT=$?
+    #~ echo COMPILER_RESULT:$COMPILER_RESULT
+    if [ "$dontlink" != "" ]; then
+        exit $COMPILER_RESULT
+    fi
+    if [ $COMPILER_RESULT != 0 ]; then
+        exit $COMPILER_RESULT
+    fi
+fi
+
+case $VLC_ARCH in
+    arm)
+        LINK_FLAGS="$LINK_FLAGS -machine:ARM"
+    ;;
+    armv8|aarch64)
+        LINK_FLAGS="$LINK_FLAGS -machine:ARM64"
+    ;;
+    x86)
+        LINK_FLAGS="$LINK_FLAGS -machine:X86"
+    ;;
+    amd64)
+        LINK_FLAGS="$LINK_FLAGS -machine:X64"
+    ;;
+esac
+
+if [ "$outfile" != "" ]; then
+    LINK_FLAGS="$LINK_FLAGS -out:$outfile"
+fi
+if [ "$BUILD_LIB" == "1" ]; then
+    LINK_FLAGS="$LINK_FLAGS -DLL"
+    if [ "$implib" != "" ]; then
+        LINK_FLAGS="$LINK_FLAGS -IMPLIB:$implib"
+    fi
+fi
+
+#~ if [ "$NO_LOGO" == "nologo" ]; then
+#~ echo // SRC: $@
+#~ echo // INCLUDE: $INCLUDE
+#~ echo // PATH: $PATH
+#~ echo // LIB: $LIB
+#~ echo // LIBPATH: $LIBPATH
+#~ echo // ARGS: $ARGS
+#~ fi
+
+#~ if [ "$NO_LOGO" == "nologo" ]; then
+#~ echo LINK: link.exe -nologo $LINK_FLAGS
+#~ fi
+cmd /C "link.exe -nologo $LINK_FLAGS"
+LINKER_RESULT=$?
+#~ echo linker result: $LINKER_RESULT
+exit $LINKER_RESULT
+

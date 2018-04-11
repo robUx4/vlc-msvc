@@ -1,7 +1,7 @@
-From 330ace89274430f1e69096599ec4fcf096256010 Mon Sep 17 00:00:00 2001
+From 968d80ae981a3394beb73f20d281eff7d63920a1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 14:57:38 +0200
-Subject: [PATCH 022/128] HACK: contribs: gcrypt
+Subject: [PATCH 22/99] HACK: contribs: gcrypt
 
 AKA work around my lack of autotools skills
 ---

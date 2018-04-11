@@ -1,29 +1,26 @@
-From 7e68a768e4422d5f9abebf00a6350e8e0b6b60d0 Mon Sep 17 00:00:00 2001
+From 0850c058cd2f59c4340448c40086569bcb1b5efe Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:46:08 +0200
-Subject: [PATCH 005/128] modules: Replace VLAs by alloca()
+Subject: [PATCH 05/99] modules: Replace VLAs by alloca()
 
 ---
  modules/access/ftp.c                  | 2 +-
- modules/access/rtsp/rtsp.c            | 2 +-
  modules/access/vcd/cdrom.c            | 2 +-
  modules/codec/avcodec/audio.c         | 4 ++--
- modules/codec/avcodec/d3d11va.c       | 2 +-
  modules/codec/libass.c                | 4 ++--
  modules/control/globalhotkeys/win32.c | 2 +-
- modules/control/oldrc.c               | 5 +++--
+ modules/control/oldrc.c               | 2 +-
  modules/demux/avformat/demux.c        | 2 +-
  modules/demux/avi/avi.c               | 4 ++--
  modules/demux/playlist/dvb.c          | 2 +-
  modules/lua/libs/net.c                | 2 +-
  modules/misc/addons/fsstorage.c       | 2 +-
- modules/mux/mpeg/tables.c             | 2 +-
  modules/services_discovery/sap.c      | 4 ++--
  modules/video_output/vmem.c           | 2 +-
- 16 files changed, 22 insertions(+), 21 deletions(-)
+ 13 files changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/modules/access/ftp.c b/modules/access/ftp.c
-index 36f7bb9..300743e 100644
+index e5c5cfc..9e552fe 100644
 --- a/modules/access/ftp.c
 +++ b/modules/access/ftp.c
 @@ -151,7 +151,7 @@ static int ftp_SendCommand( vlc_object_t *obj, access_sys_t *sys,
@@ -35,19 +32,6 @@ index 36f7bb9..300743e 100644
  
      memcpy( fmtbuf, fmt, fmtlen );
      memcpy( fmtbuf + fmtlen, "\r\n", 3 );
-diff --git a/modules/access/rtsp/rtsp.c b/modules/access/rtsp/rtsp.c
-index f044a9d..f04a440 100644
---- a/modules/access/rtsp/rtsp.c
-+++ b/modules/access/rtsp/rtsp.c
-@@ -509,7 +509,7 @@ int rtsp_connect( rtsp_client_t *rtsp, const char *psz_mrl,
-     if( pathbegin < strlen(mrl_ptr) ) s->path = strdup(mrl_ptr+pathbegin+1);
-     if( colon != slash )
-     {
--        char buffer[pathbegin-hostend];
-+        char *buffer = alloca(pathbegin-hostend);
- 
-         strncpy( buffer, mrl_ptr+hostend+1, pathbegin-hostend-1 );
-         buffer[pathbegin-hostend-1] = 0;
 diff --git a/modules/access/vcd/cdrom.c b/modules/access/vcd/cdrom.c
 index a4a8bd4..7ce9ad4 100644
 --- a/modules/access/vcd/cdrom.c
@@ -62,7 +46,7 @@ index a4a8bd4..7ce9ad4 100644
      if( !DeviceIoControl( p_vcddev->h_device_handle, IOCTL_CDROM_READ_TOC_EX,
                            &TOCEx, sizeof(TOCEx), header, i_header_size, &i_read, 0 ) )
 diff --git a/modules/codec/avcodec/audio.c b/modules/codec/avcodec/audio.c
-index e1be3a5..6c905bf 100644
+index fd3a7c0..ff71680 100644
 --- a/modules/codec/avcodec/audio.c
 +++ b/modules/codec/avcodec/audio.c
 @@ -354,7 +354,7 @@ static block_t *DecodeAudio( decoder_t *p_dec, block_t **pp_block )
@@ -83,19 +67,6 @@ index e1be3a5..6c905bf 100644
      int i_channels_src = 0;
  
      if( p_sys->p_context->channel_layout )
-diff --git a/modules/codec/avcodec/d3d11va.c b/modules/codec/avcodec/d3d11va.c
-index 54a30ca..867e4f6 100644
---- a/modules/codec/avcodec/d3d11va.c
-+++ b/modules/codec/avcodec/d3d11va.c
-@@ -726,7 +726,7 @@ static int DxCreateDecoderSurfaces(vlc_va_t *va, int codec_id, const video_forma
-     }
- 
-     /* List all configurations available for the decoder */
--    D3D11_VIDEO_DECODER_CONFIG cfg_list[cfg_count];
-+    D3D11_VIDEO_DECODER_CONFIG *cfg_list = alloca(cfg_count * sizeof(D3D11_VIDEO_DECODER_CONFIG));
-     for (unsigned i = 0; i < cfg_count; i++) {
-         hr = ID3D11VideoDevice_GetVideoDecoderConfig( (ID3D11VideoDevice*) dx_sys->d3ddec, &decoderDesc, i, &cfg_list[i] );
-         if (FAILED(hr)) {
 diff --git a/modules/codec/libass.c b/modules/codec/libass.c
 index 067ef6b..c67a8d9 100644
 --- a/modules/codec/libass.c
@@ -132,24 +103,20 @@ index a4508f6..fa67fb4 100644
  
          char *key = var_InheritString( p_intf, varname );
 diff --git a/modules/control/oldrc.c b/modules/control/oldrc.c
-index b0f62d1..b09479f 100644
+index a3ccb5b..29f0272 100644
 --- a/modules/control/oldrc.c
 +++ b/modules/control/oldrc.c
-@@ -141,9 +141,10 @@ VLC_FORMAT(2, 3)
+@@ -141,7 +141,7 @@ VLC_FORMAT(2, 3)
  static void msg_rc( intf_thread_t *p_intf, const char *psz_fmt, ... )
  {
      va_list args;
 -    char fmt_eol[strlen (psz_fmt) + 3];
-+    size_t fmt_len = strlen (psz_fmt);
-+    char *fmt_eol = alloca(fmt_len + 3);
++    char *fmt_eol = alloca(strlen (psz_fmt) + 3);
  
--    snprintf (fmt_eol, sizeof (fmt_eol), "%s\r\n", psz_fmt);
-+    snprintf (fmt_eol, fmt_len + 3, "%s\r\n", psz_fmt);
+     snprintf (fmt_eol, sizeof (fmt_eol), "%s\r\n", psz_fmt);
      va_start( args, psz_fmt );
- 
-     if( p_intf->p_sys->i_socket == -1 )
 diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
-index 8d71c86..0f44e7d 100644
+index 47a6cde..f16cc31 100644
 --- a/modules/demux/avformat/demux.c
 +++ b/modules/demux/avformat/demux.c
 @@ -288,7 +288,7 @@ int OpenDemux( vlc_object_t *p_this )
@@ -190,10 +157,10 @@ index 94289a4..7211be5 100644
      line[len] = '\0';
  
 diff --git a/modules/lua/libs/net.c b/modules/lua/libs/net.c
-index 0df586a..6304b50 100644
+index 00905ce..6bc13b3 100644
 --- a/modules/lua/libs/net.c
 +++ b/modules/lua/libs/net.c
-@@ -310,7 +310,7 @@ static int vlclua_net_recv( lua_State *L )
+@@ -303,7 +303,7 @@ static int vlclua_net_recv( lua_State *L )
  {
      int fd = vlclua_fd_get( L, luaL_checkint( L, 1 ) );
      size_t i_len = luaL_optint( L, 2, 1 );
@@ -215,21 +182,8 @@ index 717050c..057ff50 100644
              strcpy( psz_parent, psz_dirname );
  
              psz_end = strrchr( psz_parent, DIR_SEP_CHAR );
-diff --git a/modules/mux/mpeg/tables.c b/modules/mux/mpeg/tables.c
-index c2fe555..da47ea0 100644
---- a/modules/mux/mpeg/tables.c
-+++ b/modules/mux/mpeg/tables.c
-@@ -289,7 +289,7 @@ void BuildPMT( dvbpsi_t *p_dvbpsi, vlc_object_t *p_object,
-         size_t provlen = VLC_CLIP(strlen(psz_sdtprov), 0, 255);
-         size_t servlen = VLC_CLIP(strlen(psz_sdtserv), 0, 255);
- 
--        uint8_t psz_sdt_desc[3 + provlen + servlen];
-+        uint8_t *psz_sdt_desc = alloca(3 + provlen + servlen);
- 
-         psz_sdt_desc[0] = 0x01; /* digital television service */
- 
 diff --git a/modules/services_discovery/sap.c b/modules/services_discovery/sap.c
-index dfa697e..0f2c499 100644
+index de512d1..853d76d 100644
 --- a/modules/services_discovery/sap.c
 +++ b/modules/services_discovery/sap.c
 @@ -534,7 +534,7 @@ static void *Run( void *data )
@@ -241,7 +195,7 @@ index dfa697e..0f2c499 100644
  
          for (unsigned i = 0; i < n; i++)
          {
-@@ -1190,7 +1190,7 @@ static sdp_t *ParseSDP (vlc_object_t *p_obj, const char *psz_sdp)
+@@ -1192,7 +1192,7 @@ static sdp_t *ParseSDP (vlc_object_t *p_obj, const char *psz_sdp)
          /* Extract one line */
          char *eol = strchr (psz_sdp, '\n');
          size_t linelen = eol ? (size_t)(eol - psz_sdp) : strlen (psz_sdp);

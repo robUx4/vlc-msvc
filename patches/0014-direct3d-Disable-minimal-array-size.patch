@@ -1,7 +1,7 @@
-From 5825b671f7b2d73b0f4daf80c5526552886a753c Mon Sep 17 00:00:00 2001
+From 076e594dca9befac993b33ba524a2aba48e15822 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:22:15 +0200
-Subject: [PATCH 014/128] direct3d: Disable minimal array size
+Subject: [PATCH 14/99] direct3d: Disable minimal array size
 
 This should be reverted when MS fixes https://connect.microsoft.com/VisualStudio/feedback/details/1007399/use-of-static-keyword-in-array-parameter-declaration
 ---
@@ -9,7 +9,7 @@ This should be reverted when MS fixes https://connect.microsoft.com/VisualStudio
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/modules/video_output/msw/direct3d9.c b/modules/video_output/msw/direct3d9.c
-index be42c8b..4dfb91b 100644
+index d24eb8b..e0b11ea 100644
 --- a/modules/video_output/msw/direct3d9.c
 +++ b/modules/video_output/msw/direct3d9.c
 @@ -1419,7 +1419,7 @@ static void Direct3D9DestroyShaders(vout_display_t *vd)

@@ -1,7 +1,7 @@
-From 42b9cdf04ce09550f86225f16fefd10013f4b6df Mon Sep 17 00:00:00 2001
+From eefe9302cd224973c03721fe0e5cb275eb97162a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Wed, 22 Oct 2014 12:27:19 +0200
-Subject: [PATCH 016/128] libvlc: Use alloca instead of VLAs
+Subject: [PATCH 16/99] libvlc: Use alloca instead of VLAs
 
 ---
  lib/core.c | 2 +-

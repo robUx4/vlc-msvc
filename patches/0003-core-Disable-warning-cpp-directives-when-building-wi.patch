@@ -1,17 +1,17 @@
-From 743f55c69977af85a83dcc555de227e7b5ebc5db Mon Sep 17 00:00:00 2001
+From 45929805500033e4406d9a4aec1936817b34d51b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 13:06:49 +0200
-Subject: [PATCH 003/128] core: Disable warning cpp directives when building
- with MSVC
+Subject: [PATCH 03/99] core: Disable warning cpp directives when building with
+ MSVC
 
 ---
  src/input/clock.c        | 2 ++
- src/input/input.c        | 2 ++
+ src/playlist/thread.c    | 3 +++
  src/text/url.c           | 2 ++
  src/video_output/event.h | 8 ++++++--
  src/win32/dirs.c         | 4 +++-
  src/win32/netconf.c      | 4 +++-
- 6 files changed, 18 insertions(+), 4 deletions(-)
+ 6 files changed, 19 insertions(+), 4 deletions(-)
 
 diff --git a/src/input/clock.c b/src/input/clock.c
 index e1cc0fc..731a431 100644
@@ -27,20 +27,20 @@ index e1cc0fc..731a431 100644
  void input_clock_SetJitter( input_clock_t *cl,
                              mtime_t i_pts_delay, int i_cr_average )
  {
-diff --git a/src/input/input.c b/src/input/input.c
-index a822df7..e9f5b64 100644
---- a/src/input/input.c
-+++ b/src/input/input.c
-@@ -2298,7 +2298,9 @@ static int InputSourceInit( input_thread_t *p_input,
-         }
+diff --git a/src/playlist/thread.c b/src/playlist/thread.c
+index a348479..791e811 100644
+--- a/src/playlist/thread.c
++++ b/src/playlist/thread.c
+@@ -442,6 +442,9 @@ static void LoopInput( playlist_t *p_playlist )
+         input_Stop( p_input );
+     }
  
-         /* Access-forced demuxer (PARENTAL ADVISORY: EXPLICIT HACK) */
 +#ifndef _MSC_VER
- #warning FIXME: parse content type
++# warning Unsynchronized access to *p_input flags...
 +#endif
- 
-         /* Create the stream_t */
-         stream_t *p_stream = stream_AccessNew( p_access );
+     switch( var_GetInteger( p_input, "state" ) )
+     {
+     case END_S:
 diff --git a/src/text/url.c b/src/text/url.c
 index f2d7fb9..276e677 100644
 --- a/src/text/url.c

@@ -1,8 +1,7 @@
-From 9b1f2d493edfa11911adee57b3094a9c1f4fa7e0 Mon Sep 17 00:00:00 2001
+From abfd975130633061a0bfc0c0a1112256b499f880 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Tue, 21 Oct 2014 14:17:30 +0200
-Subject: [PATCH 004/128] modules: Disable warning cpp directive when using
- msvc
+Subject: [PATCH 04/99] modules: Disable warning cpp directive when using msvc
 
 ---
  modules/access/bluray.c        | 2 +-
@@ -14,10 +13,10 @@ Subject: [PATCH 004/128] modules: Disable warning cpp directive when using
  6 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/modules/access/bluray.c b/modules/access/bluray.c
-index d218f91..970ff8d 100644
+index cd6506a..1c7399e 100644
 --- a/modules/access/bluray.c
 +++ b/modules/access/bluray.c
-@@ -265,7 +265,7 @@ static void FindMountPoint(char **file)
+@@ -266,7 +266,7 @@ static void FindMountPoint(char **file)
                  }
          }
      }
@@ -27,7 +26,7 @@ index d218f91..970ff8d 100644
      VLC_UNUSED( device );
  #endif
 diff --git a/modules/codec/crystalhd.c b/modules/codec/crystalhd.c
-index d3b99ba..f12bc87 100644
+index d3b99ba..97fac09 100644
 --- a/modules/codec/crystalhd.c
 +++ b/modules/codec/crystalhd.c
 @@ -62,7 +62,9 @@
@@ -37,7 +36,7 @@ index d3b99ba..f12bc87 100644
 -#  warning DLL opening mode
 +#  ifndef _MSC_VER
 +#   warning DLL opening mode
-+#  endif
++#  #endif
  #  define BC_FUNC( a ) Our ## a
  #  define BC_FUNC_PSYS( a ) p_sys->Our ## a
  #else
@@ -57,19 +56,18 @@ index aa18423..d433e59 100644
                   * started from a different working directory. */
                  char *psz_URI = NULL;
 diff --git a/modules/demux/avformat/demux.c b/modules/demux/avformat/demux.c
-index b680a99..8d71c86 100644
+index b680a99..47a6cde 100644
 --- a/modules/demux/avformat/demux.c
 +++ b/modules/demux/avformat/demux.c
-@@ -386,7 +386,9 @@ int OpenDemux( vlc_object_t *p_this )
+@@ -386,6 +386,8 @@ int OpenDemux( vlc_object_t *p_this )
  
              get_rotation(&fmt, s);
  
-+#if !defined(_MSC_VER)
++#elif !defined(_MSC_VER)
++
  # warning FIXME: implement palette transmission
-+#endif
              psz_type = "video";
              fmt.video.i_frame_rate = cc->time_base.den;
-             fmt.video.i_frame_rate_base = cc->time_base.num * __MAX( cc->ticks_per_frame, 1 );
 diff --git a/modules/demux/ogg.c b/modules/demux/ogg.c
 index 905a637..384efb0 100644
 --- a/modules/demux/ogg.c

@@ -1,0 +1,46 @@
+From bb7820c5a43a02c95968c7c5d7a9ef98e1ab4b9e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 9 Jan 2015 17:58:21 +0100
+Subject: [PATCH 57/99] contrib: png: Remove check for memset & pow
+
+We provide those functions, though as a wrapper, which configure fails to detect
+---
+ contrib/src/png/msvc.patch | 11 +++++++++++
+ contrib/src/png/rules.mak  |  3 +++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 contrib/src/png/msvc.patch
+
+diff --git a/contrib/src/png/msvc.patch b/contrib/src/png/msvc.patch
+new file mode 100644
+index 0000000..97b97f8
+--- /dev/null
++++ b/contrib/src/png/msvc.patch
+@@ -0,0 +1,11 @@
++--- png/configure.ac	2015-01-09 17:52:30.523005900 +0100
+++++ /home/vlc/vlc/contrib/windowsphone/png/configure.ac	2015-01-09 17:55:37.592513500 +0100
++@@ -118,8 +118,6 @@
++ 
++ # Checks for library functions.
++ AC_FUNC_STRTOD
++-AC_CHECK_FUNCS([memset], , AC_MSG_ERROR(memset not found in libc))
++-AC_CHECK_FUNCS([pow], , AC_CHECK_LIB(m, pow, , AC_MSG_ERROR(cannot find pow)) )
++ AC_ARG_WITH(zlib-prefix,
++    AS_HELP_STRING([[[--with-zlib-prefix]]],
++       [prefix that may have been used in installed zlib]),
+diff --git a/contrib/src/png/rules.mak b/contrib/src/png/rules.mak
+index 4ba0aef..a350e8a 100644
+--- a/contrib/src/png/rules.mak
++++ b/contrib/src/png/rules.mak
+@@ -17,6 +17,9 @@ png: libpng-$(PNG_VERSION).tar.xz .sum-png
+ 	$(APPLY) $(SRC)/png/winrt.patch
+ 	$(APPLY) $(SRC)/png/bins.patch
+ 	$(APPLY) $(SRC)/png/automake.patch
++ifdef HAVE_VISUALSTUDIO
++	$(APPLY) $(SRC)/png/msvc.patch
++endif
+ 	$(MOVE)
+ 
+ DEPS_png = zlib $(DEPS_zlib)
+-- 
+1.9.5.msysgit.1
+

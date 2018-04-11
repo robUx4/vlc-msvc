@@ -8,13 +8,18 @@ if [ "$VLC_PLATFORM" = "" ] ; then
     exit 1
 fi
 
+if [ "$MSVC_ARCH" = "" ] ; then
+    echo "\$MSVC_ARCH is unset"
+    exit 1
+fi
+
 if [ "$VLC_CONFIGURATION" = "" ] ; then
     echo "\$VLC_CONFIGURATION is unset"
     exit 1
 fi
 
 ROOT_FOLDER=$SCRIPTPATH/../
-BUILD_FOLDER=$ROOT_FOLDER/vlc/${VLC_PLATFORM}_${VLC_CONFIGURATION}/
+BUILD_FOLDER=${ROOT_FOLDER}vlc/${ABI_VARIANT}/
 
 cd $BUILD_FOLDER
 
@@ -33,12 +38,12 @@ cp -R _win32/lib/vlc/plugins    \
         _win32/bin/libvlccore.dll  \
         tmp
 
-mkdir -p $ROOT_FOLDER/$VLC_PLATFORM/vlc-$VLC_ARCH/
-PACKAGE_FOLDER=$ROOT_FOLDER/$VLC_PLATFORM/vlc-$VLC_ARCH/$VLC_CONFIGURATION
+mkdir -p ${ROOT_FOLDER}../libvlc/$VLC_PLATFORM/vlc-$MSVC_ARCH/$VLC_CONFIGURATION
+PACKAGE_FOLDER=${ROOT_FOLDER}../libvlc/$VLC_PLATFORM/vlc-$MSVC_ARCH/$VLC_CONFIGURATION
 
 if [ -d $PACKAGE_FOLDER ] ; then
     rm -rf $PACKAGE_FOLDER
 fi
-mv tmp $PACKAGE_FOLDER
+mv -v tmp $PACKAGE_FOLDER
 
 
