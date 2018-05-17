@@ -93,7 +93,6 @@ test_gcc()
 
 test_package make
 test_package dos2unix
-test_package cmake mingw-w64-$UNAME-cmake
 test_package unzip
 test_package pkg-config
 test_package autoreconf autoconf
@@ -104,11 +103,16 @@ test_package gettext
 test_package svn subversion
 test_package tar
 test_package patch
-test_package cvs
+test_package git
 test_package autogen
 test_gcc #required by ffmpeg for gaspp
+test_package yasm
+test_package nasm
+test_package gperf
+test_package bison
+# tools to avoid building in extra/tools
+test_package cmake mingw-w64-$UNAME-cmake-modules
 test_package protoc mingw-w64-$UNAME-protobuf
 test_package ragel mingw-w64-$UNAME-ragel
-test_package yasm
 
 $COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
