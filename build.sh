@@ -114,5 +114,6 @@ test_package bison
 test_package cmake mingw-w64-$UNAME-cmake-modules
 test_package protoc mingw-w64-$UNAME-protobuf
 test_package ragel mingw-w64-$UNAME-ragel
+test_package widl mingw-w64-$UNAME-tools-git
 
 $COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
