@@ -56,6 +56,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
     ac_cv_func_strnlen=yes ac_cv_have_decl_strnlen=yes ac_cv_func_timespec_get=$HAS_TIMESPEC  ac_cv_func_lldiv=yes \
     ac_cv_func_stricmp=yes ac_cv_func_strnicmp=yes ac_cv_func_atof=yes ac_cv_func_atoll=yes ac_cv_func_strtof=yes ac_cv_func_strtoll=yes ac_cv_func_swab=yes \
     ac_cv_c_restrict=restrict ac_cv_c_compiler_gnu=no ac_cv_header_d3d11_h=yes ac_cv_type_ID3D11VideoDecoder=yes ac_cv_header_dxva2api_h=yes ac_cv_host=$BUILD_HOST \
+    ac_cv_func_if_nametoindex=no \
     $SCRIPTPATH/../vlc/configure \
         --host=$BUILD_HOST \
         --build=x86-w64-mingw32 \
@@ -112,5 +113,5 @@ fi
 # --disable-neon \
 
 echo "Lauching build"
-make -j`nproc` || exit 1
-#~ make V=1 || exit 1
+#~ make -j`nproc` || exit 1
+make V=1 || exit 1
