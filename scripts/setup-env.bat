@@ -115,23 +115,24 @@
 
 :select_vs
 @IF EXIST "%VS120COMNTOOLS%vsvars32.bat" goto vs2013
-@echo VS 2013 not found
+@echo VS 2013 not found in VS120COMNTOOLS=%VS120COMNTOOLS%
 @exit -1
 
 :select_vs15
 @IF EXIST "%VS140COMNTOOLS%vsvars32.bat" goto vs2015
-@echo VS 2015 not found
+@echo VS 2015 not found in VS140COMNTOOLS=%VS140COMNTOOLS%
 @goto select_vs
 
 :select_vs17
-@IF EXIST "%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat" goto vs2017
-@echo VS 2017 not found
+@IF EXIST "%VS150COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" goto vs2017
+@echo VS 2017 not found in VS150COMNTOOLS=%VS150COMNTOOLS%
 @goto select_vs15
 
 
 :vs2017
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
-@set VSVARS="%VS2017INSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat"
+@echo Using VS 2017
+@set VSVARS="%VS150COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat"
 @set VS_RUNTIME=dynamic
 
 @IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM"   set VS_ARCH_TARGET=x86_arm
@@ -145,6 +146,7 @@ call %VSVARS% %VS_ARCH_TARGET% %RUNTIME_VER17% %SDK_VER%
 
 :vs2015
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
+@echo Using VS 2015
 @set VSVARS="%VS140COMNTOOLS%vsvars32.bat"
 @set VCINSTALLDIR=%VS140COMNTOOLS%..\..\VC\
 @set SDK_VARIANT=%RUNTIME_VER% %SDK_VER%
@@ -161,6 +163,7 @@ call "%VCINSTALLDIR%vcvarsall.bat" %VS_ARCH_TARGET% %RUNTIME_VER% %SDK_VER%
 @goto setupenv
 
 :vs2013
+@echo Using VS 2013
 @set VSVARS="%VS120COMNTOOLS%vsvars32.bat"
 @set VCINSTALLDIR=%VS120COMNTOOLS%..\..\VC\
 @set SDK_VARIANT=%RUNTIME_VER% %SDK_VER%
