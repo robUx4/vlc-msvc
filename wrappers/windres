@@ -7,18 +7,18 @@ echo "Wrapping windres $@"
 while [ $# -gt 0 ]; do
     case $1 in 
         --include-dir)
-            ARGS="$ARGS -I $(cygpath -w $2)"
+            ARGS="$ARGS -I $(wslpath -m $2)"
             shift
             ;;
         --include-dir=*)
-            ARGS="$ARGS -I $(cygpath -w ${1#--include-dir=})"
+            ARGS="$ARGS -I $(wslpath -m ${1#--include-dir=})"
             ;;
         -i)
-            INPUT=$2
+            INPUT=$(wslpath -m $2)
             shift
             ;;
         -o)
-            ARGS="$ARGS -fo $2"
+            ARGS="$ARGS -fo $(wslpath -m $2)"
             shift
             ;;
         -D*)
@@ -27,7 +27,7 @@ while [ $# -gt 0 ]; do
             ;;
         *)
             if [ "$INPUT" = "" ]; then
-                INPUT=$1
+                INPUT=$(wslpath -m $1)
             else
                 echo "Unknown option $1"
             fi
@@ -38,7 +38,8 @@ done
 
 echo "Args: $ARGS"
 echo "Input: $INPUT"
+#~ echo "PATH: $PATH"
 
 echo rc.exe $ARGS $INPUT
-rc.exe $ARGS $INPUT
+cmd.exe /C rc.exe $ARGS $INPUT
 exit $?

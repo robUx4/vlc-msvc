@@ -20,8 +20,6 @@
 @set RUNTIME_VER=store
 @set RUNTIME_VER17=store
 @set CMAKE_SYSTEM_PROCESSOR=ARM
-@set WIN32_WINNT=0x603
-@set WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP
 @rem set CMAKE_SYSTEM_NAME=WindowsPhone
 @goto select_vs
 
@@ -31,8 +29,6 @@
 @set RUNTIME_VER17=store
 @set CMAKE_SYSTEM_PROCESSOR=ARM
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x603
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs
 
 :setup_Metrox64
@@ -41,8 +37,6 @@
 @set RUNTIME_VER17=store
 @set CMAKE_SYSTEM_PROCESSOR=amd64
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x603
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs
 
 :setup_Metrox86
@@ -51,8 +45,6 @@
 @set RUNTIME_VER17=store
 @set CMAKE_SYSTEM_PROCESSOR=x86
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x603
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs
 
 
@@ -62,8 +54,6 @@
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=x86
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x0A00
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs17
 
 :setup_UniversalARM
@@ -72,8 +62,6 @@
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=ARM
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x0A00
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs17
 
 :setup_UniversalARM64
@@ -82,8 +70,6 @@
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=ARM64
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x0A00
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs17
 
 :setup_Universal64
@@ -92,22 +78,16 @@
 @set RUNTIME_VER17=uwp
 @set CMAKE_SYSTEM_PROCESSOR=amd64
 @rem set CMAKE_SYSTEM_NAME=WindowsStore
-@set WIN32_WINNT=0x0A00
-@set WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
 @goto select_vs17
 
 :setup_Win32
 @set SDK_VER=10.0.14393.0
 @set CMAKE_SYSTEM_PROCESSOR=x86
-@set WIN32_WINNT=0x0A00
-@set WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
 @goto select_vs15
 
 :setup_Win64
 @set SDK_VER=10.0.14393.0
 @set CMAKE_SYSTEM_PROCESSOR=amd64
-@set WIN32_WINNT=0x0A00
-@set WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
 @goto select_vs15
 
 
@@ -219,7 +199,10 @@ call "%VCINSTALLDIR%vcvarsall.bat" %VS_ARCH_TARGET%
 
 :call_main
 @cd %CALL_DIR%
-%WD%%MSYSCON% --hold always /usr/bin/bash scripts/main.sh %*
+@REM ~ echo cd %CALL_DIR%
+@REM ~ echo BUILD_SHELL=%BUILD_SHELL%
+@REM ~ echo wsl.exe scripts/main.sh %*
+wsl.exe scripts/main.sh %*
 
 
 @REM -----------------------------------------------------------------------

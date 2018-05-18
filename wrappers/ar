@@ -18,11 +18,11 @@ while [ $# -gt 0 ]; do
 		;;
 	*.lib|*.a)
 		if [ "$LINK_TARGET" = "" ]; then
-			LINK_TARGET=$(cygpath -w $1)
+			LINK_TARGET=$(wslpath -m $1)
 		fi
 		;;
 	*obj|*.o)
-		OBJS="$OBJS $(cygpath -w $1)"
+		OBJS="$OBJS $(wslpath -m $1)"
 		;;
 	-*)
 		ARGS="$ARGS $1"

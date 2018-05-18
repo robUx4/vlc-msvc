@@ -32,7 +32,23 @@ if [ "$VLC_ARCH" = "x86" ]; then
 	LINK_FLAGS="$LINK_FLAGS -safeseh"
 fi
 
+dos_path()
+{
+	DOSPATH=$(wslpath -m $1)
+	echo $(wslpath -m $1 | sed -e s:/:'\\\\':g)
+}
+
+undos_path()
+{
+	DOSED=$(wslpath $1)
+	echo $DOSED
+}
+
 #~ echo $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} ${12} ${13} ${14} ${15} ${16} ${17} ${18} ${19} ${20} ${21} ${22} ${23} ${24} ${25} ${26} ${27} ${28} ${29} ${30} ${31} ${32} ${33} ${34} ${35} ${36} ${37} ${38} ${39} ${40} ${41} ${42} ${43} ${44} ${45} ${46} ${47} ${48} ${49} ${50} ${51} ${52} ${53} ${54} ${55} ${56} ${57} ${58} ${59} 
+#~ __pwd=$(pwd)
+#~ echo pwd=$(wslpath -w $__pwd)
+#~ echo ls=$(ls -a)
+#~ echo $(set)
 
 NO_LOGO="nologo"
 #we know POSIX code uses a lot of usafe APIs
@@ -55,8 +71,17 @@ CLANG_ARGS="-Wno-error=incompatible-ms-struct -fstack-protector -fno-ms-compatib
 
 while [ $# -gt 0 ]; do
     case $1 in
-        /[a-z]/*|/usr/*|/home/*|/tmp/*)
-            param=$(cygpath -w $1)
+        /usr/share/*)
+            # CMake custom files
+            param=$(wslpath -m $1)
+            ;;
+        /[a-z]/*|/usr/*|/home/*|/tmp/*|/mnt/[a-z]/*)
+            #~ echo cl FULLPATH: $1
+            #~ echo param BEFORE=$1
+            #~ param=$(realpath --relative-to=. $1)
+            #~ echo param AFTER=$param
+            param=$(wslpath -m $1)
+            #~ echo param DOS=$param
             ;;
         /*)
             param=-"${1#/}"
@@ -67,8 +92,9 @@ while [ $# -gt 0 ]; do
     esac
     case $param in
 	-o)
-		outfile=$(cygpath -w $2)
-		implib=$(cygpath -w ${2%.dll}.lib)
+		#~ echo cl OUTPUT: $2
+		outfile=$(wslpath -m $2)
+		implib=$(wslpath -m ${2%.dll}.lib)
 		compile=1
 		shift
 		;;
@@ -80,7 +106,7 @@ while [ $# -gt 0 ]; do
 		preproc=1
 		compile=1
 		HAS_P=
-		outfile=$(cygpath -w ${param#-Fi})
+		outfile=$(wslpath -m ${param#-Fi})
 		;;
 	-E)
 		preproc=1
@@ -93,21 +119,60 @@ while [ $# -gt 0 ]; do
 		dontlink=1
 		;;
 	*.c|.h)
-		inputfile=$(cygpath -w $param)
+		#~ echo cl INPUT1: $param
+		#~ sleep 1
+		#~ pwd=$(pwd)
+		#~ echo pwd=${pwd}
+		case "$param" in
+		*/CMakeFiles/CMakeTmp/*)
+			relparam=$(realpath --relative-to=. $1)
+			cat $1 > ../../${relparam}_tmp
+			inputfile=../../${relparam}_tmp
+			;;
+		*)
+			#~ echo $(cat $1)
+			#~ echo SOURCE EXISTS 2
+			#~ DOSPATH=$(wslpath -m $param)
+			#~ echo DOSPATH1=$DOSPATH
+			#~ inputfile=$(echo $DOSPATH | sed -e s:/:'\\\\':g)
+			#~ inputfile=$(wslpath -m $param | tr / '\\\\')
+			#~ sleep 1
+			inputfile=$(wslpath -w $param)
+			#~ inputfile=$param
+			#~ echo inputfile=$inputfile
+			;;
+		esac
 		LANGUAGE="c"
+		#~ echo inputfile=$inputfile
 		;;
 	*.cpp|*.cxx|*.cc)
-		inputfile=$(cygpath -w $param)
+		#~ echo cl INPUT2: $1 / $param
+		#~ sleep 1
+		#~ pwd=$(pwd)
+		#~ echo pwd=${pwd}
+		case "$param" in
+		*/CMakeFiles/CMakeTmp/*)
+			relparam=$(realpath --relative-to=. $1)
+			cat $1 > ../../${relparam}_tmp
+			inputfile=../../${relparam}_tmp
+			;;
+		*)
+			inputfile=$param
+			;;
+		esac
 		#~ USE_MSCL=1
 		LANGUAGE="p"
+		#~ echo inputfile=$inputfile
 		;;
 	*.s|*.asm)
-		inputfile=$(cygpath -w $param)
+		#~ echo cl INPUT3: $1 / $param
+		inputfile=$(wslpath -m $param)
 		compile_asm=yes
 		LANGUAGE="asm"
 		;;
 	*.S)
-		inputfile=$(cygpath -w $param)
+		#~ echo cl INPUT4: $1 / $param
+		inputfile=$(wslpath -m $param)
 		compile_asm=yes
 		LANGUAGE="assembler"
 		;;
@@ -116,19 +181,24 @@ while [ $# -gt 0 ]; do
 		;;
 	-D*)
 		def=$(echo $param | sed 's/ /_/')
+		#~ echo cl DEFINE from $def
 		# Added to handle -Dsome_include=<somefile.h>
 		# That doesn't work unless the bracket part is quoted
 		case $def in
 			*=\<*\>)
-				def=$(echo $def | sed 's/=/\"=/')\"
+				#~ def=$(echo $def | sed 's/=/=\"/')\"
+				def=$(echo $def | sed 's/=</=\"/' | sed 's/>/\"/')
+				#~ echo cl DEFINE1: $def
 				DEFINES="$DEFINES $def"
 				;;
 			*=\"*\")
 				ASM_DEFINES="$ASM_DEFINES $def"
+				#~ echo cl DEFINE2: $def
 				def=$(echo $def | sed 's/\"/\\\"/g')
 				COMPILE_DEFINES="$COMPILE_DEFINES $def"
 				;;
 			*)
+				#~ echo cl DEFINE3: $def
 				DEFINES="$DEFINES $def"
 				;;
 		esac
@@ -136,12 +206,14 @@ while [ $# -gt 0 ]; do
 		;;
 	-I)
 		# Handles -I <path>
-		INCLUDES="$INCLUDES -I$(cygpath -w $2)"
+		#~ echo cl INCLUDE1: $2
+		INCLUDES="$INCLUDES -I$(wslpath -m $2)"
 		shift
 		;;
 	-I*)
 		# Handles -I<path> (without space)
-		INCLUDES="$INCLUDES -I$(cygpath -w ${param#-I})"
+		#~ echo cl INCLUDE ${param#-I}
+		INCLUDES="$INCLUDES -I$(wslpath -ma ${param#-I})"
 		;;
 	-lm)
 		;;
@@ -200,7 +272,7 @@ while [ $# -gt 0 ]; do
 	-L*)
         libpath=${param#-L}
         if [ "$libpath" != "/mingw32/lib" ]; then
-            LIBDIR="$LIBDIR -LIBPATH:$(cygpath -w $libpath)"
+            LIBDIR="$LIBDIR -LIBPATH:$(wslpath -m $libpath)"
         fi
 		;;
 	-g*)
@@ -249,10 +321,10 @@ while [ $# -gt 0 ]; do
                     esac
                     ;;
                 -IMPLIB*)
-                    implib=$(cygpath -w ${p#-IMPLIB:})
+                    implib=$(wslpath -m ${p#-IMPLIB:})
                     ;;
                 *.a|*.obj|*.lib|*.o)
-                    LINK_FLAGS="$LINK_FLAGS $(cygpath -w $p)"
+                    LINK_FLAGS="$LINK_FLAGS $(wslpath -m $p)"
                     ;;
             esac
         done
@@ -262,7 +334,7 @@ while [ $# -gt 0 ]; do
 		;;
 	*.a|*.obj|*.lib|*.o)
 		# Keep this a low priority match
-		LINK_FLAGS="$LINK_FLAGS $(cygpath -w $param)"
+		LINK_FLAGS="$LINK_FLAGS $(wslpath -m $param)"
 		;;
 	-nologo*)
 		NO_LOGO=${param#-}
@@ -385,7 +457,7 @@ if [ "$compile_asm" = "" ]; then
 	fi
 
 	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
-	INCLUDES="$INCLUDES -I$(cygpath -w $INCLUDES_FOLDER)"
+	INCLUDES="$INCLUDES -I$(wslpath -m $INCLUDES_FOLDER)"
 	# Hotfix some contribs:
 fi
 
@@ -407,7 +479,7 @@ if [ "$compile_asm" != "" ]; then
     fi
 else
     if [ "$USE_MSCL" != "" ]; then
-        ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
+        ARGS="cl.exe -EHsc -FS -MP1 -FC -$NO_LOGO $MSCL_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
         export INCLUDE="$INCLUDE"
     else
         if [ "$LANGUAGE" = "p" ]; then
@@ -438,9 +510,9 @@ LINK_FLAGS="$LINK_FLAGS -INCREMENTAL:NO $FORCED_LIBS $LIBDIR"
 if [ "$inputfile" != "" ]; then
     if [ "$LANGUAGE" != "assembler" ]; then
         if [ "$USE_MSCL" != "" ]; then
-            ARGS="$ARGS -FI$(cygpath -w $INCLUDES_FOLDER/msvc_fixup.h)"
+            ARGS="$ARGS -FI$(wslpath -m $INCLUDES_FOLDER/msvc_fixup.h)"
         else
-            ARGS="$ARGS -include $(cygpath -w $INCLUDES_FOLDER/clang_fixup.h)"
+            ARGS="$ARGS -include $(wslpath -m $INCLUDES_FOLDER/clang_fixup.h)"
         fi
     fi
     if [ "$compile_asm" != "" ]; then
@@ -525,8 +597,22 @@ if [ "$inputfile" != "" ]; then
         fi
     fi
     
-    #~ echo COMPILE: $ARGS
-    cmd.exe /C "$ARGS"
+    echo COMPILE: $ARGS
+	if [ -e $(wslpath $inputfile) ]; then
+		echo SOURCE EXISTS
+		#~ unix2dos -q -k $(wslpath $inputfile)
+		#~ DOSPATH=$(wslpath -m $inputfile)
+		#~ echo DOSPATH1=$DOSPATH
+		#~ DOSPATH=$(echo $DOSPATH | sed -e s:/:'\\\\':g)
+		#~ echo DOSPATH2=$DOSPATH
+		#~ echo cmd.exe /C type $DOSPATH
+		#~ cmd.exe /C type $DOSPATH
+		#~ UNDOSPATH=$(wslpath -m $inputfile | sed -e s:/:'\\\\':g)
+		#~ UNDOSPATH=$(wslpath -m $inputfile | tr / '\\\\')
+		#~ echo FROM dos_path: cmd.exe /C type $UNDOSPATH
+		#~ cmd.exe /C type $UNDOSPATH
+	fi
+    cmd.exe /C "echo building from %cd% & $ARGS"
     COMPILER_RESULT=$?
     #~ echo COMPILER_RESULT:$COMPILER_RESULT
     if [ "$dontlink" != "" ]; then

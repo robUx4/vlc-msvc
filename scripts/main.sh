@@ -3,9 +3,9 @@
 # This assumes we're running in vlc-msvc root folder
 
 # adjust pathes that may have been altered when calling cmd.exe
-export ACLOCAL_PATH=$(cygpath -p $ACLOCAL_PATH)
-export INFOPATH=$(cygpath -p $INFOPATH)
-export MANPATH=$(cygpath -p $MANPATH)
+#export ACLOCAL_PATH=$(wslpath -p $ACLOCAL_PATH)
+#export INFOPATH=$(wslpath -p $INFOPATH)
+#export MANPATH=$(wslpath -p $MANPATH)
 
 for i in $@ ; do
     if [ "$i" = "pause" ] ; then
@@ -35,22 +35,30 @@ case $1 in
         export VLC_ABI=winrt
         export VLC_ARCH=arm
         export AS=armasm
+        export WIN32_WINNT=0x603
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     Metrox64)
         export VLC_PLATFORM=Windows
         export VLC_ABI=winrt
         export VLC_ARCH=amd64
+        export WIN32_WINNT=0x603
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     Metrox86)
         export VLC_PLATFORM=Windows
         export VLC_ABI=winrt
         export VLC_ARCH=x86
+        export WIN32_WINNT=0x603
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     WP|WindowsPhone)
         export VLC_PLATFORM=WindowsPhone
         export VLC_ABI=winphone
         export VLC_ARCH=arm
         export AS=armasm
+        export WIN32_WINNT=0x603
+        export WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP
         echo "Make sure you install the Windows SDK for Windows 8.1 from"
         echo "  https://dev.windows.com/en-us/downloads/windows-8-1-sdk"
         echo "And the Windows Driver Kit for Windows 8.1 from"
@@ -60,17 +68,23 @@ case $1 in
         export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=x86
+        export WIN32_WINNT=0x0A00
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     Universal64)
         export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=amd64
+        export WIN32_WINNT=0x0A00
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     UniversalARM)
         export VLC_PLATFORM=Universal
         export VLC_ABI=uwp
         export VLC_ARCH=arm
         export AS=armasm
+        export WIN32_WINNT=0x0A00
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     UniversalARM64)
         export VLC_PLATFORM=Universal
@@ -78,16 +92,22 @@ case $1 in
         export VLC_ARCH=aarch64
         export MSVC_ARCH=arm64
         export AS=armasm64
+        export WIN32_WINNT=0x0A00
+        export WINAPI_FAMILY=WINAPI_FAMILY_PC_APP
         ;;
     Win32)
         export VLC_PLATFORM=Desktop
         export VLC_ABI=desktop
         export VLC_ARCH=x86
+        export WIN32_WINNT=0x0A00
+        export WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
         ;;
     Win64)
         export VLC_PLATFORM=Desktop
         export VLC_ABI=desktop
         export VLC_ARCH=amd64
+        export WIN32_WINNT=0x0A00
+        export WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP
         ;;
     *)
         usage
@@ -126,7 +146,7 @@ if [ "$WIN32_WINNT" != "" ] ; then
     CXXFLAGS="$CXXFLAGS -D_WIN32_WINNT=$WIN32_WINNT"
 fi
 
-if [ "$WINAPI_FAMILY" != "" ] ; then
+if [ -n $WINAPI_FAMILY ] ; then
     CPPFLAGS="$CPPFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
     CFLAGS="$CFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
     CXXFLAGS="$CXXFLAGS -DWINAPI_FAMILY=$WINAPI_FAMILY"
