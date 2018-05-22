@@ -26,7 +26,11 @@ while [ $# -gt 0 ]; do
             ARGS="$ARGS $def"
             ;;
         *)
-            echo "Unknown option $1"
+            if [ "$INPUT" == "" ]; then
+                INPUT=$1
+            else
+                echo "Unknown option $1"
+            fi
             ;;
     esac
     shift
@@ -35,5 +39,6 @@ done
 echo "Args: $ARGS"
 echo "Input: $INPUT"
 
+#~ echo rc.exe $ARGS $INPUT
 rc.exe $ARGS $INPUT
 exit $?
