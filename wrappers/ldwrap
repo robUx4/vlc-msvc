@@ -132,7 +132,7 @@ while [ $# -gt 0 ]; do
 		# not working yet
 		;;
 	-r)
-		LD_CMD=lib
+		LD_CMD=lib.exe
 		#FORCED_LIBS=
 		;;
 	-*)

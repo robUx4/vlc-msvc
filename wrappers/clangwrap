@@ -433,7 +433,7 @@ fi
 
 if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" == "" ]]; then
     # version or other flags cheking
-    cmd /C "$ARGS"
+    cmd.exe /C "$ARGS"
     exit $?
 fi
 
@@ -511,7 +511,7 @@ if [ "$preproc" != "" ]; then
     fi
 
     #~ echo PREPROC: $ARGS
-    cmd /C "$ARGS"
+    cmd.exe /C "$ARGS"
     exit $?
 fi
 
@@ -530,8 +530,8 @@ if [ "$inputfile" != "" ]; then
         fi
     fi
     
-    #~ echo COMPILE: $ARGS
-    cmd /C "$ARGS"
+    echo COMPILE: $ARGS
+    cmd.exe /C "$ARGS"
     COMPILER_RESULT=$?
     #~ echo COMPILER_RESULT:$COMPILER_RESULT
     if [ "$dontlink" != "" ]; then
@@ -579,7 +579,7 @@ fi
 #~ if [ "$NO_LOGO" == "nologo" ]; then
 #~ echo LINK: link.exe -nologo $LINK_FLAGS
 #~ fi
-cmd /C "link.exe -nologo $LINK_FLAGS"
+cmd.exe /C "link.exe -nologo $LINK_FLAGS"
 LINKER_RESULT=$?
 #~ echo linker result: $LINKER_RESULT
 exit $LINKER_RESULT

@@ -71,11 +71,11 @@ fi
 
 if [ "$LINK_EXTRACTED" != "" ]; then
 	echo "Extracting objects"
-	for object in `lib -nologo -list $LINK_TARGET`; do
+	for object in `lib.exe -nologo -list $LINK_TARGET`; do
 		objname=`echo -n $object | tr -d '\n'  | tr -d '\r'`
 		output=$(basename $objname)
 		#echo "Extract: $LINK_TARGET - Object: $output"
-		lib -nologo $LINK_TARGET -extract:$objname -out:$output
+		lib.exe -nologo $LINK_TARGET -extract:$objname -out:$output
 	done
 else
 	echo "Target: $LINK_TARGET"
@@ -83,8 +83,8 @@ else
 	echo "Objs: $OBJS"
 
 	#MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
-	#echo lib -nologo -OUT:$LINK_TARGET $ARGS $OBJS
-	lib -nologo -OUT:$LINK_TARGET $ARGS $OBJS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
+	#echo lib.exe -nologo -OUT:$LINK_TARGET $ARGS $OBJS
+	lib.exe -nologo -OUT:$LINK_TARGET $ARGS $OBJS # -NODEFAULTLIB:msvcrt msvcrt.lib $MSVCRTDIR
 fi
 exit $?
 
