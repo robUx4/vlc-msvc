@@ -8,7 +8,7 @@ case $VLC_PLATFORM in
 	Windows|Metrox86|Metrox64)
 		FORCED_LIBS="user32.lib Advapi32.lib RuntimeObject.lib mincore.lib kernel32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		if [ "$VLC_ARCH" == "x86" ]; then
+		if [ "$VLC_ARCH" = "x86" ]; then
 			LINK_FLAGS="$LINK_FLAGS -safeseh"
 		fi
 		#~ C++/CX only APPCONTAINER_ARGS="-ZW"
@@ -21,14 +21,14 @@ case $VLC_PLATFORM in
 	Universal)
 		FORCED_LIBS="mincore.lib Advapi32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		if [ "$VLC_ARCH" == "x86" ]; then
+		if [ "$VLC_ARCH" = "x86" ]; then
 			LINK_FLAGS="$LINK_FLAGS -safeseh"
 		fi
 		;;
 	Desktop)
 		FORCED_LIBS="Advapi32.lib"
 		LINK_FLAGS="$LINK_FLAGS -appcontainer"
-		if [ "$VLC_ARCH" == "x86" ]; then
+		if [ "$VLC_ARCH" = "x86" ]; then
 			LINK_FLAGS="$LINK_FLAGS -safeseh"
 		fi
 		;;
@@ -44,13 +44,13 @@ NO_LOGO="nologo"
 DEFINES="-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE"
 
 #echo VS_RUNTIME = $VS_RUNTIME
-if [ "$VS_RUNTIME" == "static" ]; then
+if [ "$VS_RUNTIME" = "static" ]; then
   STATIC_RUNTIME=1
 else
   STATIC_RUNTIME=0
 fi
 
-if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+if [ "$VLC_CONFIGURATION" = "Debug" ]; then
   HAVE_DEBUG_INFO=1
 fi
 
@@ -183,13 +183,13 @@ while [ $# -gt 0 ]; do
 		BUILD_LIB=0
 		;;
 	-shared-libgcc)
-		if [ "$STATIC_RUNTIME" == "1" ]; then
+		if [ "$STATIC_RUNTIME" = "1" ]; then
 			echo "ERROR: Trying to use a dynamic linking while using static linking"
 			exit 1
 		fi
 		;;
 	-static-libgcc)
-		if [ "$STATIC_RUNTIME" == "0" ]; then
+		if [ "$STATIC_RUNTIME" = "0" ]; then
 			echo "WARNING: Trying to use a static linking while using dynamic linking"
 			#exit 1
 		fi
@@ -323,13 +323,13 @@ while [ $# -gt 0 ]; do
 		;;
 	-march=*)
 		ARCH=${param#-march=}
-		if [ "$VLC_ARCH" == "x86" ]; then
+		if [ "$VLC_ARCH" = "x86" ]; then
 			if [ "$ARCH" != "i686" ]; then
 				echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
 				exit 1
 			fi
 		else
-			if [ "$VLC_ARCH" == "arm" ]; then
+			if [ "$VLC_ARCH" = "arm" ]; then
 				if [ "$ARCH" != "arm" ]; then
 					echo "Invalid $param with VLC_ARCH=$VLC_ARCH"
 					exit 1
@@ -350,7 +350,7 @@ done
 #~ USE_MSCL=1
 #~ LANGUAGE="p"
 
-if [ "$compile_asm" == "" ]; then
+if [ "$compile_asm" = "" ]; then
     if [ "$USE_MSCL" != "" ]; then
         ARGS_DEBUG_INFO="-Zi"
         ARGS_RELEASE="-Gw -Ot"
@@ -361,7 +361,7 @@ if [ "$compile_asm" == "" ]; then
         ARGS_RELEASE="-g0"
     fi
 
-	if [ "$HAVE_DEBUG_INFO" == "1" ]; then
+	if [ "$HAVE_DEBUG_INFO" = "1" ]; then
 	    ARGS="$ARGS $ARGS_DEBUG_INFO"
 	    LINK_FLAGS="$LINK_FLAGS -DEBUG"
 	else
@@ -369,21 +369,21 @@ if [ "$compile_asm" == "" ]; then
 	fi
 
 	# Don't mix debug with non debug libraries
-	if [ "$STATIC_RUNTIME" == "1" ]; then
-	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	if [ "$STATIC_RUNTIME" = "1" ]; then
+	  if [ "$VLC_CONFIGURATION" = "Debug" ]; then
 	    MSCL_ARGS="$MSCL_ARGS -MTd"
 	  else
 	    MSCL_ARGS="$MSCL_ARGS -MT"
 	  fi
 	else
-	  if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	  if [ "$VLC_CONFIGURATION" = "Debug" ]; then
 	    MSCL_ARGS="$MSCL_ARGS -MDd"
 	  else
 	    MSCL_ARGS="$MSCL_ARGS -MD"
 	  fi
 	fi
 	# Do not use debug runtime in release and vice versa
-	if [ "$VLC_CONFIGURATION" == "Debug" ]; then
+	if [ "$VLC_CONFIGURATION" = "Debug" ]; then
 	  LINK_FLAGS="$LINK_FLAGS msvcrtd.lib -NODEFAULTLIB:msvcrt.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libucrt.lib -NODEFAULTLIB:ucrt.lib -NODEFAULTLIB:libvcruntime.lib -NODEFAULTLIB:vcruntime.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libcpmtd.lib -NODEFAULTLIB:libcpmt.lib"
 	else
 	  LINK_FLAGS="$LINK_FLAGS msvcrt.lib -NODEFAULTLIB:msvcrtd.lib -NODEFAULTLIB:libcmtd.lib -NODEFAULTLIB:libucrtd.lib -NODEFAULTLIB:ucrtd.lib -NODEFAULTLIB:libvcruntimed.lib -NODEFAULTLIB:vcruntimed.lib -NODEFAULTLIB:libcmt.lib -NODEFAULTLIB:libcpmt.lib -NODEFAULTLIB:libcpmtd.lib"
@@ -405,7 +405,7 @@ else
 fi
 
 if [ "$compile_asm" != "" ]; then
-    if [ "$LANGUAGE" == "asm" ]; then
+    if [ "$LANGUAGE" = "asm" ]; then
         ARGS="$AS $ARGS"
     else
         ARGS="perl.exe $SCRIPTPATH/gas-preprocessor.pl -arch arm -as-type armasm -- armasm -32 $DEFINES $ASM_DEFINES $ARGS"
@@ -415,7 +415,7 @@ else
         ARGS="cl.exe -EHsc -FS -MP1 -$NO_LOGO $MSCL_ARGS $DEFINES $COMPILE_DEFINES $ARGS"
         export INCLUDE="$INCLUDE"
     else
-        if [ "$LANGUAGE" == "p" ]; then
+        if [ "$LANGUAGE" = "p" ]; then
             CLANG_ARGS="$CLANG_ARGS -fcxx-exceptions"
         fi
         #~ echo clang.exe -pipe -target $LLVM_ARCH-pc-windows-msvc $CLANG_ARGS $DEFINES $COMPILE_DEFINES $ARGS
@@ -431,7 +431,7 @@ else
     fi
 fi
 
-if [[ "$compile" == "" && "$inputfile" == "" && "$outfile" == "" && "$preproc" == "" ]]; then
+if [ "$compile" = "" -a "$inputfile" = "" -a "$outfile" = "" -a "$preproc" = "" ]; then
     # version or other flags cheking
     cmd.exe /C "$ARGS"
     exit $?
@@ -452,29 +452,29 @@ if [ "$inputfile" != "" ]; then
         ARGS="$ARGS -c -o $objfile"
     fi
     if [ "$USE_MSCL" != "" ]; then
-        if [ "$STD_VARIANT" == "gnu99" ]; then
+        if [ "$STD_VARIANT" = "gnu99" ]; then
             echo "Unsupported C standard $STD_VARIANT"
             exit 1
         fi
-        if [[ "$LANGUAGE" == "c" || "$LANGUAGE" == "p" ]]; then
+        if [ "$LANGUAGE" = "c" -o "$LANGUAGE" = "p" ]; then
             ARGS="$ARGS -c -T$LANGUAGE$inputfile"
         else
             ARGS="$ARGS $inputfile"
         fi
     else
-        if [ "$LANGUAGE" == "c" ]; then
+        if [ "$LANGUAGE" = "c" ]; then
             if [ "$STD_VARIANT" != "" ]; then
                 ARGS="$ARGS -std=$STD_VARIANT"
             fi
             ARGS="$ARGS -x c"
         fi
-        if [ "$LANGUAGE" == "p" ]; then
+        if [ "$LANGUAGE" = "p" ]; then
             if [ "$STD_VARIANT" != "" ]; then
                 ARGS="$ARGS -std=$STD_VARIANT"
             fi
             ARGS="$ARGS -x c++"
         fi
-        if [ "$LANGUAGE" == "assembler" ]; then
+        if [ "$LANGUAGE" = "assembler" ]; then
             ARGS="$ARGS `cygpath -u $inputfile`"
         else
             ARGS="$ARGS $inputfile"
@@ -491,7 +491,7 @@ if [ "$preproc" != "" ]; then
 
     if [ "$USE_MSCL" != "" ]; then
         # add the lines and comments
-        if [ "$HAS_P" == "" ]; then
+        if [ "$HAS_P" = "" ]; then
             ARGS="$ARGS -C"
         fi
         if [ "$compile" != "" ]; then
@@ -516,13 +516,13 @@ if [ "$preproc" != "" ]; then
 fi
 
 if [ "$inputfile" != "" ]; then
-    if [ "$dontlink" == "" ]; then
-        if [ "$outfile" == "" ]; then
+    if [ "$dontlink" = "" ]; then
+        if [ "$outfile" = "" ]; then
             outfile=${inputfile%.*}.exe
         fi
         LINK_FLAGS="$objfile $LINK_FLAGS"
     fi
-    if [[ "$LANGUAGE" != "assembler" && "$LANGUAGE" != "assembler" ]]; then
+    if [ "$LANGUAGE" != "assembler" -a "$LANGUAGE" != "assembler" ]; then
         if [ "$USE_MSCL" != "" ]; then
             ARGS="$ARGS -Fo$objfile"
         else
@@ -530,7 +530,7 @@ if [ "$inputfile" != "" ]; then
         fi
     fi
     
-    echo COMPILE: $ARGS
+    #~ echo COMPILE: $ARGS
     cmd.exe /C "$ARGS"
     COMPILER_RESULT=$?
     #~ echo COMPILER_RESULT:$COMPILER_RESULT
@@ -560,14 +560,14 @@ esac
 if [ "$outfile" != "" ]; then
     LINK_FLAGS="$LINK_FLAGS -out:$outfile"
 fi
-if [ "$BUILD_LIB" == "1" ]; then
+if [ "$BUILD_LIB" = "1" ]; then
     LINK_FLAGS="$LINK_FLAGS -DLL"
     if [ "$implib" != "" ]; then
         LINK_FLAGS="$LINK_FLAGS -IMPLIB:$implib"
     fi
 fi
 
-#~ if [ "$NO_LOGO" == "nologo" ]; then
+#~ if [ "$NO_LOGO" = "nologo" ]; then
 #~ echo // SRC: $@
 #~ echo // INCLUDE: $INCLUDE
 #~ echo // PATH: $PATH
@@ -576,7 +576,7 @@ fi
 #~ echo // ARGS: $ARGS
 #~ fi
 
-#~ if [ "$NO_LOGO" == "nologo" ]; then
+#~ if [ "$NO_LOGO" = "nologo" ]; then
 #~ echo LINK: link.exe -nologo $LINK_FLAGS
 #~ fi
 cmd.exe /C "link.exe -nologo $LINK_FLAGS"

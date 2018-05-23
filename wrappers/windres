@@ -26,7 +26,7 @@ while [ $# -gt 0 ]; do
             ARGS="$ARGS $def"
             ;;
         *)
-            if [ "$INPUT" == "" ]; then
+            if [ "$INPUT" = "" ]; then
                 INPUT=$1
             else
                 echo "Unknown option $1"
