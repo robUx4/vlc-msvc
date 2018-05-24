@@ -288,7 +288,7 @@ while [ $# -gt 0 ]; do
 		# silently ignore known flags
 		;;
 	--no-seh)
-		LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+		#~ LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
 		;;
 	--nxcompat)
 		LINK_FLAGS="$LINK_FLAGS -nxcompat"

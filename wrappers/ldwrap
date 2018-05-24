@@ -33,6 +33,10 @@ case $VLC_PLATFORM in
 		exit 1
 esac
 
+if [ "$VLC_ARCH" = "x86" ]; then
+	LINK_FLAGS="$LINK_FLAGS -safeseh"
+fi
+
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*)
@@ -103,7 +107,7 @@ while [ $# -gt 0 ]; do
                     LINK_FLAGS="$LINK_FLAGS -nxcompat"
                     ;;
                 --no-seh)
-                    LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
+                    #~ LINK_FLAGS="$LINK_FLAGS -SAFESEH:NO"
                     ;;
                 --image-base)
                     case $2 in
