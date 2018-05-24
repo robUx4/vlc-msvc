@@ -100,6 +100,7 @@ if [ ! -f ${BUILD_FOLDER}Makefile ] || [ ${BUILD_FOLDER}Makefile -ot ${SRC_FOLDE
         --enable-sidplay2 \
         --enable-live555 \
         --disable-x265 \
+--disable-srt \
         || exit 1
     # Force libtool to generate what we want
     sed -i 's/libname_spec=\"\\$name\"/libname_spec=\"lib\\$name\"/' libtool

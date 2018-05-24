@@ -116,6 +116,7 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 --disable-faad2 \
 --disable-x264 \
 --disable-x265 \
+--disable-srt \
 	|| exit 1
 
 # clang
