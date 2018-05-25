@@ -23,7 +23,7 @@ exit $1
 
 usage()
 {
-    echo "./build.sh <platform> <configuration>"
+    echo "./main.sh <platform> <configuration>"
     echo "platform: Windows|Metrox86|Metrox64|WindowsPhone|Universal86|Universal64|UniversalARM|UniversalARM64|Win32|Win64"
     echo "configuration: Debug|Release"
     terminate 1
@@ -172,7 +172,7 @@ fi
 export USE_MSCL="1"
 export CC="clangwrap"
 export CXX="clangwrap"
-export BUILDCC="`command -v gcc` -std=c99"
+#~ export BUILDCC="`command -v gcc` -std=c99"
 export cc=$CC
 export cxx=$CXX
 export AR="ar"
