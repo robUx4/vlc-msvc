@@ -122,15 +122,16 @@
 @goto select_vs
 
 :select_vs17
-@IF EXIST "%VS150COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" goto vs2017
-@echo VS 2017 not found in VS150COMNTOOLS=%VS150COMNTOOLS%
+@IF EXIST "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" goto vs2017
+@echo VS 2017 not found using "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 @goto select_vs15
 
 
 :vs2017
 @rem TODO set VSVARS="%VS140COMNTOOLS%vcvarsqueryregistry.bat"
 @echo Using VS 2017
-@set VSVARS="%VS150COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat"
+@FOR /F "tokens=1 delims=" %%A in ('"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -property installationPath') do SET VS150COMNTOOLS=%%A
+@set VSVARS="%VS150COMNTOOLS%\VC\Auxiliary\Build\vcvarsall.bat"
 @set VS_RUNTIME=dynamic
 
 @IF "%CMAKE_SYSTEM_PROCESSOR%"=="ARM"   set VS_ARCH_TARGET=x86_arm
