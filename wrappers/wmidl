@@ -13,7 +13,7 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         -I*)
-            ARGS="$ARGS -I `cygpath -w -a ${1#-I}`"
+            INCLUDE_ARGS="$INCLUDE_ARGS `cygpath -w -a ${1#-I}`"
             ;;
         -D*)
             ARGS="$ARGS -D${1#-D}"
@@ -26,6 +26,10 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
+
+if [ "$INCLUDE_ARGS" != "" ]; then
+  ARGS="$ARGS -I $INCLUDE_ARGS"
+fi
 
 echo "Args: $ARGS"
 echo "Input: $INPUT"
