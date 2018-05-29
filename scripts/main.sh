@@ -3,9 +3,9 @@
 # This assumes we're running in vlc-msvc root folder
 
 # adjust pathes that may have been altered when calling cmd.exe
-export ACLOCAL_PATH=`cygpath -p $ACLOCAL_PATH`
-export INFOPATH=`cygpath -p $INFOPATH`
-export MANPATH=`cygpath -p $MANPATH`
+export ACLOCAL_PATH=$(cygpath -p $ACLOCAL_PATH)
+export INFOPATH=$(cygpath -p $INFOPATH)
+export MANPATH=$(cygpath -p $MANPATH)
 
 for i in $@ ; do
     if [ "$i" = "pause" ] ; then
@@ -136,7 +136,7 @@ fi
 export USE_MSCL="1"
 export CC="clangwrap"
 export CXX="clangwrap"
-#~ export BUILDCC="`command -v gcc` -std=c99"
+#~ export BUILDCC="$(command -v gcc) -std=c99"
 export cc=$CC
 export cxx=$CXX
 export AR="ar"

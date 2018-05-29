@@ -123,5 +123,5 @@ export PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH
 # --disable-flac \
 # --disable-vpx \
 
-WIDL="wmidl" CONFIG_SITE=/dev/null USE_FFMPEG=1 WANT_AUTOMAKE=latest WANT_AUTOCONF=latest PKG_CONFIG_PATH="" CC_FOR_BUILD="gcc -std=c99" make -j`nproc` || exit 1
+WIDL="wmidl" CONFIG_SITE=/dev/null USE_FFMPEG=1 WANT_AUTOMAKE=latest WANT_AUTOCONF=latest PKG_CONFIG_PATH="" CC_FOR_BUILD="gcc -std=c99" make -j$(nproc) || exit 1
 #~ WIDL="wmidl" CONFIG_SITE=/dev/null USE_FFMPEG=1 WANT_AUTOMAKE=latest WANT_AUTOCONF=latest PKG_CONFIG_PATH="" CC_FOR_BUILD="gcc -std=c99" make V=1 || exit 1
