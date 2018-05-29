@@ -114,6 +114,7 @@
 :select_vs
 @IF EXIST "%VS120COMNTOOLS%vsvars32.bat" goto vs2013
 @echo VS 2013 not found in VS120COMNTOOLS=%VS120COMNTOOLS%
+@echo you can download it VS 2013 Community from https://visualstudio.microsoft.com/vs/older-downloads/
 @exit -1
 
 :select_vs15
