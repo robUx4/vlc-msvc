@@ -116,4 +116,48 @@ test_package protoc mingw-w64-$UNAME-protobuf
 test_package ragel mingw-w64-$UNAME-ragel
 test_package widl mingw-w64-$UNAME-tools-git
 
+SCRIPT=`readlink -f "$0"`
+SCRIPTPATH=`dirname "$SCRIPT"`
+ROOT_FOLDER=$SCRIPTPATH
+
+cd $ROOT_FOLDER
+
+TESTED_HASH=a7a70e8163e04244d733f4745dc8cbbc7502b830
+if [ ! -d "vlc" ]; then
+    echo "VLC source not found, cloning"
+    git clone git://git.videolan.org/vlc.git vlc
+    cd vlc
+
+    # Just in case, git checkout requires a git username to behave. If none is set, invent one
+    git config --get user.email > /dev/null 2&>1 || git config user.email 'windowsrt-build@videolan.org'
+    git config --get user.name > /dev/null 2>&1 || git config user.name 'windowsrt build'
+
+    git checkout $TESTED_HASH
+    git am -3 ../patches/*.patch
+    if [ $? -ne 0 ]; then
+        git am --abort
+        echo "Applying the patches failed, aborting git-am"
+        terminate 1
+    fi
+else
+    echo "VLC source found"
+    cd vlc
+#    if ! git cat-file -e ${TESTED_HASH}; then
+#        cat << EOF
+#***
+#*** Error: Your vlc checkout does not contain the latest tested commit ***
+#***
+#
+#EOF
+#        terminate 1
+#    fi
+fi
+
+# Run this before playing with our environment, except for the path,
+# since we want the tools we already built to be detected
+export PATH="$ROOT_FOLDER/vlc/extras/tools/build/bin:$PATH"
+sh $SCRIPTPATH/scripts/build-tools.sh || terminate 1
+
+cd $SCRIPTPATH
+
 $COMSPEC /C "scripts\\setup-env.bat $PLATFORM $CONFIGURATION"
