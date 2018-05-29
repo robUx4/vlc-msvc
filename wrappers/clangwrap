@@ -56,7 +56,7 @@ CLANG_ARGS="-Wno-error=incompatible-ms-struct -fstack-protector -fno-ms-compatib
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*|/usr/*|/home/*|/tmp/*)
-            param=`cygpath -w $1`
+            param=$(cygpath -w $1)
             ;;
         /*)
             param=-"${1#/}"
@@ -67,8 +67,8 @@ while [ $# -gt 0 ]; do
     esac
     case $param in
 	-o)
-		outfile=`cygpath -w $2`
-		implib=`cygpath -w ${2%.dll}.lib`
+		outfile=$(cygpath -w $2)
+		implib=$(cygpath -w ${2%.dll}.lib)
 		compile=1
 		shift
 		;;
@@ -80,7 +80,7 @@ while [ $# -gt 0 ]; do
 		preproc=1
 		compile=1
 		HAS_P=
-		outfile=`cygpath -w ${param#-Fi}`
+		outfile=$(cygpath -w ${param#-Fi})
 		;;
 	-E)
 		preproc=1
@@ -93,21 +93,21 @@ while [ $# -gt 0 ]; do
 		dontlink=1
 		;;
 	*.c|.h)
-		inputfile=`cygpath -w $param`
+		inputfile=$(cygpath -w $param)
 		LANGUAGE="c"
 		;;
 	*.cpp|*.cxx|*.cc)
-		inputfile=`cygpath -w $param`
+		inputfile=$(cygpath -w $param)
 		#~ USE_MSCL=1
 		LANGUAGE="p"
 		;;
 	*.s|*.asm)
-		inputfile=`cygpath -w $param`
+		inputfile=$(cygpath -w $param)
 		compile_asm=yes
 		LANGUAGE="asm"
 		;;
 	*.S)
-		inputfile=`cygpath -w $param`
+		inputfile=$(cygpath -w $param)
 		compile_asm=yes
 		LANGUAGE="assembler"
 		;;
@@ -120,12 +120,12 @@ while [ $# -gt 0 ]; do
 		# That doesn't work unless the bracket part is quoted
 		case $def in
 			*=\<*\>)
-				def=`echo $def | sed 's/=/\"=/'`\"
+				def=$(echo $def | sed 's/=/\"=/')\"
 				DEFINES="$DEFINES $def"
 				;;
 			*=\"*\")
 				ASM_DEFINES="$ASM_DEFINES $def"
-				def=`echo $def | sed 's/\"/\\\"/g'`
+				def=$(echo $def | sed 's/\"/\\\"/g')
 				COMPILE_DEFINES="$COMPILE_DEFINES $def"
 				;;
 			*)
@@ -136,12 +136,12 @@ while [ $# -gt 0 ]; do
 		;;
 	-I)
 		# Handles -I <path>
-		INCLUDES="$INCLUDES -I`cygpath -w $2`"
+		INCLUDES="$INCLUDES -I$(cygpath -w $2)"
 		shift
 		;;
 	-I*)
 		# Handles -I<path> (without space)
-		INCLUDES="$INCLUDES -I`cygpath -w ${param#-I}`"
+		INCLUDES="$INCLUDES -I$(cygpath -w ${param#-I})"
 		;;
 	-lm)
 		;;
@@ -200,7 +200,7 @@ while [ $# -gt 0 ]; do
 	-L*)
         libpath=${param#-L}
         if [ "$libpath" != "/mingw32/lib" ]; then
-            LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+            LIBDIR="$LIBDIR -LIBPATH:$(cygpath -w $libpath)"
         fi
 		;;
 	-g*)
@@ -220,7 +220,7 @@ while [ $# -gt 0 ]; do
 		;;
 	-Wl*)
 		params=${param#-Wl,}
-        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+        for p in $(echo $params | sed -n 1'p' | tr ',' '\n'); do
             case $p in
                 -DLL)
                     BUILD_LIB=1
@@ -249,10 +249,10 @@ while [ $# -gt 0 ]; do
                     esac
                     ;;
                 -IMPLIB*)
-                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    implib=$(cygpath -w ${p#-IMPLIB:})
                     ;;
                 *.a|*.obj|*.lib|*.o)
-                    LINK_FLAGS="$LINK_FLAGS `cygpath -w $p`"
+                    LINK_FLAGS="$LINK_FLAGS $(cygpath -w $p)"
                     ;;
             esac
         done
@@ -262,7 +262,7 @@ while [ $# -gt 0 ]; do
 		;;
 	*.a|*.obj|*.lib|*.o)
 		# Keep this a low priority match
-		LINK_FLAGS="$LINK_FLAGS `cygpath -w $param`"
+		LINK_FLAGS="$LINK_FLAGS $(cygpath -w $param)"
 		;;
 	-nologo*)
 		NO_LOGO=${param#-}
@@ -385,7 +385,7 @@ if [ "$compile_asm" = "" ]; then
 	fi
 
 	#ARGS="$ARGS $WARNINGS -wd4820 -wd4668 -wd4514 -wd4710 -wd4350 -wd4204 -wd4131 -wd4706 -wd4711 -wd4464"
-	INCLUDES="$INCLUDES -I`cygpath -w $INCLUDES_FOLDER`"
+	INCLUDES="$INCLUDES -I$(cygpath -w $INCLUDES_FOLDER)"
 	# Hotfix some contribs:
 fi
 
@@ -438,9 +438,9 @@ LINK_FLAGS="$LINK_FLAGS -INCREMENTAL:NO $FORCED_LIBS $LIBDIR"
 if [ "$inputfile" != "" ]; then
     if [ "$LANGUAGE" != "assembler" ]; then
         if [ "$USE_MSCL" != "" ]; then
-            ARGS="$ARGS -FI`cygpath -w $INCLUDES_FOLDER/msvc_fixup.h`"
+            ARGS="$ARGS -FI$(cygpath -w $INCLUDES_FOLDER/msvc_fixup.h)"
         else
-            ARGS="$ARGS -include `cygpath -w $INCLUDES_FOLDER/clang_fixup.h`"
+            ARGS="$ARGS -include $(cygpath -w $INCLUDES_FOLDER/clang_fixup.h)"
         fi
     fi
     if [ "$compile_asm" != "" ]; then
@@ -470,7 +470,7 @@ if [ "$inputfile" != "" ]; then
             ARGS="$ARGS -x c++"
         fi
         if [ "$LANGUAGE" = "assembler" ]; then
-            ARGS="$ARGS `cygpath -u $inputfile`"
+            ARGS="$ARGS $(cygpath -u $inputfile)"
         else
             ARGS="$ARGS $inputfile"
         fi

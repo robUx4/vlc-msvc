@@ -18,11 +18,11 @@ while [ $# -gt 0 ]; do
 		;;
 	*.lib|*.a)
 		if [ "$LINK_TARGET" = "" ]; then
-			LINK_TARGET=`cygpath -w $1`
+			LINK_TARGET=$(cygpath -w $1)
 		fi
 		;;
 	*obj|*.o)
-		OBJS="$OBJS `cygpath -w $1`"
+		OBJS="$OBJS $(cygpath -w $1)"
 		;;
 	-*)
 		ARGS="$ARGS $1"
@@ -71,8 +71,8 @@ fi
 
 if [ "$LINK_EXTRACTED" != "" ]; then
 	echo "Extracting objects"
-	for object in `lib.exe -nologo -list $LINK_TARGET`; do
-		objname=`echo -n $object | tr -d '\n'  | tr -d '\r'`
+	for object in $(lib.exe -nologo -list $LINK_TARGET); do
+		objname=$(echo -n $object | tr -d '\n'  | tr -d '\r')
 		output=$(basename $objname)
 		#echo "Extract: $LINK_TARGET - Object: $output"
 		lib.exe -nologo $LINK_TARGET -extract:$objname -out:$output

@@ -6,14 +6,14 @@
 while [ $# -gt 0 ]; do
     case $1 in 
         -o)
-            FILE_=`cygpath -w -a $2`
-            FOLDER=`dirname $FILE_`
-            FILENAME=`basename $FILE_`
+            FILE_=$(cygpath -w -a $2)
+            FOLDER=$(dirname $FILE_)
+            FILENAME=$(basename $FILE_)
             ARGS="$ARGS -out $FOLDER -h $FILENAME -iid ${FILENAME}_i.c"
             shift
             ;;
         -I*)
-            INCLUDE_ARGS="$INCLUDE_ARGS `cygpath -w -a ${1#-I}`"
+            INCLUDE_ARGS="$INCLUDE_ARGS $(cygpath -w -a ${1#-I})"
             ;;
         -D*)
             ARGS="$ARGS -D${1#-D}"

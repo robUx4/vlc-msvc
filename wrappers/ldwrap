@@ -40,7 +40,7 @@ fi
 while [ $# -gt 0 ]; do
     case $1 in
         /[a-z]/*)
-            param=`cygpath -w $1`
+            param=$(cygpath -w $1)
             ;;
         /*)
             param=-"${1#/}"
@@ -55,20 +55,20 @@ while [ $# -gt 0 ]; do
 		shift
 		;;
 	-o)
-		LINK_TARGET=`cygpath -w $2`
+		LINK_TARGET=$(cygpath -w $2)
 		shift
 		;;
 	*.o)
 		if [ -f $param ]; then
-			OBJS="$OBJS `cygpath -w $param`"
+			OBJS="$OBJS $(cygpath -w $param)"
 		else
 			# Manually fix the extension if the object file doesn't exist
-			OBJS="$OBJS `cygpath -w $param`"bj
+			OBJS="$OBJS $(cygpath -w $param)"bj
 		fi
 		
 		;;
 	*.obj)
-		OBJS="$OBJS `cygpath -w $param`"
+		OBJS="$OBJS $(cygpath -w $param)"
 		;;
 	-implib:*)
 		ARGS="$ARGS $param"
@@ -87,12 +87,12 @@ while [ $# -gt 0 ]; do
 	-L*)
 		libpath=${param#-L}
 		if [ "$libpath" != "/mingw32/lib" ]; then
-			LIBDIR="$LIBDIR -LIBPATH:`cygpath -w $libpath`"
+			LIBDIR="$LIBDIR -LIBPATH:$(cygpath -w $libpath)"
 		fi
 		;;
 	-Wl*)
 		params=${param#-Wl,}
-        for p in `echo $params | sed -n 1'p' | tr ',' '\n'`; do
+        for p in $(echo $params | sed -n 1'p' | tr ',' '\n'); do
             case $p in
                 -DLL)
                     BUILD_LIB=1
@@ -121,16 +121,16 @@ while [ $# -gt 0 ]; do
                     esac
                     ;;
                 -IMPLIB*)
-                    implib=`cygpath -w ${p#-IMPLIB:}`
+                    implib=$(cygpath -w ${p#-IMPLIB:})
                     ;;
                 *.a|*.obj|*.lib|*.o)
-                    LINK_FLAGS="$LINK_FLAGS `cygpath -w $p`"
+                    LINK_FLAGS="$LINK_FLAGS $(cygpath -w $p)"
                     ;;
             esac
         done
 		;;
 	-pdb:*)
-		#TODO ARGS="$ARGS -pdb:`cygpath -w $param`"
+		#TODO ARGS="$ARGS -pdb:$(cygpath -w $param)"
 		;;
 	-MANIFEST*)
 		# not working yet
@@ -159,7 +159,7 @@ echo "LD: $LD_CMD"
 echo "Args: $ARGS"
 echo "Objs: $OBJS"
 
-#MSVCRTDIR="-LIBPATH:`cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm'`"
+#MSVCRTDIR="-LIBPATH:$(cygpath -w '/c/Program Files (x86)/Microsoft Visual Studio 11.0/VC/WPSDK/WP80/lib/arm')"
 echo $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
 $LD_CMD -nologo -OPT:REF -OUT:$LINK_TARGET $ARGS $OBJS $LIBDIR $LINK_FLAGS $FORCED_LIBS
 exit $?
