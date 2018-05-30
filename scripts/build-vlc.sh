@@ -114,5 +114,5 @@ fi
 # --disable-neon \
 
 echo "Lauching build"
-make -j$(proc) || exit 1
+make -j$(expr $(nproc) - 1) || exit 1
 #~ make V=1 || exit 1
