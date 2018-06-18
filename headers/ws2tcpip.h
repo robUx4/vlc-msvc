@@ -26,7 +26,35 @@
 #  include_next <ws2tcpip.h>
 # else /* no clang or no ws2tcpip.h */
 #  if (_WIN32_WINNT == 0x603)
+/* we don't want a gai_strerrorA that doesn't pass the WACK */
+#   include <../../../8.1/include/um/winsock2.h>
+#   define INCL_WINSOCK_API_PROTOTYPES 0
 #   include <../../../8.1/include/um/ws2tcpip.h>
+
+#define GAI_STRERROR_BUFFER_SIZE 1024
+static __forceinline char *gai_strerrorA(int ecode)
+{
+    DWORD dwMsgLen;
+    static WCHAR buffw[GAI_STRERROR_BUFFER_SIZE + 1];
+    static CHAR buff[GAI_STRERROR_BUFFER_SIZE + 1];
+    size_t len;
+
+    dwMsgLen = FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM
+                             |FORMAT_MESSAGE_IGNORE_INSERTS
+                             |FORMAT_MESSAGE_MAX_WIDTH_MASK,
+                              NULL,
+                              ecode,
+                              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                              (LPWSTR)buffw,
+                              GAI_STRERROR_BUFFER_SIZE,
+                              NULL);
+    len = WideCharToMultiByte (CP_UTF8, 0, buffw, -1, NULL, 0, NULL, NULL);
+
+    WideCharToMultiByte (CP_UTF8, 0, buffw, -1, buff, (len<GAI_STRERROR_BUFFER_SIZE) ? len : GAI_STRERROR_BUFFER_SIZE, NULL, NULL);
+
+    return buff;
+}
+
 #  else
 #   include <../um/ws2tcpip.h>
 #  endif
