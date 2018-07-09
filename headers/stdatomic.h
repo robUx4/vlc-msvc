@@ -106,9 +106,9 @@ typedef ATOMIC_ALIGN32  ULONG atomic_ushort;
 typedef ATOMIC_ALIGN32  LONG       atomic_int;
 typedef ATOMIC_ALIGN32  ULONG      atomic_uint;
 #if defined(_M_X64) || defined(__amd64__)
-typedef ATOMIC_ALIGN64  LONG      atomic_uintptr_t;
+typedef ATOMIC_ALIGN64  LONGLONG  atomic_uintptr_t;
 #else
-typedef ATOMIC_ALIGN32  LONGLONG  atomic_uintptr_t;
+typedef ATOMIC_ALIGN32  LONG      atomic_uintptr_t;
 #endif
 typedef ATOMIC_ALIGN32  ULONG    atomic_ulong;
 typedef ATOMIC_ALIGN64  LONGLONG atomic_llong;
