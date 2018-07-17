@@ -194,7 +194,7 @@ while [ $# -gt 0 ]; do
 		;;
 	-O0)
 		CLANG_ARGS="$CLANG_ARGS $param"
-		MSCL_ARGS="$MSCL_ARGS -O1" # this may cause unneeded code generation "$MSCL_ARGS -Od"
+		MSCL_ARGS="$MSCL_ARGS -Od -Og" # dead code elimination in ffmpeg requires the -Og
 		LINK_FLAGS="$LINK_FLAGS -OPT:REF"
 		;;
 	-L*)
