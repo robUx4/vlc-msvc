@@ -188,6 +188,7 @@ call "%VCINSTALLDIR%vcvarsall.bat" %VS_ARCH_TARGET%
 @IF /I "%1" == "Windows"      goto setupenv_Windows
 @IF /I "%1" == "Metrox64"     goto setupenv_Metrox64
 @IF /I "%1" == "Metrox86"     goto setupenv_Metrox86
+@IF /I "%1" == "Universal64"  goto setupenv_Universal64
 @goto call_main
 
 
@@ -213,6 +214,12 @@ call "%VCINSTALLDIR%vcvarsall.bat" %VS_ARCH_TARGET%
 :setupenv_Metrox86
 @set LIB=%VCINSTALLDIR%lib\store;%LIB%
 @set LIBPATH=%VCINSTALLDIR%lib\store;%LIB%
+@call :setup_msbuild  HKLM > nul 2>&1
+@goto call_main
+
+:setupenv_Universal64
+@set LIB=%LIB%;%VS140COMNTOOLS%..\..\VC\lib\onecore\amd64
+@set LIBPATH=%LIBPATH%;%VS140COMNTOOLS%..\..\VC\lib\onecore\amd64
 @call :setup_msbuild  HKLM > nul 2>&1
 @goto call_main
 
